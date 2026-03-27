@@ -5,17 +5,18 @@
 ## Platform Setup
 
 * [AWS Workspace 구성 가이드](platform-setup/aws-workspace-setup.md)
-* [Databricks Apps 사용 가이드](platform-setup/databricks-apps-guide.md)
 
-## GenAI & Tools
+## Databricks 기능 가이드
 
-* [Genie Space & Genie Code 사용 가이드](analytics/genie-space-genie-code-guide.md)
-* [Agent Bricks 사용 가이드](genai/agent-bricks-guide.md)
-* [Databricks GenAI 소개 — AI Dev Kit](genai/genie-code-ai-dev-kit.md)
+* [Databricks Apps](platform-setup/databricks-apps-guide.md)
+* [Genie Space](analytics/genie-space-genie-code-guide.md)
+* [Genie Code](genai/genie-code.md)
+* [Agent Bricks](genai/agent-bricks-guide.md)
+* [AI Dev Kit](genai/genie-code-ai-dev-kit.md)
 
 ## Hands-on Workshop
 
-* [MLOps on Databricks — End-to-End Pipeline](mlops/mlops-pipeline.md)
+* [MLOps — End-to-End Pipeline](mlops/mlops-pipeline.md)
 * [AI Vibe Coding Workshop — Smart TV 시나리오](workshop/ai-vibe-coding-workshop.md)
 
 ## Analytics
