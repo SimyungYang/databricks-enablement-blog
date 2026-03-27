@@ -13,12 +13,9 @@
 * [Agent Bricks 사용 가이드](genai/agent-bricks-guide.md)
 * [Databricks GenAI 소개 — AI Dev Kit](genai/genie-code-ai-dev-kit.md)
 
-## MLOps
-
-* [MLOps on Databricks — End-to-End Pipeline](mlops/mlops-pipeline.md)
-
 ## Hands-on Workshop
 
+* [MLOps on Databricks — End-to-End Pipeline](mlops/mlops-pipeline.md)
 * [AI Vibe Coding Workshop — Smart TV 시나리오](workshop/ai-vibe-coding-workshop.md)
 
 ## Analytics

@@ -51,5 +51,7 @@ Databricks를 도입하거나 운영 중인 고객이 **직접 참고할 수 있
 | 2026-03-27 | [Databricks Apps 사용 가이드](platform-setup/databricks-apps-guide.md) | Platform Setup | — |
 | 2026-03-27 | [Genie Space & Genie Code 사용 가이드](analytics/genie-space-genie-code-guide.md) | GenAI & Tools | [PDF](https://simyungyang.github.io/databricks-enablement-blog/genai-intro.pdf) |
 | 2026-03-27 | [Agent Bricks 사용 가이드](genai/agent-bricks-guide.md) | GenAI & Tools | — |
+| 2026-03-27 | [MLOps — End-to-End Pipeline](mlops/mlops-pipeline.md) | Hands-on | — |
+| 2026-03-27 | [AI Vibe Coding Workshop](workshop/ai-vibe-coding-workshop.md) | Hands-on | [슬라이드](https://simyungyang.github.io/databricks-enablement-blog/ai-vibe-coding-workshop.html) |
 | 2026-03-27 | [Analytics Platform 비교](analytics/platform-comparison.md) | Analytics | [슬라이드](https://simyungyang.github.io/databricks-enablement-blog/analytics-platform-comparison.html) |
 | 2026-03-18 | [Databricks GenAI 소개 — AI Dev Kit](genai/genie-code-ai-dev-kit.md) | GenAI & Tools | [PDF](https://simyungyang.github.io/databricks-enablement-blog/ai-dev-kit-guide.pdf) |
