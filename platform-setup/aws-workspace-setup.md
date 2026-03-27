@@ -268,23 +268,52 @@ IAM → Roles → Trust relationships 에서 설정합니다.
 
 *참고: [Trust policy](https://docs.databricks.com/aws/en/admin/account-settings-e2/credentials) · [Terraform: databricks_aws_assume_role_policy](https://registry.terraform.io/providers/databricks/databricks/latest/docs/data-sources/aws_assume_role_policy)*
 
-### Cross-Account IAM Role — Permission Policy
+### Cross-Account IAM Role — Permission Policy (전체 JSON)
 
-customer 타입 주요 권한 (Customer-Managed VPC용):
+customer 타입 (Customer-Managed VPC용):
 
-#### EC2 관련 Actions
-
-- `ec2:RunInstances`, `TerminateInstances`, `DescribeInstances`, `DescribeVolumes`
-- `ec2:CreateVolume`, `DeleteVolume`, `AttachVolume`, `DetachVolume`
-- `ec2:CreateTags`, `DeleteTags`, `DescribeSubnets`, `DescribeSecurityGroups`
-- `ec2:RequestSpotInstances`, `CancelSpotInstanceRequests`, `DescribeSpotPriceHistory`
-
-#### Spot Service-Linked Role
-
-- `iam:CreateServiceLinkedRole`, `iam:PutRolePolicy` on `AWSServiceRoleForEC2Spot`
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "EC2Actions",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:RunInstances",
+        "ec2:TerminateInstances",
+        "ec2:DescribeInstances",
+        "ec2:DescribeVolumes",
+        "ec2:CreateVolume",
+        "ec2:DeleteVolume",
+        "ec2:AttachVolume",
+        "ec2:DetachVolume",
+        "ec2:CreateTags",
+        "ec2:DeleteTags",
+        "ec2:DescribeSubnets",
+        "ec2:DescribeSecurityGroups",
+        "ec2:RequestSpotInstances",
+        "ec2:CancelSpotInstanceRequests",
+        "ec2:DescribeSpotInstanceRequests",
+        "ec2:DescribeSpotPriceHistory"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "SpotServiceLinkedRole",
+      "Effect": "Allow",
+      "Action": [
+        "iam:CreateServiceLinkedRole",
+        "iam:PutRolePolicy"
+      ],
+      "Resource": "arn:aws:iam::*:role/aws-service-role/spot.amazonaws.com/AWSServiceRoleForEC2Spot"
+    }
+  ]
+}
+```
 
 {% hint style="info" %}
-Terraform `databricks_aws_crossaccount_policy` data source로 최신 Policy JSON 자동 생성 가능
+Terraform `databricks_aws_crossaccount_policy` data source를 사용하면 최신 Policy JSON을 자동 생성할 수 있습니다.
 {% endhint %}
 
 *참고: [Cross-account policy](https://docs.databricks.com/aws/en/admin/account-settings-e2/credentials) · [Terraform: databricks_aws_crossaccount_policy](https://registry.terraform.io/providers/databricks/databricks/latest/docs/data-sources/aws_crossaccount_policy)*
@@ -1358,22 +1387,18 @@ data "databricks_aws_crossaccount_policy" "this" {
 
 ### Terraform 리소스 의존성 흐름
 
-전체 Dependency Chain:
+Workspace 생성까지의 리소스 생성 순서:
 
-```
-IAM Role → databricks_mws_credentials ─────────┐
-                                                 │
-S3 Bucket → databricks_mws_storage_configs ─────┤
-                                                 │
-VPC/Subnet/SG                                    │
-  ├─ aws_vpc_endpoint(REST) → mws_vpc_endpoint ┐│
-  ├─ aws_vpc_endpoint(Relay)→ mws_vpc_endpoint ┤│
-  └─ databricks_mws_networks(vpc_endpoints) ────┤
-                                                 │
-databricks_mws_private_access_settings ─────────┤
-                                                 ▼
-                        databricks_mws_workspaces
-```
+| 순서 | AWS 리소스 | Terraform (Databricks) | 의존 대상 |
+|------|---------|----------------------|---------|
+| 1 | IAM Role + Policy | `databricks_mws_credentials` | — |
+| 2 | S3 Bucket + Policy | `databricks_mws_storage_configurations` | — |
+| 3 | VPC + Subnet + SG | — | — |
+| 4 | VPC Endpoint (REST) | `databricks_mws_vpc_endpoint` | VPC |
+| 5 | VPC Endpoint (Relay) | `databricks_mws_vpc_endpoint` | VPC |
+| 6 | — | `databricks_mws_networks` | VPC + Endpoints |
+| 7 | — | `databricks_mws_private_access_settings` | — |
+| 8 | — | **`databricks_mws_workspaces`** | 1 + 2 + 6 + 7 |
 
 ### Terraform 공식 예제 & 참고
 
