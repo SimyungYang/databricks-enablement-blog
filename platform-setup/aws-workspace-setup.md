@@ -901,6 +901,107 @@ Workspace와 별개로 UC용 IAM Role이 필요합니다.
 
 ---
 
+### External Location — File Events IAM 권한
+
+#### 개요
+
+External Location을 생성하면 **File Events가 기본적으로 활성화**됩니다. File Events는 S3 버킷의 파일 변경 사항을 SQS/SNS를 통해 Databricks에 알려주는 기능으로, Auto Loader (File Notification 모드)와 Job File-Arrival Trigger에서 사용됩니다.
+
+{% hint style="warning" %}
+External Location 생성 시 **File Events가 기본 활성화**되어 있습니다. IAM Role에 SQS/SNS 권한이 없으면 **Test Connection의 "File Events Read" 체크가 실패**합니다. File Events가 불필요한 경우 External Location → Advanced Options에서 비활성화할 수 있습니다.
+{% endhint %}
+
+#### SQS/SNS 권한이 필요한 이유
+
+Databricks는 File Events를 위해 `csms-*` prefix가 붙은 SQS Queue와 SNS Topic을 자동 생성합니다. 이 리소스를 생성·관리하려면 IAM Role에 해당 권한이 포함되어야 합니다.
+
+#### File Events 필요 여부
+
+| 기능 | File Events 필요 |
+|------|-----------------|
+| 기본 S3 읽기/쓰기 | 불필요 |
+| Auto Loader (Directory Listing 모드) | 불필요 |
+| Auto Loader (File Notification 모드) | **필수** |
+| Job File-Arrival Trigger | **필수** |
+
+#### 전체 IAM Policy (S3 + SQS/SNS + STS Self-Assume)
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "S3Access",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:PutObject",
+        "s3:DeleteObject",
+        "s3:ListBucket",
+        "s3:GetBucketLocation",
+        "s3:GetBucketNotification",
+        "s3:PutBucketNotification"
+      ],
+      "Resource": [
+        "arn:aws:s3:::<YOUR-BUCKET>",
+        "arn:aws:s3:::<YOUR-BUCKET>/*"
+      ]
+    },
+    {
+      "Sid": "SNSAccess",
+      "Effect": "Allow",
+      "Action": [
+        "sns:CreateTopic",
+        "sns:TagResource",
+        "sns:Publish",
+        "sns:Subscribe",
+        "sns:GetTopicAttributes",
+        "sns:SetTopicAttributes",
+        "sns:ListSubscriptionsByTopic"
+      ],
+      "Resource": "arn:aws:sns:*:*:csms-*"
+    },
+    {
+      "Sid": "SQSAccess",
+      "Effect": "Allow",
+      "Action": [
+        "sqs:CreateQueue",
+        "sqs:DeleteMessage",
+        "sqs:ReceiveMessage",
+        "sqs:SendMessage",
+        "sqs:GetQueueUrl",
+        "sqs:GetQueueAttributes",
+        "sqs:SetQueueAttributes",
+        "sqs:TagQueue"
+      ],
+      "Resource": "arn:aws:sqs:*:*:csms-*"
+    },
+    {
+      "Sid": "STSSelfAssume",
+      "Effect": "Allow",
+      "Action": "sts:AssumeRole",
+      "Resource": "arn:aws:iam::<YOUR-ACCOUNT>:role/<THIS-ROLE>"
+    }
+  ]
+}
+```
+
+{% hint style="info" %}
+`csms-*` prefix는 Databricks가 자동 생성·관리하는 리소스 (Customer-Side Managed Service)를 의미합니다. Resource scope를 `csms-*`로 제한하면 Databricks 관련 리소스에만 권한이 부여됩니다.
+{% endhint %}
+
+#### File Events 비활성화 방법
+
+File Events가 불필요한 경우 (예: Directory Listing 모드만 사용):
+
+1. Databricks Workspace에서 **Catalog → External Locations** 이동
+2. 해당 External Location 선택
+3. **Advanced Options** → **File Events** 비활성화
+
+*참고: [External Location manual setup (S3)](https://docs.databricks.com/aws/en/connect/unity-catalog/cloud-storage/s3/s3-external-location-manual)*
+
+---
+
 ## Unity Catalog Metastore 구성
 
 ### Metastore 개요
