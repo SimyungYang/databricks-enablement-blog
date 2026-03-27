@@ -24,6 +24,9 @@ Marketplace 구독부터 PrivateLink까지, AWS Console 기반으로 Databricks 
 | 6 | Backend PrivateLink | VPC Endpoint (REST API + SCC Relay), Private Access Settings |
 | 7 | Frontend PrivateLink (옵션) | Transit VPC, Route 53 DNS, Inbound Resolver |
 | 8 | Workspace 생성 | Account Console에서 프로비저닝 |
+| 9 | Unity Catalog Metastore | UC 최상위 컨테이너, 리전당 1개 |
+| 10 | Serverless Networking — NCC | Serverless Compute 네트워크 제어 |
+| 11 | 기존 Workspace에 PrivateLink 추가 | 운영 중 Workspace에 PrivateLink 사후 적용 |
 | A | Terraform 자동화 | IaC 전환 참고 (Appendix) |
 
 ---
@@ -426,6 +429,35 @@ AWS Console → VPC → Security Groups → Create security group
 | All UDP | UDP | Self (동일 SG) | 노드 간 통신 |
 
 *참고: [Security group rules](https://docs.databricks.com/aws/en/admin/account-settings-e2/networks)*
+
+### NACL (Network ACL) 설정
+
+AWS Console → VPC → Network ACLs
+
+Security Group과 별도로 서브넷 레벨에서 트래픽을 제어하는 Network ACL을 설정합니다.
+
+#### Inbound Rules
+
+| Rule # | Type | Protocol | Port | Source | Action |
+|--------|------|----------|------|--------|--------|
+| 100 | All traffic | All | All | 0.0.0.0/0 | ALLOW |
+
+#### Outbound Rules
+
+| Rule # | Type | Protocol | Port | Destination | Action |
+|--------|------|----------|------|-------------|--------|
+| 100 | All traffic | All | All | VPC CIDR | ALLOW |
+| 110 | HTTPS | TCP | 443 | 0.0.0.0/0 | ALLOW |
+| 120 | Custom TCP | TCP | 3306 | 0.0.0.0/0 | ALLOW |
+| 130 | Custom TCP | TCP | 6666 | 0.0.0.0/0 | ALLOW |
+| 140 | Custom TCP | TCP | 8443-8451 | 0.0.0.0/0 | ALLOW |
+| 150 | Custom TCP | TCP | 2443 | 0.0.0.0/0 | ALLOW |
+
+{% hint style="warning" %}
+**NACL은 stateless** — Security Group과 달리 인바운드/아웃바운드 규칙을 모두 명시적으로 설정해야 합니다. 응답 트래픽도 자동 허용되지 않으므로 양방향 규칙이 필수입니다.
+{% endhint %}
+
+*참고: [Network configuration](https://docs.databricks.com/aws/en/admin/account-settings-e2/networks)*
 
 ### 권장 AWS Service VPC Endpoints
 
@@ -869,6 +901,114 @@ Workspace와 별개로 UC용 IAM Role이 필요합니다.
 
 ---
 
+## Unity Catalog Metastore 구성
+
+### Metastore 개요
+
+Metastore는 Unity Catalog의 최상위 컨테이너로, 데이터 거버넌스의 기본 단위입니다. **리전당 1개의 Metastore**가 존재하며, 해당 리전의 모든 Workspace가 공유합니다.
+
+{% hint style="info" %}
+이미 동일 리전(예: `ap-northeast-2`)에 Metastore가 존재하면 새로 생성할 필요 없이 기존 Metastore에 Workspace를 할당하면 됩니다.
+{% endhint %}
+
+### 사전 준비
+
+| 항목 | 설명 |
+|------|------|
+| **UC 전용 S3 Bucket** | Metastore 관리 데이터 저장용 (Root Storage와 별도) |
+| **UC IAM Role** | Self-assume + Databricks UC Master Role trust 설정 |
+
+#### UC IAM Role Trust Policy 핵심
+
+- **UC Master Role** (`arn:aws:iam::414351767826:role/unity-catalog-prod-UCMasterRole-14S5ZJVKOTYTL`)을 Principal로 신뢰
+- **Self-assume** — 동일 Role ARN을 Principal에 추가 (AssumeRole 권한)
+- **ExternalId**: Databricks Account UUID
+
+### Metastore 생성 절차
+
+Account Console에서 생성합니다.
+
+1. **accounts.cloud.databricks.com** 로그인
+2. 좌측 메뉴: **Catalog** → **Create metastore**
+3. 입력:
+   - **Name**: 식별 이름 (예: `apne2-metastore`)
+   - **Region**: `ap-northeast-2` (Workspace와 동일 리전)
+   - **S3 path**: UC 전용 S3 Bucket 경로 (예: `s3://my-uc-metastore-bucket/unity-catalog`)
+   - **IAM Role ARN**: UC IAM Role ARN
+4. **Create** 클릭
+
+### Workspace에 Metastore 할당
+
+1. Account Console → **Catalog** → 생성한 Metastore 선택
+2. **Assign to workspace** 클릭
+3. 할당할 Workspace 선택 → **Assign**
+
+{% hint style="warning" %}
+1개 Workspace는 **1개 Metastore에만** 할당 가능합니다. 할당 변경 시 기존 데이터 접근 권한이 초기화될 수 있으므로 주의하세요.
+{% endhint %}
+
+*참고: [Create a Unity Catalog metastore](https://docs.databricks.com/aws/en/data-governance/unity-catalog/create-metastore)*
+
+---
+
+## Serverless Networking — NCC (Network Connectivity Configuration)
+
+### NCC 개요
+
+NCC(Network Connectivity Configuration)는 Serverless Compute의 네트워크 제어를 위한 **Account-level 구성**입니다. Serverless SQL Warehouse, Serverless Notebook 등이 외부 리소스에 프라이빗하게 접근해야 할 때 사용합니다.
+
+{% hint style="info" %}
+Classic Compute(고객 VPC)와 달리, Serverless Compute는 Databricks 관리 VPC에서 실행됩니다. NCC를 통해 Serverless 환경에서도 프라이빗 연결을 구성할 수 있습니다.
+{% endhint %}
+
+### NCC 제한 사항
+
+| 항목 | 제한 |
+|------|------|
+| **리전당 최대 NCC 수** | 10개 |
+| **NCC당 최대 Workspace 수** | 50개 |
+| **S3 Private Endpoint** | 리전당 최대 30개 (S3 bucket name 지정) |
+| **VPC Resource Endpoint (via NLB)** | 리전당 최대 100개 |
+
+### NCC 구성 절차
+
+Account Console → Security → Networking → Network connectivity configurations
+
+#### Step 1: NCC 생성
+
+1. **Network connectivity configurations** → **Create**
+2. 입력:
+   - **Name**: 식별 이름 (예: `apne2-serverless-ncc`)
+   - **Region**: `ap-northeast-2`
+3. **Create** 클릭
+
+#### Step 2: Private Endpoint Rule 추가
+
+NCC 생성 후 프라이빗 엔드포인트 규칙을 추가합니다.
+
+**S3 Private Endpoint:**
+- **Add private endpoint rule** → S3 유형 선택
+- S3 Bucket name 지정 (예: `my-data-bucket`)
+- Serverless Compute에서 해당 S3 Bucket으로의 프라이빗 접근 허용
+
+**VPC Resource Endpoint (NLB 경유):**
+- 고객 VPC 내 리소스(RDS, Kafka 등)에 접근 시 사용
+- NLB(Network Load Balancer) ARN 지정
+
+#### Step 3: Workspace에 NCC 연결
+
+1. Account Console → **Workspaces** → 해당 Workspace 선택
+2. **Update** → **Network connectivity configuration** 항목에서 NCC 선택
+3. **Confirm update**
+
+{% hint style="warning" %}
+NCC를 Workspace에 연결/변경하면 Serverless Compute 재시작이 필요할 수 있습니다.
+{% endhint %}
+
+*참고: [Serverless private connectivity](https://docs.databricks.com/aws/en/security/network/serverless-network-security/serverless-private-connectivity)*
+
+---
+
 ## 주의사항 & 트러블슈팅
 
 ### IAM Role 등록 실패
@@ -889,6 +1029,71 @@ Workspace와 별개로 UC용 IAM Role이 필요합니다.
 - `nslookup <workspace>.cloud.databricks.com` → Private IP 확인
 - VPC Endpoint 상태: `available` 확인 (AWS Console → VPC → Endpoints)
 - Security Group: 443, 6666 양방향 확인
+
+---
+
+## 기존 Workspace에 PrivateLink 추가
+
+### 개요
+
+이미 운영 중인 Workspace에 PrivateLink를 사후 추가하는 절차입니다. 초기에 PrivateLink 없이 생성한 Workspace를 프라이빗 연결로 전환할 때 사용합니다.
+
+{% hint style="warning" %}
+**기존 Network Configuration은 직접 수정 불가** — VPC Endpoint를 포함한 새 Network Configuration을 생성한 후 Workspace에서 교체해야 합니다.
+{% endhint %}
+
+### 절차
+
+#### Step 1: AWS VPC Endpoint 생성
+
+AWS Console → VPC → Endpoints → Create endpoint
+
+- **REST API Endpoint**: `com.amazonaws.vpce.ap-northeast-2.vpce-svc-0babb9bde64f34d7e`
+- **SCC Relay Endpoint**: `com.amazonaws.vpce.ap-northeast-2.vpce-svc-0dc0e98a5800db5c4`
+- 설정 방법은 Part 6 (Backend PrivateLink 구성) 참고
+
+#### Step 2: Databricks에 VPC Endpoint 등록
+
+Account Console → Security → Networking → VPC endpoints
+
+1. **Register VPC endpoint** 클릭
+2. REST API, SCC Relay 각각 등록 (VPC Endpoint ID 입력)
+
+#### Step 3: 새 Network Configuration 생성
+
+Account Console → Security → Networking → Classic network configurations
+
+1. **Add network configuration** 클릭
+2. 기존 VPC, Subnet, Security Group 정보 입력
+3. **VPC Endpoints** 항목에서 Step 2에서 등록한 REST API / Dataplane relay Endpoint 선택
+4. **Add** 클릭 → 새 Network Configuration ID 생성
+
+#### Step 4: Private Access Settings 생성
+
+Account Console → Security → Networking → Private access settings
+
+1. **Add private access settings** 클릭
+2. Region, Public access 설정 (초기에는 **Public access = Enabled** 권장)
+
+#### Step 5: Workspace 업데이트
+
+Account Console → Workspaces → 해당 Workspace 선택
+
+1. **Update** 클릭
+2. **Network configuration** → Step 3에서 생성한 새 Network Configuration 선택
+3. **Private access settings** → Step 4에서 생성한 설정 선택
+4. **Confirm update** 클릭
+5. 프로비저닝 시작 (~5-10분 소요)
+
+{% hint style="warning" %}
+**변경 중 클러스터 및 실행 중인 작업이 중단됩니다.** 반드시 유지보수 윈도우(maintenance window)에 수행하세요. 사전에 모든 클러스터를 종료하고 실행 중인 Job을 중지하는 것을 권장합니다.
+{% endhint %}
+
+{% hint style="info" %}
+업데이트 완료 후 PrivateLink DNS 전파까지 추가로 10-20분이 소요될 수 있습니다. `nslookup <workspace>.cloud.databricks.com`으로 Private IP 반환을 확인한 후 접속하세요.
+{% endhint %}
+
+*참고: [Update a workspace](https://docs.databricks.com/aws/en/admin/account-settings-e2/workspaces)*
 
 ---
 
