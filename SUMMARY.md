@@ -17,7 +17,17 @@
 
 ## Hands-on Workshop
 
-* [MLOps — End-to-End Pipeline](mlops/mlops-pipeline.md)
+* [예지보전 & 이상탐지 MLOps](hands-on/predictive-maintenance/README.md)
+  * [01. Overview](hands-on/predictive-maintenance/01-overview.md)
+  * [02. Feature Engineering](hands-on/predictive-maintenance/02-feature-engineering.md)
+  * [03. Model Training](hands-on/predictive-maintenance/03-model-training.md)
+  * [04. Model Registration (UC)](hands-on/predictive-maintenance/04-model-registration.md)
+  * [05. Challenger Validation](hands-on/predictive-maintenance/05-challenger-validation.md)
+  * [06. Batch Inference](hands-on/predictive-maintenance/06-batch-inference.md)
+  * [07. Anomaly Detection](hands-on/predictive-maintenance/07-anomaly-detection.md)
+  * [08. Model Monitoring](hands-on/predictive-maintenance/08-model-monitoring.md)
+  * [09. MLOps Agent](hands-on/predictive-maintenance/09-mlops-agent.md)
+  * [10. Job Scheduling](hands-on/predictive-maintenance/10-job-scheduling.md)
 * [AI Vibe Coding Workshop — Smart TV 시나리오](workshop/ai-vibe-coding-workshop.md)
 
 ## Analytics
