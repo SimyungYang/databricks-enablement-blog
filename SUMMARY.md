@@ -5,6 +5,7 @@
 ## Platform Setup
 
 * [AWS Workspace 구성 가이드](platform-setup/aws-workspace-setup.md)
+* [Azure Workspace 구성 가이드](platform-setup/azure-workspace-setup.md)
 
 ## Databricks 기능 가이드
 
