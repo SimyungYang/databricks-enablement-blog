@@ -2,6 +2,10 @@
 
 > **최종 업데이트**: 2026-03-18
 
+{% embed url="https://simyungyang.github.io/databricks-enablement-blog/genai-genie-code-ai-dev-kit.html" %}
+
+> **PDF 다운로드**: [GenAI 소개](https://simyungyang.github.io/databricks-enablement-blog/genai-intro.pdf) · [AI Dev Kit 상세 가이드](https://simyungyang.github.io/databricks-enablement-blog/ai-dev-kit-guide.pdf)
+
 ## 개요
 
 Databricks의 생성형 AI 도구인 **Genie Code**와 **AI Dev Kit**를 소개하는 자료입니다. 비전문가도 데이터 전문가가 될 수 있는 AI 기반 도구를 다룹니다.

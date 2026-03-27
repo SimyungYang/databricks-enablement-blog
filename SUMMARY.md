@@ -1,6 +1,6 @@
 # Table of contents
 
-* [Home](README.md)
+* [가이드 목록](README.md)
 
 ## Platform Setup
 
@@ -11,15 +11,7 @@
 
 * [Genie Space & Genie Code 사용 가이드](analytics/genie-space-genie-code-guide.md)
 * [Agent Bricks 사용 가이드](genai/agent-bricks-guide.md)
-* [Databricks GenAI 소개 — Genie Code & AI Dev Kit](genai/genie-code-ai-dev-kit.md)
-
-## MLOps
-
-* [MLOps on Databricks — End-to-End Pipeline](mlops/mlops-pipeline.md)
-
-## Hands-on Workshop
-
-* [AI Vibe Coding Workshop — Smart TV 시나리오](workshop/ai-vibe-coding-workshop.md)
+* [Databricks GenAI 소개 — AI Dev Kit](genai/genie-code-ai-dev-kit.md)
 
 ## Analytics
 

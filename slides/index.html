@@ -3,24 +3,89 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Databricks Enablement — Slides</title>
+<title>Databricks Enablement — Slides & Resources</title>
 <style>
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; color: #1B3139; }
-  h1 { color: #FF3621; }
-  a { color: #032E61; }
-  .card { border: 1px solid #E0DDD8; border-radius: 8px; padding: 16px 24px; margin: 12px 0; }
-  .card:hover { border-color: #FF3621; }
-  .date { color: #618794; font-size: 14px; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif; max-width: 960px; margin: 0 auto; padding: 40px 24px; color: #1B3139; background: #F9F7F4; }
+  h1 { color: #FF3621; font-size: 32px; margin-bottom: 8px; }
+  h1 span { color: #1B3139; }
+  .subtitle { color: #618794; font-size: 16px; margin-bottom: 40px; }
+  h2 { font-size: 20px; color: #032E61; margin: 32px 0 16px; padding-bottom: 8px; border-bottom: 2px solid #FF3621; display: inline-block; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .card { background: #fff; border: 1px solid #E0DDD8; border-radius: 10px; padding: 20px; transition: all 0.2s; }
+  .card:hover { border-color: #FF3621; box-shadow: 0 4px 12px rgba(255,54,33,0.1); transform: translateY(-2px); }
+  .card h3 { font-size: 16px; margin-bottom: 8px; }
+  .card h3 a { color: #1B3139; text-decoration: none; }
+  .card h3 a:hover { color: #FF3621; }
+  .card p { color: #618794; font-size: 14px; line-height: 1.5; margin-bottom: 12px; }
+  .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; }
+  .tag-slide { background: #FF3621; color: #fff; }
+  .tag-pdf { background: #032E61; color: #fff; }
+  .tag-guide { background: #00A972; color: #fff; }
+  .date { color: #618794; font-size: 12px; }
+  .footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid #E0DDD8; color: #618794; font-size: 13px; text-align: center; }
+  .footer a { color: #032E61; }
 </style>
 </head>
 <body>
-<h1>Databricks Enablement — Slides</h1>
-<p>기술 가이드 슬라이드 모음</p>
 
-<div class="card">
-  <h3><a href="aws-workspace-setup.html">AWS Account & Workspace 구성 가이드</a></h3>
-  <p>Marketplace 구독부터 Backend/Frontend PrivateLink까지</p>
-  <span class="date">2026-03-27</span>
+<h1><span>Databricks</span> Enablement</h1>
+<p class="subtitle">기술 가이드 슬라이드 & 리소스 모음 — Databricks Korea Field Engineering</p>
+
+<h2>Platform Setup</h2>
+<div class="grid">
+  <div class="card">
+    <h3><a href="aws-workspace-setup.html">AWS Account & Workspace 구성 가이드</a></h3>
+    <p>Marketplace 구독부터 Backend/Frontend PrivateLink까지 전체 구성 가이드</p>
+    <div class="tags"><span class="tag tag-slide">Web Slide</span><span class="date">2026-03-27</span></div>
+  </div>
+</div>
+
+<h2>GenAI & Tools</h2>
+<div class="grid">
+  <div class="card">
+    <h3><a href="genai-intro.pdf">Databricks GenAI 소개 — Genie Code & AI Dev Kit</a></h3>
+    <p>Databricks 강점, Genie Code, AI Dev Kit 소개 자료</p>
+    <div class="tags"><span class="tag tag-pdf">PDF</span><span class="date">2026-03-18</span></div>
+  </div>
+  <div class="card">
+    <h3><a href="genai-intro.pdf">Databricks GenAI 소개 (PDF)</a></h3>
+    <p>Genie Code & AI Dev Kit 소개 자료 PDF 버전</p>
+    <div class="tags"><span class="tag tag-pdf">PDF</span><span class="date">2026-03-19</span></div>
+  </div>
+  <div class="card">
+    <h3><a href="ai-dev-kit-guide.html">AI Dev Kit 상세 가이드</a></h3>
+    <p>AI Dev Kit 기능 상세, 사용법, 아키텍처 가이드</p>
+    <div class="tags"><span class="tag tag-guide">Guide</span><span class="date">2026-03-19</span></div>
+  </div>
+  <div class="card">
+    <h3><a href="ai-dev-kit-guide.pdf">AI Dev Kit 상세 가이드 (PDF)</a></h3>
+    <p>AI Dev Kit 상세 가이드 PDF 버전</p>
+    <div class="tags"><span class="tag tag-pdf">PDF</span><span class="date">2026-03-19</span></div>
+  </div>
+</div>
+
+<h2>Analytics</h2>
+<div class="grid">
+  <div class="card">
+    <h3><a href="analytics-platform-comparison.html">Analytics Platform 비교</a></h3>
+    <p>Databricks vs Snowflake, Redshift, BigQuery, Fabric 비교</p>
+    <div class="tags"><span class="tag tag-slide">Web Slide</span><span class="date">2026-03</span></div>
+  </div>
+</div>
+
+<h2>Hands-on Workshop</h2>
+<div class="grid">
+  <div class="card">
+    <h3><a href="ai-vibe-coding-workshop.html">AI Vibe Coding Workshop — Smart TV 시나리오</a></h3>
+    <p>Databricks 핵심 기능 12가지 체험 핸즈온 교육 자료</p>
+    <div class="tags"><span class="tag tag-slide">Web Slide</span><span class="date">2026-04 예정</span></div>
+  </div>
+</div>
+
+<div class="footer">
+  <p>Databricks Korea Field Engineering · <a href="https://simyungyang.gitbook.io/databricks-enablement-resources/">GitBook 문서</a> · <a href="https://github.com/SimyungYang/databricks-enablement-blog">GitHub</a></p>
 </div>
 
 </body>
