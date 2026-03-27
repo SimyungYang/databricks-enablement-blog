@@ -1,4 +1,4 @@
-# Databricks Enablement Resources
+# <img src="https://www.databricks.com/wp-content/uploads/2022/06/db-nav-logo.svg" alt="Databricks" width="160"> Enablements
 
 Databricks 고객을 위한 기술 가이드, 핸즈온 자료, 아키텍처 레퍼런스 모음입니다.
 
