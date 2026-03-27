@@ -2,6 +2,10 @@
 
 Marketplace 구독부터 PrivateLink까지, AWS Console 기반으로 Databricks Workspace를 처음부터 구성하는 전체 가이드입니다.
 
+> **슬라이드 버전**: [AWS Workspace 구성 가이드 (웹 슬라이드)](https://simyungyang.github.io/databricks-enablement-blog/aws-workspace-setup.html)
+
+{% embed url="https://simyungyang.github.io/databricks-enablement-blog/aws-workspace-setup.html" %}
+
 ## 대상
 
 * AWS에 Databricks를 신규 도입하는 고객
