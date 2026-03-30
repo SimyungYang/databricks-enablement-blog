@@ -101,6 +101,9 @@
   * [RAG 평가](guides/rag/evaluation.md)
   * [RAG 배포](guides/rag/deployment.md)
 * [MCP (Model Context Protocol)](guides/mcp/README.md)
+  * [일반 MCP 설정](guides/mcp/setup-general.md)
+  * [Databricks MCP 활용](guides/mcp/databricks-mcp.md)
+  * [베스트 프랙티스](guides/mcp/best-practices.md)
 
 ## Hands-on Workshop
 
