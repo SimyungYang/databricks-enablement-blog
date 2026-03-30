@@ -10,17 +10,13 @@ Databricks 전체 기능에 대한 종합 교육 자료는 **[Databricks 종합 
 
 ---
 
-## 가이드 목록
+## 자료 다운로드
 
-| 날짜 | 가이드 | 분류 | 자료 |
-|------|--------|------|------|
-| 2026-03-27 | [AWS Workspace 구성](platform-setup/aws-workspace-setup.md) | 환경 구성 | [슬라이드](https://simyungyang.github.io/databricks-enablement-blog/aws-workspace-setup.html) |
-| 2026-03-27 | [Azure Workspace 구성](platform-setup/azure-workspace-setup.md) | 환경 구성 | — |
-| 2026-03-27 | [Databricks Apps](platform-setup/databricks-apps-guide.md) | 기능 가이드 | — |
-| 2026-03-27 | [Genie Space](analytics/genie-space-genie-code-guide.md) | 기능 가이드 | [PDF](https://simyungyang.github.io/databricks-enablement-blog/genai-intro.pdf) |
-| 2026-03-27 | [Genie Code](genai/genie-code.md) | 기능 가이드 | — |
-| 2026-03-27 | [Agent Bricks](genai/agent-bricks-guide.md) | 기능 가이드 | — |
-| 2026-03-27 | [예지보전 MLOps](hands-on/predictive-maintenance/README.md) | Hands-on | [노트북](https://github.com/SimyungYang/databricks-enablement-blog/tree/main/hands-on/predictive-maintenance/notebooks) |
-| 2026-03-27 | [AI Vibe Coding — Smart TV](hands-on/smart-tv-vibe/README.md) | Hands-on | [노트북](https://github.com/SimyungYang/databricks-enablement-blog/tree/main/hands-on/smart-tv-vibe/notebooks) |
-| 2026-03-27 | [Analytics Platform 비교](analytics/platform-comparison.md) | 참고 | [슬라이드](https://simyungyang.github.io/databricks-enablement-blog/analytics-platform-comparison.html) |
-| 2026-03-18 | [AI Dev Kit 소개](genai/genie-code-ai-dev-kit.md) | 기능 가이드 | [PDF](https://simyungyang.github.io/databricks-enablement-blog/ai-dev-kit-guide.pdf) |
+| 자료 | 링크 |
+|------|------|
+| **슬라이드 & PDF** | [GitHub Pages](https://simyungyang.github.io/databricks-enablement-blog/) |
+| **MLOps 노트북** | [GitHub](https://github.com/SimyungYang/databricks-enablement-blog/tree/main/hands-on/predictive-maintenance/notebooks) |
+| **AI Vibe Workshop 노트북** | [GitHub](https://github.com/SimyungYang/databricks-enablement-blog/tree/main/hands-on/smart-tv-vibe/notebooks) |
+| **전체 소스코드** | [GitHub Repository](https://github.com/SimyungYang/databricks-enablement-blog) |
+
+좌측 메뉴에서 원하는 가이드를 선택하세요.
