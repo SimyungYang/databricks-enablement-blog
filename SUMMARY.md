@@ -98,6 +98,7 @@
 ## Hands-on Workshop
 
 * [예지보전 & 이상탐지 MLOps](hands-on/predictive-maintenance/README.md)
+  * [Getting Started — 시작하기](hands-on/predictive-maintenance/getting-started.md)
   * [01. Overview](hands-on/predictive-maintenance/01-overview.md)
   * [02. Feature Engineering](hands-on/predictive-maintenance/02-feature-engineering.md)
   * [03. Model Training](hands-on/predictive-maintenance/03-model-training.md)
@@ -109,6 +110,7 @@
   * [09. MLOps Agent](hands-on/predictive-maintenance/09-mlops-agent.md)
   * [10. Job Scheduling](hands-on/predictive-maintenance/10-job-scheduling.md)
 * [AI Vibe Coding — Smart TV](hands-on/smart-tv-vibe/README.md)
+  * [Getting Started — 시작하기](hands-on/smart-tv-vibe/getting-started.md)
   * [00. 환경 설정](hands-on/smart-tv-vibe/00-setup.md)
   * [01. Foundation](hands-on/smart-tv-vibe/01-foundation.md)
   * [02. Data Engineering](hands-on/smart-tv-vibe/02-data-engineering.md)
