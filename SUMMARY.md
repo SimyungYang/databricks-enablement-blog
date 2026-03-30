@@ -85,6 +85,7 @@
   * [A2A (Agent-to-Agent)](guides/genai-concepts/a2a.md)
   * [AI Proficiency 성숙도](guides/genai-concepts/ai-proficiency.md)
 * [RAG (검색 증강 생성)](guides/rag/README.md)
+  * [핵심 개념 사전](guides/rag/fundamentals.md)
   * [데이터 준비](guides/rag/data-preparation.md)
   * [청킹 전략](guides/rag/chunking-strategies.md)
   * [Vector Search 설정](guides/rag/vector-search.md)
