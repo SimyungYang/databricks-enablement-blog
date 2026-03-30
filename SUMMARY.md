@@ -77,6 +77,13 @@
 
 ## 핵심 기술 개념
 
+* [GenAI 핵심 개념](guides/genai-concepts/README.md)
+  * [LLM 기초](guides/genai-concepts/llm-basics.md)
+  * [AI Agent 아키텍처](guides/genai-concepts/agent-architecture.md)
+  * [Prompt Engineering](guides/genai-concepts/prompt-engineering.md)
+  * [GenAI 평가 방법론](guides/genai-concepts/evaluation.md)
+  * [A2A (Agent-to-Agent)](guides/genai-concepts/a2a.md)
+  * [AI Proficiency 성숙도](guides/genai-concepts/ai-proficiency.md)
 * [RAG (검색 증강 생성)](guides/rag/README.md)
   * [데이터 준비](guides/rag/data-preparation.md)
   * [청킹 전략](guides/rag/chunking-strategies.md)

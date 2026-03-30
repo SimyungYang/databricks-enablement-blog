@@ -12,6 +12,18 @@
 
 Databricks의 GenAI 기능(Mosaic AI, Agent Framework, AI Playground 등)을 제대로 활용하려면, 그 기반이 되는 기술 개념을 이해해야 합니다. 이 섹션에서는 GenAI 핵심 개념을 실무 관점에서 설명합니다.
 
+### 대상 독자
+
+- **SE/SA**: 고객 데모 및 PoC 수행 시 GenAI 배경지식이 필요한 경우
+- **파트너 엔지니어**: Databricks 기반 GenAI 솔루션을 설계하는 경우
+- **고객 기술 리더**: AI 전략 수립 시 기술 개념을 파악하고 싶은 경우
+
+### 선수 지식
+
+- 기본적인 프로그래밍 경험 (Python 권장)
+- Databricks Workspace 접근 및 Notebook 사용 경험
+- 머신러닝 기초 개념 (선택사항, 없어도 무방)
+
 ---
 
 ## 주요 개념 가이드
@@ -24,6 +36,19 @@ Databricks의 GenAI 기능(Mosaic AI, Agent Framework, AI Playground 등)을 제
 | [GenAI 평가 방법론](evaluation.md) | Faithfulness, LLM-as-Judge, MLflow Evaluate | 중급 |
 | [A2A (Agent-to-Agent)](a2a.md) | Google A2A 프로토콜, MCP 비교, 멀티에이전트 통신 | 중급~고급 |
 | [AI Proficiency 성숙도](ai-proficiency.md) | 조직 AI 성숙도 모델, 단계별 Databricks 활용 | 전략 |
+
+---
+
+## 학습 로드맵
+
+역할과 목적에 따라 다른 순서로 학습할 수 있습니다.
+
+| 역할 | 권장 순서 |
+|------|-----------|
+| **GenAI 입문자** | LLM 기초 → Prompt Engineering → 평가 방법론 |
+| **Agent 개발자** | LLM 기초 → Agent 아키텍처 → A2A → 평가 방법론 |
+| **기술 리더/전략가** | AI Proficiency → LLM 기초 → Agent 아키텍처 |
+| **전체 학습** | LLM 기초 → Prompt Engineering → Agent 아키텍처 → 평가 → A2A → AI Proficiency |
 
 ---
 
@@ -57,6 +82,23 @@ Databricks의 GenAI 기능(Mosaic AI, Agent Framework, AI Playground 등)을 제
 | 프롬프트 관리 | MLflow Prompt Registry |
 | 배포 | Model Serving, Databricks Apps |
 | 모니터링 | Lakehouse Monitoring, Inference Tables |
+
+---
+
+## GenAI 핵심 용어 사전
+
+| 용어 | 설명 |
+|------|------|
+| **LLM** | Large Language Model — 대규모 언어 모델 |
+| **Transformer** | 현대 LLM의 기반 아키텍처 (Self-Attention 메커니즘) |
+| **RAG** | Retrieval-Augmented Generation — 검색 증강 생성 |
+| **Agent** | LLM + 도구 사용 + 추론 루프를 결합한 자율 시스템 |
+| **MCP** | Model Context Protocol — LLM과 외부 도구 연결 표준 |
+| **A2A** | Agent-to-Agent — 에이전트 간 통신 프로토콜 |
+| **Fine-tuning** | 사전 학습된 모델을 특정 도메인 데이터로 추가 학습 |
+| **Hallucination** | 모델이 사실이 아닌 내용을 생성하는 현상 |
+| **Token** | LLM이 텍스트를 처리하는 최소 단위 |
+| **Embedding** | 텍스트를 고차원 벡터 공간에 매핑한 수치 표현 |
 
 ---
 
