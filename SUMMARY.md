@@ -59,9 +59,9 @@
   * [Supervisor Agent](guides/agent-bricks/supervisor.md)
   * [평가 & 배포](guides/agent-bricks/evaluation.md)
   * [베스트 프랙티스](guides/agent-bricks/best-practices.md)
-* [Builder App (AI Playground)](guides/builder-app/README.md)
+* [Builder App (AI Dev Kit)](guides/builder-app/README.md)
   * [Getting Started](guides/builder-app/getting-started.md)
-  * [Tool 연결](guides/builder-app/tools.md)
+  * [Tool 목록 및 상세](guides/builder-app/tools.md)
   * [활용 사례](guides/builder-app/use-cases.md)
 * [AI Dev Kit](guides/ai-dev-kit/README.md)
 

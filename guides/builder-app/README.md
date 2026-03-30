@@ -1,80 +1,111 @@
-# Builder App (AI Playground)
+# AI Dev Kit Builder App
 
-## Databricks Builder App이란?
+## Builder App이란?
 
-Databricks **AI Playground**는 Workspace 내에서 생성형 AI 에이전트를 **노코드/로우코드**로 프로토타이핑하고 테스트할 수 있는 통합 환경입니다. 코드 한 줄 없이 LLM을 비교하고, Tool을 연결하고, 에이전트를 구축한 뒤 바로 배포할 수 있습니다.
+**AI Dev Kit Builder App**은 Databricks 워크스페이스에서 Claude Code 에이전트와 대화하며 데이터 엔지니어링, 분석, AI 작업을 수행할 수 있는 **풀스택 웹 애플리케이션**입니다. React 프론트엔드와 FastAPI 백엔드로 구성되며, Claude Agent SDK와 Databricks MCP Server를 통합하여 30개 이상의 Databricks 도구를 자연어로 실행할 수 있습니다.
 
 {% hint style="info" %}
-AI Playground는 이전에 "Agent Builder"로도 불렸으며, 현재는 Databricks Agent Framework의 노코드 진입점 역할을 합니다.
+Builder App은 [AI Dev Kit](https://github.com/databricks-solutions/ai-dev-kit) 프로젝트의 `databricks-builder-app` 컴포넌트입니다. Databricks Field Engineering 팀이 관리하는 공식 솔루션입니다.
 {% endhint %}
 
 ---
 
-## 주요 기능
+## 아키텍처
 
-### 1. LLM 비교 & 테스트
+Builder App은 프론트엔드, 백엔드, 에이전트 런타임, MCP 도구의 4계층으로 구성됩니다.
 
-- 다양한 Foundation Model(Meta Llama, Anthropic Claude, OpenAI GPT 등)을 선택하여 프롬프트를 전송합니다.
-- **Side-by-side 비교**: 두 개 이상의 모델을 동시에 호출하고 결과를 나란히 비교할 수 있습니다.
-- **Sync 모드**: 동일 프롬프트를 여러 모델에 동시 전송하여 품질을 비교합니다.
+### Frontend (React)
 
-### 2. 에이전트 빌더 (No-Code Agent)
+| 모듈 | 역할 |
+|---|---|
+| **HomePage** | 프로젝트 목록 및 생성 |
+| **ProjectPage** | 채팅 UI, 에이전트와 대화 |
+| **DocPage** | 문서 뷰어 |
+| **SkillsExplorer** | 스킬 탐색 및 관리 |
+| **ProjectsContext** | 프로젝트 상태 관리 |
+| **UserContext** | 사용자 인증 컨텍스트 |
 
-- **System Prompt** 작성 후, Tool을 추가하여 Tool-calling 에이전트를 즉시 생성합니다.
-- 대화형 인터페이스에서 에이전트 동작을 반복적으로 테스트하고 개선합니다.
-- 완성된 에이전트는 **Python 노트북으로 Export**하여 커스터마이징할 수 있습니다.
+### Backend (FastAPI)
 
-### 3. Tool 연결
+| 엔드포인트 | 역할 |
+|---|---|
+| `POST /api/invoke_agent` | 에이전트 실행 시작, execution_id 반환 |
+| `POST /api/stream_progress/{id}` | SSE 스트리밍으로 에이전트 이벤트 수신 |
+| `POST /api/stop_stream/{id}` | 실행 중인 에이전트 취소 |
+| `/api/projects` CRUD | 프로젝트 관리 |
+| `/api/conversations` CRUD | 대화 이력 관리 |
+| `/api/clusters`, `/api/warehouses` | 컴퓨팅 리소스 조회 |
+| `/api/skills` | 스킬 파일 관리 |
 
-- **Unity Catalog Functions**: SQL/Python 함수를 에이전트 도구로 등록
-- **Vector Search Index**: RAG 기반 문서 검색
-- **Genie Space**: 자연어 SQL 에이전트
-- **MCP Servers**: 외부 도구 및 API 연동
+### Agent Runtime & Tools
+
+| 계층 | 구성 |
+|---|---|
+| **Agent Service** | Claude Agent SDK 기반 세션 관리, SSE 스트리밍 |
+| **Built-in Tools** | Read, Write, Edit, Glob, Grep, Skill |
+| **MCP Tools** | SQL, Compute, Pipelines, Files, Jobs, Genie, Dashboards, Model Serving, UC 등 30+ 도구 |
 
 ---
 
-## 무엇을 만들 수 있나?
+## 핵심 컴포넌트 6가지
 
-| 활용 사례 | 핵심 Tool | 설명 |
+### 1. Databricks MCP Server Tools
+30개 이상의 도구로 SQL 실행, 클러스터 관리, DLT 파이프라인, 파일 업로드, Genie Space, 대시보드, 모델 서빙, Unity Catalog 등을 에이전트가 직접 제어합니다.
+
+### 2. Claude Agent SDK
+프로덕션급 에이전트 런타임으로, 세션 재개(Session Resumption), 빌트인 도구, SSE 스트리밍을 지원합니다.
+
+### 3. Skills System
+29개의 마크다운 기반 스킬 파일이 에이전트에게 Databricks 작업 수행 방법을 가르칩니다. 합성 데이터 생성, 대시보드 구성, Genie, SDP, UC, Python SDK, Agent Bricks, Lakebase, Jobs 등의 패턴을 포함합니다.
+
+### 4. Async Operation Handling
+10초 이상 소요되는 장시간 작업을 백그라운드 스레드에서 실행하고, `operation_id`로 폴링하여 결과를 수신합니다.
+
+### 5. Lakebase Persistence
+PostgreSQL(Lakebase) 스키마와 Alembic 마이그레이션으로 Projects, Conversations, Messages, Executions를 영구 저장합니다.
+
+### 6. Multi-User Auth
+Python `contextvars`를 사용하여 요청별 자격 증명을 격리하고, 각 사용자의 Databricks 권한으로 도구를 실행합니다.
+
+---
+
+## 무엇을 할 수 있나?
+
+Builder App 에이전트와 대화하여 다음 작업을 수행할 수 있습니다:
+
+- **SQL 실행** - 자연어로 쿼리 작성 및 실행, 결과 분석
+- **대시보드 생성** - AI/BI 대시보드를 코드 없이 구성 및 배포
+- **Genie Space 관리** - Genie Space 생성, 업데이트, 질의
+- **DLT 파이프라인 구성** - Spark Declarative Pipeline 생성 및 실행
+- **파일 관리** - Volume에 파일 업로드/다운로드
+- **Job 스케줄링** - Databricks Jobs 생성 및 실행 관리
+- **모델 서빙** - Serving Endpoint 상태 확인 및 쿼리
+- **Unity Catalog 관리** - 카탈로그, 스키마, 테이블, 권한 관리
+- **벡터 검색** - Vector Search Index 생성 및 쿼리
+
+---
+
+## AI Playground와의 차이점
+
+| 비교 항목 | AI Playground | AI Dev Kit Builder App |
 |---|---|---|
-| RAG 챗봇 | Vector Search | 사내 문서 기반 질의응답 |
-| SQL 분석 에이전트 | Genie Space | 자연어로 데이터 분석 |
-| 코드 실행 에이전트 | UC Function (`python_exec`) | Python 코드를 동적으로 실행 |
-| 멀티 에이전트 시스템 | Supervisor Agent | 여러 에이전트를 오케스트레이션 |
-| 외부 API 연동 | MCP (External) | 외부 서비스와 안전하게 통합 |
+| **성격** | 노코드 프로토타이핑 도구 | 풀스택 에이전트 애플리케이션 |
+| **호스팅** | Databricks Workspace 내장 | 자체 배포 (Databricks Apps 또는 로컬) |
+| **에이전트 런타임** | Databricks Agent Framework | Claude Agent SDK |
+| **도구 접근** | UI에서 Tool 선택 | MCP Server 30+ 도구 자동 연결 |
+| **코드 실행** | Export 후 노트북에서 실행 | 에이전트가 직접 파일 생성/편집/실행 |
+| **데이터 영속성** | 세션 기반 | Lakebase(PostgreSQL)로 프로젝트/대화 영구 저장 |
+| **멀티 유저** | Workspace 계정 기반 | 요청별 자격 증명 격리 |
 
----
-
-## Agent Framework과의 관계
-
-AI Playground는 **Mosaic AI Agent Framework**의 노코드 프론트엔드입니다.
-
-```
-AI Playground (노코드)
-    ↓ Export
-Agent Framework (코드 기반)
-    ↓ 배포
-Model Serving Endpoint
-    ↓ 모니터링
-MLflow Tracing + Agent Evaluation
-```
-
-- **프로토타이핑**: AI Playground에서 빠르게 실험
-- **커스터마이징**: Export 후 Python 코드로 세밀한 제어
-- **프로덕션**: Agent Framework를 통해 Model Serving으로 배포
-- **평가/모니터링**: MLflow Tracing과 Agent Evaluation으로 품질 관리
-
-{% hint style="warning" %}
-AI Playground에서 내보낸 에이전트는 Playground 내 동작과 다를 수 있습니다. 반드시 Export 후 평가 및 디버깅을 수행하세요.
+{% hint style="tip" %}
+AI Playground는 모델 비교와 빠른 프로토타이핑에 적합하고, Builder App은 Databricks 워크스페이스 전체를 에이전트가 관리하는 풀스택 개발 환경입니다.
 {% endhint %}
 
 ---
 
 ## 참고 링크
 
-- [Build gen AI apps on Databricks](https://docs.databricks.com/aws/en/generative-ai/agent-framework/build-genai-apps)
-- [Get started: no-code GenAI](https://docs.databricks.com/aws/en/getting-started/gen-ai-llm-agent)
-- [AI agent tools](https://docs.databricks.com/aws/en/generative-ai/agent-framework/agent-tool)
-- [Author custom agents](https://docs.databricks.com/aws/en/generative-ai/agent-framework/author-agent)
-- [MCP (Model Context Protocol)](https://docs.databricks.com/aws/en/generative-ai/mcp/)
-- [Agent Bricks](https://docs.databricks.com/aws/en/generative-ai/agent-bricks/)
+- [AI Dev Kit GitHub](https://github.com/databricks-solutions/ai-dev-kit)
+- [Builder App 소스코드](https://github.com/databricks-solutions/ai-dev-kit/tree/main/databricks-builder-app)
+- [Databricks MCP Server](https://github.com/databricks-solutions/ai-dev-kit/tree/main/databricks-mcp-server)
+- [Claude Agent SDK](https://docs.anthropic.com/en/docs/agents)
