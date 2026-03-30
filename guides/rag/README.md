@@ -89,10 +89,13 @@ RAG 품질은 "검색 품질"에 크게 좌우됩니다. 청킹 전략과 임베
 이 가이드 시리즈에서는 Databricks에서 RAG 시스템을 구축하는 전체 과정을 다룹니다:
 
 1. [데이터 준비](data-preparation.md) - 문서 수집, 파싱, 청킹
-2. [Vector Search 설정](vector-search.md) - 엔드포인트 및 인덱스 생성
-3. [RAG 체인 구축](chain-building.md) - LangChain 기반 체인 구현
-4. [RAG 평가](evaluation.md) - MLflow 기반 품질 측정
-5. [RAG 배포](deployment.md) - 프로덕션 서빙 및 모니터링
+2. [청킹 전략](chunking-strategies.md) - 청킹 방식별 비교 및 구현
+3. [Vector Search 설정](vector-search.md) - 엔드포인트 및 인덱스 생성
+4. [고급 Retrieval 전략](advanced-retrieval.md) - 앙상블, Reranking, Hybrid 검색
+5. [한국어 RAG 최적화](korean-nlp.md) - Kiwi 형태소 분석, 한국어 임베딩
+6. [RAG 체인 구축](chain-building.md) - LangChain 기반 체인 구현
+7. [RAG 평가](evaluation.md) - MLflow 기반 품질 측정
+8. [RAG 배포](deployment.md) - 프로덕션 서빙 및 모니터링
 
 ## 참고 문서
 

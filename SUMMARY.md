@@ -71,14 +71,18 @@
   * [배포](guides/apps/deployment.md)
   * [예제 (Streamlit, FastAPI)](guides/apps/examples.md)
 
-## 기술 가이드
+## 핵심 기술 개념
 
 * [RAG (검색 증강 생성)](guides/rag/README.md)
   * [데이터 준비](guides/rag/data-preparation.md)
+  * [청킹 전략](guides/rag/chunking-strategies.md)
   * [Vector Search 설정](guides/rag/vector-search.md)
+  * [고급 Retrieval 전략](guides/rag/advanced-retrieval.md)
+  * [한국어 RAG 최적화](guides/rag/korean-nlp.md)
   * [RAG 체인 구축](guides/rag/chain-building.md)
   * [RAG 평가](guides/rag/evaluation.md)
   * [RAG 배포](guides/rag/deployment.md)
+* [MCP (Model Context Protocol)](guides/mcp/README.md)
 
 ## Hands-on Workshop
 
