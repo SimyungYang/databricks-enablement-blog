@@ -1,0 +1,86 @@
+# Databricks Enablement Blog — 프로젝트 지침
+
+## 프로젝트 개요
+
+- **목적**: Databricks 고객을 위한 실전 가이드 & 핸즈온 워크샵 GitBook
+- **GitBook**: https://simyungyang.gitbook.io/databricks-enablement-resources/
+- **GitHub**: https://github.com/SimyungYang/databricks-enablement-blog
+- **Slides**: https://simyungyang.github.io/databricks-enablement-blog/ (GitHub Pages)
+- **GitBook API Token**: gb_api_Dzk6HjVVvViyfSDG6Cr0O7DzGOvOyMzjKsJqAGwr
+- **Org ID**: 8RMLMcNGbXOmLsKKiQuE / **Space ID**: 2psMwA4xV0JS95ir1vYF / **Site ID**: site_6HFwR
+
+## 관련 프로젝트
+
+- **Databricks 종합 교육 자료** (한글 문서 대체용): https://github.com/SimyungYang/simyung-dbx-training
+  - GitBook: https://simyungyang.gitbook.io/databricks-training/
+  - 이 enablement blog와 역할 분리: 교육 자료 = 전체 문서 / enablement = 시나리오별 가이드 & 핸즈온
+
+## 디렉토리 구조
+
+```
+02-enablement-blog/
+├── README.md                          # Home — 가이드 목록 (날짜순)
+├── SUMMARY.md                         # GitBook 좌측 메뉴 구조
+├── .gitbook.yaml                      # GitBook 설정
+├── platform-setup/                    # 환경 구성 가이드
+│   ├── aws-workspace-setup.md         # AWS Workspace (PrivateLink, UC 포함)
+│   ├── azure-workspace-setup.md       # Azure Workspace (VNet injection, PE 포함)
+│   └── databricks-apps-guide.md       # Databricks Apps 사용법
+├── analytics/
+│   ├── genie-space-genie-code-guide.md # Genie Space 운영 가이드 (MCP 포함)
+│   └── platform-comparison.md         # Databricks vs Snowflake/Redshift/BigQuery/Fabric
+├── genai/
+│   ├── genie-code.md                  # Genie Code 사용법 (MCP 연동)
+│   ├── agent-bricks-guide.md          # Agent Bricks (KA, Genie Agent, Supervisor)
+│   └── genie-code-ai-dev-kit.md       # AI Dev Kit 소개
+├── hands-on/
+│   ├── predictive-maintenance/        # MLOps 핸즈온 — 예지보전 & 이상탐지
+│   │   ├── README.md                  # 개요 + 파이프라인 흐름
+│   │   ├── 01-overview.md ~ 10-job-scheduling.md  # 노트북별 서브페이지
+│   │   └── notebooks/                 # 실제 .py 노트북 파일 (14개)
+│   └── smart-tv-vibe/                 # AI Vibe Workshop — Smart TV 시나리오
+│       ├── README.md                  # 개요 + 모듈/트랙 설명
+│       ├── 00-setup.md ~ 07-apps-lakebase.md  # 모듈별 서브페이지
+│       └── notebooks/                 # 실제 노트북 파일 (common, track-a/b/c)
+├── slides/                            # GitHub Pages 호스팅 (슬라이드/PDF)
+│   ├── index.html                     # 슬라이드 목록 페이지
+│   ├── aws-workspace-setup.html       # Marp 슬라이드
+│   └── *.pdf                          # PDF 자료
+└── .github/workflows/pages.yml        # GitHub Pages 자동 배포
+```
+
+## 콘텐츠 작성 규칙
+
+### GitBook 마크다운
+- `{% hint style="info" %}` / `{% hint style="warning" %}` 사용
+- IAM Policy, Trust Policy 등 권한 관련 → **반드시 전체 JSON** 형태로 작성 (테이블/불릿 금지)
+- ASCII 다이어그램 사용 금지 → 테이블 또는 이미지 사용
+- 한 페이지 너무 길면 서브페이지로 분리 (SUMMARY.md 들여쓰기)
+
+### 핸즈온 워크샵
+- `hands-on/<시나리오명>/` 디렉토리 구조
+- README.md (개요) + 모듈별 서브페이지 + notebooks/ (실제 코드)
+- 각 서브페이지에 노트북 GitHub 링크 포함
+- 노트북 원본은 반드시 `notebooks/` 디렉토리에 포함
+
+### Marp 슬라이드 (별도 프로젝트)
+- AWS 구성 가이드 슬라이드: `/Users/simyung.yang/Dev/00-databricks-projects/01-customers/20260327-aws-workspace-setup/`
+- 슬라이드에서는 JSON 대신 테이블 형태 사용 (가독성)
+- 빌드: `npx @marp-team/marp-cli *.md --html --allow-local-files -o *.html`
+
+### 노트북 소스 위치 (원본)
+- MLOps: `/Users/simyung.yang/Dev/00-databricks-projects/01-customers/20260327-lgit-mlops/notebooks/`
+- AI Vibe: `/Users/simyung.yang/Dev/00-databricks-projects/01-customers/202604-lge-ms-vibe/notebooks/`
+- 변경 시 `02-enablement-blog` 쪽으로도 동기화 필요
+
+### 새 가이드 추가 시
+1. 해당 디렉토리에 .md 파일 생성
+2. SUMMARY.md에 메뉴 항목 추가
+3. README.md 가이드 목록 테이블에 추가
+4. `git push` → GitBook 자동 동기화
+
+### Account Console UI 경로 (AWS — 실제 메뉴 기준)
+- Credential / Storage: **Cloud resources** → Credential configuration | Storage configuration
+- VPC Endpoints: **Security** → Networking → VPC endpoints
+- Network Configuration: **Security** → Networking → Classic network configurations
+- Private Access Settings: **Security** → Networking → Private access settings

@@ -1,5 +1,8 @@
 # 07. 비정형 이상탐지 (Anomalib PatchCore)
 
+> **전체 노트북 코드**: [07_unstructured_anomaly_detection.py](https://github.com/SimyungYang/databricks-enablement-blog/blob/main/hands-on/predictive-maintenance/notebooks/07_unstructured_anomaly_detection.py)
+
+
 **목적**: MVTec AD 이미지 데이터로 PatchCore 비지도 학습 기반 이상탐지 모델을 학습하고, 이상 위치를 히트맵으로 시각화합니다.
 
 **사용 Databricks 기능**: `Volumes` (이미지 관리), `GPU Cluster`, `MLflow` 아티팩트 추적, `UC Model Registry`

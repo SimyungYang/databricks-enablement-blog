@@ -1,5 +1,8 @@
 # 10. Job 스케줄링 (Databricks Workflows)
 
+> **전체 노트북 코드**: [10_job_scheduling.py](https://github.com/SimyungYang/databricks-enablement-blog/blob/main/hands-on/predictive-maintenance/notebooks/10_job_scheduling.py)
+
+
 **목적**: 운영/개발 환경별 MLOps 파이프라인을 Databricks Workflows로 스케줄링합니다.
 
 **사용 Databricks 기능**: `Databricks Workflows`, `Multi-task Jobs`, `Serverless Compute`, `이메일/Slack 알림`

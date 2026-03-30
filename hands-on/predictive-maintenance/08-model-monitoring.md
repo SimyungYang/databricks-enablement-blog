@@ -1,5 +1,8 @@
 # 08. 모델 모니터링 (Model Monitoring)
 
+> **전체 노트북 코드**: [08_model_monitoring.py](https://github.com/SimyungYang/databricks-enablement-blog/blob/main/hands-on/predictive-maintenance/notebooks/08_model_monitoring.py)
+
+
 **목적**: 운영 중인 모델의 데이터 드리프트 및 성능 저하를 PSI 기반으로 탐지하고, Lakehouse Monitoring을 설정합니다.
 
 **사용 Databricks 기능**: `Lakehouse Monitoring`, `Delta Lake Time Travel`, `SQL Analytics 대시보드`

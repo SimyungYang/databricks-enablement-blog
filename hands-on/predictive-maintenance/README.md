@@ -2,6 +2,8 @@
 
 > **최종 업데이트**: 2026-03-27 | **대상**: Databricks Lakehouse 기반 MLOps 구축을 위한 실전 가이드
 
+> **전체 노트북 코드**: [GitHub — notebooks/](https://github.com/SimyungYang/databricks-enablement-blog/tree/main/hands-on/predictive-maintenance/notebooks)
+
 ---
 
 ## MLOps 개요

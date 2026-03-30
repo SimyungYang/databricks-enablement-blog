@@ -1,5 +1,8 @@
 # 04. 모델 등록 (Unity Catalog Model Registry)
 
+> **전체 노트북 코드**: [04_model_registration_uc.py](https://github.com/SimyungYang/databricks-enablement-blog/blob/main/hands-on/predictive-maintenance/notebooks/04_model_registration_uc.py)
+
+
 **목적**: 최적 모델을 UC 모델 레지스트리에 등록하고, Alias를 통해 모델 생애 주기를 관리합니다.
 
 **사용 Databricks 기능**: `Unity Catalog Model Registry`, `Model Lineage`, `태그 기반 거버넌스`

@@ -1,5 +1,8 @@
 # 09. MLOps Agent
 
+> **전체 노트북 코드**: [09_mlops_agent.py](https://github.com/SimyungYang/databricks-enablement-blog/blob/main/hands-on/predictive-maintenance/notebooks/09_mlops_agent.py)
+
+
 **목적**: AI Agent가 Trigger에 따라 MLOps Tool을 자동 호출하여 학습/예측/모니터링을 오케스트레이션합니다.
 
 **사용 Databricks 기능**: `AI Agent (ChatAgent)`, `UC Functions as Tools`, `Model Serving`, `MLflow Tracing`

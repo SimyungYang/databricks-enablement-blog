@@ -1,5 +1,8 @@
 # 05. 챌린저 검증 (Challenger Validation)
 
+> **전체 노트북 코드**: [05_challenger_validation.py](https://github.com/SimyungYang/databricks-enablement-blog/blob/main/hands-on/predictive-maintenance/notebooks/05_challenger_validation.py)
+
+
 **목적**: 새 모델을 운영에 배포하기 전 4단계 체계적 검증을 수행하고, 통과 시 Champion으로 자동 승급합니다.
 
 **사용 Databricks 기능**: `mlflow.evaluate()`, `모델 에일리어스 기반 배포`, `태그 기반 검증 추적`

@@ -1,5 +1,8 @@
 # 06. 배치 추론 (Batch Inference)
 
+> **전체 노트북 코드**: [06_batch_inference.py](https://github.com/SimyungYang/databricks-enablement-blog/blob/main/hands-on/predictive-maintenance/notebooks/06_batch_inference.py)
+
+
 **목적**: Champion 모델을 PySpark UDF로 변환하여 클러스터 전체에서 분산 추론하고, 위험 등급을 자동 부여합니다.
 
 **사용 Databricks 기능**: `PySpark UDF 분산 추론`, `Delta Lake ACID 트랜잭션`, `Workflows 연동`

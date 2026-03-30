@@ -1,5 +1,8 @@
 # 03. 모델 학습 (XGBoost Training + 고급 기법)
 
+> **전체 노트북 코드**: [03_structured_model_training.py](https://github.com/SimyungYang/databricks-enablement-blog/blob/main/hands-on/predictive-maintenance/notebooks/03_structured_model_training.py)
+
+
 **목적**: XGBoost 모델을 학습하고, MLflow로 실험을 추적하며, SHAP으로 해석합니다. 멀티 알고리즘 비교, SMOTE, Optuna, Stacking 등 고급 기법도 다룹니다.
 
 **사용 Databricks 기능**: `MLflow Experiment Tracking`, `Autolog`, `Data Lineage`, `mlflow.evaluate()`, `Databricks AutoML`

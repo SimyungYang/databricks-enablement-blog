@@ -1,5 +1,8 @@
 # 01. Overview — 전체 아키텍처 소개
 
+> **전체 노트북 코드**: [01_overview.py](https://github.com/SimyungYang/databricks-enablement-blog/blob/main/hands-on/predictive-maintenance/notebooks/01_overview.py)
+
+
 **목적**: PoC 시나리오 정의 및 전체 파이프라인 아키텍처를 소개합니다.
 
 ---

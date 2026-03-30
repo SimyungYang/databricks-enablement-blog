@@ -1,0 +1,19 @@
+command:
+  - uvicorn
+  - app:app
+  - --host
+  - 0.0.0.0
+  - --port
+  - "8000"
+
+env:
+  - name: DATABRICKS_WAREHOUSE_ID
+    # 중요: 배포 전에 SQL Warehouse ID를 입력하세요.
+    # 비어있으면 디바이스 ID를 임시 UUID로 생성하며,
+    # SDP 파이프라인의 devices JOIN에서 모든 이벤트가 제거됩니다.
+    # Warehouse ID 확인: SQL Warehouses 페이지 > 웨어하우스 선택 > URL의 ID
+    value: ""
+
+resources:
+  - name: sql-warehouse
+    sql_warehouse: {}
