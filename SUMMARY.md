@@ -4,8 +4,28 @@
 
 ## 환경 구성 가이드
 
-* [AWS Workspace 구성](platform-setup/aws-workspace-setup.md)
-* [Azure Workspace 구성](platform-setup/azure-workspace-setup.md)
+* [AWS Workspace 구성](platform-setup/aws/README.md)
+  * [Marketplace 구독](platform-setup/aws/marketplace.md)
+  * [사전 준비](platform-setup/aws/prerequisites.md)
+  * [Credential 구성](platform-setup/aws/credential.md)
+  * [Storage 구성](platform-setup/aws/storage.md)
+  * [Network 구성](platform-setup/aws/network.md)
+  * [Backend PrivateLink](platform-setup/aws/privatelink-backend.md)
+  * [Frontend PrivateLink](platform-setup/aws/privatelink-frontend.md)
+  * [Workspace 생성](platform-setup/aws/workspace.md)
+  * [Unity Catalog](platform-setup/aws/unity-catalog.md)
+  * [Serverless NCC](platform-setup/aws/serverless-ncc.md)
+  * [기존 WS에 PrivateLink 추가](platform-setup/aws/privatelink-migration.md)
+  * [Terraform 자동화](platform-setup/aws/terraform.md)
+* [Azure Workspace 구성](platform-setup/azure/README.md)
+  * [사전 준비](platform-setup/azure/prerequisites.md)
+  * [Resource Group](platform-setup/azure/resource-group.md)
+  * [Virtual Network](platform-setup/azure/vnet.md)
+  * [Access Connector](platform-setup/azure/access-connector.md)
+  * [Storage Account](platform-setup/azure/storage-account.md)
+  * [Workspace 배포](platform-setup/azure/workspace.md)
+  * [Backend Private Link](platform-setup/azure/privatelink.md)
+  * [Unity Catalog](platform-setup/azure/unity-catalog.md)
 
 ## AI/BI & Analytics
 
@@ -18,7 +38,18 @@
   * [모니터링](guides/genie-space/monitoring.md)
   * [MCP 연동](guides/genie-space/mcp.md)
 * [Genie Code](guides/genie-code/README.md)
-* [Analytics Platform 비교](guides/platform-comparison.md)
+  * [사용법](guides/genie-code/usage.md)
+  * [활용 시나리오](guides/genie-code/scenarios.md)
+  * [MCP 연동](guides/genie-code/mcp.md)
+  * [Space vs Code 비교](guides/genie-code/comparison.md)
+* [Platform 비교](guides/platform-comparison/README.md)
+  * [아키텍처](guides/platform-comparison/architecture.md)
+  * [컴퓨팅](guides/platform-comparison/compute.md)
+  * [데이터 엔지니어링](guides/platform-comparison/data-engineering.md)
+  * [SQL & Analytics](guides/platform-comparison/sql-analytics.md)
+  * [ML/AI](guides/platform-comparison/ml-ai.md)
+  * [거버넌스](guides/platform-comparison/governance.md)
+  * [가격 모델](guides/platform-comparison/pricing.md)
 
 ## GenAI & Agent
 
