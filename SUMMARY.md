@@ -7,36 +7,60 @@
 * [AWS Workspace 구성](platform-setup/aws-workspace-setup.md)
 * [Azure Workspace 구성](platform-setup/azure-workspace-setup.md)
 
-## 기능별 사용 가이드
+## AI/BI & Analytics
 
-* [Databricks Apps](platform-setup/databricks-apps-guide.md)
-* [Genie Space](analytics/genie-space-genie-code-guide.md)
-* [Genie Code](genai/genie-code.md)
-* [Agent Bricks](genai/agent-bricks-guide.md)
-* [AI Dev Kit](genai/genie-code-ai-dev-kit.md)
-* [Analytics Platform 비교](analytics/platform-comparison.md)
+* [Genie Space](guides/genie-space/README.md)
+  * [Space 생성](guides/genie-space/create-space.md)
+  * [데이터 구성](guides/genie-space/data-config.md)
+  * [인스트럭션 작성](guides/genie-space/instructions.md)
+  * [테스트 & 벤치마크](guides/genie-space/testing.md)
+  * [공유 & 권한](guides/genie-space/sharing.md)
+  * [모니터링](guides/genie-space/monitoring.md)
+  * [MCP 연동](guides/genie-space/mcp.md)
+* [Genie Code](guides/genie-code/README.md)
+* [Analytics Platform 비교](guides/platform-comparison.md)
+
+## GenAI & Agent
+
+* [Agent Bricks](guides/agent-bricks/README.md)
+  * [Knowledge Assistant](guides/agent-bricks/knowledge-assistant.md)
+  * [Genie Agent](guides/agent-bricks/genie-agent.md)
+  * [Supervisor Agent](guides/agent-bricks/supervisor.md)
+  * [평가 & 배포](guides/agent-bricks/evaluation.md)
+  * [베스트 프랙티스](guides/agent-bricks/best-practices.md)
+* [AI Dev Kit](guides/ai-dev-kit/README.md)
+
+## Compute & Apps
+
+* [Databricks Apps](guides/apps/README.md)
+  * [앱 생성](guides/apps/create-app.md)
+  * [app.yaml 설정](guides/apps/app-yaml.md)
+  * [인증](guides/apps/authentication.md)
+  * [리소스 & 환경변수](guides/apps/resources.md)
+  * [배포](guides/apps/deployment.md)
+  * [예제 (Streamlit, FastAPI)](guides/apps/examples.md)
 
 ## Hands-on Workshop
 
 * [예지보전 & 이상탐지 MLOps](hands-on/predictive-maintenance/README.md)
-  * [01. Overview — 전체 아키텍처](hands-on/predictive-maintenance/01-overview.md)
+  * [01. Overview](hands-on/predictive-maintenance/01-overview.md)
   * [02. Feature Engineering](hands-on/predictive-maintenance/02-feature-engineering.md)
   * [03. Model Training](hands-on/predictive-maintenance/03-model-training.md)
-  * [04. Model Registration (UC)](hands-on/predictive-maintenance/04-model-registration.md)
+  * [04. Model Registration](hands-on/predictive-maintenance/04-model-registration.md)
   * [05. Challenger Validation](hands-on/predictive-maintenance/05-challenger-validation.md)
   * [06. Batch Inference](hands-on/predictive-maintenance/06-batch-inference.md)
   * [07. Anomaly Detection](hands-on/predictive-maintenance/07-anomaly-detection.md)
   * [08. Model Monitoring](hands-on/predictive-maintenance/08-model-monitoring.md)
   * [09. MLOps Agent](hands-on/predictive-maintenance/09-mlops-agent.md)
   * [10. Job Scheduling](hands-on/predictive-maintenance/10-job-scheduling.md)
-* [AI Vibe Coding — Smart TV 시나리오](hands-on/smart-tv-vibe/README.md)
+* [AI Vibe Coding — Smart TV](hands-on/smart-tv-vibe/README.md)
   * [00. 환경 설정](hands-on/smart-tv-vibe/00-setup.md)
-  * [01. Foundation — Lakehouse & UC](hands-on/smart-tv-vibe/01-foundation.md)
-  * [02. Data Engineering — 데이터 파이프라인](hands-on/smart-tv-vibe/02-data-engineering.md)
-  * [03. Analytics — Dashboard & Genie](hands-on/smart-tv-vibe/03-analytics.md)
-  * [04. Streaming — 실시간 처리](hands-on/smart-tv-vibe/04-streaming.md)
-  * [05. ML — 개인화 추천 모델](hands-on/smart-tv-vibe/05-ml.md)
-  * [06. GenAI — Agent Bricks](hands-on/smart-tv-vibe/06-genai.md)
+  * [01. Foundation](hands-on/smart-tv-vibe/01-foundation.md)
+  * [02. Data Engineering](hands-on/smart-tv-vibe/02-data-engineering.md)
+  * [03. Analytics](hands-on/smart-tv-vibe/03-analytics.md)
+  * [04. Streaming](hands-on/smart-tv-vibe/04-streaming.md)
+  * [05. ML](hands-on/smart-tv-vibe/05-ml.md)
+  * [06. GenAI](hands-on/smart-tv-vibe/06-genai.md)
   * [07. Apps & Lakebase](hands-on/smart-tv-vibe/07-apps-lakebase.md)
 
 ## 참고 자료
