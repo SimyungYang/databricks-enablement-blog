@@ -61,6 +61,7 @@
   * [베스트 프랙티스](guides/agent-bricks/best-practices.md)
 * [Builder App (AI Dev Kit)](guides/builder-app/README.md)
   * [Getting Started](guides/builder-app/getting-started.md)
+  * [배포 가이드](guides/builder-app/deployment-guide.md)
   * [Tool 목록 및 상세](guides/builder-app/tools.md)
   * [활용 사례](guides/builder-app/use-cases.md)
 * [AI Dev Kit](guides/ai-dev-kit/README.md)
