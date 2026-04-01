@@ -2,6 +2,35 @@
 
 Builder App 에이전트가 사용하는 MCP 도구, 빌트인 도구, 스킬 시스템의 전체 목록과 설명입니다.
 
+## Tool 설계 철학
+
+Builder App의 도구 시스템은 세 가지 설계 원칙을 따릅니다:
+
+### 1. 최소 권한 원칙 (Principle of Least Privilege)
+
+각 도구는 ** 필요한 최소한의 API 권한만** 사용합니다. 예를 들어 `execute_sql` 도구는 SQL 실행 권한만 있으면 되고, 클러스터 관리 권한은 필요하지 않습니다. 사용자의 Databricks 토큰에 설정된 권한 범위 내에서만 도구가 작동합니다.
+
+### 2. 멱등성 (Idempotency)
+
+`create_or_update_*` 패턴의 도구들은 ** 멱등적** 으로 설계되었습니다. 같은 요청을 여러 번 실행해도 결과가 동일합니다. 대시보드, Genie Space, 파이프라인 등을 `create_or_update`로 만들면, 이미 존재하면 업데이트하고 없으면 생성합니다. 이는 에이전트가 실패 후 재시도할 때 ** 부작용 없이 안전하게 실행** 할 수 있게 합니다.
+
+### 3. 비동기 장시간 작업 처리
+
+10초 이상 소요되는 작업(파이프라인 실행, 대규모 SQL 등)은 ** 백그라운드 스레드** 에서 실행됩니다. 에이전트는 `operation_id`를 받아 주기적으로 상태를 폴링하고, 완료되면 결과를 수신합니다. 이 패턴 덕분에 에이전트가 장시간 작업을 기다리는 동안 ** 다른 작업을 병렬로 수행** 할 수 있습니다.
+
+### 각 Tool의 내부 작동 방식
+
+MCP 도구가 호출되면 내부적으로 다음 과정이 진행됩니다:
+
+```
+에이전트 → MCP Protocol → MCP Server → 입력 검증 → Databricks SDK 호출 → 결과 포매팅 → 반환
+```
+
+1. ** 입력 검증**: 파라미터 타입, 필수값, 범위를 검증합니다
+2. **Databricks SDK 호출**: `databricks-sdk-py`를 사용하여 REST API를 호출합니다
+3. ** 에러 처리**: API 오류 시 사용자 친화적 메시지로 변환합니다
+4. ** 결과 포매팅**: JSON 응답을 에이전트가 이해할 수 있는 텍스트로 변환합니다
+
 ---
 
 ## Databricks MCP Server Tools
@@ -197,8 +226,47 @@ Built-in Tools로 에이전트는 프로젝트 디렉토리 내에서 노트북,
 
 ---
 
+## 도구 사용 패턴
+
+에이전트가 도구를 조합하여 복잡한 작업을 수행하는 대표적인 패턴입니다.
+
+### 순차 실행 패턴
+
+이전 도구의 출력이 다음 도구의 입력이 되는 패턴입니다.
+
+```
+manage_uc_objects (스키마 생성) → execute_sql (테이블 생성) → create_or_update_dashboard (대시보드 생성)
+```
+
+### 조건 분기 패턴
+
+이전 도구의 결과에 따라 다음 행동을 결정하는 패턴입니다.
+
+```
+list_clusters (클러스터 목록 조회)
+  ├─ 실행 중인 클러스터 있음 → get_best_cluster → execute_databricks_command
+  └─ 없음 → start_cluster → (대기) → execute_databricks_command
+```
+
+### 반복 확인 패턴
+
+장시간 작업의 완료를 대기하는 패턴입니다.
+
+```
+start_update (파이프라인 실행)
+  → get_update (상태 확인) → RUNNING → (대기) → get_update
+  → get_update (상태 확인) → COMPLETED → 결과 보고
+```
+
+{% hint style="info" %}
+에이전트는 이러한 패턴을 ** 스킬 파일** 에서 학습합니다. 예를 들어 `sdp` 스킬은 파이프라인 생성 → 실행 → 상태 확인의 전체 흐름을 안내합니다.
+{% endhint %}
+
+---
+
 ## 참고 링크
 
 - [Databricks MCP Server](https://github.com/databricks-solutions/ai-dev-kit/tree/main/databricks-mcp-server)
 - [Databricks Skills](https://github.com/databricks-solutions/ai-dev-kit/tree/main/databricks-skills)
 - [Claude Agent SDK 도구 문서](https://docs.anthropic.com/en/docs/agents)
+- [MCP Protocol 규격](https://modelcontextprotocol.io/)

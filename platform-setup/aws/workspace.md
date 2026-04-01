@@ -39,7 +39,7 @@ accounts.cloud.databricks.com → Workspaces → Create workspace
 |------|------|
 | Workspace 프로비저닝 | ~5-7분 |
 | PrivateLink DNS 전파 | +10-20분 |
-| **클러스터 생성 가능**| 프로비저닝 후 **최소 20분 대기**|
+| ** 클러스터 생성 가능**| 프로비저닝 후 ** 최소 20분 대기**|
 
 {% hint style="warning" %}
 PrivateLink 워크스페이스는 프로비저닝 완료 후 **20분 대기** 필요 — DNS 전파 시간. 로컬 DNS 캐시 플러시: `sudo killall -HUP mDNSResponder` (macOS) 또는 `ipconfig /flushdns` (Windows)

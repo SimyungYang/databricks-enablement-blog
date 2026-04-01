@@ -6,7 +6,7 @@
 # MAGIC
 # MAGIC ## AI Agent(에이전트)란 무엇인가?
 # MAGIC
-# MAGIC **AI Agent**란 주어진 목표를 달성하기 위해 **스스로 상황을 관찰(Observe)하고, 판단(Decide)하고, 행동(Act)하는 자율형 AI 시스템** 입니다.
+# MAGIC **AI Agent** 란 주어진 목표를 달성하기 위해 **스스로 상황을 관찰(Observe)하고, 판단(Decide)하고, 행동(Act)하는 자율형 AI 시스템** 입니다.
 # MAGIC
 # MAGIC ### 제조 현장 비유: Agent = 자동화된 공장 관리자(Supervisor)
 # MAGIC
@@ -21,14 +21,13 @@
 # MAGIC
 # MAGIC ### 자동화의 발전 역사
 # MAGIC
-# MAGIC ```
 # MAGIC [1단계] 규칙 기반 자동화       → "온도 > 100도이면 알림 발송" (단순 If-Else 조건)
 # MAGIC [2단계] 스크립트 파이프라인     → "매일 06:00에 학습 → 평가 → 배포 순서로 실행" (고정된 순서)
 # MAGIC [3단계] 조건부 파이프라인       → "드리프트가 감지되면 재학습, 아니면 건너뜀" (분기 로직)
 # MAGIC [4단계] AI Agent (지금 단계)   → "상황을 종합적으로 판단하여 최적의 행동을 스스로 선택" (자율 판단) ← 우리가 구현하는 것
 # MAGIC ```
 # MAGIC
-# MAGIC > **핵심 차이점**: 기존 자동화는 "미리 정해진 규칙"대로만 동작합니다. AI Agent는 **자연어로 된 지침(System Prompt)**을 이해하고, 상황에 맞게 **어떤 Tool을 어떤 순서로 호출할지 스스로 결정** 합니다.
+# MAGIC > **핵심 차이점** : 기존 자동화는 "미리 정해진 규칙"대로만 동작합니다. AI Agent는 **자연어로 된 지침(System Prompt)** 을 이해하고, 상황에 맞게 **어떤 Tool을 어떤 순서로 호출할지 스스로 결정** 합니다.
 # MAGIC
 # MAGIC ---
 # MAGIC
@@ -73,7 +72,7 @@
 # MAGIC
 # MAGIC ### Tool(도구)이란?
 # MAGIC
-# MAGIC AI Agent에서 **Tool**이란 Agent가 호출할 수 있는 **구체적인 기능(함수)** 을 말합니다.
+# MAGIC AI Agent에서 **Tool** 이란 Agent가 호출할 수 있는 **구체적인 기능(함수)** 을 말합니다.
 # MAGIC
 # MAGIC 제조 현장에 비유하면, 공장 관리자(Agent)가 사용할 수 있는 **장비와 시스템** 입니다:
 # MAGIC - SPC 모니터링 시스템 → `check_data_drift` (데이터 이상 감지)
@@ -176,6 +175,31 @@ def trigger_retraining(reason: str = "scheduled") -> dict:
         "message": f"재학습이 트리거되었습니다. 사유: {reason}"
     }
 
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ### 실제 운영 환경에서의 trigger_retraining 구현
+# MAGIC
+# MAGIC > 위의 함수는 교육용 시뮬레이션입니다. 실제 운영에서는 Databricks SDK로 Job을 직접 트리거합니다:
+# MAGIC
+# MAGIC > ```python
+# MAGIC > from databricks.sdk import WorkspaceClient
+# MAGIC > w = WorkspaceClient()
+# MAGIC >
+# MAGIC > # Level 2 자동 재학습 Job 트리거
+# MAGIC > run = w.jobs.run_now(
+# MAGIC >     job_id=178771619413732,  # LGIT_MLOps_PoC_Structured_Pipeline
+# MAGIC >     notebook_params={"retrain_reason": reason}
+# MAGIC > )
+# MAGIC > print(f"재학습 Job 트리거됨: Run ID {run.run_id}")
+# MAGIC > ```
+# MAGIC
+# MAGIC > **현업 팁** : 실제로는 `trigger_retraining`을 UC Function으로 등록하면, Agent가 SQL로 직접 호출할 수 있습니다:
+# MAGIC > ```sql
+# MAGIC > SELECT trigger_retraining('data_drift_detected')
+# MAGIC > ```
+
+# COMMAND ----------
 
 # ──────────────────────────────────────────────────────────────
 # Tool 3: run_batch_prediction (배치 예측 실행)
@@ -269,7 +293,7 @@ def get_model_status() -> dict:
 # MAGIC
 # MAGIC ### 시스템 프롬프트(System Prompt)란?
 # MAGIC
-# MAGIC **시스템 프롬프트**는 AI Agent에게 주어지는 **역할 정의서이자 업무 지침서** 입니다.
+# MAGIC **시스템 프롬프트** 는 AI Agent에게 주어지는 **역할 정의서이자 업무 지침서** 입니다.
 # MAGIC
 # MAGIC 제조 현장에 비유하면, 새로 부임한 공장 관리자에게 전달하는 **"직무 기술서(Job Description) + 업무 매뉴얼"** 입니다:
 # MAGIC - "당신은 LG Innotek 제조 현장의 MLOps Agent입니다" → **역할 정의** (직책)
@@ -368,11 +392,11 @@ print(f"배치 예측 결과: {json.dumps(pred_result, indent=2, ensure_ascii=Fa
 # MAGIC
 # MAGIC ### 왜 패키징이 필요한가?
 # MAGIC
-# MAGIC 위에서 시뮬레이션한 Agent 로직을 **실제 운영 환경**에서 사용하려면, 이 Agent를 하나의 **독립된 서비스** 로 배포해야 합니다.
+# MAGIC 위에서 시뮬레이션한 Agent 로직을 **실제 운영 환경** 에서 사용하려면, 이 Agent를 하나의 **독립된 서비스** 로 배포해야 합니다.
 # MAGIC
 # MAGIC 제조 비유로 설명하면:
-# MAGIC - **지금까지**: 수동으로 버튼을 눌러 Agent를 실행 (노트북에서 직접 실행)
-# MAGIC - **패키징 후**: Agent가 24시간 자동으로 대기하며, 이벤트가 발생하면 스스로 작동 (API 서비스로 배포)
+# MAGIC - **지금까지** : 수동으로 버튼을 눌러 Agent를 실행 (노트북에서 직접 실행)
+# MAGIC - **패키징 후** : Agent가 24시간 자동으로 대기하며, 이벤트가 발생하면 스스로 작동 (API 서비스로 배포)
 # MAGIC
 # MAGIC 이것은 공장에서 **수동 검사 장비를 인라인(In-line) 자동 검사 장비로 교체** 하는 것과 같습니다.
 # MAGIC
@@ -442,8 +466,138 @@ print(json.dumps(workflow_result, indent=2, ensure_ascii=False, default=str))
 # MAGIC
 # MAGIC ### 최신 트렌드: AI Agent의 미래
 # MAGIC
-# MAGIC - **Multi-Agent 시스템**: 여러 Agent가 협업하여 더 복잡한 작업을 수행 (예: 정형 데이터 Agent + 비정형 데이터 Agent + 보고서 Agent)
-# MAGIC - **Human-in-the-Loop**: 중요한 결정(예: Champion 모델 교체)은 사람의 승인을 받고 실행
-# MAGIC - **Autonomous MLOps**: 2025~2026년 트렌드로, Agent가 전체 ML 생명주기를 자율적으로 관리
+# MAGIC - **Multi-Agent 시스템** : 여러 Agent가 협업하여 더 복잡한 작업을 수행 (예: 정형 데이터 Agent + 비정형 데이터 Agent + 보고서 Agent)
+# MAGIC - **Human-in-the-Loop** : 중요한 결정(예: Champion 모델 교체)은 사람의 승인을 받고 실행
+# MAGIC - **Autonomous MLOps** : 2025~2026년 트렌드로, Agent가 전체 ML 생명주기를 자율적으로 관리
 # MAGIC
-# MAGIC **다음 단계:**[Job 스케줄링]($./10_job_scheduling) -- Agent가 자동으로 실행되려면, 이를 호출하는 **스케줄(Workflow)** 이 필요합니다.
+# MAGIC **다음 단계:** [Job 스케줄링]($./10_job_scheduling) -- Agent가 자동으로 실행되려면, 이를 호출하는 **스케줄(Workflow)** 이 필요합니다.
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ---
+# MAGIC ## 5. Databricks에서 오픈소스 Agent 프레임워크 활용
+# MAGIC
+# MAGIC > **20년차 현업 팁** : AI Agent 구현은 반드시 특정 프레임워크에 묶일 필요가 없습니다.
+# MAGIC > Databricks Compute 환경에서는 **LangChain, LangGraph, CrewAI, AutoGen** 등 오픈소스 프레임워크를
+# MAGIC > `%pip install` 한 줄로 설치하고 그대로 실행할 수 있습니다.
+# MAGIC > 이것이 Databricks의 큰 장점 — 플랫폼에 종속되지 않으면서도, UC Function/MLflow/Model Serving 등
+# MAGIC > Databricks 고유 기능과 자연스럽게 통합됩니다.
+# MAGIC
+# MAGIC ### 프레임워크 선택 가이드
+# MAGIC
+# MAGIC | 프레임워크 | 핵심 특징 | 적합한 상황 | 난이도 |
+# MAGIC |-----------|---------|-----------|:---:|
+# MAGIC | **LangChain** | 가장 넓은 생태계, Tool/Chain/Agent 추상화 | 단순한 Tool 호출, RAG, 챗봇 | 낮음 |
+# MAGIC | **LangGraph** | 상태 머신 기반 워크플로우, 조건 분기/루프 | MLOps Agent처럼 복잡한 판단 로직 | 중간 |
+# MAGIC | **CrewAI** | 역할 기반 멀티 에이전트 협업 | 여러 전문가가 협업해야 하는 작업 | 중간 |
+# MAGIC | **AutoGen** (Microsoft) | 에이전트 간 대화 기반 문제 해결 | 토론/합의 기반 의사결정 | 높음 |
+# MAGIC | **Databricks Agent SDK** | Databricks 네이티브, UC 완전 통합 | 운영 배포 최적화, 거버넌스 필수 | 낮음 |
+# MAGIC
+# MAGIC > **권장 경로** : LangChain으로 프로토타입 → LangGraph로 복잡한 워크플로우 구현 → Databricks Agent SDK로 운영 배포
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ### Databricks + LangChain/LangGraph 통합 아키텍처
+# MAGIC
+# MAGIC | 계층 | 역할 | Databricks 기능 |
+# MAGIC |------|------|----------------|
+# MAGIC | **LLM (두뇌)** | 상황 판단, Tool 선택 | Foundation Model API (Llama, DBRX) — API 키 불필요 |
+# MAGIC | **Tools (손)** | 실제 행동 수행 | UC Function — SQL/Python 함수를 Tool로 등록 |
+# MAGIC | **Memory (기억)** | 이전 대화/판단 기록 | Delta Table, MLflow Tracing |
+# MAGIC | **Orchestration (지휘)** | 워크플로우 관리 | LangGraph StateGraph 또는 CrewAI |
+# MAGIC | **Deployment (배포)** | Agent를 서비스로 운영 | Model Serving REST API, Lakeflow Jobs |
+# MAGIC | **Monitoring (감시)** | 판단 과정 추적/디버깅 | MLflow Tracing (자동 계측) |
+# MAGIC
+# MAGIC ### 핵심 통합 포인트
+# MAGIC
+# MAGIC **1. Foundation Model API** — 별도 API 키 없이 Databricks 내장 LLM 사용 :
+# MAGIC ```python
+# MAGIC from langchain_databricks import ChatDatabricks
+# MAGIC llm = ChatDatabricks(endpoint="databricks-meta-llama-3-1-70b-instruct")
+# MAGIC ```
+# MAGIC
+# MAGIC **2. UC Function as Tool** — SQL 함수를 Agent Tool로 직접 연결 :
+# MAGIC ```python
+# MAGIC from databricks_langchain import UCFunctionToolkit
+# MAGIC tools = UCFunctionToolkit(function_names=["mlops.tools.check_drift", "mlops.tools.trigger_retrain"])
+# MAGIC ```
+# MAGIC
+# MAGIC **3. MLflow Tracing** — Agent의 모든 판단을 자동 기록 :
+# MAGIC ```python
+# MAGIC import mlflow
+# MAGIC mlflow.langchain.autolog()  # 이 한 줄로 LangChain/LangGraph 전체 추적!
+# MAGIC ```
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ### LangGraph로 MLOps Agent 구현 예시 (참고 코드)
+# MAGIC
+# MAGIC > 아래는 LangGraph를 사용하여 드리프트 감지 → 재학습 → 보고까지 자동으로 수행하는 Agent의 구조입니다.
+# MAGIC > 실제 실행하려면 `%pip install langchain langgraph langchain-databricks` 설치가 필요합니다.
+# MAGIC
+# MAGIC ```python
+# MAGIC from langgraph.graph import StateGraph, END
+# MAGIC from langchain_databricks import ChatDatabricks
+# MAGIC from typing import TypedDict
+# MAGIC
+# MAGIC # 1. Agent 상태 정의
+# MAGIC class MLOpsState(TypedDict):
+# MAGIC     drift_detected: bool
+# MAGIC     max_psi: float
+# MAGIC     retrain_needed: bool
+# MAGIC     retrain_result: dict
+# MAGIC     report: str
+# MAGIC
+# MAGIC # 2. 각 노드(단계) 정의
+# MAGIC def observe(state):
+# MAGIC     """드리프트 관찰"""
+# MAGIC     result = check_data_drift()  # 위에서 정의한 Tool 함수
+# MAGIC     return {"drift_detected": result["drift_detected"],
+# MAGIC             "max_psi": result["max_psi"]}
+# MAGIC
+# MAGIC def decide(state):
+# MAGIC     """재학습 필요 여부 판단"""
+# MAGIC     return {"retrain_needed": state["drift_detected"] and state["max_psi"] > 0.2}
+# MAGIC
+# MAGIC def act(state):
+# MAGIC     """재학습 실행"""
+# MAGIC     if state["retrain_needed"]:
+# MAGIC         result = trigger_retraining(reason=f"drift_psi_{state['max_psi']:.2f}")
+# MAGIC         return {"retrain_result": result}
+# MAGIC     return {"retrain_result": {"status": "skipped"}}
+# MAGIC
+# MAGIC def report(state):
+# MAGIC     """결과 보고"""
+# MAGIC     llm = ChatDatabricks(endpoint="databricks-meta-llama-3-1-70b-instruct")
+# MAGIC     summary = llm.invoke(f"MLOps 상태 보고: 드리프트={state['drift_detected']}, "
+# MAGIC                          f"PSI={state['max_psi']}, 재학습={state['retrain_result']}")
+# MAGIC     return {"report": summary.content}
+# MAGIC
+# MAGIC # 3. 워크플로우 그래프 구성
+# MAGIC graph = StateGraph(MLOpsState)
+# MAGIC graph.add_node("observe", observe)
+# MAGIC graph.add_node("decide", decide)
+# MAGIC graph.add_node("act", act)
+# MAGIC graph.add_node("report", report)
+# MAGIC
+# MAGIC graph.set_entry_point("observe")
+# MAGIC graph.add_edge("observe", "decide")
+# MAGIC graph.add_conditional_edges("decide",
+# MAGIC     lambda s: "act" if s["retrain_needed"] else "report",
+# MAGIC     {"act": "act", "report": "report"})
+# MAGIC graph.add_edge("act", "report")
+# MAGIC graph.add_edge("report", END)
+# MAGIC
+# MAGIC # 4. Agent 실행
+# MAGIC agent = graph.compile()
+# MAGIC result = agent.invoke({"drift_detected": False, "max_psi": 0.0,
+# MAGIC                        "retrain_needed": False, "retrain_result": {},
+# MAGIC                        "report": ""})
+# MAGIC ```
+# MAGIC
+# MAGIC > **이 코드의 핵심** : `observe → decide → act → report` 4단계 워크플로우를 그래프로 정의하고,
+# MAGIC > `add_conditional_edges` 로 "재학습이 필요하면 act로, 아니면 바로 report로" 분기합니다.
+# MAGIC > 이것이 단순 if-else 스크립트와 LangGraph Agent의 차이입니다 — LLM이 상황에 맞게 판단합니다.

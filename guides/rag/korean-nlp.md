@@ -4,9 +4,37 @@
 
 ## 1. 한국어 RAG의 과제
 
+### 한국어 RAG의 구조적 어려움
+
+한국어 RAG는 영어 RAG와 근본적으로 다른 문제를 해결해야 합니다. 이는 한국어의 ** 언어학적 특성** 에서 비롯됩니다.
+
+**1. 교착어 (Agglutinative Language) 특성**
+
+한국어는 어근에 조사, 어미, 접사가 결합하여 하나의 단어를 형성합니다. 영어가 단어 순서(어순)로 문법적 관계를 표현하는 것과 달리, 한국어는 ** 접사의 결합** 으로 표현합니다. 이로 인해 동일한 의미의 단어가 수십 가지 형태로 변화합니다.
+
+```
+"데이터브릭스" (원형)
+→ "데이터브릭스가" (주격), "데이터브릭스를" (목적격)
+→ "데이터브릭스에서" (처소격), "데이터브릭스의" (관형격)
+→ "데이터브릭스로" (도구격), "데이터브릭스와" (공동격)
+→ 영어: "Databricks" 하나의 형태로 모든 문법적 관계 표현
+```
+
+**2. 띄어쓰기 불규칙성**
+
+한국어는 띄어쓰기 규칙이 복잡하고, 실제 문서에서 띄어쓰기 오류가 빈번합니다. "데이터 분석"과 "데이터분석"이 혼재하는 경우가 많아, 공백 기반 토큰화에 의존하면 검색 품질이 저하됩니다.
+
+**3. 한영 혼용 텍스트**
+
+한국어 기술 문서에는 영어 용어가 빈번하게 등장합니다. "Databricks 워크스페이스에서 Delta Lake 테이블을 생성합니다"처럼 ** 한국어와 영어가 한 문장에 혼재** 합니다. 단일 언어 모델로는 양쪽 모두를 잘 처리하기 어렵습니다.
+
+**4. 상대적으로 적은 학습 데이터**
+
+대부분의 임베딩 모델과 LLM은 영어 데이터로 주로 학습됩니다. 한국어 데이터의 비중은 전체 학습 데이터의 1~3%에 불과한 경우가 많아, 한국어에 대한 ** 의미 표현 능력이 영어보다 떨어질 수 있습니다**.
+
 ### 토큰화 문제
 
-한국어는 **교착어(膠着語)** 로, 어근에 조사·어미가 결합하여 단어를 형성합니다:
+한국어는 ** 교착어(膠着語)** 로, 어근에 조사·어미가 결합하여 단어를 형성합니다:
 
 ```
 "데이터브릭스에서" → "데이터브릭스" + "에서"
@@ -15,9 +43,9 @@
 
 일반 토크나이저(tiktoken, SentencePiece 등)로 한국어를 처리하면:
 
-- **토큰 수가 영어 대비 2~3배 증가**(비용 및 컨텍스트 길이 문제)
+- ** 토큰 수가 영어 대비 2~3배 증가**(비용 및 컨텍스트 길이 문제)
 - 의미 단위가 아닌 바이트/서브워드 단위로 분절
-- BM25 등 키워드 검색에서 **조사 때문에 동일 단어가 다르게 인식** 됨
+- BM25 등 키워드 검색에서 ** 조사 때문에 동일 단어가 다르게 인식** 됨
 
 ```
 "데이터브릭스에서" ≠ "데이터브릭스를" ≠ "데이터브릭스의"
@@ -74,7 +102,7 @@ for token in result:
 
 ## 3. Kiwi 기반 BM25 Retriever
 
-기본 BM25는 공백 기반으로 텍스트를 분절하므로, 한국어에서는 조사가 붙은 채로 토큰화됩니다. Kiwi로 형태소 분석 후 **명사/동사/외국어만 추출** 하면 검색 품질이 크게 향상됩니다.
+기본 BM25는 공백 기반으로 텍스트를 분절하므로, 한국어에서는 조사가 붙은 채로 토큰화됩니다. Kiwi로 형태소 분석 후 ** 명사/동사/외국어만 추출** 하면 검색 품질이 크게 향상됩니다.
 
 ```python
 from kiwipiepy import Kiwi
@@ -135,8 +163,8 @@ ensemble = EnsembleRetriever(
 
 | 전략 | 설명 | 장점 | 단점 |
 |------|------|------|------|
-| **문장 기반 (KSS)**| 한국어 문장 경계 인식 | 자연스러운 분절 | 문장이 짧으면 청크가 너무 작음 |
-| **형태소 기반**| Kiwi로 의미 단위 분절 | 정확한 의미 보존 | 구현 복잡 |
+| ** 문장 기반 (KSS)**| 한국어 문장 경계 인식 | 자연스러운 분절 | 문장이 짧으면 청크가 너무 작음 |
+| ** 형태소 기반**| Kiwi로 의미 단위 분절 | 정확한 의미 보존 | 구현 복잡 |
 | **Semantic 청킹**| 임베딩 유사도 기반 경계 결정 | 의미 전환점 자동 감지 | 연산 비용 높음 |
 | **Recursive + 한국어 구분자**| 한국어 종결어미 기반 분절 | 범용적, 구현 간단 | 구분자 설계 필요 |
 
@@ -185,7 +213,29 @@ chunks = korean_splitter.split_text(long_korean_text)
 한국어에서 `RecursiveCharacterTextSplitter`를 사용할 때는 종결어미(`다. `, `요. `)를 구분자에 추가하면 문장 중간에서 잘리는 것을 방지할 수 있습니다.
 {% endhint %}
 
-## 5. 한국어 임베딩 모델 비교
+## 5. 한국어 임베딩 모델 선택 가이드
+
+임베딩 모델 선택은 RAG 검색 품질에 직접적인 영향을 미칩니다. 한국어 환경에서는 ** 다국어 모델** 과 ** 한국어 특화 모델** 중 사용 환경에 맞는 것을 선택해야 합니다.
+
+### multilingual-e5 vs KoSimCSE: 언제 어떤 모델을 선택할 것인가
+
+| 기준 | multilingual-e5-large-instruct | KoSimCSE (SKT) | bge-m3 (BAAI) |
+|------|-------------------------------|----------------|---------------|
+| ** 한영 혼용 문서**| 최적 | 영어 성능 약함 | 우수 |
+| ** 순수 한국어 문서**| 우수 | 최적 | 우수 |
+| **Databricks 기본 제공**| 가능 (Foundation Model API) | 불가 (직접 배포 필요) | 불가 (직접 배포 필요) |
+| ** 운영 복잡도**| 낮음 | 높음 (Model Serving 배포) | 높음 (Model Serving 배포) |
+| ** 추론 속도**| 보통 | 빠름 (768차원) | 보통 |
+| **Dense + Sparse**| Dense만 | Dense만 | 둘 다 지원 |
+
+** 권장 선택 기준:**
+
+1. ** 빠른 시작 + 한영 혼용**: `multilingual-e5-large-instruct` (Databricks 기본 제공, 추가 배포 불필요)
+2. ** 순수 한국어 + 최고 품질**: `KoSimCSE-roberta-multitask` (한국어 STS 벤치마크 최상위)
+3. ** 하이브리드 검색 내장**: `bge-m3` (Dense + Sparse 벡터를 하나의 모델에서 동시 생성)
+4. ** 비용 최적화**: `gte-multilingual-base` (768차원, 빠른 추론, 스토리지 절약)
+
+### 모델 비교 테이블
 
 | 모델 | 차원 | 한국어 성능 | Databricks 지원 | 비고 |
 |------|------|------------|----------------|------|
@@ -193,6 +243,45 @@ chunks = korean_splitter.split_text(long_korean_text)
 | **bge-m3**(BAAI) | 1024 | 우수 | Model Serving 배포 | Dense + Sparse 하이브리드 지원 |
 | **KoSimCSE**(SKT) | 768 | 매우 우수 | Model Serving 배포 | 한국어 특화, STS 벤치마크 상위 |
 | **gte-multilingual-base**(Alibaba) | 768 | 우수 | Model Serving 배포 | 경량, 빠른 추론 속도 |
+
+### KoSimCSE를 Model Serving에 배포하는 방법
+
+한국어 특화 모델을 사용하려면 Databricks Model Serving에 직접 배포해야 합니다.
+
+```python
+import mlflow
+from sentence_transformers import SentenceTransformer
+
+# 1. 모델 로드 및 MLflow에 로깅
+model = SentenceTransformer("BM-K/KoSimCSE-roberta-multitask")
+
+with mlflow.start_run():
+    mlflow.sentence_transformers.log_model(
+        model=model,
+        artifact_path="kosimcse",
+        registered_model_name="catalog.schema.kosimcse_embedding",
+        input_example=["한국어 임베딩 테스트"],
+    )
+
+# 2. Model Serving Endpoint 생성
+from databricks.sdk import WorkspaceClient
+from databricks.sdk.service.serving import EndpointCoreConfigInput, ServedEntityInput
+
+w = WorkspaceClient()
+w.serving_endpoints.create_and_wait(
+    name="kosimcse-embedding",
+    config=EndpointCoreConfigInput(
+        served_entities=[
+            ServedEntityInput(
+                entity_name="catalog.schema.kosimcse_embedding",
+                entity_version="1",
+                workload_size="Small",
+                scale_to_zero_enabled=True,
+            )
+        ]
+    ),
+)
+```
 
 ### Databricks Foundation Model API 활용
 
@@ -221,11 +310,11 @@ vectors = embeddings.embed_documents([
 
 | 단계 | 권장 도구/전략 | 이유 |
 |------|--------------|------|
-| **토크나이저**| Kiwi + KSS 조합 | 형태소 분석 + 문장 분리 |
-| **청킹**| Recursive + 한국어 구분자 | 종결어미 기반 자연스러운 분절 |
-| **임베딩**| multilingual-e5-large-instruct | Databricks 기본 제공, 한영 혼용 지원 |
-| **검색**| Hybrid (Kiwi BM25 + Vector) | 키워드 + 의미 검색 결합 |
-| **재정렬**| bge-reranker-v2-m3 | 다국어 Reranker, 한국어 지원 |
+| ** 토크나이저**| Kiwi + KSS 조합 | 형태소 분석 + 문장 분리 |
+| ** 청킹**| Recursive + 한국어 구분자 | 종결어미 기반 자연스러운 분절 |
+| ** 임베딩**| multilingual-e5-large-instruct | Databricks 기본 제공, 한영 혼용 지원 |
+| ** 검색**| Hybrid (Kiwi BM25 + Vector) | 키워드 + 의미 검색 결합 |
+| ** 재정렬**| bge-reranker-v2-m3 | 다국어 Reranker, 한국어 지원 |
 
 ### 한국어 특화 전처리
 
@@ -251,12 +340,41 @@ def preprocess_korean(text: str) -> str:
 
 ### 평가 시 주의사항
 
-- **한국어 평가 데이터셋을 직접 구축** 해야 합니다. 영어 벤치마크 결과가 한국어 성능을 보장하지 않습니다.
-- 평가 지표: Retrieval에는 **Recall@K**, **MRR**, 생성에는 **정확성**, **근거 충실도** 를 측정합니다.
+- ** 한국어 평가 데이터셋을 직접 구축** 해야 합니다. 영어 벤치마크 결과가 한국어 성능을 보장하지 않습니다.
+- 평가 지표: Retrieval에는 **Recall@K**, **MRR**, 생성에는 ** 정확성**, ** 근거 충실도** 를 측정합니다.
 - MLflow Evaluate를 활용한 평가 방법은 [RAG 평가](evaluation.md) 가이드를 참조하세요.
 
 {% hint style="warning" %}
 한국어 RAG 시스템을 평가할 때, LLM-as-Judge를 사용한다면 평가 프롬프트도 한국어로 작성하거나, 한국어 이해도가 높은 모델(Claude, GPT-4 등)을 Judge로 사용해야 합니다.
+{% endhint %}
+
+## 7. 한국어 RAG 실전 트러블슈팅
+
+### 자주 발생하는 문제와 해결법
+
+| 문제 | 원인 | 해결 방법 |
+|------|------|-----------|
+| **"데이터브릭스"를 검색하면 "데이터브릭스에서"가 포함된 문서가 안 나옴**| 공백 기반 BM25에서 조사 결합 형태를 다른 단어로 인식 | Kiwi 토크나이저를 적용한 BM25 사용 |
+| ** 한영 혼용 문서에서 영어 키워드 검색이 안 됨**| 한국어 특화 임베딩 모델이 영어 표현을 잘 이해하지 못함 | 다국어 모델(multilingual-e5, bge-m3) 사용 |
+| ** 청크 중간에서 문장이 잘림**| 영어 기반 구분자만 사용 | 한국어 종결어미 구분자 추가 ("다. ", "요. ") |
+| ** 토큰 비용이 예상보다 높음**| 한국어가 영어 대비 2~3배 많은 토큰 소비 | 청크 크기를 문자 수로 관리, 컨텍스트 길이 최적화 |
+| ** 검색 결과는 좋은데 답변이 부자연스러움**| LLM의 한국어 생성 품질 문제 | Claude 또는 GPT-4 등 한국어 성능이 좋은 모델 사용 |
+| ** 동의어/유의어 검색이 안 됨**| "자동차"와 "차량" 등 동의어의 임베딩 거리가 멀 수 있음 | Query Expansion 또는 Multi-Query Retriever 적용 |
+
+### 성능 벤치마크 참고값
+
+한국어 기술 문서 기반 RAG 시스템의 일반적인 성능 범위입니다 (참고용):
+
+| 지표 | 양호 | 우수 | 최적화 목표 |
+|------|------|------|-----------|
+| **Recall@5**| > 0.75 | > 0.85 | > 0.90 |
+| **Faithfulness**| > 0.80 | > 0.90 | > 0.95 |
+| **Answer Relevancy**| > 0.80 | > 0.85 | > 0.90 |
+| ** 검색 지연**| < 500ms | < 200ms | < 100ms |
+| ** 전체 응답 시간**| < 8초 | < 5초 | < 3초 |
+
+{% hint style="info" %}
+위 수치는 한국어 기술 문서 기준의 참고값입니다. 도메인(법률, 의료 등)에 따라 기대치가 다를 수 있으며, 반드시 해당 도메인의 평가 데이터셋으로 측정해야 합니다.
 {% endhint %}
 
 ## 참고 문서

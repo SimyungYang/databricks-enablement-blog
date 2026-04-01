@@ -3,7 +3,7 @@
 업계에서 가장 많이 사용되는 MCP 서버들과, 이들을 조합하여 실무 자동화를 구현하는 시나리오를 정리합니다.
 
 {% hint style="info" %}
-**학습 목표**
+** 학습 목표**
 - 카테고리별 인기 MCP 서버와 주요 기능을 파악한다
 - 여러 MCP 서버를 조합한 실전 자동화 시나리오를 설계할 수 있다
 - Genie Code / Claude Code에 MCP 서버를 추가하는 방법을 이해한다
@@ -18,7 +18,7 @@ MCP 서버를 찾을 수 있는 주요 사이트입니다:
 
 | 디렉토리 | URL | 특징 |
 |----------|-----|------|
-| **공식 레퍼런스 서버**| [github.com/modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers) | Anthropic이 직접 관리하는 공식 서버. 품질과 안정성 보장 |
+| ** 공식 레퍼런스 서버**| [github.com/modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers) | Anthropic이 직접 관리하는 공식 서버. 품질과 안정성 보장 |
 | **Smithery**| [smithery.ai](https://smithery.ai) | 가장 큰 커뮤니티 마켓플레이스. 원클릭 설치, 인기순 정렬 |
 | **MCP.so**| [mcp.so](https://mcp.so) | 서버 검색 및 비교. 카테고리별 분류 |
 | **Glama**| [glama.ai/mcp/servers](https://glama.ai/mcp/servers) | 서버 평가 및 리뷰 |
@@ -26,14 +26,18 @@ MCP 서버를 찾을 수 있는 주요 사이트입니다:
 | **Cursor Directory**| [cursor.directory](https://cursor.directory) | Cursor IDE 중심의 MCP 서버 목록 |
 
 {% hint style="tip" %}
-**서버 선택 기준**: GitHub Star 수, 최근 커밋 활동, 이슈 응답 속도, 공식(Anthropic/벤더) 여부를 확인하세요. 커뮤니티 서버는 품질 편차가 큽니다.
+** 서버 선택 기준**: GitHub Star 수, 최근 커밋 활동, 이슈 응답 속도, 공식(Anthropic/벤더) 여부를 확인하세요. 커뮤니티 서버는 품질 편차가 큽니다.
 {% endhint %}
 
 ---
 
 ## 카테고리별 인기 MCP 서버
 
+각 카테고리별로 왜 해당 MCP 서버들이 중요한지, 실무에서 어떤 가치를 제공하는지 맥락과 함께 설명합니다.
+
 ### 커뮤니케이션 & 협업
+
+** 왜 이 카테고리가 중요한가**: AI 에이전트의 분석 결과나 작업 완료 알림을 사람에게 전달하려면, 커뮤니케이션 도구와의 연동이 필수입니다. 특히 Slack은 MCP 생태계에서 ** 가장 많이 사용되는 출력 채널** 입니다. 분석 결과를 Slack으로 전송하면, 별도의 대시보드를 열지 않아도 팀 전체가 즉시 인사이트를 공유할 수 있습니다.
 
 | 서버 | 패키지 / 리포 | 주요 Tool | 활용 사례 |
 |------|-------------|-----------|----------|
@@ -45,6 +49,8 @@ MCP 서버를 찾을 수 있는 주요 사이트입니다:
 
 ### 개발 & DevOps
 
+** 왜 이 카테고리가 중요한가**: 개발 도구와의 연동은 "코드 검색 → 이슈 생성 → PR 확인"이라는 개발 워크플로를 AI 에이전트가 자율적으로 수행할 수 있게 합니다. 특히 GitHub MCP는 Genie Code와 조합하면 "Databricks에서 데이터 분석 → GitHub에서 관련 코드 검색 → 코드 변경의 데이터 영향 분석"이라는 ** 데이터와 코드를 넘나드는 워크플로** 가 가능합니다.
+
 | 서버 | 패키지 / 리포 | 주요 Tool | 활용 사례 |
 |------|-------------|-----------|----------|
 | **GitHub**| `@modelcontextprotocol/server-github` | `search_repositories`, `create_issue`, `list_pull_requests`, `get_file_contents` | PR 리뷰, 이슈 관리, 코드 검색 |
@@ -54,6 +60,8 @@ MCP 서버를 찾을 수 있는 주요 사이트입니다:
 | **Sentry**| `mcp-server-sentry` (커뮤니티) | `list_issues`, `get_issue_details`, `resolve_issue` | 에러 모니터링, 이슈 분석 |
 
 ### 데이터베이스
+
+** 왜 이 카테고리가 중요한가**: 데이터베이스 MCP 서버는 AI 에이전트가 ** 실제 데이터에 직접 접근** 할 수 있게 합니다. 특히 Claude Desktop이나 Claude Code 같은 로컬 AI 클라이언트에서 PostgreSQL/MySQL MCP를 연결하면, 별도의 DB 클라이언트 없이 자연어로 데이터를 조회하고 분석할 수 있습니다. Databricks 환경에서는 Managed MCP(Databricks SQL)가 이 역할을 대신합니다.
 
 | 서버 | 패키지 / 리포 | 주요 Tool | 활용 사례 |
 |------|-------------|-----------|----------|
@@ -65,6 +73,8 @@ MCP 서버를 찾을 수 있는 주요 사이트입니다:
 
 ### 클라우드 & 인프라
 
+** 왜 이 카테고리가 중요한가**: 클라우드 인프라 MCP 서버는 DevOps/SRE 팀에게 특히 유용합니다. 인시던트 발생 시 "S3에서 관련 로그 파일 확인 → CloudWatch 메트릭 조회 → Lambda 함수 실행"을 AI 에이전트가 자율적으로 수행하여 초기 진단 시간을 크게 단축할 수 있습니다. AWS MCP는 AWS 공식 지원이므로 프로덕션 사용에도 안정적입니다.
+
 | 서버 | 패키지 / 리포 | 주요 Tool | 활용 사례 |
 |------|-------------|-----------|----------|
 | **AWS**| `@aws/mcp` (AWS 공식) | `s3_list`, `s3_get`, `cloudwatch_query`, `lambda_invoke` | S3 파일 관리, 로그 분석, Lambda 실행 |
@@ -74,6 +84,8 @@ MCP 서버를 찾을 수 있는 주요 사이트입니다:
 | **Docker**| `mcp-server-docker` (커뮤니티) | `list_containers`, `get_logs`, `exec_command` | 컨테이너 관리, 로그 분석 |
 
 ### 문서 & 생산성
+
+** 왜 이 카테고리가 중요한가**: 분석 결과를 문서화하고 팀과 공유하는 것은 데이터 작업의 마지막 단계이자 가장 소홀히 되는 단계입니다. Notion/Confluence MCP를 연동하면 "분석 → 문서화"를 하나의 워크플로로 자동화할 수 있습니다. "이 분석 결과를 Notion에 보고서로 작성해줘"라는 한 마디로 구조화된 문서가 자동 생성됩니다.
 
 | 서버 | 패키지 / 리포 | 주요 Tool | 활용 사례 |
 |------|-------------|-----------|----------|
@@ -85,6 +97,8 @@ MCP 서버를 찾을 수 있는 주요 사이트입니다:
 
 ### 웹 & 검색
 
+** 왜 이 카테고리가 중요한가**: LLM의 지식에는 학습 시점(cutoff) 이후의 정보가 없습니다. 웹 검색 MCP를 연동하면 AI 에이전트가 ** 최신 정보** 에 접근할 수 있습니다. 경쟁사 분석, 기술 동향 조사, 최신 문서 참조 등에 필수적입니다. Brave Search는 API 무료 티어가 있어 개인 사용에 적합합니다.
+
 | 서버 | 패키지 / 리포 | 주요 Tool | 활용 사례 |
 |------|-------------|-----------|----------|
 | **Brave Search**| `@modelcontextprotocol/server-brave-search` | `web_search`, `local_search` | 웹 검색, 로컬 비즈니스 검색 |
@@ -94,6 +108,8 @@ MCP 서버를 찾을 수 있는 주요 사이트입니다:
 
 ### 파일 & 스토리지
 
+** 왜 이 카테고리가 중요한가**: 파일 시스템 MCP는 로컬 개발 환경에서 AI가 프로젝트 파일을 직접 읽고 수정할 수 있게 합니다. Claude Code는 자체적으로 파일 접근이 가능하지만, 다른 MCP 클라이언트에서는 Filesystem MCP가 필요합니다. S3/GCS MCP는 클라우드 스토리지의 파일을 AI가 직접 관리할 수 있게 하여, 데이터 레이크 운영을 자동화합니다.
+
 | 서버 | 패키지 / 리포 | 주요 Tool | 활용 사례 |
 |------|-------------|-----------|----------|
 | **Filesystem**| `@modelcontextprotocol/server-filesystem` | `read_file`, `write_file`, `search_files`, `list_directory` | 로컬 파일 관리, 코드 탐색 |
@@ -101,6 +117,8 @@ MCP 서버를 찾을 수 있는 주요 사이트입니다:
 | **Google Cloud Storage**| `mcp-server-gcs` (커뮤니티) | `list_blobs`, `read_blob`, `upload_blob` | GCS 파일 관리 |
 
 ### 모니터링 & 관측
+
+** 왜 이 카테고리가 중요한가**: 인시던트 대응은 시간이 생명입니다. 모니터링 MCP를 연동하면 "현재 Critical 알림 확인 → 관련 메트릭 조회 → 로그 분석 → 원인 추론 → 팀에 보고"라는 전체 대응 프로세스를 AI가 몇 분 만에 수행합니다. 특히 야간이나 주말에 온콜 엔지니어의 초기 대응 속도를 크게 높일 수 있습니다.
 
 | 서버 | 패키지 / 리포 | 주요 Tool | 활용 사례 |
 |------|-------------|-----------|----------|
@@ -117,14 +135,14 @@ MCP 서버를 찾을 수 있는 주요 사이트입니다:
 
 ### 시나리오 1: 데이터 파이프라인 모니터링 → 장애 알림
 
-**사용 MCP**: Databricks SQL + Slack + JIRA
+** 사용 MCP**: Databricks SQL + Slack + JIRA
 
 ```
 "어제 실행된 ETL 잡 중 실패한 것이 있는지 확인하고,
 실패한 잡이 있으면 Slack #data-ops에 알리고 JIRA 티켓도 생성해"
 ```
 
-**동작 흐름:**
+** 동작 흐름:**
 1. **Databricks SQL MCP**→ `system.lakeflow.job_runs` 테이블에서 실패한 잡 조회
 2. **Slack MCP**→ `#data-ops` 채널에 실패 요약 메시지 전송
 3. **JIRA MCP**→ 실패 상세 내용으로 Bug 티켓 생성
@@ -137,14 +155,14 @@ MCP 서버를 찾을 수 있는 주요 사이트입니다:
 
 ### 시나리오 2: PR 리뷰 → 코드 품질 보고
 
-**사용 MCP**: GitHub + Slack
+** 사용 MCP**: GitHub + Slack
 
 ```
 "이번 주에 올라온 PR들 목록을 가져와서 리뷰 상태를 확인하고,
 리뷰 안 된 PR이 있으면 Slack #engineering에 리마인더 보내줘"
 ```
 
-**동작 흐름:**
+** 동작 흐름:**
 1. **GitHub MCP**→ 리포의 오픈 PR 목록 조회 + 리뷰 상태 확인
 2. **LLM 분석**→ 리뷰 지연 PR 필터링, 담당자별 그룹핑
 3. **Slack MCP**→ 리뷰어별 멘션과 함께 리마인더 메시지 전송
@@ -153,7 +171,7 @@ MCP 서버를 찾을 수 있는 주요 사이트입니다:
 
 ### 시나리오 3: 고객 문의 → 자동 응답 초안
 
-**사용 MCP**: Gmail + PostgreSQL + Slack
+** 사용 MCP**: Gmail + PostgreSQL + Slack
 
 ```
 "오늘 들어온 고객 문의 이메일을 확인하고,
@@ -161,7 +179,7 @@ MCP 서버를 찾을 수 있는 주요 사이트입니다:
 응답 초안을 작성해서 Slack #cs-team에 검토 요청해줘"
 ```
 
-**동작 흐름:**
+** 동작 흐름:**
 1. **Gmail MCP**→ 미읽은 고객 문의 이메일 검색 및 내용 읽기
 2. **PostgreSQL MCP**→ 고객 이메일로 CRM DB에서 고객 정보, 계약 상태 조회
 3. **LLM 분석**→ 문의 내용 + 고객 정보를 종합하여 응답 초안 작성
@@ -171,7 +189,7 @@ MCP 서버를 찾을 수 있는 주요 사이트입니다:
 
 ### 시나리오 4: 인시던트 대응 자동화
 
-**사용 MCP**: PagerDuty/Datadog + Kubernetes + Slack
+** 사용 MCP**: PagerDuty/Datadog + Kubernetes + Slack
 
 ```
 "현재 Critical 알림이 있는지 확인하고,
@@ -179,7 +197,7 @@ MCP 서버를 찾을 수 있는 주요 사이트입니다:
 Slack #incident에 분석 결과를 포스팅해줘"
 ```
 
-**동작 흐름:**
+** 동작 흐름:**
 1. **Datadog MCP**→ 활성 Critical 알림 목록 조회
 2. **Kubernetes MCP**→ 관련 서비스의 파드 로그 수집
 3. **LLM 분석**→ 로그 패턴 분석, 가능한 원인 추론
@@ -189,7 +207,7 @@ Slack #incident에 분석 결과를 포스팅해줘"
 
 ### 시나리오 5: 스프린트 보고서 자동 생성
 
-**사용 MCP**: JIRA + GitHub + Notion
+** 사용 MCP**: JIRA + GitHub + Notion
 
 ```
 "이번 스프린트의 완료/미완료 이슈를 JIRA에서 가져오고,
@@ -197,7 +215,7 @@ Slack #incident에 분석 결과를 포스팅해줘"
 Notion에 스프린트 회고 문서를 생성해줘"
 ```
 
-**동작 흐름:**
+** 동작 흐름:**
 1. **JIRA MCP**→ 현재 스프린트의 이슈 목록 + 상태 조회
 2. **GitHub MCP**→ 각 이슈에 연결된 PR의 머지 상태 확인
 3. **LLM 분석**→ 완료율, 지연 원인, 다음 스프린트 주의점 분석
@@ -207,14 +225,14 @@ Notion에 스프린트 회고 문서를 생성해줘"
 
 ### 시나리오 6: 일일 업무 브리핑
 
-**사용 MCP**: Google Calendar + Gmail + JIRA + Slack
+** 사용 MCP**: Google Calendar + Gmail + JIRA + Slack
 
 ```
 "오늘 일정과 미읽은 이메일, 할당된 JIRA 티켓을 정리해서
 아침 브리핑을 만들어줘"
 ```
 
-**동작 흐름:**
+** 동작 흐름:**
 1. **Google Calendar MCP**→ 오늘 일정 조회
 2. **Gmail MCP**→ 미읽은 중요 이메일 요약
 3. **JIRA MCP**→ 나에게 할당된 In Progress / To Do 이슈 조회
@@ -225,14 +243,14 @@ Notion에 스프린트 회고 문서를 생성해줘"
 
 ### 시나리오 7: 데이터 품질 모니터링 → 보고
 
-**사용 MCP**: Databricks SQL + Google Sheets + Slack
+** 사용 MCP**: Databricks SQL + Google Sheets + Slack
 
 ```
 "주요 테이블의 null 비율, 중복 레코드, 최신성을 체크하고,
 결과를 Google Sheets에 기록한 뒤, 이상이 있으면 Slack에 알려줘"
 ```
 
-**동작 흐름:**
+** 동작 흐름:**
 1. **Databricks SQL MCP**→ 데이터 품질 쿼리 실행 (null 비율, 중복, 최종 업데이트 시간)
 2. **Google Sheets MCP**→ 품질 메트릭을 일별 시트에 기록
 3. **LLM 분석**→ 임계치 초과 항목 판별
@@ -242,7 +260,7 @@ Notion에 스프린트 회고 문서를 생성해줘"
 
 ### 시나리오 8: 경쟁사 모니터링
 
-**사용 MCP**: Brave Search + Notion + Slack
+** 사용 MCP**: Brave Search + Notion + Slack
 
 ```
 "Snowflake, Redshift 관련 최신 뉴스를 검색하고,
@@ -250,7 +268,7 @@ Notion에 스프린트 회고 문서를 생성해줘"
 요약을 Slack #competitive에 공유해줘"
 ```
 
-**동작 흐름:**
+** 동작 흐름:**
 1. **Brave Search MCP**→ 경쟁사 키워드로 최신 뉴스/블로그 검색
 2. **LLM 분석**→ 핵심 내용 추출, 비즈니스 영향도 평가
 3. **Notion MCP**→ 경쟁사 인텔리전스 DB에 새 항목 추가
@@ -260,14 +278,14 @@ Notion에 스프린트 회고 문서를 생성해줘"
 
 ### 시나리오 9: 코드 변경 → 문서 자동 업데이트
 
-**사용 MCP**: GitHub + Confluence
+** 사용 MCP**: GitHub + Confluence
 
 ```
 "최근 PR에서 API가 변경된 부분을 확인하고,
 Confluence의 API 문서를 업데이트해줘"
 ```
 
-**동작 흐름:**
+** 동작 흐름:**
 1. **GitHub MCP**→ 최근 머지된 PR에서 API 관련 파일 변경 확인
 2. **LLM 분석**→ 변경된 엔드포인트, 파라미터, 응답 포맷 정리
 3. **Confluence MCP**→ 해당 API 문서 페이지 업데이트
@@ -276,14 +294,14 @@ Confluence의 API 문서를 업데이트해줘"
 
 ### 시나리오 10: 주간 팀 성과 대시보드
 
-**사용 MCP**: GitHub + JIRA + Slack + Google Sheets
+** 사용 MCP**: GitHub + JIRA + Slack + Google Sheets
 
 ```
 "이번 주 팀의 PR 수, 코드 리뷰 수, 완료된 JIRA 이슈 수를 집계하고,
 Google Sheets에 기록한 뒤 Slack에 요약 보고해줘"
 ```
 
-**동작 흐름:**
+** 동작 흐름:**
 1. **GitHub MCP**→ 이번 주 PR 수, 리뷰 수, 코드 변경량 집계
 2. **JIRA MCP**→ 완료된 이슈 수, 스토리 포인트 합산
 3. **Google Sheets MCP**→ 주간 트래킹 시트에 데이터 추가
@@ -309,7 +327,7 @@ Databricks가 OAuth 흐름을 관리합니다. 현재 지원되는 서비스:
 | **Glean**| Workspace Settings → Connections → Glean (OAuth) |
 | **JIRA**| Workspace Settings → Connections → Jira (OAuth) |
 
-**설정 절차:**
+** 설정 절차:**
 
 ```
 1. Databricks Workspace → Catalog Explorer → External Connections
@@ -373,7 +391,7 @@ resources:
 ```
 
 {% hint style="warning" %}
-**Genie Code 제한**: 전체 MCP 서버에 걸쳐 **최대 20개 Tool** 만 사용할 수 있습니다. 핵심 도구만 선택적으로 등록하세요.
+**Genie Code 제한**: 전체 MCP 서버에 걸쳐 ** 최대 20개 Tool** 만 사용할 수 있습니다. 핵심 도구만 선택적으로 등록하세요.
 {% endhint %}
 
 ---
@@ -474,12 +492,60 @@ claude mcp list
 
 | 역할/업무 | 권장 MCP 서버 | 핵심 활용 |
 |----------|-------------|----------|
-| **데이터 엔지니어**| Databricks SQL + Slack + GitHub | 파이프라인 모니터링, 장애 알림, 코드 관리 |
-| **데이터 분석가**| Databricks SQL + Google Sheets + Slack | 데이터 조회, 보고서 자동화, 결과 공유 |
-| **백엔드 개발자**| GitHub + JIRA + PostgreSQL + Slack | 코드 리뷰, 이슈 추적, DB 디버깅 |
+| ** 데이터 엔지니어**| Databricks SQL + Slack + GitHub | 파이프라인 모니터링, 장애 알림, 코드 관리 |
+| ** 데이터 분석가**| Databricks SQL + Google Sheets + Slack | 데이터 조회, 보고서 자동화, 결과 공유 |
+| ** 백엔드 개발자**| GitHub + JIRA + PostgreSQL + Slack | 코드 리뷰, 이슈 추적, DB 디버깅 |
 | **DevOps/SRE**| Kubernetes + Datadog + PagerDuty + Slack | 인시던트 대응, 로그 분석, 알림 관리 |
-| **프로덕트 매니저**| JIRA + Notion + Slack + Google Calendar | 스프린트 관리, 문서화, 일정 관리 |
+| ** 프로덕트 매니저**| JIRA + Notion + Slack + Google Calendar | 스프린트 관리, 문서화, 일정 관리 |
 | **SA/SE (솔루션 아키텍트)**| Databricks MCP + GitHub + Slack + Brave Search | 고객 지원, PoC, 기술 리서치 |
+
+---
+
+## 실전 조합 전략 심화
+
+위의 10개 시나리오는 개별 워크플로입니다. 여기서는 ** 여러 시나리오를 조합** 하여 팀 전체의 업무를 체계적으로 자동화하는 전략을 소개합니다.
+
+### 전략 1: 데이터 팀의 "아침 자동 브리핑" 시스템
+
+매일 아침 자동으로 실행되는 종합 브리핑을 구성합니다:
+
+```
+[매일 오전 9시 자동 실행]
+1. Databricks SQL MCP → 야간 ETL 잡 실행 결과 확인
+2. Databricks SQL MCP → 주요 테이블 데이터 품질 체크
+3. JIRA MCP → 미해결 데이터 이슈 티켓 현황
+4. GitHub MCP → 리뷰 대기 중인 PR 목록
+5. LLM 분석 → 위 정보를 종합하여 우선순위 정리
+6. Slack MCP → #data-team 채널에 브리핑 전송
+```
+
+### 전략 2: "데이터 이슈 자동 에스컬레이션" 파이프라인
+
+데이터 품질 이슈를 발견하면 자동으로 관련 팀에 알리고 추적합니다:
+
+```
+[데이터 품질 알림 발생 시]
+1. Databricks SQL MCP → 이상 데이터 상세 분석
+2. GitHub MCP → 관련 파이프라인 코드의 최근 변경 확인
+3. LLM 분석 → 원인 추정 및 영향도 평가
+4. JIRA MCP → 자동 티켓 생성 (원인 분석 결과 포함)
+5. Slack MCP → 담당자 멘션과 함께 이슈 알림
+```
+
+### 전략 3: 역할별 MCP 조합 최적화
+
+모든 팀원이 같은 MCP 서버를 사용할 필요는 없습니다. 역할에 따라 최적의 조합이 다릅니다:
+
+| 역할 | 필수 MCP | 선택 MCP | 도구 수 목표 |
+|------|---------|---------|------------|
+| ** 데이터 엔지니어**| Databricks SQL, GitHub, Slack | JIRA, Kubernetes | 8-12개 |
+| ** 데이터 분석가**| Databricks SQL, Google Sheets, Slack | Notion, Brave Search | 6-10개 |
+| **ML 엔지니어**| Databricks SQL, GitHub, Slack, Vector Search | MLflow (UC Functions) | 10-15개 |
+| **DevOps/SRE**| Kubernetes, Datadog/Prometheus, Slack, PagerDuty | AWS, GitHub | 10-15개 |
+
+{% hint style="tip" %}
+** 실전 팁**: 처음에는 Slack + 핵심 데이터 소스(Databricks SQL 또는 PostgreSQL) 2개만 연결하세요. 이 조합만으로도 "분석 → 결과 공유" 워크플로가 가능하며, 추가 MCP는 필요성이 입증된 후에 하나씩 추가하는 것이 가장 효과적입니다.
+{% endhint %}
 
 ---
 
@@ -489,16 +555,45 @@ MCP 서버를 선택할 때 확인해야 할 항목들입니다:
 
 | 항목 | 확인 사항 |
 |------|----------|
-| **공식 여부**| Anthropic 공식, 벤더 공식(Notion, AWS 등), 커뮤니티 중 어디에 해당하는가? |
-| **활성도**| GitHub Star 수, 최근 커밋 날짜, 이슈 응답 속도 |
-| **보안**| API 키 관리 방식, 최소 권한 지원, 데이터 전송 암호화 |
-| **전송 방식**| stdio만 지원? Streamable HTTP도 지원? (Databricks 연동 시 HTTP 필수) |
+| ** 공식 여부**| Anthropic 공식, 벤더 공식(Notion, AWS 등), 커뮤니티 중 어디에 해당하는가? |
+| ** 활성도**| GitHub Star 수, 최근 커밋 날짜, 이슈 응답 속도 |
+| ** 보안**| API 키 관리 방식, 최소 권한 지원, 데이터 전송 암호화 |
+| ** 전송 방식**| stdio만 지원? Streamable HTTP도 지원? (Databricks 연동 시 HTTP 필수) |
 | **Tool 수**| 제공하는 Tool이 너무 많으면 LLM의 선택 정확도 하락 |
-| **에러 처리**| 실패 시 의미 있는 에러 메시지를 반환하는가? |
-| **문서화**| 설치 가이드, Tool 설명, 예제가 충분한가? |
+| ** 에러 처리**| 실패 시 의미 있는 에러 메시지를 반환하는가? |
+| ** 문서화**| 설치 가이드, Tool 설명, 예제가 충분한가? |
 
 {% hint style="warning" %}
-**커뮤니티 서버 주의사항**: 커뮤니티 MCP 서버는 공식 서버에 비해 유지보수가 불안정할 수 있습니다. 프로덕션 환경에서는 반드시 코드를 검토하고, 가능하면 공식 서버나 벤더 공식 서버를 우선 사용하세요.
+** 커뮤니티 서버 주의사항**: 커뮤니티 MCP 서버는 공식 서버에 비해 유지보수가 불안정할 수 있습니다. 프로덕션 환경에서는 반드시 코드를 검토하고, 가능하면 공식 서버나 벤더 공식 서버를 우선 사용하세요.
+{% endhint %}
+
+---
+
+## MCP 서버 도입 우선순위 가이드
+
+수많은 MCP 서버 중 어디서부터 시작해야 할지 모르겠다면, 다음 우선순위를 참고하세요:
+
+**1순위 (즉시 도입 — 모든 팀에 필수):**
+- **Slack**(또는 Teams): 결과 공유 채널. MCP의 "마지막 1마일"
+- ** 핵심 데이터 소스**: Databricks SQL(Databricks 환경) 또는 PostgreSQL(로컬 환경)
+
+**2순위 (팀별 선택 — 2-4주 내 도입):**
+- **GitHub**: 개발 팀 필수
+- **JIRA/Linear**: 프로젝트 관리 팀 필수
+- **Brave Search**: 리서치가 많은 역할에 유용
+
+**3순위 (상황에 따라 — 1-2개월 내 도입):**
+- **Notion/Confluence**: 문서화 자동화가 필요한 경우
+- **Google Sheets**: 보고서 자동화가 필요한 경우
+- **AWS/GCP**: 클라우드 인프라 관리가 필요한 경우
+
+**4순위 (고급 — 성숙 단계에서 도입):**
+- **Datadog/Grafana**: 모니터링 자동화
+- **PagerDuty**: 인시던트 대응 자동화
+- **Custom MCP**: 사내 시스템 연동
+
+{% hint style="tip" %}
+** 경험적 법칙**: 처음 2개 MCP 서버(Slack + 데이터 소스)로 80%의 가치를 얻을 수 있습니다. 나머지 20%의 가치를 위해 추가 서버를 도입하는 것은 기본 워크플로가 안정된 후에 진행하세요.
 {% endhint %}
 
 ---

@@ -2,7 +2,7 @@
 # MAGIC %md
 # MAGIC # 비정형 이상탐지: 이미지 기반 제품 표면 검사
 # MAGIC
-# MAGIC 본 노트북에서는 **제품 표면 이미지**를 사용하여 **이상(결함)** 을 자동으로 탐지하는 AI 모델을 학습합니다.
+# MAGIC 본 노트북에서는 **제품 표면 이미지** 를 사용하여 **이상(결함)** 을 자동으로 탐지하는 AI 모델을 학습합니다.
 # MAGIC 정형 데이터(센서값) 기반의 예지보전(03a~03d)과 함께, **비정형 데이터(이미지)** 기반의 비전 검사를 Databricks 플랫폼에서 통합 구현합니다.
 # MAGIC
 # MAGIC ---
@@ -25,7 +25,7 @@
 # MAGIC ### 왜 이미지 이상탐지가 필요한가?
 # MAGIC
 # MAGIC LG Innotek의 카메라 모듈, PCB, 전자부품 생산 라인에서는 **외관 검사(Visual Inspection)** 가 품질 관리의 핵심입니다.
-# MAGIC 현재 대부분의 외관 검사는 **숙련된 검사원의 육안**또는 **Rule-based 머신비전 시스템** 에 의존하고 있습니다.
+# MAGIC 현재 대부분의 외관 검사는 **숙련된 검사원의 육안** 또는 **Rule-based 머신비전 시스템** 에 의존하고 있습니다.
 # MAGIC
 # MAGIC | 검사 방식 | 처리 속도 | 일관성 | 비용 | 새 결함 대응 |
 # MAGIC |----------|----------|--------|------|------------|
@@ -34,9 +34,9 @@
 # MAGIC | **AI 비전 검사** | 초당 수백 개 | 매우 높음 | 낮음 (학습만) | 정상 데이터만으로 자동 대응 |
 # MAGIC
 # MAGIC AI 기반 비전 검사의 핵심 장점:
-# MAGIC - **24시간 일관된 검사**: 사람과 달리 피로도, 집중력 저하 없음
-# MAGIC - **확장 용이**: 새 라인에 카메라만 설치하면 동일 모델 적용 가능
-# MAGIC - **결함 위치 시각화**: 어디가 결함인지 **히트맵(Heatmap)** 으로 표시 → 원인 분석에 활용
+# MAGIC - **24시간 일관된 검사** : 사람과 달리 피로도, 집중력 저하 없음
+# MAGIC - **확장 용이** : 새 라인에 카메라만 설치하면 동일 모델 적용 가능
+# MAGIC - **결함 위치 시각화** : 어디가 결함인지 **히트맵(Heatmap)** 으로 표시 → 원인 분석에 활용
 # MAGIC
 # MAGIC ---
 # MAGIC
@@ -57,8 +57,8 @@
 # MAGIC
 # MAGIC ```
 # MAGIC 일반 지도학습 (Supervised):               비지도 이상탐지 (Unsupervised):
-# MAGIC   정상 이미지 1000장  ┐                      정상 이미지 1000장 → 학습
-# MAGIC   결함 이미지 1000장  ┘→ 학습                 (결함 이미지 불필요!)
+# MAGIC   정상 이미지 1000장  +                      정상 이미지 1000장 → 학습
+# MAGIC   결함 이미지 1000장  +→ 학습                 (결함 이미지 불필요!)
 # MAGIC
 # MAGIC   문제점:                                  장점:
 # MAGIC   ✗ 결함 이미지 수집이 매우 어려움            ✓ 정상 데이터만으로 학습 가능
@@ -68,15 +68,15 @@
 # MAGIC   ✗ 결함 유형별 레이블링 비용 막대           ✓ 결함 위치(히트맵)까지 자동 표시
 # MAGIC ```
 # MAGIC
-# MAGIC **핵심 아이디어**: "정상이 어떤 것인지만 학습하고, 정상과 다르면 이상으로 판단"
+# MAGIC **핵심 아이디어** : "정상이 어떤 것인지만 학습하고, 정상과 다르면 이상으로 판단"
 # MAGIC
-# MAGIC > **LG Innotek 가치**: 카메라 모듈의 렌즈 스크래치, 센서 오염, PCB 납땜 불량 등 **결함 유형이 다양하고 예측 불가능** 한 환경에서, 비지도 이상탐지는 새로운 결함 유형에도 자동 대응할 수 있어 매우 유용합니다.
+# MAGIC > **LG Innotek 가치** : 카메라 모듈의 렌즈 스크래치, 센서 오염, PCB 납땜 불량 등 **결함 유형이 다양하고 예측 불가능** 한 환경에서, 비지도 이상탐지는 새로운 결함 유형에도 자동 대응할 수 있어 매우 유용합니다.
 # MAGIC
 # MAGIC ---
 # MAGIC
 # MAGIC ## PatchCore 알고리즘 — 산업용 이상탐지의 표준
 # MAGIC
-# MAGIC **PatchCore**(CVPR 2022, Roth et al.)는 현재 산업용 이미지 이상탐지에서 **가장 높은 정확도** 를 보이는 알고리즘입니다.
+# MAGIC **PatchCore** (CVPR 2022, Roth et al.)는 현재 산업용 이미지 이상탐지에서 **가장 높은 정확도** 를 보이는 알고리즘입니다.
 # MAGIC
 # MAGIC ### 동작 원리 — 공장 비유로 이해하기
 # MAGIC
@@ -98,10 +98,13 @@
 # MAGIC
 # MAGIC ```
 # MAGIC Step 1: 피처 추출 (Feature Extraction) — "제품의 DNA를 읽는다"
-# MAGIC ┌──────────────┐     ┌─────────────┐     ┌──────────────────┐
-# MAGIC │ 정상 이미지    │ ──→ │ 사전학습 CNN │ ──→ │ 중간 레이어 피처   │
-# MAGIC │ (256×256)     │     │ (ResNet50)  │     │ (패치 단위 추출)  │
-# MAGIC └──────────────┘     └─────────────┘     └──────────────────┘
+# MAGIC ```
+# MAGIC ```
+# MAGIC +--------------+     +-------------+     +------------------+
+# MAGIC | 정상 이미지    | --→ | 사전학습 CNN | --→ | 중간 레이어 피처   |
+# MAGIC | (256×256)     |     | (ResNet50)  |     | (패치 단위 추출)  |
+# MAGIC +--------------+     +-------------+     +------------------+
+# MAGIC ```
 # MAGIC
 # MAGIC   - ImageNet(1400만 이미지)으로 사전학습된 Wide ResNet-50을 사용
 # MAGIC   - 최종 레이어가 아닌 **중간 레이어(layer2, layer3)** 에서 피처 추출
@@ -110,44 +113,49 @@
 # MAGIC   - 이미지를 패치(예: 32×32 픽셀) 단위로 분할하여 각 패치의 피처를 독립 추출
 # MAGIC
 # MAGIC Step 2: 메모리 뱅크 구축 (Memory Bank) — "정상 패턴 사전을 만든다"
-# MAGIC ┌──────────────────┐     ┌──────────────────┐
-# MAGIC │ 모든 정상 이미지의 │ ──→ │ Core-set 선택     │ ──→ 메모리 뱅크
-# MAGIC │ 패치 피처 수집    │     │ (대표 샘플 선택)   │     (정상 패턴 사전)
-# MAGIC └──────────────────┘     └──────────────────┘
+# MAGIC ```
+# MAGIC +------------------+     +------------------+
+# MAGIC | 모든 정상 이미지의 | --→ | Core-set 선택     | --→ 메모리 뱅크
+# MAGIC | 패치 피처 수집    |     | (대표 샘플 선택)   |     (정상 패턴 사전)
+# MAGIC +------------------+     +------------------+
+# MAGIC ```
 # MAGIC
 # MAGIC   - 정상 이미지에서 추출한 수만~수십만 개의 패치 피처를 수집
-# MAGIC   - **Core-set Sampling**: 중복을 제거하고 대표적인 피처만 10% 선택 (메모리 효율화)
+# MAGIC   - **Core-set Sampling** : 중복을 제거하고 대표적인 피처만 10% 선택 (메모리 효율화)
 # MAGIC     → 원래 10만 개 피처 → 1만 개로 축소해도 정확도 손실 거의 없음
 # MAGIC   - 이것이 곧 "이 제품의 정상 상태는 이런 것이다"라는 **정상 패턴의 사전(Dictionary)**
 # MAGIC
 # MAGIC Step 3: 이상 탐지 (Anomaly Detection) — "새 제품을 사전과 비교한다"
-# MAGIC ┌──────────────┐     ┌──────────────┐     ┌──────────────────┐
-# MAGIC │ 새 이미지     │ ──→ │ 피처 추출     │ ──→ │ 메모리 뱅크와     │
-# MAGIC │ (테스트)      │     │ (동일 방식)   │     │ 거리(Distance) 계산│
-# MAGIC └──────────────┘     └──────────────┘     └────────┬─────────┘
-# MAGIC                                                     │
+# MAGIC ```
+# MAGIC +--------------+     +--------------+     +------------------+
+# MAGIC | 새 이미지     | --→ | 피처 추출     | --→ | 메모리 뱅크와     |
+# MAGIC | (테스트)      |     | (동일 방식)   |     | 거리(Distance) 계산|
+# MAGIC +--------------+     +--------------+     +--------+---------+
+# MAGIC ```
+# MAGIC                                                     |
 # MAGIC                                          거리가 크면 = 이상!
 # MAGIC                                          거리가 작으면 = 정상
-# MAGIC                                                     │
-# MAGIC                                             ┌───────▼───────┐
-# MAGIC                                             │ 이상 점수 맵    │
-# MAGIC                                             │ (Anomaly Map)  │
-# MAGIC                                             │ = 히트맵       │
-# MAGIC                                             └───────────────┘
+# MAGIC                                                     |
+# MAGIC ```
+# MAGIC                                             +-------v-------+
+# MAGIC                                             | 이상 점수 맵    |
+# MAGIC                                             | (Anomaly Map)  |
+# MAGIC                                             | = 히트맵       |
+# MAGIC                                             +---------------+
 # MAGIC ```
 # MAGIC
 # MAGIC ### 왜 PatchCore가 제조 현장에 최적인가?
-# MAGIC - **학습 시간이 매우 짧음**: 1 epoch만 필요 (피처 추출 + 메모리 저장). 일반 딥러닝은 수백 epoch 필요
-# MAGIC - **정확도 최고**: MVTec AD 벤치마크 **Image-level AUROC 99.1%** (2022년 기준 SOTA)
-# MAGIC - **새로운 결함 유형도 탐지**: 학습하지 않은 결함도 "정상과 다르다"는 것을 감지 → **Unknown Defect Detection**
-# MAGIC - **결함 위치 표시**: 히트맵으로 정확히 **어디가 결함인지** 시각화 → 엔지니어의 원인 분석 지원
-# MAGIC - **학습 데이터 부담 최소**: 정상 이미지 200~300장이면 충분한 성능 확보
+# MAGIC - **학습 시간이 매우 짧음** : 1 epoch만 필요 (피처 추출 + 메모리 저장). 일반 딥러닝은 수백 epoch 필요
+# MAGIC - **정확도 최고** : MVTec AD 벤치마크 **Image-level AUROC 99.1%** (2022년 기준 SOTA)
+# MAGIC - **새로운 결함 유형도 탐지** : 학습하지 않은 결함도 "정상과 다르다"는 것을 감지 → **Unknown Defect Detection**
+# MAGIC - **결함 위치 표시** : 히트맵으로 정확히 **어디가 결함인지** 시각화 → 엔지니어의 원인 분석 지원
+# MAGIC - **학습 데이터 부담 최소** : 정상 이미지 200~300장이면 충분한 성능 확보
 # MAGIC
 # MAGIC ---
 # MAGIC
 # MAGIC ## 데이터: MVTec AD — 산업용 이상탐지의 표준 벤치마크
 # MAGIC
-# MAGIC **MVTec Anomaly Detection Dataset**은 독일 뮌헨 공과대학(TUM)과 MVTec Software GmbH가 2019년에 공개한 데이터셋으로, 산업용 이상탐지 연구의 **사실상의 표준(De facto standard)** 입니다. 모든 이상탐지 논문이 이 데이터셋에서의 성능을 보고합니다.
+# MAGIC **MVTec Anomaly Detection Dataset** 은 독일 뮌헨 공과대학(TUM)과 MVTec Software GmbH가 2019년에 공개한 데이터셋으로, 산업용 이상탐지 연구의 **사실상의 표준(De facto standard)** 입니다. 모든 이상탐지 논문이 이 데이터셋에서의 성능을 보고합니다.
 # MAGIC
 # MAGIC | 항목 | 상세 |
 # MAGIC |------|------|
@@ -159,14 +167,14 @@
 # MAGIC | **결함 유형** | 스크래치, 구멍, 오염, 변색, 균열, 누락, 형상 불량 등 73종 이상 |
 # MAGIC | **라이선스** | CC BY-NC-SA 4.0 (연구/교육 목적 무료) |
 # MAGIC
-# MAGIC > **LG Innotek에 더 적합한 데이터셋**: **VisA (Visual Anomaly) Dataset**(2022, Amazon)는 **PCB 보드 4종**(pcb1~pcb4), 커넥터, 칩 등 **전자부품 특화** 이미지를 포함합니다. Anomalib에서 동일한 코드로 VisA를 사용할 수 있습니다. 실제 LG Innotek 적용 시에는 VisA의 PCB 카테고리 또는 자체 촬영 이미지를 사용하는 것을 권장합니다.
+# MAGIC > **LG Innotek에 더 적합한 데이터셋** : **VisA (Visual Anomaly) Dataset** (2022, Amazon)는 **PCB 보드 4종** (pcb1~pcb4), 커넥터, 칩 등 **전자부품 특화** 이미지를 포함합니다. Anomalib에서 동일한 코드로 VisA를 사용할 수 있습니다. 실제 LG Innotek 적용 시에는 VisA의 PCB 카테고리 또는 자체 촬영 이미지를 사용하는 것을 권장합니다.
 # MAGIC
 # MAGIC ---
 # MAGIC
-# MAGIC > **주의**: 이 노트북은 **GPU 클러스터** 에서 실행해야 합니다.
+# MAGIC > **주의** : 이 노트북은 **GPU 클러스터** 에서 실행해야 합니다.
 # MAGIC > - 권장: `g5.2xlarge` (NVIDIA A10G, 24GB VRAM) 또는 `g4dn.2xlarge` (NVIDIA T4, 16GB)
 # MAGIC > - CPU에서도 실행 가능하지만, 학습 시간이 **10~20배 이상** 느려집니다
-# MAGIC > - **왜 GPU가 필요한가?**: PatchCore의 피처 추출에 사용되는 Wide ResNet-50은 수천만 개의 연산(행렬 곱셈)을 수행합니다. GPU는 이 연산을 **수천 개의 코어에서 병렬 처리** 하여 CPU 대비 10~100배 빠릅니다.
+# MAGIC > - **왜 GPU가 필요한가?** : PatchCore의 피처 추출에 사용되는 Wide ResNet-50은 수천만 개의 연산(행렬 곱셈)을 수행합니다. GPU는 이 연산을 **수천 개의 코어에서 병렬 처리** 하여 CPU 대비 10~100배 빠릅니다.
 
 # COMMAND ----------
 
@@ -186,7 +194,7 @@
 # MAGIC
 # MAGIC ### GPU 확인 — 딥러닝의 필수 인프라
 # MAGIC
-# MAGIC 딥러닝 모델은 대량의 **행렬 연산(Matrix Multiplication)**을 수행합니다. 이 연산은 GPU(Graphics Processing Unit)에서 **수천 개의 코어를 동시에 사용** 하여 병렬 처리할 때 효율적입니다.
+# MAGIC 딥러닝 모델은 대량의 **행렬 연산(Matrix Multiplication)** 을 수행합니다. 이 연산은 GPU(Graphics Processing Unit)에서 **수천 개의 코어를 동시에 사용** 하여 병렬 처리할 때 효율적입니다.
 # MAGIC
 # MAGIC ```
 # MAGIC CPU vs GPU 비교:
@@ -198,9 +206,9 @@
 # MAGIC   GPU: 65,536개를 5,000개 코어로 동시 처리 → 수십 배 빠름
 # MAGIC ```
 # MAGIC
-# MAGIC > **Databricks 장점**: Databricks에서는 클러스터 생성 시 인스턴스 타입만 선택하면 GPU 드라이버, CUDA, cuDNN이 **자동으로 설치** 됩니다. 별도의 GPU 환경 설정이 필요 없습니다.
+# MAGIC > **Databricks 장점** : Databricks에서는 클러스터 생성 시 인스턴스 타입만 선택하면 GPU 드라이버, CUDA, cuDNN이 **자동으로 설치** 됩니다. 별도의 GPU 환경 설정이 필요 없습니다.
 # MAGIC
-# MAGIC **권장 인스턴스**:
+# MAGIC **권장 인스턴스** :
 # MAGIC - 학습: `g5.2xlarge` (NVIDIA A10G, 24GB VRAM) — 최신 Ampere 아키텍처, 학습 최적
 # MAGIC - 추론 (비용 절약): `g4dn.2xlarge` (NVIDIA T4, 16GB VRAM) — 추론 최적화, 비용 50% 절감
 
@@ -229,30 +237,30 @@ else:
 # MAGIC - 학습에 사용된 이미지가 어떤 것인지 재현 불가 (감사 문제)
 # MAGIC - 팀 간 이미지 공유가 어려움 (협업 문제)
 # MAGIC
-# MAGIC **Unity Catalog Volumes**은 이 문제를 해결합니다. **비정형 데이터(이미지, 오디오, 비디오 등)**를 정형 데이터와 **동일한 거버넌스 체계** 로 관리합니다.
+# MAGIC **Unity Catalog Volumes** 은 이 문제를 해결합니다. **비정형 데이터(이미지, 오디오, 비디오 등)** 를 정형 데이터와 **동일한 거버넌스 체계** 로 관리합니다.
 # MAGIC
 # MAGIC ```
 # MAGIC Unity Catalog 구조 — 정형/비정형 데이터 통합 관리:
 # MAGIC
 # MAGIC Catalog (카탈로그) — 예: simyung_yang
-# MAGIC  └── Schema (스키마) — 예: lgit_mlops_poc
-# MAGIC       ├── Table (정형 데이터)     ← Delta Lake 테이블 (센서 데이터, 공정 데이터)
-# MAGIC       ├── Model (ML 모델)         ← MLflow 모델 (XGBoost, PatchCore)
-# MAGIC       └── Volume (비정형 데이터)   ← 이미지, 파일 등 ★
-# MAGIC            └── lgit_images/
-# MAGIC                 └── mvtec_ad/
-# MAGIC                      ├── bottle/
-# MAGIC                      ├── transistor/
-# MAGIC                      └── metal_nut/
+# MAGIC  +-- Schema (스키마) — 예: lgit_mlops_poc
+# MAGIC       +-- Table (정형 데이터)     ← Delta Lake 테이블 (센서 데이터, 공정 데이터)
+# MAGIC       +-- Model (ML 모델)         ← MLflow 모델 (XGBoost, PatchCore)
+# MAGIC       +-- Volume (비정형 데이터)   ← 이미지, 파일 등 ★
+# MAGIC            +-- lgit_images/
+# MAGIC                 +-- mvtec_ad/
+# MAGIC                      +-- bottle/
+# MAGIC                      +-- transistor/
+# MAGIC                      +-- metal_nut/
 # MAGIC
 # MAGIC Volume 경로: /Volumes/{catalog}/{schema}/{volume_name}/
 # MAGIC ```
 # MAGIC
-# MAGIC **Databricks Volumes의 핵심 장점**:
-# MAGIC - **통합 거버넌스**: 이미지도 정형 데이터와 **동일한 권한(GRANT/REVOKE), 감사 로그, 계보 추적** 적용
-# MAGIC - **로컬 파일 접근**: 클러스터에서 `/Volumes/...` 경로로 **로컬 파일처럼 직접 접근** — S3 인증 설정 불필요
-# MAGIC - **워크스페이스 간 공유**: 다른 팀, 다른 워크스페이스에서도 권한만 있으면 동일 이미지 접근 가능
-# MAGIC - **대규모 확장**: 수 TB의 이미지 데이터도 클라우드 스토리지 기반으로 비용 효율적으로 저장
+# MAGIC **Databricks Volumes의 핵심 장점** :
+# MAGIC - **통합 거버넌스** : 이미지도 정형 데이터와 **동일한 권한(GRANT/REVOKE), 감사 로그, 계보 추적** 적용
+# MAGIC - **로컬 파일 접근** : 클러스터에서 `/Volumes/...` 경로로 **로컬 파일처럼 직접 접근** — S3 인증 설정 불필요
+# MAGIC - **워크스페이스 간 공유** : 다른 팀, 다른 워크스페이스에서도 권한만 있으면 동일 이미지 접근 가능
+# MAGIC - **대규모 확장** : 수 TB의 이미지 데이터도 클라우드 스토리지 기반으로 비용 효율적으로 저장
 
 # COMMAND ----------
 
@@ -270,7 +278,7 @@ print(f"이미지 저장 경로 (Volume): {volume_path}")
 # MAGIC %md
 # MAGIC ## 2. MVTec AD 데이터셋 로드
 # MAGIC
-# MAGIC **Anomalib**(Intel 개발, 오픈소스)은 산업용 이상탐지를 위한 **포괄적인 프레임워크** 입니다.
+# MAGIC **Anomalib** (Intel 개발, 오픈소스)은 산업용 이상탐지를 위한 **포괄적인 프레임워크** 입니다.
 # MAGIC PatchCore를 포함한 20개 이상의 이상탐지 알고리즘, MVTec AD/VisA 등 주요 벤치마크 데이터셋을 **통합 제공** 합니다.
 # MAGIC
 # MAGIC `prepare_data()` 호출 시 MVTec AD를 자동으로 다운로드하고, 학습/테스트 분할까지 자동으로 처리합니다.
@@ -314,11 +322,11 @@ print(f"  이미지 크기: 256×256 pixels")
 # MAGIC ML 모델 학습 전에 **반드시** 데이터를 시각적으로 확인해야 합니다. 이는 정형 데이터에서 통계량을 확인하는 것과 동일한 중요성을 가집니다.
 # MAGIC
 # MAGIC 확인할 사항:
-# MAGIC - **정상 이미지**: 학습에 사용될 이미지. 일관된 품질인가? 조명 조건은 균일한가?
-# MAGIC - **이상 이미지**: 테스트에 사용될 결함 이미지. 어떤 유형의 결함이 있는가? 결함의 크기와 위치는?
-# MAGIC - **이미지 품질**: 해상도, 밝기, 초점이 적절한가? 노이즈가 과도하지 않은가?
+# MAGIC - **정상 이미지** : 학습에 사용될 이미지. 일관된 품질인가? 조명 조건은 균일한가?
+# MAGIC - **이상 이미지** : 테스트에 사용될 결함 이미지. 어떤 유형의 결함이 있는가? 결함의 크기와 위치는?
+# MAGIC - **이미지 품질** : 해상도, 밝기, 초점이 적절한가? 노이즈가 과도하지 않은가?
 # MAGIC
-# MAGIC > **실무 팁**: LG Innotek 자체 이미지를 사용할 때, 정상 이미지의 **일관성** 이 매우 중요합니다. 조명 조건, 카메라 각도, 제품 위치가 일정해야 모델이 "정상 패턴"을 정확히 학습할 수 있습니다.
+# MAGIC > **실무 팁** : LG Innotek 자체 이미지를 사용할 때, 정상 이미지의 **일관성** 이 매우 중요합니다. 조명 조건, 카메라 각도, 제품 위치가 일정해야 모델이 "정상 패턴"을 정확히 학습할 수 있습니다.
 
 # COMMAND ----------
 
@@ -376,16 +384,16 @@ plt.show()
 # MAGIC | 가중치 업데이트 | 매 배치마다 가중치 변경 | 가중치 변경 없음 (Frozen backbone) |
 # MAGIC | 하이퍼파라미터 | 학습률, 배치 크기, 에폭 수 등 다수 | backbone, coreset_ratio 정도 (매우 적음) |
 # MAGIC
-# MAGIC > **왜 1 epoch인가?**: PatchCore는 **이미 학습된 ResNet의 피처 추출 능력** 을 그대로 활용합니다. 새로 학습할 것이 없고, 정상 이미지의 피처를 한 번 읽어서 메모리 뱅크에 저장하는 것이 전부입니다. 이것이 PatchCore의 실용적 강점입니다.
+# MAGIC > **왜 1 epoch인가?** : PatchCore는 **이미 학습된 ResNet의 피처 추출 능력** 을 그대로 활용합니다. 새로 학습할 것이 없고, 정상 이미지의 피처를 한 번 읽어서 메모리 뱅크에 저장하는 것이 전부입니다. 이것이 PatchCore의 실용적 강점입니다.
 # MAGIC
 # MAGIC ### MLflow Tracking — 비정형 모델도 동일한 실험 관리
 # MAGIC
-# MAGIC **Databricks의 핵심 가치**: 정형 데이터 모델(XGBoost, 03a~03d)과 비정형 데이터 모델(PatchCore)을 **동일한 MLflow 인터페이스**로 관리합니다. 이는 MLOps의 중요한 원칙인 **통합 실험 관리** 를 구현합니다.
+# MAGIC **Databricks의 핵심 가치** : 정형 데이터 모델(XGBoost, 03a~03d)과 비정형 데이터 모델(PatchCore)을 **동일한 MLflow 인터페이스** 로 관리합니다. 이는 MLOps의 중요한 원칙인 **통합 실험 관리** 를 구현합니다.
 # MAGIC
 # MAGIC 기록 항목:
-# MAGIC - **하이퍼파라미터**: backbone(Wide ResNet-50), coreset_sampling_ratio(10%), 이미지 크기 등
-# MAGIC - **메트릭**: AUROC(이미지 수준), F1, Precision, Recall, 픽셀 수준 AUROC
-# MAGIC - **아티팩트**: 모델 가중치(.pth), 이상 히트맵 시각화, 학습 로그
+# MAGIC - **하이퍼파라미터** : backbone(Wide ResNet-50), coreset_sampling_ratio(10%), 이미지 크기 등
+# MAGIC - **메트릭** : AUROC(이미지 수준), F1, Precision, Recall, 픽셀 수준 AUROC
+# MAGIC - **아티팩트** : 모델 가중치(.pth), 이상 히트맵 시각화, 학습 로그
 
 # COMMAND ----------
 
@@ -476,9 +484,9 @@ with mlflow.start_run(run_name=f"patchcore_{CATEGORY}") as run:
 # MAGIC 단순히 "이상/정상"만 판정하는 것이 아니라, **이미지의 어떤 영역이 이상인지** 픽셀 수준으로 시각화합니다.
 # MAGIC
 # MAGIC 이는 제조 현장에서 매우 중요합니다:
-# MAGIC - **결함 위치 파악**: 엔지니어가 결함의 물리적 위치를 즉시 확인
-# MAGIC - **원인 분석 지원**: 결함 위치가 특정 공정 단계와 연관됨을 파악 (예: 좌측 상단에 결함 집중 → 특정 노즐 문제)
-# MAGIC - **검사 결과 문서화**: 히트맵을 MLflow 아티팩트로 저장하여 품질 감사 시 증빙 자료로 활용
+# MAGIC - **결함 위치 파악** : 엔지니어가 결함의 물리적 위치를 즉시 확인
+# MAGIC - **원인 분석 지원** : 결함 위치가 특정 공정 단계와 연관됨을 파악 (예: 좌측 상단에 결함 집중 → 특정 노즐 문제)
+# MAGIC - **검사 결과 문서화** : 히트맵을 MLflow 아티팩트로 저장하여 품질 감사 시 증빙 자료로 활용
 # MAGIC
 # MAGIC ### 히트맵 해석 방법
 # MAGIC
@@ -498,7 +506,6 @@ with mlflow.start_run(run_name=f"patchcore_{CATEGORY}") as run:
 # MAGIC 실무 활용:
 # MAGIC   빨간색 영역이 없으면 → 정상 판정 ✓
 # MAGIC   빨간색 영역이 있으면 → 이상 판정 + 위치 정보 제공
-# MAGIC ```
 
 # COMMAND ----------
 
@@ -567,24 +574,23 @@ print("  파란 영역 = 정상 패턴과 일치하는 위치")
 # MAGIC %md
 # MAGIC ## 6. Unity Catalog에 모델 등록 — 정형/비정형 모델 통합 관리
 # MAGIC
-# MAGIC **Databricks의 핵심 차별점**: 정형 데이터 모델(XGBoost, LightGBM)과 비정형 데이터 모델(PatchCore, 컴퓨터 비전)을 **동일한 Unity Catalog 거버넌스 체계** 로 관리합니다. 이는 다른 플랫폼에서는 별도의 모델 저장소를 운영해야 하는 것과 대비되는 강점입니다.
+# MAGIC **Databricks의 핵심 차별점** : 정형 데이터 모델(XGBoost, LightGBM)과 비정형 데이터 모델(PatchCore, 컴퓨터 비전)을 **동일한 Unity Catalog 거버넌스 체계** 로 관리합니다. 이는 다른 플랫폼에서는 별도의 모델 저장소를 운영해야 하는 것과 대비되는 강점입니다.
 # MAGIC
 # MAGIC ```
 # MAGIC Unity Catalog Model Registry — 통합 모델 관리:
 # MAGIC
 # MAGIC simyung_yang (카탈로그)
-# MAGIC  └── lgit_mlops_poc (스키마)
-# MAGIC       ├── lgit_predictive_maintenance   ← 정형 모델 (XGBoost) — 센서 기반 예지보전
-# MAGIC       └── lgit_anomaly_detection        ← 비정형 모델 (PatchCore) ★ — 이미지 기반 외관 검사
+# MAGIC  +-- lgit_mlops_poc (스키마)
+# MAGIC       +-- lgit_predictive_maintenance   ← 정형 모델 (XGBoost) — 센서 기반 예지보전
+# MAGIC       +-- lgit_anomaly_detection        ← 비정형 모델 (PatchCore) ★ — 이미지 기반 외관 검사
 # MAGIC
 # MAGIC 두 모델 모두 동일한 거버넌스 적용:
 # MAGIC  - 버전 관리 (v1, v2, ...) — 모든 모델 이력 추적
 # MAGIC  - 에일리어스 (Champion, Challenger) — 안전한 배포/롤백
 # MAGIC  - 접근 제어 (GRANT/REVOKE) — 팀별 권한 관리
 # MAGIC  - 계보 추적 (이미지 데이터 → PatchCore 학습 → 모델 배포 → 추론 결과)
-# MAGIC ```
 # MAGIC
-# MAGIC > **LG Innotek 가치**: 품질 감사 시 "이 모델이 어떤 데이터로 학습되었고, 언제 배포되었으며, 어떤 성능을 보이는지"를 **Unity Catalog 한 곳에서** 모두 확인할 수 있습니다. IATF 16949, ISO 9001 등 품질 경영 시스템의 추적성(Traceability) 요구사항을 자연스럽게 충족합니다.
+# MAGIC > **LG Innotek 가치** : 품질 감사 시 "이 모델이 어떤 데이터로 학습되었고, 언제 배포되었으며, 어떤 성능을 보이는지"를 **Unity Catalog 한 곳에서** 모두 확인할 수 있습니다. IATF 16949, ISO 9001 등 품질 경영 시스템의 추적성(Traceability) 요구사항을 자연스럽게 충족합니다.
 
 # COMMAND ----------
 
@@ -631,12 +637,12 @@ print(f"모델 등록 완료: {unstructured_model_name} v{model_details.version}
 # MAGIC
 # MAGIC 등록된 모델을 사용하여 **새로운 이미지** 에 대한 이상탐지를 수행합니다.
 # MAGIC
-# MAGIC **실제 운영 시나리오**:
-# MAGIC - **배치 추론**: Databricks Workflow에서 매 시간/교대마다 촬영된 검사 이미지를 일괄 처리
-# MAGIC - **실시간 추론**: Model Serving Endpoint를 통해 REST API로 이미지를 전송하면 즉시 결과 반환
-# MAGIC - **엣지 추론**: ONNX/TensorRT로 모델 변환 후 라인 옆 엣지 디바이스에서 초고속 추론 (미래 구현)
+# MAGIC **실제 운영 시나리오** :
+# MAGIC - **배치 추론** : Databricks Workflow에서 매 시간/교대마다 촬영된 검사 이미지를 일괄 처리
+# MAGIC - **실시간 추론** : Model Serving Endpoint를 통해 REST API로 이미지를 전송하면 즉시 결과 반환
+# MAGIC - **엣지 추론** : ONNX/TensorRT로 모델 변환 후 라인 옆 엣지 디바이스에서 초고속 추론 (미래 구현)
 # MAGIC
-# MAGIC > **참고**: 아래 코드는 배치 추론의 기본 형태입니다. 실제 운영에서는 이 코드를 Databricks Workflow의 Task로 등록하여 스케줄링합니다.
+# MAGIC > **참고** : 아래 코드는 배치 추론의 기본 형태입니다. 실제 운영에서는 이 코드를 Databricks Workflow의 Task로 등록하여 스케줄링합니다.
 
 # COMMAND ----------
 
@@ -690,7 +696,7 @@ with torch.no_grad():
 # MAGIC | **PADIM** | 97.9% | 빠름 | 보통 | 빠른 PoC / 프로토타이핑 |
 # MAGIC | **FastFlow** | 98.4% | 빠름 | 보통 | Normalizing Flow 기반 (확률적 해석 필요 시) |
 # MAGIC
-# MAGIC > **모델 선택 가이드**: PoC 단계에서는 **PatchCore**(정확도 최고)로 시작하고, 양산 적용 시 추론 속도 요구사항에 따라 **EfficientAD**(실시간) 또는 **Reverse Distillation** (균형)으로 전환을 검토합니다.
+# MAGIC > **모델 선택 가이드** : PoC 단계에서는 **PatchCore** (정확도 최고)로 시작하고, 양산 적용 시 추론 속도 요구사항에 따라 **EfficientAD** (실시간) 또는 **Reverse Distillation** (균형)으로 전환을 검토합니다.
 # MAGIC
 # MAGIC ```python
 # MAGIC # 모델 교체 예시 — 코드 한 줄만 변경하면 됩니다!
@@ -728,7 +734,7 @@ with torch.no_grad():
 # MAGIC | **SAM + 이상탐지** | 2024 | Segment Anything Model로 결함 영역 정밀 분할 | 픽셀 수준 결함 경계 정확도 향상 |
 # MAGIC | **AnomalyGPT** | 2024 | LLM + 비전 모델 결합, 대화형 이상 분석 | "이 결함의 원인이 무엇인가?"에 텍스트로 답변 |
 # MAGIC
-# MAGIC > **LG Innotek 미래 비전**: Foundation Model 기반 접근은 아직 연구 단계이지만, 향후 "카메라 모듈에서 렌즈 스크래치를 찾아줘"라는 **자연어 지시만으로** 결함을 탐지하는 것이 가능해질 것입니다. Databricks의 GPU 클러스터와 MLflow 인프라가 이러한 최신 모델의 실험/배포를 지원합니다.
+# MAGIC > **LG Innotek 미래 비전** : Foundation Model 기반 접근은 아직 연구 단계이지만, 향후 "카메라 모듈에서 렌즈 스크래치를 찾아줘"라는 **자연어 지시만으로** 결함을 탐지하는 것이 가능해질 것입니다. Databricks의 GPU 클러스터와 MLflow 인프라가 이러한 최신 모델의 실험/배포를 지원합니다.
 
 # COMMAND ----------
 
@@ -758,17 +764,16 @@ with torch.no_grad():
 # MAGIC
 # MAGIC ```
 # MAGIC Phase 1: PoC (이 노트북)
-# MAGIC   └── MVTec AD로 PatchCore 학습/평가 → "AI 비전 검사가 가능한가?" 검증
+# MAGIC   +-- MVTec AD로 PatchCore 학습/평가 → "AI 비전 검사가 가능한가?" 검증
 # MAGIC
 # MAGIC Phase 2: 파일럿 (1~2개월)
-# MAGIC   └── 실제 카메라 모듈/PCB 이미지로 PatchCore 학습
-# MAGIC   └── VisA 데이터셋의 PCB 카테고리로 추가 벤치마크
-# MAGIC   └── 기존 Rule-based 비전 시스템과 성능 비교
+# MAGIC   +-- 실제 카메라 모듈/PCB 이미지로 PatchCore 학습
+# MAGIC   +-- VisA 데이터셋의 PCB 카테고리로 추가 벤치마크
+# MAGIC   +-- 기존 Rule-based 비전 시스템과 성능 비교
 # MAGIC
 # MAGIC Phase 3: 양산 적용 (3~6개월)
-# MAGIC   └── Databricks Workflow로 배치 추론 자동화 (교대별 검사 이미지 일괄 처리)
-# MAGIC   └── Model Serving Endpoint로 실시간 API 제공 (인라인 검사 연동)
-# MAGIC   └── Data Quality Monitoring(구 Data Quality Monitoring)으로 모델 성능 지속 추적
-# MAGIC ```
+# MAGIC   +-- Databricks Workflow로 배치 추론 자동화 (교대별 검사 이미지 일괄 처리)
+# MAGIC   +-- Model Serving Endpoint로 실시간 API 제공 (인라인 검사 연동)
+# MAGIC   +-- Data Quality Monitoring으로 모델 성능 지속 추적
 # MAGIC
 # MAGIC **다음 단계:** [모델 모니터링]($./08_model_monitoring)

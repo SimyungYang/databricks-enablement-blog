@@ -15,8 +15,8 @@ Databricks의 GenAI 기능(Mosaic AI, Agent Framework, AI Playground 등)을 제
 ### 대상 독자
 
 - **SE/SA**: 고객 데모 및 PoC 수행 시 GenAI 배경지식이 필요한 경우
-- **파트너 엔지니어**: Databricks 기반 GenAI 솔루션을 설계하는 경우
-- **고객 기술 리더**: AI 전략 수립 시 기술 개념을 파악하고 싶은 경우
+- ** 파트너 엔지니어**: Databricks 기반 GenAI 솔루션을 설계하는 경우
+- ** 고객 기술 리더**: AI 전략 수립 시 기술 개념을 파악하고 싶은 경우
 
 ### 선수 지식
 
@@ -52,7 +52,7 @@ Databricks의 GenAI 기능(Mosaic AI, Agent Framework, AI Playground 등)을 제
 |------|-----------|-----------|
 | **GenAI 입문자**| NLP 발전사 → LLM 기초 → Prompt Engineering → 평가 방법론 | 4~5시간 |
 | **Agent 개발자**| LLM 기초 → Agent 아키텍처 → Agent 프레임워크 → Agent UI → A2A → 평가 방법론 | 6~7시간 |
-| **기술 리더/전략가**| AI Proficiency → NLP 발전사 → LLM 기초 → Agent 아키텍처 | 3~4시간 |
+| ** 기술 리더/전략가**| AI Proficiency → NLP 발전사 → LLM 기초 → Agent 아키텍처 | 3~4시간 |
 | **SE/SA (고객 대응)**| 전체 과정 (NLP 발전사 → LLM → Prompt → Agent → 평가 → A2A → AI Proficiency) | 8~10시간 |
 
 ### 목적별 권장 경로

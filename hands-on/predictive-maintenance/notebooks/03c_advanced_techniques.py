@@ -11,9 +11,9 @@
 # MAGIC 기본 ML 모델(03a, 03b)만으로도 일정 수준의 예측 성능을 확보할 수 있지만, **실제 제조 현장에서는 그것만으로 충분하지 않습니다.**
 # MAGIC
 # MAGIC 대표적인 문제:
-# MAGIC - **불균형 데이터**: LG Innotek 카메라 모듈 라인에서 실제 불량률은 1~3% 수준. 모델이 "항상 정상"이라고 예측해도 정확도 97%가 나옴 → **불량을 하나도 못 잡으면서 높은 정확도를 보이는 착시 현상**
-# MAGIC - **하이퍼파라미터 미최적화**: 모델의 수십 개 설정값(하이퍼파라미터)을 수동으로 조정하면, 최적 조합을 찾는 데 수 주가 소요될 수 있음
-# MAGIC - **단일 모델의 한계**: 하나의 모델은 데이터의 특정 패턴만 잘 학습. 복합적인 고장 원인(열적 + 기계적 + 전기적)을 하나의 모델로 모두 포착하기 어려움
+# MAGIC - **불균형 데이터** : LG Innotek 카메라 모듈 라인에서 실제 불량률은 1~3% 수준. 모델이 "항상 정상"이라고 예측해도 정확도 97%가 나옴 → **불량을 하나도 못 잡으면서 높은 정확도를 보이는 착시 현상**
+# MAGIC - **하이퍼파라미터 미최적화** : 모델의 수십 개 설정값(하이퍼파라미터)을 수동으로 조정하면, 최적 조합을 찾는 데 수 주가 소요될 수 있음
+# MAGIC - **단일 모델의 한계** : 하나의 모델은 데이터의 특정 패턴만 잘 학습. 복합적인 고장 원인(열적 + 기계적 + 전기적)을 하나의 모델로 모두 포착하기 어려움
 # MAGIC
 # MAGIC 이 노트북의 고급 기법들은 이러한 문제를 **체계적으로 해결** 합니다.
 # MAGIC
@@ -39,7 +39,7 @@
 # MAGIC | **Databricks AutoML** | 자동 모델 탐색 | 15분 만에 베이스라인 확보, 생성된 코드로 추가 개선 |
 # MAGIC | **Autolog** | 코드 변경 없이 기록 | 파라미터/메트릭/모델 아티팩트를 자동으로 MLflow에 저장 |
 # MAGIC
-# MAGIC > **Databricks 장점**: 위 4가지 고급 기법을 **하나의 플랫폼에서 통합 실행**하고, 모든 실험 결과를 **MLflow로 일원화** 하여 관리할 수 있습니다. 타 플랫폼에서는 각 기법별로 별도 도구를 설치/관리해야 하는 번거로움이 있습니다.
+# MAGIC > **Databricks 장점** : 위 4가지 고급 기법을 **하나의 플랫폼에서 통합 실행** 하고, 모든 실험 결과를 **MLflow로 일원화** 하여 관리할 수 있습니다. 타 플랫폼에서는 각 기법별로 별도 도구를 설치/관리해야 하는 번거로움이 있습니다.
 
 # COMMAND ----------
 
@@ -109,9 +109,9 @@ print(f"고장 비율: {Y_train.mean():.4f}")
 # MAGIC
 # MAGIC **모델은 "항상 정상"이라고 예측하는 것을 학습합니다.**
 # MAGIC 왜냐하면 그것만으로도 정확도 97%를 달성할 수 있기 때문입니다.
-# MAGIC 하지만 이 모델은 **불량을 단 하나도 잡지 못합니다**— 이것이 바로 **정확도의 함정(Accuracy Paradox)** 입니다.
+# MAGIC 하지만 이 모델은 **불량을 단 하나도 잡지 못합니다** — 이것이 바로 **정확도의 함정(Accuracy Paradox)** 입니다.
 # MAGIC
-# MAGIC > **핵심**: 제조 현장에서 정말 중요한 것은 "정상을 정상으로 맞추는 것"이 아니라, **"불량을 불량으로 잡아내는 것(Recall)"** 입니다. 놓친 불량 하나가 고객 클레임, 리콜, 브랜드 이미지 훼손으로 이어질 수 있습니다.
+# MAGIC > **핵심** : 제조 현장에서 정말 중요한 것은 "정상을 정상으로 맞추는 것"이 아니라, **"불량을 불량으로 잡아내는 것(Recall)"** 입니다. 놓친 불량 하나가 고객 클레임, 리콜, 브랜드 이미지 훼손으로 이어질 수 있습니다.
 # MAGIC
 # MAGIC ---
 # MAGIC
@@ -132,7 +132,7 @@ print(f"고장 비율: {Y_train.mean():.4f}")
 # MAGIC
 # MAGIC ## SMOTE란?
 # MAGIC
-# MAGIC **SMOTE (Synthetic Minority Over-sampling Technique)**는 소수 클래스의 샘플을 **합성(Synthetic)** 하여
+# MAGIC **SMOTE (Synthetic Minority Over-sampling Technique)** 는 소수 클래스의 샘플을 **합성(Synthetic)** 하여
 # MAGIC 클래스 균형을 맞추는 기법입니다. 단순 복제와 달리 **새로운 데이터 포인트를 생성** 하므로 과적합 위험이 낮습니다.
 # MAGIC
 # MAGIC ```
@@ -144,7 +144,7 @@ print(f"고장 비율: {Y_train.mean():.4f}")
 # MAGIC    → 실제로는 없었지만, 충분히 있을 법한 불량 사례
 # MAGIC
 # MAGIC 예시 (2D 공간):
-# MAGIC   A(토크=50, 온도=310) ──── 합성(토크=55, 온도=312) ──── B(토크=60, 온도=315)
+# MAGIC   A(토크=50, 온도=310) --- 합성(토크=55, 온도=312) --- B(토크=60, 온도=315)
 # MAGIC   (실제 고장 사례)                                        (실제 고장 사례)
 # MAGIC
 # MAGIC   → 합성 샘플: 토크 50~60, 온도 310~315 사이의 새로운 고장 시나리오
@@ -152,7 +152,7 @@ print(f"고장 비율: {Y_train.mean():.4f}")
 # MAGIC
 # MAGIC ## ENN이란?
 # MAGIC
-# MAGIC **ENN (Edited Nearest Neighbors)**는 데이터에서 **노이즈(잘못 분류된 샘플)를 제거** 하는 기법입니다.
+# MAGIC **ENN (Edited Nearest Neighbors)** 는 데이터에서 **노이즈(잘못 분류된 샘플)를 제거** 하는 기법입니다.
 # MAGIC
 # MAGIC 제조 현장 비유: 품질 데이터에는 **오기록(센서 오류, 수동 입력 실수)** 이 섞여 있습니다. ENN은 이러한 노이즈를 자동으로 찾아 제거합니다.
 # MAGIC
@@ -167,7 +167,7 @@ print(f"고장 비율: {Y_train.mean():.4f}")
 # MAGIC 2. **ENN** 으로 양쪽 클래스의 노이즈 제거 → 깨끗한 결정 경계 확보
 # MAGIC → 결과: **깨끗하고 균형 잡힌** 학습 데이터 → 모델이 불량 패턴을 제대로 학습
 # MAGIC
-# MAGIC > **Databricks 장점**: `imbalanced-learn` 라이브러리가 Databricks 클러스터에서 원활히 동작하며, 대규모 데이터에서도 Spark DataFrame → Pandas 변환을 통해 효율적으로 처리할 수 있습니다. MLflow로 리샘플링 전후 데이터 분포를 기록하여 감사(Audit) 추적이 가능합니다.
+# MAGIC > **Databricks 장점** : `imbalanced-learn` 라이브러리가 Databricks 클러스터에서 원활히 동작하며, 대규모 데이터에서도 Spark DataFrame → Pandas 변환을 통해 효율적으로 처리할 수 있습니다. MLflow로 리샘플링 전후 데이터 분포를 기록하여 감사(Audit) 추적이 가능합니다.
 
 # COMMAND ----------
 
@@ -216,7 +216,7 @@ with mlflow.start_run(run_name="SMOTE_ENN_XGBoost") as run:
 # MAGIC
 # MAGIC ## 하이퍼파라미터란? — 공정 설정값과의 비유
 # MAGIC
-# MAGIC ML 모델에는 **데이터로부터 자동으로 학습되는 값(파라미터)**과 **사람이 미리 정해줘야 하는 값(하이퍼파라미터)** 이 있습니다.
+# MAGIC ML 모델에는 **데이터로부터 자동으로 학습되는 값(파라미터)** 과 **사람이 미리 정해줘야 하는 값(하이퍼파라미터)** 이 있습니다.
 # MAGIC
 # MAGIC ```
 # MAGIC 제조 공정 비유:
@@ -237,14 +237,14 @@ with mlflow.start_run(run_name="SMOTE_ENN_XGBoost") as run:
 # MAGIC ## 왜 하이퍼파라미터 튜닝이 중요한가?
 # MAGIC
 # MAGIC 같은 알고리즘(XGBoost)이라도 하이퍼파라미터에 따라 성능이 **F1 0.6 ~ 0.9까지 차이** 가 날 수 있습니다.
-# MAGIC 하지만 XGBoost만 해도 주요 하이퍼파라미터가 **9개 이상**이며, 가능한 조합은 **수십억 개** 에 달합니다.
+# MAGIC 하지만 XGBoost만 해도 주요 하이퍼파라미터가 **9개 이상** 이며, 가능한 조합은 **수십억 개** 에 달합니다.
 # MAGIC 이것을 수작업으로 최적화하는 것은 사실상 불가능합니다.
 # MAGIC
 # MAGIC ---
 # MAGIC
 # MAGIC ## Optuna란?
 # MAGIC
-# MAGIC **Optuna**는 2019년 일본 Preferred Networks가 개발한 **베이지안 최적화** 기반의 하이퍼파라미터 튜닝 프레임워크입니다. 현재 가장 널리 사용되는 HPO 도구 중 하나입니다.
+# MAGIC **Optuna** 는 2019년 일본 Preferred Networks가 개발한 **베이지안 최적화** 기반의 하이퍼파라미터 튜닝 프레임워크입니다. 현재 가장 널리 사용되는 HPO 도구 중 하나입니다.
 # MAGIC
 # MAGIC ### 탐색 전략 비교: Grid Search vs Random Search vs Optuna
 # MAGIC
@@ -271,15 +271,15 @@ with mlflow.start_run(run_name="SMOTE_ENN_XGBoost") as run:
 # MAGIC   → 30번의 시행으로 200만 번 Grid Search에 준하는 결과 달성!
 # MAGIC ```
 # MAGIC
-# MAGIC > **제조 비유**: Grid Search는 공정 설정값을 모든 조합으로 시험하는 것(DOE Full Factorial). Optuna는 이전 시험 결과를 참고하여 다음 시험 조건을 지능적으로 선택하는 **적응형 실험 계획법** 과 같습니다.
+# MAGIC > **제조 비유** : Grid Search는 공정 설정값을 모든 조합으로 시험하는 것(DOE Full Factorial). Optuna는 이전 시험 결과를 참고하여 다음 시험 조건을 지능적으로 선택하는 **적응형 실험 계획법** 과 같습니다.
 # MAGIC
 # MAGIC ### Optuna의 핵심 기능:
-# MAGIC - **TPE (Tree-structured Parzen Estimator)**: 베이지안 최적화 알고리즘. 좋은 결과/나쁜 결과의 분포를 모델링하여 다음 탐색점을 결정
-# MAGIC - **Pruning (조기 중단)**: 학습 도중 성능이 나쁜 시행을 조기 중단하여 **계산 비용 50% 이상 절감**
-# MAGIC - **시각화**: 파라미터 중요도, 최적화 히스토리, 파라미터 간 상관관계 등 **내장 시각화** 제공
-# MAGIC - **MLflow 연동**: 각 시행(trial)을 자동으로 MLflow Nested Run으로 기록 → 모든 실험 이력 추적
+# MAGIC - **TPE (Tree-structured Parzen Estimator)** : 베이지안 최적화 알고리즘. 좋은 결과/나쁜 결과의 분포를 모델링하여 다음 탐색점을 결정
+# MAGIC - **Pruning (조기 중단)** : 학습 도중 성능이 나쁜 시행을 조기 중단하여 **계산 비용 50% 이상 절감**
+# MAGIC - **시각화** : 파라미터 중요도, 최적화 히스토리, 파라미터 간 상관관계 등 **내장 시각화** 제공
+# MAGIC - **MLflow 연동** : 각 시행(trial)을 자동으로 MLflow Nested Run으로 기록 → 모든 실험 이력 추적
 # MAGIC
-# MAGIC > **Databricks 장점**: Optuna + MLflow 연동이 네이티브로 지원되어, 30회 시행의 모든 파라미터/메트릭이 MLflow에 자동 기록됩니다. MLflow UI에서 시행 간 비교, 파라미터-성능 상관관계 분석이 가능합니다. 또한 Databricks 클러스터의 분산 환경에서 Optuna의 병렬 시행도 지원됩니다.
+# MAGIC > **Databricks 장점** : Optuna + MLflow 연동이 네이티브로 지원되어, 30회 시행의 모든 파라미터/메트릭이 MLflow에 자동 기록됩니다. MLflow UI에서 시행 간 비교, 파라미터-성능 상관관계 분석이 가능합니다. 또한 Databricks 클러스터의 분산 환경에서 Optuna의 병렬 시행도 지원됩니다.
 
 # COMMAND ----------
 
@@ -417,25 +417,20 @@ with mlflow.start_run(run_name="Optuna_Best_XGBoost") as run:
 # MAGIC
 # MAGIC ## Stacking이란?
 # MAGIC
-# MAGIC **Stacking**은 **서로 다른 알고리즘**의 예측을 **메타 모델(Meta-Learner)** 이 최종 결합하는 2단계 앙상블 기법입니다.
+# MAGIC **Stacking** 은 **서로 다른 알고리즘** 의 예측을 **메타 모델(Meta-Learner)** 이 최종 결합하는 2단계 앙상블 기법입니다.
 # MAGIC
-# MAGIC ```
-# MAGIC [1단계: Base Learners - 각기 다른 관점으로 데이터 분석]
+# MAGIC **1단계: Base Learners** - 각기 다른 관점으로 데이터 분석
 # MAGIC
 # MAGIC 입력 데이터 X (센서 12개 피처)
-# MAGIC     │
-# MAGIC     ├─→ [XGBoost]   → 예측 확률 P1 (트리 분할 기반, 피처 상호작용에 강함)
-# MAGIC     ├─→ [LightGBM]  → 예측 확률 P2 (리프 중심 분할, 대규모 데이터에 빠름)
-# MAGIC     ├─→ [CatBoost]  → 예측 확률 P3 (순서 기반 부스팅, 과적합에 강함)
-# MAGIC     │
-# MAGIC [2단계: Meta-Learner - 전문가 의견 종합]
-# MAGIC     │
-# MAGIC     └─→ [P1, P2, P3] → [Logistic Regression] → 최종 예측
-# MAGIC                         (각 모델의 신뢰도를 학습하여 가중 결합)
-# MAGIC ```
+# MAGIC - → **XGBoost** → 예측 확률 P1 (트리 분할 기반, 피처 상호작용에 강함)
+# MAGIC - → **LightGBM** → 예측 확률 P2 (리프 중심 분할, 대규모 데이터에 빠름)
+# MAGIC - → **CatBoost** → 예측 확률 P3 (순서 기반 부스팅, 과적합에 강함)
+# MAGIC
+# MAGIC **2단계: Meta-Learner** - 전문가 의견 종합
+# MAGIC - → [P1, P2, P3] → **Logistic Regression** → 최종 예측 (각 모델의 신뢰도를 학습하여 가중 결합)
 # MAGIC
 # MAGIC ### 왜 효과적인가?
-# MAGIC - 각 모델(XGBoost, LightGBM, CatBoost)이 데이터의 **다른 패턴**을 학습합니다 — 같은 Gradient Boosting 계열이지만 트리 구축 방식이 서로 다르므로 **상호 보완적** 입니다
+# MAGIC - 각 모델(XGBoost, LightGBM, CatBoost)이 데이터의 **다른 패턴** 을 학습합니다 — 같은 Gradient Boosting 계열이지만 트리 구축 방식이 서로 다르므로 **상호 보완적** 입니다
 # MAGIC - 메타 모델이 "어떤 상황에서 어떤 모델의 예측이 더 정확한지"를 학습하여 **각 모델의 강점을 최적 조합** 합니다
 # MAGIC - 단일 모델보다 **분산(variance)이 낮아** 안정적이고 일관된 예측 성능을 보입니다
 # MAGIC
@@ -444,7 +439,7 @@ with mlflow.start_run(run_name="Optuna_Best_XGBoost") as run:
 # MAGIC - **5-Fold 교차 검증** 으로 메타 모델 학습 데이터를 생성하여 이 문제를 해결
 # MAGIC - scikit-learn의 `StackingClassifier`가 이를 자동으로 처리합니다
 # MAGIC
-# MAGIC > **Databricks 장점**: Stacking은 Base Learner 3개 x 5-Fold = 15번의 모델 학습이 필요하여 계산량이 큽니다. Databricks 클러스터의 `n_jobs=-1` 옵션으로 **병렬 처리** 하면 학습 시간을 대폭 단축할 수 있습니다. MLflow에 전체 Stacking 모델을 하나의 아티팩트로 저장하여 배포 시 복잡성을 제거합니다.
+# MAGIC > **Databricks 장점** : Stacking은 Base Learner 3개 x 5-Fold = 15번의 모델 학습이 필요하여 계산량이 큽니다. Databricks 클러스터의 `n_jobs=-1` 옵션으로 **병렬 처리** 하면 학습 시간을 대폭 단축할 수 있습니다. MLflow에 전체 Stacking 모델을 하나의 아티팩트로 저장하여 배포 시 복잡성을 제거합니다.
 
 # COMMAND ----------
 
@@ -512,7 +507,7 @@ with mlflow.start_run(run_name="Stacking_Ensemble") as run:
 # MAGIC
 # MAGIC ## AutoML이란?
 # MAGIC
-# MAGIC **AutoML (Automated Machine Learning)**은 ML 모델 개발의 전 과정 — 데이터 전처리, 피처 엔지니어링, 알고리즘 선택, 하이퍼파라미터 튜닝 — 을 **자동으로** 수행하는 기술입니다.
+# MAGIC **AutoML (Automated Machine Learning)** 은 ML 모델 개발의 전 과정 — 데이터 전처리, 피처 엔지니어링, 알고리즘 선택, 하이퍼파라미터 튜닝 — 을 **자동으로** 수행하는 기술입니다.
 # MAGIC
 # MAGIC ### AutoML의 발전 역사
 # MAGIC
@@ -528,7 +523,7 @@ with mlflow.start_run(run_name="Stacking_Ensemble") as run:
 # MAGIC
 # MAGIC ### Databricks AutoML이 특별한 이유: Glass-box 접근
 # MAGIC
-# MAGIC 대부분의 AutoML 도구는 **블랙박스**입니다. 결과는 나오지만 "왜 이 모델이 선택되었는지", "어떤 전처리가 적용되었는지" 알 수 없습니다. 이는 제조 현장에서 큰 문제입니다 — **품질 감사(Audit)나 규제 대응 시 모델의 작동 원리를 설명해야 하기 때문** 입니다.
+# MAGIC 대부분의 AutoML 도구는 **블랙박스** 입니다. 결과는 나오지만 "왜 이 모델이 선택되었는지", "어떤 전처리가 적용되었는지" 알 수 없습니다. 이는 제조 현장에서 큰 문제입니다 — **품질 감사(Audit)나 규제 대응 시 모델의 작동 원리를 설명해야 하기 때문** 입니다.
 # MAGIC
 # MAGIC ```
 # MAGIC 블랙박스 AutoML (Google, Azure 등):
@@ -544,18 +539,18 @@ with mlflow.start_run(run_name="Stacking_Ensemble") as run:
 # MAGIC ```
 # MAGIC
 # MAGIC ### Databricks AutoML의 핵심 기능:
-# MAGIC - **코드 한 줄**(`automl.classify()`)로 XGBoost, LightGBM, Random Forest, Logistic Regression 등 **자동 탐색**
+# MAGIC - **코드 한 줄** (`automl.classify()`)로 XGBoost, LightGBM, Random Forest, Logistic Regression 등 **자동 탐색**
 # MAGIC - 결과를 **MLflow 실험** 으로 자동 기록 → 모든 시행의 파라미터/메트릭 추적
 # MAGIC - 최적 모델의 **학습 코드가 담긴 Databricks 노트북** 을 자동 생성 → 코드를 열어 검토/수정 가능
 # MAGIC - 데이터 **탐색(EDA) 노트북** 도 자동 생성 → 피처 분포, 상관관계, 결측값 분석 포함
-# MAGIC - **불균형 데이터 자동 처리**: class_weight, sample_weight를 자동 적용
+# MAGIC - **불균형 데이터 자동 처리** : class_weight, sample_weight를 자동 적용
 # MAGIC
 # MAGIC ### 실무 활용 전략:
-# MAGIC - **빠른 프로토타이핑**: ML 전문가 없이도 15분 만에 베이스라인 모델 확보 → "AI/ML 도입이 가능한가?"에 대한 빠른 답변
-# MAGIC - **알고리즘 선택 가이드**: AutoML이 추천하는 알고리즘/파라미터를 출발점으로, 도메인 지식을 반영하여 개선
-# MAGIC - **교육 도구**: 생성된 노트북이 ML 코드 작성법의 교과서 역할 — LG Innotek 엔지니어분들이 ML을 배우는 데 최적의 참고 자료
+# MAGIC - **빠른 프로토타이핑** : ML 전문가 없이도 15분 만에 베이스라인 모델 확보 → "AI/ML 도입이 가능한가?"에 대한 빠른 답변
+# MAGIC - **알고리즘 선택 가이드** : AutoML이 추천하는 알고리즘/파라미터를 출발점으로, 도메인 지식을 반영하여 개선
+# MAGIC - **교육 도구** : 생성된 노트북이 ML 코드 작성법의 교과서 역할 — LG Innotek 엔지니어분들이 ML을 배우는 데 최적의 참고 자료
 # MAGIC
-# MAGIC > **Databricks 장점**: AutoML은 Databricks 플랫폼에서만 제공하는 고유 기능입니다. Unity Catalog의 테이블을 직접 입력으로 받고, 결과를 MLflow에 자동 기록하며, 생성된 노트북을 바로 실행할 수 있는 **완전한 통합 경험** 을 제공합니다.
+# MAGIC > **Databricks 장점** : AutoML은 Databricks 플랫폼에서만 제공하는 고유 기능입니다. Unity Catalog의 테이블을 직접 입력으로 받고, 결과를 MLflow에 자동 기록하며, 생성된 노트북을 바로 실행할 수 있는 **완전한 통합 경험** 을 제공합니다.
 
 # COMMAND ----------
 
@@ -604,7 +599,7 @@ except ImportError:
 # MAGIC 지금까지 4가지 고급 기법을 동일한 데이터(AI4I 예지보전)에 적용했습니다.
 # MAGIC 아래 코드에서 **각 기법의 F1 Score와 AUC를 비교** 하여, 어떤 기법이 가장 효과적인지 확인합니다.
 # MAGIC
-# MAGIC > **참고**: 각 기법은 독립적으로 적용할 수도 있고, **조합**할 수도 있습니다. 예를 들어 "SMOTE-ENN으로 데이터 균형 → Optuna로 파라미터 최적화 → Stacking으로 앙상블"처럼 **3단 콤보** 를 구성하면 최고 성능을 기대할 수 있습니다.
+# MAGIC > **참고** : 각 기법은 독립적으로 적용할 수도 있고, **조합** 할 수도 있습니다. 예를 들어 "SMOTE-ENN으로 데이터 균형 → Optuna로 파라미터 최적화 → Stacking으로 앙상블"처럼 **3단 콤보** 를 구성하면 최고 성능을 기대할 수 있습니다.
 
 # COMMAND ----------
 
@@ -641,25 +636,16 @@ print(f"\n최적 기법: {best_technique} (F1: {results_summary[best_technique][
 # MAGIC
 # MAGIC ### LG Innotek 실무 적용 가이드 (권장 순서)
 # MAGIC
-# MAGIC ```
-# MAGIC Step 1: AutoML로 빠른 베이스라인 확보 (15분)
-# MAGIC   └── "이 데이터로 AI/ML이 가능한가?" 빠르게 검증
-# MAGIC
-# MAGIC Step 2: AutoML 결과를 참고하여 멀티 알고리즘 비교 (03b)
-# MAGIC   └── 추천된 알고리즘 중 도메인에 적합한 것 선택
-# MAGIC
-# MAGIC Step 3: SMOTE-ENN으로 데이터 균형 + Optuna HPO로 파라미터 최적화
-# MAGIC   └── 불량 탐지 성능(Recall/F1)을 극대화
-# MAGIC
-# MAGIC Step 4: Stacking으로 최종 앙상블 구성
-# MAGIC   └── 안정적이고 일관된 예측 성능 확보 → 운영 환경 배포
-# MAGIC ```
+# MAGIC 1. **Step 1: AutoML로 빠른 베이스라인 확보 (15분)** — "이 데이터로 AI/ML이 가능한가?" 빠르게 검증
+# MAGIC 1. **Step 2: AutoML 결과를 참고하여 멀티 알고리즘 비교 (03b)** — 추천된 알고리즘 중 도메인에 적합한 것 선택
+# MAGIC 1. **Step 3: SMOTE-ENN으로 데이터 균형 + Optuna HPO로 파라미터 최적화** — 불량 탐지 성능(Recall/F1)을 극대화
+# MAGIC 1. **Step 4: Stacking으로 최종 앙상블 구성** — 안정적이고 일관된 예측 성능 확보 → 운영 환경 배포
 # MAGIC
 # MAGIC ### 최신 트렌드 (참고)
 # MAGIC
-# MAGIC - **Foundation Model Fine-tuning**: GPT-4, LLaMA 등 대규모 언어 모델을 정형 데이터 분류에 활용하는 연구 진행 중 (TabPFN, 2023)
-# MAGIC - **Neural Architecture Search (NAS)**: 신경망 구조 자체를 자동 설계하는 기술
-# MAGIC - **Self-supervised Pre-training for Tabular Data**: 정형 데이터에 자기 지도 학습을 적용하여 레이블 없이도 피처 표현을 학습 (SAINT, TabNet)
-# MAGIC - **Causal ML**: 상관관계를 넘어 인과관계를 학습하는 모델 → "이 공정 조건을 변경하면 불량률이 얼마나 줄어드는가?"
+# MAGIC - **Foundation Model Fine-tuning** : GPT-4, LLaMA 등 대규모 언어 모델을 정형 데이터 분류에 활용하는 연구 진행 중 (TabPFN, 2023)
+# MAGIC - **Neural Architecture Search (NAS)** : 신경망 구조 자체를 자동 설계하는 기술
+# MAGIC - **Self-supervised Pre-training for Tabular Data** : 정형 데이터에 자기 지도 학습을 적용하여 레이블 없이도 피처 표현을 학습 (SAINT, TabNet)
+# MAGIC - **Causal ML** : 상관관계를 넘어 인과관계를 학습하는 모델 → "이 공정 조건을 변경하면 불량률이 얼마나 줄어드는가?"
 # MAGIC
 # MAGIC **다음 단계:** [04: 모델 등록]($./04_model_registration_uc)으로 최적 모델을 UC에 등록합니다.

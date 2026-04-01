@@ -7,14 +7,14 @@
 # MAGIC ### 이 노트북에서 배우는 것
 # MAGIC
 # MAGIC 제조 현장에서 설비가 갑자기 멈추면 생산 라인 전체가 중단되고, 막대한 손실이 발생합니다.
-# MAGIC **예지보전(Predictive Maintenance)**이란 센서 데이터를 분석하여 설비가 고장나기 **전에** 미리 예측하는 기술입니다.
+# MAGIC **예지보전(Predictive Maintenance)** 이란 센서 데이터를 분석하여 설비가 고장나기 **전에** 미리 예측하는 기술입니다.
 # MAGIC
 # MAGIC 이 노트북에서는 다음 과정을 단계별로 진행합니다:
 # MAGIC 1. 설비 센서 데이터(온도, 토크, 회전속도 등)를 입력으로 받아
 # MAGIC 2. **"이 설비가 곧 고장날 것인가?"** 를 예측하는 AI 모델을 학습시키고
 # MAGIC 3. 모델이 **왜 그런 판단을 내렸는지** 해석합니다
 # MAGIC
-# MAGIC > **현장 경험담:**20년 넘게 제조 AI 프로젝트를 해오면서 느낀 것은, 모델의 정확도보다 **"현장이 모델을 신뢰하는가"**가 프로젝트 성패를 결정한다는 것입니다. 아무리 좋은 모델이라도 현장 엔지니어가 "저 AI 믿을 수 없어"라고 하면 끝입니다. 이 노트북에서는 단순히 모델을 만드는 것을 넘어, **왜 그렇게 판단했는지 설명할 수 있는 모델** 을 만드는 과정을 다룹니다.
+# MAGIC > **현장 경험담:**20년 넘게 제조 AI 프로젝트를 해오면서 느낀 것은, 모델의 정확도보다 **"현장이 모델을 신뢰하는가"** 가 프로젝트 성패를 결정한다는 것입니다. 아무리 좋은 모델이라도 현장 엔지니어가 "저 AI 믿을 수 없어"라고 하면 끝입니다. 이 노트북에서는 단순히 모델을 만드는 것을 넘어, **왜 그렇게 판단했는지 설명할 수 있는 모델** 을 만드는 과정을 다룹니다.
 # MAGIC
 # MAGIC ### Databricks 핵심 기능
 # MAGIC
@@ -25,7 +25,7 @@
 # MAGIC | **Data Lineage** | 학습 데이터와 모델 간 계보 캡처 | 모델에 문제가 생겼을 때 "어떤 데이터로 학습했는지" 즉시 추적 가능합니다 |
 # MAGIC | **mlflow.evaluate()** | 자동화된 모델 평가 (혼동행렬, ROC, PR 곡선 등) | 모델 성능을 다양한 관점에서 자동으로 평가하여, 현장 투입 전 신뢰성을 검증합니다 |
 # MAGIC
-# MAGIC > **기존 방식 vs Databricks:**전통적으로는 Excel이나 Python 스크립트로 모델을 학습하면 "어떤 파라미터로 학습했는지", "어떤 데이터를 썼는지" 기록이 남지 않아 재현이 불가능했습니다. Databricks MLflow는 이 모든 것을 **자동으로** 기록합니다.
+# MAGIC > **기존 방식 vs Databricks:** 전통적으로는 Excel이나 Python 스크립트로 모델을 학습하면 "어떤 파라미터로 학습했는지", "어떤 데이터를 썼는지" 기록이 남지 않아 재현이 불가능했습니다. Databricks MLflow는 이 모든 것을 **자동으로** 기록합니다.
 
 # COMMAND ----------
 
@@ -63,7 +63,7 @@
 # MAGIC
 # MAGIC ### 실험(Experiment)이란?
 # MAGIC
-# MAGIC **MLflow 실험(Experiment)**은 과학자의 **실험 노트** 와 같습니다.
+# MAGIC **MLflow 실험(Experiment)** 은 과학자의 **실험 노트** 와 같습니다.
 # MAGIC
 # MAGIC 제조 현장에서 새로운 공정 조건을 테스트할 때, 엔지니어는 실험 노트에 "어떤 조건으로 테스트했는지, 결과가 어땠는지"를 꼼꼼히 기록합니다.
 # MAGIC AI/ML에서도 마찬가지입니다. 모델을 학습시킬 때마다 다양한 조건(파라미터)을 바꿔가며 시도하는데,
@@ -211,7 +211,7 @@ print(f"고장 비율 - 학습: {Y_train.mean():.4f}, 테스트: {Y_test.mean():
 # MAGIC
 # MAGIC ### XGBoost란?
 # MAGIC
-# MAGIC **XGBoost (eXtreme Gradient Boosting)**는 현재 정형 데이터(테이블 형태 데이터) 분석에서 **가장 널리 사용되는 ML 알고리즘** 중 하나입니다.
+# MAGIC **XGBoost (eXtreme Gradient Boosting)** 는 현재 정형 데이터(테이블 형태 데이터) 분석에서 **가장 널리 사용되는 ML 알고리즘** 중 하나입니다.
 # MAGIC
 # MAGIC > **현장 경험담:**XGBoost를 선택한 이유를 솔직히 말하면, 정형 데이터에서 이 알고리즘을 이긴 것을 거의 본 적이 없기 때문입니다. Kaggle 대회에서도, 실제 제조 프로젝트에서도 마찬가지입니다. 딥러닝이 대세라고 하지만, 센서 데이터 10,000건에 딥러닝을 쓰는 것은 대포로 파리를 잡는 격입니다. 딥러닝은 이미지, 텍스트, 시계열 수만 건 이상에서 빛을 발합니다. **정형 데이터 + 수천~수만 건 규모라면, XGBoost가 정답에 가장 가깝습니다.**
 # MAGIC
@@ -237,7 +237,7 @@ print(f"고장 비율 - 학습: {Y_train.mean():.4f}, 테스트: {Y_test.mean():
 # MAGIC | `scale_pos_weight` | 고장 데이터 가중치 | 고장 사례가 적으므로 더 중요하게 학습 |
 # MAGIC | `early_stopping_rounds` (20) | 성능 개선이 없으면 조기 종료 | 더 이상 개선되지 않으면 학습을 멈춰 과적합 방지 |
 # MAGIC
-# MAGIC > **현장 경험담 - scale_pos_weight:**불균형 데이터 처리에서 가장 흔한 실수는 Accuracy에 속는 것입니다. 고장률 3.4%인 데이터에서 모든 것을 '정상'으로 예측해도 Accuracy 96.6%입니다. 보고서에 "정확도 96.6%"라고 쓰면 경영진은 감탄하겠지만, 이런 모델은 고장을 단 하나도 잡지 못하므로 **완전히 쓸모가 없습니다**. `scale_pos_weight`는 이 함정을 피하는 첫 번째 방법입니다. 소수 클래스(고장)의 오분류에 더 큰 패널티를 부여해서, 모델이 고장 케이스를 무시하지 못하게 만듭니다.
+# MAGIC > **현장 경험담 - scale_pos_weight:** 불균형 데이터 처리에서 가장 흔한 실수는 Accuracy에 속는 것입니다. 고장률 3.4%인 데이터에서 모든 것을 '정상'으로 예측해도 Accuracy 96.6%입니다. 보고서에 "정확도 96.6%"라고 쓰면 경영진은 감탄하겠지만, 이런 모델은 고장을 단 하나도 잡지 못하므로 **완전히 쓸모가 없습니다** . `scale_pos_weight`는 이 함정을 피하는 첫 번째 방법입니다. 소수 클래스(고장)의 오분류에 더 큰 패널티를 부여해서, 모델이 고장 케이스를 무시하지 못하게 만듭니다.
 # MAGIC
 # MAGIC ### MLflow Autolog - 한 줄의 마법
 # MAGIC
@@ -408,7 +408,7 @@ print(f"Test F1: {result['test_f1']:.4f}, Test AUC: {result['test_auc']:.4f}")
 # MAGIC
 # MAGIC **제조 비유:** 새로운 제품의 최적 공정 조건(온도, 압력, 시간)을 찾기 위해 DOE(Design of Experiments)를 수행하는 것과 같습니다.
 # MAGIC
-# MAGIC > **현장 경험담:**솔직히 말하면, 현업에서는 하이퍼파라미터 튜닝에 너무 많은 시간을 쓰지 않는 것이 좋습니다. 경험상 **80%의 성능은 디폴트 파라미터로 나오고, 튜닝으로 얻는 개선은 보통 2~5%입니다.**그 시간에 피처를 하나 더 만드는 것이 훨씬 효과적입니다. 실제 프로젝트에서 성능을 극적으로 개선한 것은 항상 "새로운 피처 발견"이었지, 파라미터 미세 조정이 아니었습니다. HPO는 **마지막 1~2%를 짜낼 때** 하는 것이고, 그 전에 데이터와 피처를 충분히 탐색했는지 먼저 점검하세요.
+# MAGIC > **현장 경험담:** 솔직히 말하면, 현업에서는 하이퍼파라미터 튜닝에 너무 많은 시간을 쓰지 않는 것이 좋습니다. 경험상 **80%의 성능은 디폴트 파라미터로 나오고, 튜닝으로 얻는 개선은 보통 2~5%입니다.**그 시간에 피처를 하나 더 만드는 것이 훨씬 효과적입니다. 실제 프로젝트에서 성능을 극적으로 개선한 것은 항상 "새로운 피처 발견"이었지, 파라미터 미세 조정이 아니었습니다. HPO는 **마지막 1~2%를 짜낼 때** 하는 것이고, 그 전에 데이터와 피처를 충분히 탐색했는지 먼저 점검하세요.
 # MAGIC
 # MAGIC 아래에서는 3가지 파라미터 조합을 시도합니다. MLflow에 모든 실행이 자동 기록되므로,
 # MAGIC Experiments UI에서 4개 모델(Baseline + 3개 HPO)을 표로 나란히 비교할 수 있습니다.
@@ -439,6 +439,21 @@ print(f"Val F1: {best_result['val_f1']:.4f}, Test F1: {best_result['test_f1']:.4
 # COMMAND ----------
 
 # MAGIC %md
+# MAGIC ### Databricks UI 확인 포인트
+# MAGIC
+# MAGIC 1. **좌측 사이드바 > Experiments** 클릭
+# MAGIC 2. `lgit_predictive_maintenance` 실험 클릭
+# MAGIC 3. **Run 목록** 에서 여러 실행 결과를 비교 (F1, AUC 컬럼 정렬)
+# MAGIC 4. 최적 Run 클릭 > **Parameters** 탭: 하이퍼파라미터 값 확인
+# MAGIC 5. **Metrics** 탭: 학습 곡선 (loss 그래프) 확인
+# MAGIC 6. **Artifacts** 탭: 모델 파일, requirements.txt, SHAP plot 확인
+# MAGIC 7. 여러 Run을 체크 > **Compare** 버튼: 성능 비교 차트 자동 생성
+# MAGIC
+# MAGIC > **팁**: Artifacts > shap_summary_plot.png 를 클릭하면 피처 중요도 시각화를 바로 볼 수 있습니다
+
+# COMMAND ----------
+
+# MAGIC %md
 # MAGIC > **실험 결과 확인 방법:**
 # MAGIC > 1. 좌측 사이드바에서 **Experiments** 아이콘을 클릭합니다
 # MAGIC > 2. `lgit_predictive_maintenance` 실험을 선택합니다
@@ -454,12 +469,12 @@ print(f"Val F1: {best_result['val_f1']:.4f}, Test F1: {best_result['test_f1']:.4
 # MAGIC
 # MAGIC ### SHAP이란?
 # MAGIC
-# MAGIC **SHAP (SHapley Additive exPlanations)**은 AI 모델의 예측을 **해석** 하는 기술입니다.
+# MAGIC **SHAP (SHapley Additive exPlanations)** 은 AI 모델의 예측을 **해석** 하는 기술입니다.
 # MAGIC
 # MAGIC AI 모델이 "이 설비가 고장날 것이다"라고 예측했을 때, 현장 엔지니어가 가장 궁금한 것은 **"왜?"** 입니다.
 # MAGIC SHAP은 각 입력 피처(센서값)가 예측 결과에 **얼마나 기여했는지** 를 수치로 보여줍니다.
 # MAGIC
-# MAGIC > **현장 경험담:**SHAP의 진짜 가치는 기술적인 것이 아니라 **비즈니스적인 것**입니다. 공장장에게 "AI가 이 설비가 위험하다고 합니다"라고 하면 십중팔구 의심합니다. "근거가 뭔데?" 하고 물어봅니다. 하지만 "AI가 **토크 72Nm(정상 대비 150%)과 공구 마모 215분(교체 기준 초과)**을 근거로 위험하다고 판단했습니다"라고 하면 신뢰합니다. 왜냐하면 현장 엔지니어의 경험적 직관과 일치하기 때문입니다. SHAP은 AI와 현장 사이의 **신뢰 다리** 를 놓는 도구입니다.
+# MAGIC > **현장 경험담:**SHAP의 진짜 가치는 기술적인 것이 아니라 **비즈니스적인 것** 입니다. 공장장에게 "AI가 이 설비가 위험하다고 합니다"라고 하면 십중팔구 의심합니다. "근거가 뭔데?" 하고 물어봅니다. 하지만 "AI가 **토크 72Nm(정상 대비 150%)과 공구 마모 215분(교체 기준 초과)** 을 근거로 위험하다고 판단했습니다"라고 하면 신뢰합니다. 왜냐하면 현장 엔지니어의 경험적 직관과 일치하기 때문입니다. SHAP은 AI와 현장 사이의 **신뢰 다리** 를 놓는 도구입니다.
 # MAGIC
 # MAGIC ### 제조 현장에서의 실제 활용
 # MAGIC
@@ -538,7 +553,7 @@ if len(failure_idx) > 0:
 # MAGIC %md
 # MAGIC ## 6. 임계값 최적화 & 모델 캘리브레이션 (Threshold Optimization & Calibration)
 # MAGIC
-# MAGIC > **20년차 현업 팁**: 대부분의 팀이 XGBoost의 예측 확률을 0.5 기준으로 이진 분류합니다. 하지만 이것은 **거의 항상 최적이 아닙니다.** 특히 고장 예측처럼 놓치는 것(FN)이 오탐(FP)보다 훨씬 비싼 경우, 임계값을 낮춰서 Recall을 높이는 것이 비즈니스적으로 올바릅니다.
+# MAGIC > **20년차 현업 팁** : 대부분의 팀이 XGBoost의 예측 확률을 0.5 기준으로 이진 분류합니다. 하지만 이것은 **거의 항상 최적이 아닙니다.** 특히 고장 예측처럼 놓치는 것(FN)이 오탐(FP)보다 훨씬 비싼 경우, 임계값을 낮춰서 Recall을 높이는 것이 비즈니스적으로 올바릅니다.
 # MAGIC
 # MAGIC ### 임계값이란?
 # MAGIC - 모델이 "고장 확률 0.65"를 출력했을 때, 이것을 "고장"으로 판정할지 "정상"으로 판정할지의 기준선
@@ -555,11 +570,11 @@ if len(failure_idx) > 0:
 from sklearn.metrics import precision_recall_curve
 import numpy as np
 
-# 테스트 데이터 예측 확률
-y_pred_proba = best_model.predict(xgb.DMatrix(X_val))
+# 테스트 데이터 예측 확률 (X_test/Y_test는 학습 함수 외부에서 정의된 홀드아웃 테스트셋)
+y_pred_proba = best_model.predict(xgb.DMatrix(X_test, feature_names=feature_columns))
 
 # PR 곡선 계산
-precisions, recalls, thresholds = precision_recall_curve(Y_val, y_pred_proba)
+precisions, recalls, thresholds = precision_recall_curve(Y_test, y_pred_proba)
 
 # Recall >= 0.8을 만족하는 최적 임계값 (Precision이 가장 높은 것)
 target_recall = 0.8
@@ -580,10 +595,10 @@ mlflow.log_metric("optimal_recall", float(recalls[best_idx]) if len(valid_idx) >
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC > **현업 팁**: 임계값은 비즈니스 요구사항에 따라 결정합니다.
+# MAGIC > **현업 팁** : 임계값은 비즈니스 요구사항에 따라 결정합니다.
 # MAGIC > - **놓침이 치명적** (반도체, 자동차 부품) → 임계값 낮춤 (0.3~0.4) → Recall↑, Precision↓
 # MAGIC > - **오탐 비용이 높음** (불필요 정비 비용 큼) → 임계값 높임 (0.6~0.7) → Precision↑, Recall↓
-# MAGIC > - **최적점**: PR 곡선에서 비용함수를 최소화하는 점 = `cost = FN × 50000 + FP × 3000`
+# MAGIC > - **최적점** : PR 곡선에서 비용함수를 최소화하는 점 = `cost = FN × 50000 + FP × 3000`
 
 # COMMAND ----------
 
@@ -597,7 +612,7 @@ mlflow.log_metric("optimal_recall", float(recalls[best_idx]) if len(valid_idx) >
 # MAGIC | 1 | **MLflow 실험 설정** 및 데이터 계보(Lineage) 캡처 | 모든 학습 이력이 자동 기록되어 재현 가능 |
 # MAGIC | 2 | **XGBoost Baseline 모델** 학습 (불균형 보정 포함) | 기준 성능 확보, 고장 사례 가중치 적용 |
 # MAGIC | 3 | **하이퍼파라미터 튜닝** (3개 조합 탐색) | 최적 파라미터 탐색, MLflow에서 비교 |
-# MAGIC | 4 | **SHAP 해석**: 피처 중요도 및 개별 예측 설명 | 현장 엔지니어에게 "왜 고장 예측인지" 설명 가능 |
+# MAGIC | 4 | **SHAP 해석** : 피처 중요도 및 개별 예측 설명 | 현장 엔지니어에게 "왜 고장 예측인지" 설명 가능 |
 # MAGIC | 5 | 모든 실험이 **MLflow에 자동 기록** | 팀 전체가 결과를 공유하고 감사에 대응 가능 |
 # MAGIC
 # MAGIC ### 핵심 메시지
@@ -607,6 +622,6 @@ mlflow.log_metric("optimal_recall", float(recalls[best_idx]) if len(valid_idx) >
 # MAGIC SHAP을 통해 모델의 판단 근거까지 설명할 수 있습니다.
 # MAGIC 이것이 **신뢰할 수 있는 AI** 의 첫걸음입니다.
 # MAGIC
-# MAGIC > **현장 경험담:**제조 AI 프로젝트에서 가장 많이 실패하는 이유는 모델 성능이 낮아서가 아니라, **현장이 모델을 안 쓰기**때문입니다. 모델이 F1 0.95를 달성해도, 현장 엔지니어가 "저거 믿을 수 없어"라고 하면 프로젝트는 실패입니다. 실험 추적(재현 가능성), 불균형 처리(실질적 성능), SHAP(설명 가능성)은 모두 **현장의 신뢰를 얻기 위한 도구** 입니다. 기술이 아니라 신뢰가 MLOps의 핵심입니다.
+# MAGIC > **현장 경험담:** 제조 AI 프로젝트에서 가장 많이 실패하는 이유는 모델 성능이 낮아서가 아니라, **현장이 모델을 안 쓰기** 때문입니다. 모델이 F1 0.95를 달성해도, 현장 엔지니어가 "저거 믿을 수 없어"라고 하면 프로젝트는 실패입니다. 실험 추적(재현 가능성), 불균형 처리(실질적 성능), SHAP(설명 가능성)은 모두 **현장의 신뢰를 얻기 위한 도구** 입니다. 기술이 아니라 신뢰가 MLOps의 핵심입니다.
 # MAGIC
 # MAGIC **다음 단계:** [Unity Catalog 모델 등록]($./04_model_registration_uc) - 학습된 모델을 안전하게 저장하고, 버전 관리하며, 운영 환경에 배포하는 과정을 진행합니다.

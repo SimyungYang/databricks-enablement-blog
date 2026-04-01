@@ -20,7 +20,7 @@ Databricks가 고객 AWS 계정에 EC2를 프로비저닝하기 위한 역할입
 | Policy Type | 설명 | 사용 시점 |
 |---|---|---|
 | `managed` | Databricks가 VPC 생성/관리 | PoC, 빠른 시작 |
-| `customer` | **고객이 VPC 생성**, Databricks는 EC2만 관리 | **프로덕션 권장**|
+| `customer` | ** 고객이 VPC 생성**, Databricks는 EC2만 관리 | ** 프로덕션 권장**|
 | `restricted` | customer + ARN 조건 제한 (VPC ID, SG ID 등) | 엄격 보안 요건 |
 
 *참고: [Terraform: databricks_aws_crossaccount_policy](https://registry.terraform.io/providers/databricks/databricks/latest/docs/data-sources/aws_crossaccount_policy)*

@@ -1,6 +1,6 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC > **사전 요구사항**: 이 노트북 실행 전 `04_model_registration_uc` 노트북을 먼저 실행해야 합니다.
+# MAGIC > **사전 요구사항** : 이 노트북 실행 전 `04_model_registration_uc` 노트북을 먼저 실행해야 합니다.
 # MAGIC > 04번 노트북에서 모델을 Unity Catalog에 등록하고 Challenger 에일리어스를 설정해야 이 노트북이 정상 작동합니다.
 
 # COMMAND ----------
@@ -13,13 +13,13 @@
 # MAGIC 새로운 AI 모델을 운영 환경에 배포하기 전에, 반드시 **체계적인 검증** 을 거쳐야 합니다.
 # MAGIC 이것은 제조 현장의 **품질 검사(QC)** 와 완전히 동일한 개념입니다.
 # MAGIC
-# MAGIC > **현장 이야기**: 모델 검증을 건너뛰는 팀이 정말 많습니다. "학습 메트릭이 좋으니까 바로 배포하자"는 것이죠.
+# MAGIC > **현장 이야기** : 모델 검증을 건너뛰는 팀이 정말 많습니다. "학습 메트릭이 좋으니까 바로 배포하자"는 것이죠.
 # MAGIC > 제가 겪었던 가장 큰 사고 중 하나가 이것 때문이었습니다. 학습 데이터에서 F1 0.95였던 모델이
 # MAGIC > 운영에서 F1 0.3으로 떨어진 적이 있습니다. 과적합(Overfitting)이었죠.
 # MAGIC > 학습 데이터의 패턴을 "외워버린" 모델이, 실제 운영 데이터에서는 완전히 무력해진 겁니다.
 # MAGIC > 그 사고 이후로 저는 검증 없는 배포를 절대 허용하지 않습니다.
 # MAGIC
-# MAGIC > **제조 비유**: LG이노텍에서 새로운 부품을 양산 라인에 투입하기 전에, 시제품을 만들고
+# MAGIC > **제조 비유** : LG이노텍에서 새로운 부품을 양산 라인에 투입하기 전에, 시제품을 만들고
 # MAGIC > 각종 품질 테스트(내구성, 치수 정밀도, 신뢰성 시험 등)를 거치는 것과 같습니다.
 # MAGIC > AI 모델도 마찬가지로, 운영에 투입하기 전에 "이 모델이 정말 기존 모델보다 나은가?",
 # MAGIC > "실제 운영 데이터에서도 잘 작동하는가?", "비즈니스 관점에서 가치가 있는가?"를 검증합니다.
@@ -27,12 +27,12 @@
 # MAGIC ### Champion-Challenger 패턴이란?
 # MAGIC
 # MAGIC MLOps에서 널리 사용되는 모델 배포 전략입니다:
-# MAGIC - **Champion (챔피언)**: 현재 운영 중인 모델. 검증을 통과해서 "현역"으로 일하고 있는 모델입니다.
-# MAGIC - **Challenger (챌린저)**: 새로 학습된 모델. Champion의 자리를 "도전"하는 후보 모델입니다.
+# MAGIC - **Champion (챔피언)** : 현재 운영 중인 모델. 검증을 통과해서 "현역"으로 일하고 있는 모델입니다.
+# MAGIC - **Challenger (챌린저)** : 새로 학습된 모델. Champion의 자리를 "도전"하는 후보 모델입니다.
 # MAGIC - Challenger가 모든 검증을 통과하면 Champion으로 **승급** 되어 운영에 투입됩니다.
 # MAGIC - 기존 Champion은 자연스럽게 퇴역합니다.
 # MAGIC
-# MAGIC > **스포츠 비유**: 현재 레귤러 선수(Champion)가 있고, 유망한 신인 선수(Challenger)가 입단했습니다.
+# MAGIC > **스포츠 비유** : 현재 레귤러 선수(Champion)가 있고, 유망한 신인 선수(Challenger)가 입단했습니다.
 # MAGIC > 신인이 바로 경기에 뛰는 것이 아니라, 체력 테스트, 연습 경기, 전술 이해도 테스트 등을 거쳐
 # MAGIC > "기존 선수보다 낫다"고 판명되어야 비로소 주전이 됩니다. 이것이 Champion-Challenger 패턴입니다.
 # MAGIC
@@ -45,7 +45,7 @@
 # MAGIC | **태그 기반 검증 추적** | 각 테스트 결과를 모델 메타데이터로 기록 | 나중에 "왜 이 모델이 승급/거부되었는지" 추적 가능 |
 # MAGIC | **Workflows 통합** | 검증 노트북을 Job으로 자동 실행 | 사람 개입 없이 자동 검증 파이프라인 구축 |
 # MAGIC
-# MAGIC > **Databricks 장점**: 전통적인 방법에서는 모델 검증을 위해 별도의 A/B 테스트 서버를 구축하거나,
+# MAGIC > **Databricks 장점** : 전통적인 방법에서는 모델 검증을 위해 별도의 A/B 테스트 서버를 구축하거나,
 # MAGIC > 수동으로 스크립트를 실행해야 했습니다. Databricks에서는 Unity Catalog의 에일리어스 시스템과
 # MAGIC > MLflow의 평가 프레임워크가 통합되어 있어, 이 노트북 하나로 전체 검증 프로세스가 완료됩니다.
 # MAGIC
@@ -87,7 +87,7 @@
 # MAGIC 하나라도 실패하면 Challenger는 "rejected(거부)" 태그가 붙고, 기존 Champion이 계속 운영됩니다.
 # MAGIC 이것이 바로 **안전망(Safety Net)** 입니다 - 성능이 나쁜 모델이 절대로 운영에 투입되지 않습니다.
 # MAGIC
-# MAGIC > **Lakeflow Jobs 연동**: 이 검증 프로세스를 Workflows의 Job Task로 등록하면,
+# MAGIC > **Lakeflow Jobs 연동** : 이 검증 프로세스를 Workflows의 Job Task로 등록하면,
 # MAGIC > 새 모델이 학습될 때마다 자동으로 검증이 실행되고, 통과 시 자동 승급됩니다.
 # MAGIC > 사람이 매번 확인할 필요 없이 **완전 자동화된 CI/CD for ML** 파이프라인을 구축할 수 있습니다.
 
@@ -112,7 +112,7 @@ model_alias = "Challenger"
 # MAGIC `@Challenger`라는 이름으로 참조할 수 있습니다. 나중에 v4가 Challenger가 되면
 # MAGIC 에일리어스만 옮기면 되므로, 코드를 수정할 필요가 없습니다.
 # MAGIC
-# MAGIC > **제조 비유**: 공장에서 "현재 사용 중인 금형"이라고 표시하는 태그와 같습니다.
+# MAGIC > **제조 비유** : 공장에서 "현재 사용 중인 금형"이라고 표시하는 태그와 같습니다.
 # MAGIC > 금형이 교체되면 태그만 새 금형으로 옮기면 되고, 작업 지시서는 바꿀 필요가 없습니다.
 
 # COMMAND ----------
@@ -142,10 +142,10 @@ print(f"Run ID: {model_run_id}")
 # MAGIC "어떤 알고리즘을 썼지?", "왜 이 하이퍼파라미터를 선택했지?"라는 질문에 답할 수 없다면,
 # MAGIC 모델을 유지보수하거나 개선하는 것이 불가능해집니다.
 # MAGIC
-# MAGIC > **제조 비유**: 제품에 대한 **BOM(Bill of Materials)**이나 **공정 문서** 가 없다면,
+# MAGIC > **제조 비유** : 제품에 대한 **BOM(Bill of Materials)** 이나 **공정 문서** 가 없다면,
 # MAGIC > 문제 발생 시 원인을 추적할 수 없는 것과 같습니다. ISO 품질 인증에서도 문서화는 필수입니다.
 # MAGIC
-# MAGIC > **실무 경험**: 문서화를 "귀찮은 행정 업무"로 생각하는 분들이 많습니다. 하지만 제가 20년간 봐온 ML 프로젝트에서,
+# MAGIC > **실무 경험** : 문서화를 "귀찮은 행정 업무"로 생각하는 분들이 많습니다. 하지만 제가 20년간 봐온 ML 프로젝트에서,
 # MAGIC > 문서화가 없어서 1년 뒤에 모델을 아무도 건드리지 못하고 처음부터 다시 만드는 경우를 수십 번 목격했습니다.
 # MAGIC > 모델 하나 다시 만드는 데 보통 2~3개월이 걸립니다. 문서화에 30분 투자하면 3개월을 아끼는 겁니다.
 # MAGIC
@@ -182,10 +182,10 @@ client.set_model_version_tag(
 # MAGIC
 # MAGIC 이 검증에서는 실제 테스트 데이터를 모델에 넣어보고, 에러 없이 예측 결과가 나오는지 확인합니다.
 # MAGIC
-# MAGIC > **제조 비유**: 새로운 설비를 도입할 때, 실제 원자재를 투입해서 **시운전(Trial Run)** 을 하는 것과 같습니다.
+# MAGIC > **제조 비유** : 새로운 설비를 도입할 때, 실제 원자재를 투입해서 **시운전(Trial Run)** 을 하는 것과 같습니다.
 # MAGIC > 설계 스펙상 문제가 없더라도, 실제 환경에서 예상치 못한 문제가 발생할 수 있기 때문입니다.
 # MAGIC
-# MAGIC > **실무 팁**: 추론 테스트에서 가장 흔하게 터지는 문제 3가지가 있습니다.
+# MAGIC > **실무 팁** : 추론 테스트에서 가장 흔하게 터지는 문제 3가지가 있습니다.
 # MAGIC > (1) 학습 때 없던 NULL 값 — 센서가 일시적으로 끊기면 NULL이 들어옵니다.
 # MAGIC > (2) 피처 순서 불일치 — 테이블 스키마가 바뀌면 모델이 엉뚱한 컬럼을 읽습니다.
 # MAGIC > (3) 데이터 타입 변경 — integer가 string으로 바뀌는 것만으로 모델이 깨집니다.
@@ -219,6 +219,25 @@ try:
 
     inference_passed = pred_count > 0
     print(f"추론 테스트 통과: {pred_count}건 정상 예측")
+
+    # 추가 검증: 예측값 범위 및 분포 확인
+    pred_values = preds_df.select("prediction").toPandas()["prediction"]
+    null_count = pred_values.isna().sum()
+    out_of_range = ((pred_values < 0) | (pred_values > 1)).sum()
+    all_same = pred_values.nunique() <= 1
+
+    if null_count > 0:
+        print(f"  ⚠️ NULL 예측값: {null_count}건")
+        inference_passed = False
+    if out_of_range > 0:
+        print(f"  ⚠️ 범위 이탈 예측값 (0~1 밖): {out_of_range}건")
+        inference_passed = False
+    if all_same:
+        print(f"  ⚠️ 모든 예측값이 동일 — 모델 오류 의심")
+        inference_passed = False
+
+    if inference_passed:
+        print(f"  ✅ 예측값 품질 검증 통과 (NULL={null_count}, 범위이탈={out_of_range})")
     display(preds_df.select(*feature_columns[:5], "machine_failure", "prediction").limit(10))
 except Exception as e:
     inference_passed = False
@@ -236,15 +255,15 @@ client.set_model_version_tag(
 # MAGIC
 # MAGIC **F1 Score란?**
 # MAGIC
-# MAGIC F1 Score는 모델의 **정밀도(Precision)**와 **재현율(Recall)** 을 종합한 성능 지표입니다 (0~1, 높을수록 좋음).
-# MAGIC - **정밀도(Precision)**: "고장이라고 예측한 것 중 실제 고장인 비율" (오탐을 줄이는 능력)
-# MAGIC - **재현율(Recall)**: "실제 고장 중 모델이 잡아낸 비율" (미탐지를 줄이는 능력)
-# MAGIC - **F1 Score**: 정밀도와 재현율의 조화 평균. 두 지표의 균형을 나타냅니다.
+# MAGIC F1 Score는 모델의 **정밀도(Precision)** 와 **재현율(Recall)** 을 종합한 성능 지표입니다 (0~1, 높을수록 좋음).
+# MAGIC - **정밀도(Precision)** : "고장이라고 예측한 것 중 실제 고장인 비율" (오탐을 줄이는 능력)
+# MAGIC - **재현율(Recall)** : "실제 고장 중 모델이 잡아낸 비율" (미탐지를 줄이는 능력)
+# MAGIC - **F1 Score** : 정밀도와 재현율의 조화 평균. 두 지표의 균형을 나타냅니다.
 # MAGIC
-# MAGIC > **제조 비유**: 품질 검사에서 정밀도는 "불량 판정한 제품 중 진짜 불량 비율"이고,
+# MAGIC > **제조 비유** : 품질 검사에서 정밀도는 "불량 판정한 제품 중 진짜 불량 비율"이고,
 # MAGIC > 재현율은 "전체 불량품 중 검사에서 잡아낸 비율"입니다. F1은 이 둘의 균형입니다.
 # MAGIC
-# MAGIC > **멘토 조언**: F1 Score는 편리한 지표이지만, 제조업에서는 **Recall(재현율)에 더 가중치를 두는 것** 을 권장합니다.
+# MAGIC > **멘토 조언** : F1 Score는 편리한 지표이지만, 제조업에서는 **Recall(재현율)에 더 가중치를 두는 것** 을 권장합니다.
 # MAGIC > 고장을 놓치는 것(FN)이 오탐(FP)보다 훨씬 치명적이기 때문입니다. 실무에서는 F1 대신 F-beta Score(beta=2)를
 # MAGIC > 사용해서 Recall에 더 높은 가중치를 주는 경우도 많습니다. 다만 이 교육에서는 이해의 편의를 위해 F1을 사용합니다.
 # MAGIC
@@ -281,11 +300,19 @@ client.set_model_version_tag(
 # COMMAND ----------
 
 # MAGIC %md
+# MAGIC > **현업 팁** : 전체 성능만 보면 안 됩니다. 제품 유형(L/M/H)별, 교대 시간대별, 특정 설비별로
+# MAGIC > 성능을 슬라이스해서 봐야 합니다. 전체 F1이 0.9여도 특정 제품 유형에서 F1이 0.3이면
+# MAGIC > 그 유형의 설비는 사실상 보호받지 못하고 있는 것입니다.
+# MAGIC > 이것을 **Slice-based Evaluation** 이라고 하며, Responsible AI의 핵심 요소입니다.
+
+# COMMAND ----------
+
+# MAGIC %md
 # MAGIC ### Check 4: 비즈니스 KPI 평가
 # MAGIC
 # MAGIC **왜 ML 성능 지표만으로는 부족한가?**
 # MAGIC
-# MAGIC > **핵심 교훈**: 순수 ML 메트릭만으로 모델을 평가하면 현업에서 외면받습니다.
+# MAGIC > **핵심 교훈** : 순수 ML 메트릭만으로 모델을 평가하면 현업에서 외면받습니다.
 # MAGIC > "정확도 92%입니다"는 경영진에게 아무 의미가 없어요.
 # MAGIC > "이 모델을 배포하면 연간 예방정비 비용 3억을 절감하면서 돌발 고장은 70% 줄일 수 있습니다"라고 해야 합니다.
 # MAGIC > 20년간 수십 개 제조사에서 일하면서 배운 것 — **ML 엔지니어가 비즈니스 언어를 못 하면 프로젝트는 1년 안에 사라집니다.**
@@ -294,7 +321,7 @@ client.set_model_version_tag(
 # MAGIC 예를 들어, 모델이 99%의 정확도를 보이지만 **가장 비용이 큰 고장 유형을 놓치는 경우**,
 # MAGIC 전체적인 정확도는 높지만 실제 비용은 더 크게 발생할 수 있습니다.
 # MAGIC
-# MAGIC > **LG이노텍 예시**: 카메라 모듈 생산 라인에서 "렌즈 정렬 불량"은 전체 불량의 2%에 불과하지만,
+# MAGIC > **LG이노텍 예시** : 카메라 모듈 생산 라인에서 "렌즈 정렬 불량"은 전체 불량의 2%에 불과하지만,
 # MAGIC > 하나당 폐기 비용이 일반 불량의 10배입니다. 이 2%를 놓치면 전체 불량 검출률은 98%로 높지만,
 # MAGIC > 비용 관점에서는 오히려 손해가 됩니다.
 # MAGIC
@@ -302,7 +329,7 @@ client.set_model_version_tag(
 # MAGIC
 # MAGIC ### 혼동행렬과 비즈니스 비용 매핑
 # MAGIC
-# MAGIC > **멘토 조언**: 혼동행렬을 볼 때 가장 중요한 것은 **FN(False Negative)** 입니다.
+# MAGIC > **멘토 조언** : 혼동행렬을 볼 때 가장 중요한 것은 **FN(False Negative)** 입니다.
 # MAGIC > 고장을 놓치는 것이 오탐(FP)보다 훨씬 치명적입니다. 자동차 부품 검사에서 불량을 놓치면 리콜입니다.
 # MAGIC > LG Innotek의 카메라 모듈도 마찬가지 — 불량이 고객사까지 가면 비용이 100배로 뛰어요.
 # MAGIC > FP는 "불필요한 점검 비용"이지만, FN은 "라인 정지 + 납기 지연 + 고객 클레임"입니다.
@@ -313,13 +340,13 @@ client.set_model_version_tag(
 # MAGIC | | 예측: 정상 (0) | 예측: 고장 (1) |
 # MAGIC |---|---|---|
 # MAGIC | **실제: 정상 (0)**| **TN (True Negative)**- 화재 없는데 경보도 안 울림. 정상 상황. 비용 없음 | **FP (False Positive, 오탐)**- 화재 없는데 경보가 울림. 소방차 출동, 라인 중단 등 **불필요한 비용** 발생 |
-# MAGIC | **실제: 고장 (1)**| **FN (False Negative, 미탐지)**- 실제 화재인데 경보가 안 울림. **가장 위험!**설비 파손, 대규모 다운타임 발생 | **TP (True Positive, 정탐)**- 실제 화재인데 경보가 울림. 초기 진압 성공. **예방 정비로 큰 손실 방지** |
+# MAGIC | **실제: 고장 (1)**| **FN (False Negative, 미탐지)**- 실제 화재인데 경보가 안 울림. **가장 위험!** 설비 파손, 대규모 다운타임 발생 | **TP (True Positive, 정탐)**- 실제 화재인데 경보가 울림. 초기 진압 성공. **예방 정비로 큰 손실 방지** |
 # MAGIC
 # MAGIC **LG이노텍 생산 라인에서의 비용 임팩트:**
-# MAGIC - **FN (미탐지) = 가장 비싼 실수**: 설비가 고장 나는데 모델이 "정상"이라고 판단 → 갑작스러운 라인 중단, 후속 공정 지연, 납기 지연까지 이어질 수 있음
-# MAGIC - **FP (오탐) = 낭비 비용**: 정상 설비인데 모델이 "고장 예측" → 불필요한 정비 인력 투입, 생산 중단
-# MAGIC - **TP (정탐) = 가장 큰 가치**: 고장을 사전에 감지 → 계획된 정비로 대처, 다운타임 최소화
-# MAGIC - **TN (정상 판정) = 기본**: 정상 상태를 정상으로 판단 → 비용 없음
+# MAGIC - **FN (미탐지) = 가장 비싼 실수** : 설비가 고장 나는데 모델이 "정상"이라고 판단 → 갑작스러운 라인 중단, 후속 공정 지연, 납기 지연까지 이어질 수 있음
+# MAGIC - **FP (오탐) = 낭비 비용** : 정상 설비인데 모델이 "고장 예측" → 불필요한 정비 인력 투입, 생산 중단
+# MAGIC - **TP (정탐) = 가장 큰 가치** : 고장을 사전에 감지 → 계획된 정비로 대처, 다운타임 최소화
+# MAGIC - **TN (정상 판정) = 기본** : 정상 상태를 정상으로 판단 → 비용 없음
 
 # COMMAND ----------
 
@@ -390,10 +417,10 @@ client.set_model_version_tag(
 # MAGIC 모든 검증이 끝났습니다. 이제 4가지 검증 결과를 종합하여 **최종 판정** 을 내립니다.
 # MAGIC
 # MAGIC **승급 로직:**
-# MAGIC - 4가지 검증이 **모두 PASS**이면 → Challenger를 Champion으로 **자동 승급**
-# MAGIC - 하나라도 **FAIL**이면 → Challenger는 **거부(rejected)** 처리, 기존 Champion 유지
+# MAGIC - 4가지 검증이 **모두 PASS** 이면 → Challenger를 Champion으로 **자동 승급**
+# MAGIC - 하나라도 **FAIL** 이면 → Challenger는 **거부(rejected)** 처리, 기존 Champion 유지
 # MAGIC
-# MAGIC > **안전망 설계 철학**: 이 검증 시스템은 "하나라도 문제가 있으면 통과시키지 않는" 보수적 접근입니다.
+# MAGIC > **안전망 설계 철학** : 이 검증 시스템은 "하나라도 문제가 있으면 통과시키지 않는" 보수적 접근입니다.
 # MAGIC > 제조 현장에서 품질 이상이 발견되면 라인을 멈추는 **안돈(Andon) 시스템** 과 같은 철학입니다.
 # MAGIC > 모델이 조금이라도 의심스러우면 기존의 검증된 Champion을 유지하는 것이 안전합니다.
 # MAGIC
@@ -441,6 +468,18 @@ else:
 # COMMAND ----------
 
 # MAGIC %md
+# MAGIC ### Databricks UI 확인 포인트
+# MAGIC
+# MAGIC 1. **Models > lgit_predictive_maintenance** 다시 확인
+# MAGIC 2. **Aliases** 가 변경되었는지 확인: Challenger가 Champion으로 승급했다면 alias가 이동
+# MAGIC 3. 이전 Champion 버전의 **Tags**: `validation_status = passed` 또는 `rejected` 확인
+# MAGIC 4. 새 Champion 버전의 **Tags**: `promoted_from = challenger`, `validation_date` 확인
+# MAGIC
+# MAGIC > **팁**: Tags를 보면 "이 모델이 왜 Champion이 되었는지" 이력을 추적할 수 있습니다
+
+# COMMAND ----------
+
+# MAGIC %md
 # MAGIC ## 요약
 # MAGIC
 # MAGIC ### 이 노트북에서 수행한 작업
@@ -458,9 +497,9 @@ else:
 # MAGIC - **ML 성능(F1 Score)과 비즈니스 가치(비용 분석)를 모두 평가** 합니다. 둘 다 통과해야 승급됩니다.
 # MAGIC - 모든 검증 결과는 **Unity Catalog 태그로 기록** 되어 감사 추적(Audit Trail)이 가능합니다.
 # MAGIC - Lakeflow Jobs와 연동하면 **모델 학습 → 검증 → 승급** 이 완전 자동화됩니다.
-# MAGIC - 검증 실패 시 기존 Champion이 유지되므로, 운영 서비스에 영향이 없습니다 (**무중단 배포**).
+# MAGIC - 검증 실패 시 기존 Champion이 유지되므로, 운영 서비스에 영향이 없습니다 (** 무중단 배포**).
 # MAGIC
-# MAGIC > **20년 경험의 한 마디**: 이 검증 파이프라인이 가장 큰 가치를 발휘하는 순간은, 누군가 "급하니까 검증 생략하고
+# MAGIC > **20년 경험의 한 마디** : 이 검증 파이프라인이 가장 큰 가치를 발휘하는 순간은, 누군가 "급하니까 검증 생략하고
 # MAGIC > 바로 배포합시다"라고 할 때입니다. 그 유혹을 이겨내는 것이 프로와 아마추어의 차이입니다.
 # MAGIC > 저도 "이번 한 번만"이라고 검증을 생략했다가, 운영 모델이 3일간 쓰레기 예측을 한 경험이 있습니다.
 # MAGIC > 그 3일 동안의 손실은, 검증에 필요한 30분의 1,000배였습니다.

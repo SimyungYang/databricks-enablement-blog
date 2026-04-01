@@ -6,7 +6,7 @@
 # MAGIC
 # MAGIC ## Lakeflow Jobs(구 Lakeflow Jobs)란?
 # MAGIC
-# MAGIC **Lakeflow Jobs**는 여러 개의 작업(Task)을 정해진 순서와 스케줄에 따라 자동으로 실행하는 **작업 오케스트레이터(Orchestrator, 지휘자)** 입니다.
+# MAGIC **Lakeflow Jobs** 는 여러 개의 작업(Task)을 정해진 순서와 스케줄에 따라 자동으로 실행하는 **작업 오케스트레이터(Orchestrator, 지휘자)** 입니다.
 # MAGIC
 # MAGIC ### 제조 현장 비유: MES(제조실행시스템)와 같은 역할
 # MAGIC
@@ -25,27 +25,26 @@
 # MAGIC ```
 # MAGIC [간단한 예시]
 # MAGIC
-# MAGIC Task A (피처 엔지니어링) ──→ Task B (모델 학습) ──→ Task C (모델 등록)
-# MAGIC                                                          │
+# MAGIC Task A (피처 엔지니어링) --→ Task B (모델 학습) --→ Task C (모델 등록)
+# MAGIC                                                          |
 # MAGIC                                                          ↓
 # MAGIC                                                    Task D (검증)
 # MAGIC ```
 # MAGIC
-# MAGIC - **방향성(Directed)**: 화살표 방향으로만 실행 (A가 끝나야 B 시작)
-# MAGIC - **비순환(Acyclic)**: 순환하지 않음 (A→B→C→A 같은 무한 루프 불가)
+# MAGIC - **방향성(Directed)** : 화살표 방향으로만 실행 (A가 끝나야 B 시작)
+# MAGIC - **비순환(Acyclic)** : 순환하지 않음 (A→B→C→A 같은 무한 루프 불가)
 # MAGIC - 제조 비유: 부품 가공(A) → 조립(B) → 검사(C)처럼, **이전 공정이 완료되어야 다음 공정 시작**
 # MAGIC
 # MAGIC ### Cron 표현식 이해하기
 # MAGIC
 # MAGIC Job의 실행 시간을 지정할 때 **Cron 표현식** 이라는 형식을 사용합니다. 5개의 숫자/기호로 "언제 실행할지"를 표현합니다:
 # MAGIC
-# MAGIC ```
-# MAGIC ┌───────────── 분 (0-59)
-# MAGIC │ ┌───────────── 시 (0-23)
-# MAGIC │ │ ┌───────────── 일 (1-31)
-# MAGIC │ │ │ ┌───────────── 월 (1-12)
-# MAGIC │ │ │ │ ┌───────────── 요일 (0=일, 1=월, ..., 6=토)
-# MAGIC │ │ │ │ │
+# MAGIC +------------- 분 (0-59)
+# MAGIC | +------------- 시 (0-23)
+# MAGIC | | +------------- 일 (1-31)
+# MAGIC | | | +------------- 월 (1-12)
+# MAGIC | | | | +------------- 요일 (0=일, 1=월, ..., 6=토)
+# MAGIC | | | | |
 # MAGIC * * * * *
 # MAGIC ```
 # MAGIC
@@ -77,15 +76,15 @@
 # MAGIC | **장애 영향** | 없음 (실험 환경) | 심각 (생산 라인에 영향) |
 # MAGIC | **제조 비유** | 파일럿 라인(Pilot Line) | 양산 라인(Mass Production Line) |
 # MAGIC
-# MAGIC > **핵심 원칙**: 개발 환경에서 충분히 실험하고 검증한 후, 운영 환경에 적용합니다. 이것은 제조업에서 "시제품 → 파일럿 → 양산"의 단계별 이관과 동일한 원칙입니다.
+# MAGIC > **핵심 원칙** : 개발 환경에서 충분히 실험하고 검증한 후, 운영 환경에 적용합니다. 이것은 제조업에서 "시제품 → 파일럿 → 양산"의 단계별 이관과 동일한 원칙입니다.
 # MAGIC
 # MAGIC ---
 # MAGIC
 # MAGIC ## Databricks 핵심 기능
-# MAGIC - **Lakeflow Jobs**: 노트북/파이프라인 자동 스케줄링
-# MAGIC - **Multi-task Jobs**: 여러 노트북을 DAG로 연결
-# MAGIC - **환경별 스케줄**: 운영/개발 환경 분리
-# MAGIC - **알림**: 작업 성공/실패 시 이메일/Slack 알림
+# MAGIC - **Lakeflow Jobs** : 노트북/파이프라인 자동 스케줄링
+# MAGIC - **Multi-task Jobs** : 여러 노트북을 DAG로 연결
+# MAGIC - **환경별 스케줄** : 운영/개발 환경 분리
+# MAGIC - **알림** : 작업 성공/실패 시 이메일/Slack 알림
 # MAGIC
 # MAGIC ---
 # MAGIC
@@ -116,37 +115,59 @@
 # MAGIC 아래 다이어그램은 이 PoC에서 구성하는 **3개 Job의 DAG(작업 흐름도)** 를 보여줍니다. 화살표(→)는 "앞 작업이 성공적으로 완료된 후에 다음 작업을 시작한다"는 의미입니다.
 # MAGIC
 # MAGIC ```
-# MAGIC ═══════════════════════════════════════════════════════════════════
+# MAGIC ```
+# MAGIC ===================================================================
+# MAGIC ```
 # MAGIC [Job 1] 운영 환경 - 주 1회 재학습 (매주 월요일 02:00 KST)
-# MAGIC ═══════════════════════════════════════════════════════════════════
-# MAGIC ┌────────────────┐    ┌────────────────┐    ┌────────────────┐
-# MAGIC │ 02_Feature_Eng  │───►│ 03_Model_Train  │───►│ 04_Model_Reg   │
-# MAGIC │ (원재료 가공)    │    │ (모델 생성)      │    │ (모델 등록)     │
-# MAGIC └────────────────┘    └────────────────┘    └────────┬───────┘
-# MAGIC                                                      │
-# MAGIC                                             ┌────────▼───────┐
-# MAGIC                                             │ 05_Validation   │
-# MAGIC                                             │ (품질 검증)      │
-# MAGIC                                             └────────────────┘
-# MAGIC
-# MAGIC ═══════════════════════════════════════════════════════════════════
-# MAGIC [Job 2] 운영 환경 - 일 4회 배치 예측 (00:00, 06:00, 12:00, 18:00)
-# MAGIC ═══════════════════════════════════════════════════════════════════
-# MAGIC ┌────────────────┐    ┌────────────────┐
-# MAGIC │ 06_Batch_Infer  │───►│ 08_Monitoring   │
-# MAGIC │ (예측 수행)      │    │ (결과 모니터링)  │
-# MAGIC └────────────────┘    └────────────────┘
-# MAGIC
-# MAGIC ═══════════════════════════════════════════════════════════════════
-# MAGIC [Job 3] 개발 환경 - 일 4회 재학습 (00:00, 06:00, 12:00, 18:00)
-# MAGIC ═══════════════════════════════════════════════════════════════════
-# MAGIC ┌────────────────┐    ┌────────────────┐    ┌────────────────┐
-# MAGIC │ 02_Feature_Eng  │───►│ 03_Model_Train  │───►│ 04_Model_Reg   │
-# MAGIC │ (피처 실험)      │    │ (모델 실험)      │    │ (Challenger만) │
-# MAGIC └────────────────┘    └────────────────┘    └────────────────┘
+# MAGIC ```
+# MAGIC ===================================================================
+# MAGIC +----------------+    +----------------+    +----------------+
+# MAGIC | 02_Feature_Eng  |--->| 03_Model_Train  |--->| 04_Model_Reg   |
+# MAGIC | (원재료 가공)    |    | (모델 생성)      |    | (모델 등록)     |
+# MAGIC +----------------+    +----------------+    +--------+-------+
+# MAGIC ```
+# MAGIC                                                      |
+# MAGIC ```
+# MAGIC                                             +--------v-------+
+# MAGIC                                             | 05_Validation   |
+# MAGIC                                             | (품질 검증)      |
+# MAGIC                                             +----------------+
 # MAGIC ```
 # MAGIC
-# MAGIC > **운영 vs 개발 차이점**: 운영 Job 1에는 `05_Validation`(검증) 단계가 있습니다. 새 모델이 기존 Champion 모델보다 나은 성능을 증명해야만 교체됩니다. 개발 Job 3에는 검증 없이 Challenger로만 등록하여 빠른 실험을 가능하게 합니다.
+# MAGIC ```
+# MAGIC ```
+# MAGIC ```
+# MAGIC ===================================================================
+# MAGIC ```
+# MAGIC [Job 2] 운영 환경 - 일 4회 배치 예측 (00:00, 06:00, 12:00, 18:00)
+# MAGIC ```
+# MAGIC ```
+# MAGIC ```
+# MAGIC ===================================================================
+# MAGIC +----------------+    +----------------+
+# MAGIC | 06_Batch_Infer  |--->| 08_Monitoring   |
+# MAGIC | (예측 수행)      |    | (결과 모니터링)  |
+# MAGIC +----------------+    +----------------+
+# MAGIC ```
+# MAGIC
+# MAGIC ```
+# MAGIC ```
+# MAGIC ```
+# MAGIC ===================================================================
+# MAGIC ```
+# MAGIC [Job 3] 개발 환경 - 일 4회 재학습 (00:00, 06:00, 12:00, 18:00)
+# MAGIC ```
+# MAGIC ```
+# MAGIC ```
+# MAGIC ===================================================================
+# MAGIC +----------------+    +----------------+    +----------------+
+# MAGIC | 02_Feature_Eng  |--->| 03_Model_Train  |--->| 04_Model_Reg   |
+# MAGIC | (피처 실험)      |    | (모델 실험)      |    | (Challenger만) |
+# MAGIC +----------------+    +----------------+    +----------------+
+# MAGIC ```
+# MAGIC
+# MAGIC > **운영 vs 개발 차이점** : 운영 Job 1에는 `05_Validation`(검증) 단계가 있습니다. 새 모델이 기존 Champion 모델보다 나은 성능을 증명해야만 교체됩니다. 개발 Job 3에는 검증 없이 Challenger로만 등록하여 빠른 실험을 가능하게 합니다.
+# MAGIC ```
 
 # COMMAND ----------
 
@@ -170,10 +191,10 @@
 # MAGIC
 # MAGIC 1. **좌측 메뉴** → `Workflows` 클릭
 # MAGIC 2. **Create Job** 버튼 클릭
-# MAGIC 3. **Task 추가**: "Add task" → 노트북 경로 지정 → 의존성(depends_on) 설정
-# MAGIC 4. **스케줄 설정**: "Add trigger" → "Scheduled" → Cron 표현식 또는 캘린더에서 선택
-# MAGIC 5. **클러스터 설정**: "Compute" → Serverless 또는 클러스터 유형 선택
-# MAGIC 6. **알림 설정**: "Notifications" → 이메일/Slack 알림 추가
+# MAGIC 3. **Task 추가** : "Add task" → 노트북 경로 지정 → 의존성(depends_on) 설정
+# MAGIC 4. **스케줄 설정** : "Add trigger" → "Scheduled" → Cron 표현식 또는 캘린더에서 선택
+# MAGIC 5. **클러스터 설정** : "Compute" → Serverless 또는 클러스터 유형 선택
+# MAGIC 6. **알림 설정** : "Notifications" → 이메일/Slack 알림 추가
 # MAGIC 7. **Create** 버튼으로 Job 생성 완료
 
 # COMMAND ----------
@@ -197,9 +218,9 @@ print(f"사용자: {current_user}")
 # MAGIC
 # MAGIC 이 Job은 **양산 라인의 주간 정비** 에 해당합니다. 매주 월요일 새벽 02:00(생산이 적은 시간대)에 자동으로 실행되어, 최신 데이터로 모델을 재학습하고, 기존 모델보다 성능이 좋으면 교체합니다.
 # MAGIC
-# MAGIC **Task 흐름**: 피처 엔지니어링 → 모델 학습 → 모델 등록 → Champion/Challenger 검증
+# MAGIC **Task 흐름** : 피처 엔지니어링 → 모델 학습 → 모델 등록 → Champion/Challenger 검증
 # MAGIC
-# MAGIC > **왜 주 1회인가?**: 운영 환경에서는 안정성이 최우선입니다. 너무 자주 모델을 교체하면 예측 결과의 일관성이 떨어지고, 문제 발생 시 원인 추적이 어렵습니다. 주 1회는 "충분한 새 데이터가 쌓이되, 안정적으로 운영"하기 위한 균형점입니다.
+# MAGIC > **왜 주 1회인가?** : 운영 환경에서는 안정성이 최우선입니다. 너무 자주 모델을 교체하면 예측 결과의 일관성이 떨어지고, 문제 발생 시 원인 추적이 어렵습니다. 주 1회는 "충분한 새 데이터가 쌓이되, 안정적으로 운영"하기 위한 균형점입니다.
 
 # COMMAND ----------
 
@@ -267,9 +288,9 @@ print(f"""
 # MAGIC
 # MAGIC 이 Job은 **교대조(Shift)마다 전체 설비 상태를 점검** 하는 것에 해당합니다. 하루 4번(00:00, 06:00, 12:00, 18:00), Champion 모델이 최신 센서 데이터에 대해 고장 확률을 예측하고, 예측 결과를 모니터링합니다.
 # MAGIC
-# MAGIC **Task 흐름**: 배치 추론(예측 수행) → 모델 모니터링(드리프트 탐지)
+# MAGIC **Task 흐름** : 배치 추론(예측 수행) → 모델 모니터링(드리프트 탐지)
 # MAGIC
-# MAGIC > **왜 일 4회인가?**: 6시간 간격은 생산 현장의 3교대 체계와 유사합니다. 각 교대조가 시작될 때 최신 예측 결과를 확인할 수 있습니다. 더 실시간 예측이 필요하면 Model Serving(실시간 API)을 사용할 수 있습니다.
+# MAGIC > **왜 일 4회인가?** : 6시간 간격은 생산 현장의 3교대 체계와 유사합니다. 각 교대조가 시작될 때 최신 예측 결과를 확인할 수 있습니다. 더 실시간 예측이 필요하면 Model Serving(실시간 API)을 사용할 수 있습니다.
 
 # COMMAND ----------
 
@@ -309,9 +330,9 @@ print(f"""
 # MAGIC
 # MAGIC 이 Job은 **파일럿 라인(Pilot Line)에서의 빠른 실험** 에 해당합니다. 하루 4번 새로운 모델을 학습하여, 다양한 알고리즘/하이퍼파라미터 조합을 빠르게 테스트합니다.
 # MAGIC
-# MAGIC **Task 흐름**: 피처 엔지니어링 → 모델 학습 → 모델 등록 (Challenger만, Champion 승급 없음)
+# MAGIC **Task 흐름** : 피처 엔지니어링 → 모델 학습 → 모델 등록 (Challenger만, Champion 승급 없음)
 # MAGIC
-# MAGIC > **운영 Job과의 차이점**: 검증(Validation) 단계가 없습니다. 개발 환경에서는 빠른 실험이 목적이므로, Champion/Challenger 비교 없이 Challenger로만 등록합니다. 유망한 Challenger는 수동으로 검토한 후 운영 환경에서 검증을 거쳐 Champion으로 승급됩니다.
+# MAGIC > **운영 Job과의 차이점** : 검증(Validation) 단계가 없습니다. 개발 환경에서는 빠른 실험이 목적이므로, Champion/Challenger 비교 없이 Challenger로만 등록합니다. 유망한 Challenger는 수동으로 검토한 후 운영 환경에서 검증을 거쳐 Champion으로 승급됩니다.
 
 # COMMAND ----------
 
@@ -355,6 +376,58 @@ print(f"""
 # COMMAND ----------
 
 # MAGIC %md
+# MAGIC ## 2-1. 비정형 모델 (비전 이상탐지) Job 설정
+# MAGIC
+# MAGIC > **참고** : 비전 이상탐지(07번 노트북)는 GPU 클러스터가 필요하므로 별도 Job으로 분리합니다.
+# MAGIC > g5.2xlarge (NVIDIA A10G GPU)를 사용하며, 주 1회 재학습 + 일 1회 배치 추론으로 설정합니다.
+# MAGIC
+# MAGIC ### [Job 4] 비정형 모델 — 주 1회 재학습 (매주 수요일 03:00 KST)
+# MAGIC
+# MAGIC ```
+# MAGIC 07_Anomaly_Detection
+# MAGIC   (PatchCore 재학습 + UC Registry 등록)
+# MAGIC   클러스터: g5.2xlarge (GPU)
+# MAGIC   예상 소요: 15~20분
+# MAGIC ```
+
+# COMMAND ----------
+
+# DBTITLE 1,[Job 4] 비정형 이상탐지 Job 설정 (GPU)
+unstructured_job_config = {
+    "name": "LGIT_MLOps_Unstructured_Weekly_Retraining",
+    "schedule": {
+        "cron": "0 3 * * 3",  # 매주 수요일 03:00 KST
+        "timezone": "Asia/Seoul",
+        "description": "매주 수요일 03:00 — 비전 이상탐지 모델 재학습"
+    },
+    "cluster": "g5.2xlarge (GPU 필수 — NVIDIA A10G)",
+    "tasks": [
+        {
+            "task_key": "anomaly_detection_retrain",
+            "notebook": "07_unstructured_anomaly_detection",
+            "description": "MVTec AD transistor 카테고리 PatchCore 재학습 + UC Registry 등록"
+        }
+    ],
+    "tags": {"project": "lgit-mlops-poc", "model_type": "unstructured", "gpu": "required"}
+}
+
+print("=" * 60)
+print(f"[Job 4] {unstructured_job_config['name']}")
+print(f"  스케줄: {unstructured_job_config['schedule']['description']}")
+print(f"  클러스터: {unstructured_job_config['cluster']}")
+print(f"  태스크: {unstructured_job_config['tasks'][0]['notebook']}")
+print("=" * 60)
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC > **비용 주의** : GPU 클러스터(g5.2xlarge)는 CPU 클러스터 대비 ~10배 비쌉니다.
+# MAGIC > 주 1회 15분 실행 기준 월 ~8 DBU로, 전체 파이프라인 비용의 약 30%를 차지합니다.
+# MAGIC > 비용 최적화를 위해 (1) Spot Instance 활용, (2) Auto-termination 5분 설정을 권장합니다.
+
+# COMMAND ----------
+
+# MAGIC %md
 # MAGIC ## 3. 스케줄 요약
 # MAGIC
 # MAGIC | Job | 환경 | Cron (KST) | 해석 | 제조 비유 |
@@ -363,7 +436,7 @@ print(f"""
 # MAGIC | `LGIT_MLOps_Prod_Batch_Inference` | 운영 | `0 0,6,12,18 * * *` | 매일 **00/06/12/18시** (일 4회) | 교대조별 품질 예측 |
 # MAGIC | `LGIT_MLOps_Dev_Daily_Retraining` | 개발 | `0 0,6,12,18 * * *` | 매일 **00/06/12/18시** (일 4회) | 파일럿 라인 실험 |
 # MAGIC
-# MAGIC > **Cron 표현식 복습**: `0 2 * * 1`에서 `0`=0분, `2`=2시, `*`=매일, `*`=매월, `1`=월요일 → "매주 월요일 02시 00분"
+# MAGIC > **Cron 표현식 복습** : `0 2 * * 1`에서 `0`=0분, `2`=2시, `*`=매일, `*`=매월, `1`=월요일 → "매주 월요일 02시 00분"
 # MAGIC
 # MAGIC ---
 # MAGIC
@@ -391,10 +464,10 @@ print(f"""
 # MAGIC | 비정형 추론 | 이미지 분류 | g4dn.2xlarge | 중간 | 추론은 학습보다 리소스가 적게 필요하므로 저렴한 GPU 사용 |
 # MAGIC | Serverless | 피처 엔지니어링, 간단한 태스크 | 자동 할당 | 가장 낮음 | 클러스터 관리 불필요, 가장 비용 효율적 |
 # MAGIC
-# MAGIC > **Tip**: Databricks Serverless Compute를 사용하면 클러스터 관리 없이 자동으로 리소스가 할당됩니다.
+# MAGIC > **Tip** : Databricks Serverless Compute를 사용하면 클러스터 관리 없이 자동으로 리소스가 할당됩니다.
 # MAGIC > 정형 데이터 처리(피처 엔지니어링, XGBoost 학습/추론)에는 **Serverless를 우선 권장** 합니다. GPU가 필요한 비정형 데이터 처리만 전용 클러스터를 사용하세요.
 # MAGIC
-# MAGIC > **비용 절감 팁**: 개발 환경에서는 Spot Instance(AWS의 예비 컴퓨팅 자원, 최대 90% 저렴)를 활용하면 비용을 크게 줄일 수 있습니다. 다만 Spot은 언제든 회수될 수 있으므로, 운영 환경에서는 On-Demand(안정적)를 사용합니다.
+# MAGIC > **비용 절감 팁** : 개발 환경에서는 Spot Instance(AWS의 예비 컴퓨팅 자원, 최대 90% 저렴)를 활용하면 비용을 크게 줄일 수 있습니다. 다만 Spot은 언제든 회수될 수 있으므로, 운영 환경에서는 On-Demand(안정적)를 사용합니다.
 
 # COMMAND ----------
 
@@ -439,11 +512,11 @@ print(f"""
 # MAGIC | 5 | Champion/Challenger 패턴 | 05_challenger_validation | 신규 설비 병행 운전 (Parallel Run) |
 # MAGIC | 6 | PySpark UDF 배치 추론 | 06_batch_inference | 교대조별 전체 설비 점검 |
 # MAGIC | 7 | Volumes + GPU 비정형 처리 | 07_unstructured_anomaly_detection | AOI 자동 광학 검사 |
-# MAGIC | 8 | Data Quality Monitoring(구 Data Quality Monitoring) | 08_model_monitoring | SPC 통계적 공정 관리 |
+# MAGIC | 8 | Data Quality Monitoring | 08_model_monitoring | SPC 통계적 공정 관리 |
 # MAGIC | 9 | AI Agent 오케스트레이션 | 09_mlops_agent | 자동화된 공장 관리자 (Supervisor) |
 # MAGIC | 10 | Workflows 스케줄링 | 10_job_scheduling | MES 제조실행시스템 |
 # MAGIC
-# MAGIC > **다음 단계 제안**: 이 PoC를 기반으로 LG Innotek의 실제 데이터(센서 데이터, 검사 이미지)에 적용하여, 실제 비즈니스 가치를 검증하는 것을 권장합니다. 데이터만 교체하면 동일한 파이프라인 구조를 그대로 활용할 수 있습니다.
+# MAGIC > **다음 단계 제안** : 이 PoC를 기반으로 LG Innotek의 실제 데이터(센서 데이터, 검사 이미지)에 적용하여, 실제 비즈니스 가치를 검증하는 것을 권장합니다. 데이터만 교체하면 동일한 파이프라인 구조를 그대로 활용할 수 있습니다.
 
 # COMMAND ----------
 
@@ -614,6 +687,21 @@ except Exception as e:
 # COMMAND ----------
 
 # MAGIC %md
+# MAGIC ### Databricks UI 확인 포인트
+# MAGIC
+# MAGIC 1. **좌측 사이드바 > Workflows** 클릭
+# MAGIC 2. Job 목록에서 `LGIT_MLOps` 관련 Job 검색
+# MAGIC 3. Job 클릭 > **Tasks** 탭: DAG(의존성 그래프) 시각적으로 확인
+# MAGIC 4. **Runs** 탭: 이전 실행 이력, 성공/실패 상태, 소요 시간
+# MAGIC 5. 특정 Run 클릭 > 각 태스크별 **로그, 출력, 에러** 확인
+# MAGIC 6. **Schedule** 탭: Cron 스케줄 확인 및 수정
+# MAGIC 7. **Run now** 버튼: 즉시 실행 테스트
+# MAGIC
+# MAGIC > **드릴다운 팁**: 실패한 태스크 클릭 > **Output** 에서 에러 메시지를 확인하면 디버깅이 빠릅니다
+
+# COMMAND ----------
+
+# MAGIC %md
 # MAGIC ### Job 확인 방법
 # MAGIC 1. 좌측 사이드바 → **Workflows** 클릭
 # MAGIC 2. **LGIT_MLOps_Level2_AutoRetrain_Pipeline** 검색
@@ -621,5 +709,5 @@ except Exception as e:
 # MAGIC 4. **Schedule** 탭에서 스케줄 확인 (현재 PAUSED)
 # MAGIC 5. **Run now** 버튼으로 즉시 실행 테스트 가능
 # MAGIC
-# MAGIC > **Level 1 vs Level 2 차이**: Level 1 Job은 6개 태스크(02→03→04→05→06→08)로 모니터링까지만 합니다.
+# MAGIC > **Level 1 vs Level 2 차이** : Level 1 Job은 6개 태스크(02→03→04→05→06→08)로 모니터링까지만 합니다.
 # MAGIC > Level 2 Job은 7번째 태스크(03d)가 추가되어, 드리프트 감지 시 **자동 재학습** 까지 수행합니다.

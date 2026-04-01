@@ -2,7 +2,7 @@
 # MAGIC %md
 # MAGIC # 예지보전 ML 최신 기술 트렌드 및 적용 가이드
 # MAGIC
-# MAGIC 본 노트북에서는 LG Innotek의 **예지보전(Predictive Maintenance)**및 **비전 이상탐지** 모델에
+# MAGIC 본 노트북에서는 LG Innotek의 **예지보전(Predictive Maintenance)** 및 **비전 이상탐지** 모델에
 # MAGIC 적용할 수 있는 **최신 ML 기술 트렌드** 를 정리하고, 각 기법의 원리와 적용 방법을 상세히 설명합니다.
 # MAGIC
 # MAGIC ---
@@ -29,27 +29,20 @@
 # MAGIC ## ML 알고리즘의 진화 — 70년의 여정
 # MAGIC
 # MAGIC ML 기술은 1950년대부터 꾸준히 발전해왔습니다. 제조업에서 실질적으로 활용 가능한 수준에 도달한 것은
-# MAGIC 2010년대 이후이며, 현재는 **자동화(AutoML)**와 **기반 모델(Foundation Models)** 시대로 진입하고 있습니다.
+# MAGIC 2010년대 이후이며, 현재는 **자동화(AutoML)** 와 **기반 모델(Foundation Models)** 시대로 진입하고 있습니다.
 # MAGIC
-# MAGIC ```
-# MAGIC 1950s  Perceptron (단층 신경망) — 최초의 학습 가능한 모델
-# MAGIC   │
-# MAGIC 1980s  Decision Tree, Neural Networks — 규칙 학습, 역전파 알고리즘 등장
-# MAGIC   │
-# MAGIC 1990s  SVM, Random Forest — 통계적 학습 이론의 전성기
-# MAGIC   │
-# MAGIC 2000s  Ensemble Methods (AdaBoost, GBM) — "약한 학습기를 결합하면 강해진다"
-# MAGIC   │
-# MAGIC 2014   XGBoost 등장 — Kaggle 대회 석권, 산업 표준으로 자리잡음
-# MAGIC   │
-# MAGIC 2017   LightGBM, CatBoost — 더 빠르고, 더 똑똑한 Gradient Boosting
-# MAGIC   │
-# MAGIC 2020s  AutoML, Foundation Models — 알고리즘 선택과 튜닝까지 자동화
-# MAGIC   │
-# MAGIC 2024~  TabPFN, CARTE — 정형 데이터용 Foundation Model 시대 개막
-# MAGIC ```
+# MAGIC | 시대 | 기술 | 의미 |
+# MAGIC |------|------|------|
+# MAGIC | 1950s | Perceptron (단층 신경망) | 최초의 학습 가능한 모델 |
+# MAGIC | 1980s | Decision Tree, Neural Networks | 규칙 학습, 역전파 알고리즘 등장 |
+# MAGIC | 1990s | SVM, Random Forest | 통계적 학습 이론의 전성기 |
+# MAGIC | 2000s | Ensemble Methods (AdaBoost, GBM) | "약한 학습기를 결합하면 강해진다" |
+# MAGIC | 2014 | XGBoost 등장 | Kaggle 대회 석권, 산업 표준으로 자리잡음 |
+# MAGIC | 2017 | LightGBM, CatBoost | 더 빠르고, 더 똑똑한 Gradient Boosting |
+# MAGIC | 2020s | AutoML, Foundation Models | 알고리즘 선택과 튜닝까지 자동화 |
+# MAGIC | 2024~ | TabPFN, CARTE | 정형 데이터용 Foundation Model 시대 개막 |
 # MAGIC
-# MAGIC > **제조업 관점**: 2014년 XGBoost의 등장이 전환점이었습니다. 이전에는 ML 적용에 깊은 통계 지식이
+# MAGIC > **제조업 관점** : 2014년 XGBoost의 등장이 전환점이었습니다. 이전에는 ML 적용에 깊은 통계 지식이
 # MAGIC > 필요했지만, XGBoost 이후로는 **데이터만 잘 준비하면** 강력한 예측 모델을 구축할 수 있게 되었습니다.
 # MAGIC > 현재는 AutoML이 등장하여 알고리즘 선택과 하이퍼파라미터 튜닝까지 자동화되고 있습니다.
 # MAGIC
@@ -65,9 +58,9 @@
 # MAGIC | **부스팅 (Boosting)**| 선배 검사원의 **실수를 후배가 보완** 하며 연쇄 학습 | XGBoost, LightGBM, CatBoost | 순차 학습, 이전 오차를 다음 모델이 보정 |
 # MAGIC | **딥러닝 (Deep Learning)**| 수천 장의 불량 이미지를 보며 **자체적으로 판단 기준** 형성 | CNN, Transformer | 다층 신경망으로 특징 자동 추출 |
 # MAGIC
-# MAGIC > **부스팅을 제조 비유로 설명하면**: 첫 번째 검사원이 100개 제품을 검사합니다. 그 중 10개를 오판합니다.
+# MAGIC > **부스팅을 제조 비유로 설명하면** : 첫 번째 검사원이 100개 제품을 검사합니다. 그 중 10개를 오판합니다.
 # MAGIC > 두 번째 검사원은 **그 10개에 특히 집중** 하여 검사합니다. 세 번째 검사원은 두 번째가 놓친 것에 집중합니다.
-# MAGIC > 이렇게 200명의 검사원이 순차적으로 보완하면, 최종 판정 정확도는 개별 검사원보다 **압도적으로 높아집니다**.
+# MAGIC > 이렇게 200명의 검사원이 순차적으로 보완하면, 최종 판정 정확도는 개별 검사원보다 **압도적으로 높아집니다** .
 # MAGIC > 이것이 Gradient Boosting의 핵심 원리입니다.
 # MAGIC
 # MAGIC ---
@@ -124,28 +117,28 @@
 # MAGIC
 # MAGIC | 기술 | 원리 | 제조 적용 가능성 |
 # MAGIC |------|------|----------------|
-# MAGIC | **TabPFN**(2024) | 수백만 개의 합성 테이블로 사전 학습된 Transformer | **소량 데이터에서 XGBoost를 능가** — 신규 설비 초기 데이터 부족 시 유용 |
-# MAGIC | **CARTE**(2024) | 컬럼명의 의미를 활용한 사전 학습 | 유사한 설비의 데이터를 **전이 학습** 으로 활용 가능 |
+# MAGIC | **TabPFN** (2024) | 수백만 개의 합성 테이블로 사전 학습된 Transformer | **소량 데이터에서 XGBoost를 능가** — 신규 설비 초기 데이터 부족 시 유용 |
+# MAGIC | **CARTE** (2024) | 컬럼명의 의미를 활용한 사전 학습 | 유사한 설비의 데이터를 **전이 학습** 으로 활용 가능 |
 # MAGIC | **TabR** (2023) | Retrieval-augmented 정형 데이터 학습 | 과거 유사 고장 사례를 검색하여 예측에 활용 |
 # MAGIC
-# MAGIC > **시사점**: 아직 Gradient Boosting이 대부분의 제조 데이터에서 최고 성능이지만,
+# MAGIC > **시사점** : 아직 Gradient Boosting이 대부분의 제조 데이터에서 최고 성능이지만,
 # MAGIC > **데이터가 적은 상황** (신규 설비, 희귀 고장)에서는 TabPFN 같은 Foundation Model이 대안이 될 수 있습니다.
 # MAGIC
 # MAGIC ### 왜 멀티 알고리즘 비교가 중요한가?
 # MAGIC
-# MAGIC **No Free Lunch Theorem (공짜 점심은 없다)**: 수학적으로 증명된 정리로, ** 모든 문제에 최적인
-# MAGIC 단일 알고리즘은 존재하지 않습니다**. 이는 제조 현장에서도 동일합니다.
+# MAGIC **No Free Lunch Theorem (공짜 점심은 없다)** : 수학적으로 증명된 정리로, ** 모든 문제에 최적인
+# MAGIC 단일 알고리즘은 존재하지 않습니다** . 이는 제조 현장에서도 동일합니다.
 # MAGIC
 # MAGIC - AI4I 2020 데이터는 **불균형(고장 3.4%)**+ **연속형/범주형 혼합** → CatBoost가 유리할 수 있음
 # MAGIC - 제조 데이터는 **시계열 패턴** → LightGBM의 빠른 반복 학습이 유리
 # MAGIC - 고차원 센서 데이터(수백 개 피처) → LightGBM의 EFB(Exclusive Feature Bundling)가 유리
-# MAGIC - MLflow로 **동일 조건 비교**가 가능 → 감이 아닌 **데이터 기반 알고리즘 선택**
+# MAGIC - MLflow로 **동일 조건 비교** 가 가능 → 감이 아닌 **데이터 기반 알고리즘 선택**
 # MAGIC
-# MAGIC > **Databricks 장점**: Databricks에서는 MLflow가 내장되어 있어, 별도 설정 없이
+# MAGIC > **Databricks 장점** : Databricks에서는 MLflow가 내장되어 있어, 별도 설정 없이
 # MAGIC > 여러 알고리즘의 파라미터/메트릭/모델을 자동으로 기록하고 **UI에서 한눈에 비교** 할 수 있습니다.
 # MAGIC > 이것이 Excel이나 수작업으로는 불가능한, **체계적인 실험 관리** 입니다.
 # MAGIC
-# MAGIC > **실습**: [03b_multi_algorithm_comparison]($./03b_multi_algorithm_comparison) 노트북에서 4개 알고리즘을 동시 비교합니다.
+# MAGIC > **실습** : [03b_multi_algorithm_comparison]($./03b_multi_algorithm_comparison) 노트북에서 4개 알고리즘을 동시 비교합니다.
 
 # COMMAND ----------
 
@@ -161,12 +154,12 @@
 # MAGIC
 # MAGIC 공장 비유로 설명하면: 100개 제품 중 97개가 양품이고 3개가 불량인 검사 라인을 상상해보세요.
 # MAGIC 만약 검사원이 "모두 양품"이라고 판정하면, **정확도가 97%** 나 됩니다.
-# MAGIC 하지만 이 검사원은 **불량을 단 하나도 찾지 못합니다**.
+# MAGIC 하지만 이 검사원은 **불량을 단 하나도 찾지 못합니다** .
 # MAGIC ML 모델도 마찬가지로, 불균형 데이터를 그대로 학습하면 "모두 정상"으로 예측하는 편향이 생깁니다.
 # MAGIC
 # MAGIC ### 불균형 처리 기법의 체계적 분류
 # MAGIC
-# MAGIC 불균형 처리 기법은 크게 **데이터 레벨**과 **알고리즘 레벨** 로 나뉩니다:
+# MAGIC 불균형 처리 기법은 크게 **데이터 레벨** 과 **알고리즘 레벨** 로 나뉩니다:
 # MAGIC
 # MAGIC #### 데이터 레벨 (학습 데이터 자체를 변형)
 # MAGIC
@@ -186,16 +179,15 @@
 # MAGIC | **Cost-sensitive Learning** | 오분류 비용 행렬을 직접 정의 | 불량 미탐지 비용(설비 파손)이 오탐 비용(불필요 정비)보다 크다고 명시 | 비즈니스 로직 반영 | 비용 정의가 어려움 |
 # MAGIC
 # MAGIC ### AI4I 2020 데이터에 권장 전략:
-# MAGIC ```
 # MAGIC 1순위: SMOTE-ENN — 합성 데이터 생성 + 노이즈 제거, 가장 균형 잡힌 접근
 # MAGIC 2순위: scale_pos_weight — 모델 내장 기능으로 가장 간단, 추가 라이브러리 불필요
 # MAGIC 3순위: BorderlineSMOTE — 경계선 중심 합성, SMOTE보다 정교한 오버샘플링
 # MAGIC ```
 # MAGIC
-# MAGIC > **Databricks 장점**: MLflow로 각 불균형 처리 기법의 결과를 **동일 조건에서 비교** 할 수 있습니다.
+# MAGIC > **Databricks 장점** : MLflow로 각 불균형 처리 기법의 결과를 **동일 조건에서 비교** 할 수 있습니다.
 # MAGIC > "SMOTE-ENN을 적용했을 때 Recall이 0.72에서 0.85로 향상"과 같은 **정량적 근거 기반 의사결정** 이 가능합니다.
 # MAGIC
-# MAGIC > **실습**: [03c_advanced_techniques]($./03c_advanced_techniques) 노트북에서 SMOTE 계열 기법을 적용합니다.
+# MAGIC > **실습** : [03c_advanced_techniques]($./03c_advanced_techniques) 노트북에서 SMOTE 계열 기법을 적용합니다.
 
 # COMMAND ----------
 
@@ -205,8 +197,8 @@
 # MAGIC ### 하이퍼파라미터란?
 # MAGIC
 # MAGIC ML 모델에는 두 종류의 파라미터가 있습니다:
-# MAGIC - **학습 파라미터**: 모델이 데이터로부터 **자동으로 학습** 하는 값 (예: 트리의 분할 기준)
-# MAGIC - **하이퍼파라미터**: 사람이 **사전에 설정** 해야 하는 값 (예: 트리 깊이, 학습률)
+# MAGIC - **학습 파라미터** : 모델이 데이터로부터 **자동으로 학습** 하는 값 (예: 트리의 분할 기준)
+# MAGIC - **하이퍼파라미터** : 사람이 **사전에 설정** 해야 하는 값 (예: 트리 깊이, 학습률)
 # MAGIC
 # MAGIC 제조 비유로, 하이퍼파라미터는 **검사 장비의 세팅값** 과 같습니다.
 # MAGIC 카메라 검사 장비에서 "밝기", "대비", "확대율"을 어떻게 설정하느냐에 따라
@@ -219,9 +211,9 @@
 # MAGIC |------|------|----------|------|----------------|
 # MAGIC | **Grid Search** | 모든 조합을 격자형으로 탐색 | 가능한 모든 세팅 조합을 일일이 시험 | 확실한 최적화 | scikit-learn 내장 |
 # MAGIC | **Random Search** | 랜덤하게 조합 선택 | 무작위로 세팅을 바꿔보며 시험 | Grid보다 효율적 (2012, Bergstra 증명) | scikit-learn 내장 |
-# MAGIC | **Optuna**(2019, Preferred Networks) | 이전 결과를 학습하여 유망한 영역 집중 탐색 | 이전 시험 결과를 보고 "이 방향이 좋겠다" 판단 | **적은 시행으로 최적화**, 시각화 내장 | MLflow 자동 연동 |
-# MAGIC | **Hyperopt**(2013, Bergstra) | Tree of Parzen Estimators (TPE) | Optuna와 유사하나 Databricks 분산 환경에 최적화 | **Spark 클러스터 전체를 활용한 분산 HPO** | SparkTrials 네이티브 지원 |
-# MAGIC | **FLAML**(2021, Microsoft) | 경량 AutoML, 알고리즘까지 자동 선택 | 검사 장비 종류와 세팅을 **동시에**자동 최적화 | **초고속**, 자원 효율적 | pip install로 바로 사용 |
+# MAGIC | **Optuna** (2019, Preferred Networks) | 이전 결과를 학습하여 유망한 영역 집중 탐색 | 이전 시험 결과를 보고 "이 방향이 좋겠다" 판단 | **적은 시행으로 최적화**, 시각화 내장 | MLflow 자동 연동 |
+# MAGIC | **Hyperopt** (2013, Bergstra) | Tree of Parzen Estimators (TPE) | Optuna와 유사하나 Databricks 분산 환경에 최적화 | **Spark 클러스터 전체를 활용한 분산 HPO** | SparkTrials 네이티브 지원 |
+# MAGIC | **FLAML** (2021, Microsoft) | 경량 AutoML, 알고리즘까지 자동 선택 | 검사 장비 종류와 세팅을 **동시에** 자동 최적화 | **초고속**, 자원 효율적 | pip install로 바로 사용 |
 # MAGIC | **Ray Tune** (2018, Anyscale) | 대규모 분산 HPO 프레임워크 | 수백 대의 장비에서 동시에 세팅 시험 | 대규모 탐색, 다양한 알고리즘 지원 | Databricks에서 Ray 클러스터 연동 |
 # MAGIC
 # MAGIC ### Optuna vs Hyperopt vs FLAML — 실무 선택 가이드
@@ -261,10 +253,10 @@
 # MAGIC # optuna.visualization.plot_optimization_history(study)
 # MAGIC ```
 # MAGIC
-# MAGIC > **Databricks 장점**: Optuna의 모든 시행(trial) 결과가 MLflow에 자동 기록되어,
+# MAGIC > **Databricks 장점** : Optuna의 모든 시행(trial) 결과가 MLflow에 자동 기록되어,
 # MAGIC > 나중에 "왜 이 하이퍼파라미터 조합을 선택했는지" **재현 가능한 근거** 를 남길 수 있습니다.
 # MAGIC
-# MAGIC > **실습**: [03c_advanced_techniques]($./03c_advanced_techniques) 노트북에서 Optuna HPO를 적용합니다.
+# MAGIC > **실습** : [03c_advanced_techniques]($./03c_advanced_techniques) 노트북에서 Optuna HPO를 적용합니다.
 
 # COMMAND ----------
 
@@ -276,12 +268,12 @@
 # MAGIC AutoML은 **알고리즘 선택, 하이퍼파라미터 튜닝, 피처 엔지니어링** 을 모두 자동으로 수행하는 기술입니다.
 # MAGIC 제조 비유로, 숙련된 데이터 과학자가 수주간 수행할 작업을 **30분~1시간** 내에 자동으로 완료합니다.
 # MAGIC
-# MAGIC **AutoML의 역사와 발전**:
-# MAGIC - **2013**: Auto-WEKA — 최초의 체계적 AutoML 프레임워크
-# MAGIC - **2015**: Auto-sklearn — WEKA의 Python 버전, Kaggle 경쟁력 입증
-# MAGIC - **2020**: Google AutoML Tables, Azure AutoML — 클라우드 서비스화
-# MAGIC - **2021**: FLAML (Microsoft) — 경량화, 100배 빠른 AutoML
-# MAGIC - **2023~**: Databricks AutoML — Lakehouse 통합, MLflow 자동 연동
+# MAGIC **AutoML의 역사와 발전** :
+# MAGIC - **2013** : Auto-WEKA — 최초의 체계적 AutoML 프레임워크
+# MAGIC - **2015** : Auto-sklearn — WEKA의 Python 버전, Kaggle 경쟁력 입증
+# MAGIC - **2020** : Google AutoML Tables, Azure AutoML — 클라우드 서비스화
+# MAGIC - **2021** : FLAML (Microsoft) — 경량화, 100배 빠른 AutoML
+# MAGIC - **2023~** : Databricks AutoML — Lakehouse 통합, MLflow 자동 연동
 # MAGIC
 # MAGIC ### Databricks AutoML — 제조업에 최적화된 이유
 # MAGIC
@@ -317,11 +309,11 @@
 # MAGIC | **규제/설명 요구 (XAI)**| 제한적 | **필수** (SHAP, LIME 등 직접 적용) |
 # MAGIC | **반복 재학습 자동화** | 적합 | Job 스케줄링 필요 |
 # MAGIC
-# MAGIC > **권장 전략**: AutoML로 **30분 내 베이스라인** 을 확보한 후,
+# MAGIC > **권장 전략** : AutoML로 **30분 내 베이스라인** 을 확보한 후,
 # MAGIC > 생성된 노트북을 기반으로 **도메인 지식을 반영한 커스터마이징** 을 수행하세요.
 # MAGIC > 이것이 가장 효율적인 접근법입니다.
 # MAGIC
-# MAGIC > **실습**: [03c_advanced_techniques]($./03c_advanced_techniques) 노트북에서 AutoML을 실행합니다.
+# MAGIC > **실습** : [03c_advanced_techniques]($./03c_advanced_techniques) 노트북에서 AutoML을 실행합니다.
 
 # COMMAND ----------
 
@@ -341,20 +333,11 @@
 # MAGIC Stacking은 여러 기본 모델(Base Learner)의 예측을 **메타 모델(Meta Learner)** 이 결합하는 기법입니다.
 # MAGIC 각 Base Learner가 서로 다른 관점에서 데이터를 분석하고, Meta Learner가 그 결과를 종합합니다.
 # MAGIC
-# MAGIC ```
-# MAGIC ┌─────────┐  ┌──────────┐  ┌──────────┐
-# MAGIC │ XGBoost │  │ LightGBM │  │ CatBoost │   ← Base Learners (각각 다른 관점으로 분석)
-# MAGIC └────┬────┘  └────┬─────┘  └────┬─────┘
-# MAGIC      │            │             │
-# MAGIC      └────────────┼─────────────┘
-# MAGIC                   ▼
-# MAGIC           ┌───────────────┐
-# MAGIC           │ Logistic Reg  │              ← Meta Learner (종합 판단)
-# MAGIC           └───────────────┘
-# MAGIC ```
+# MAGIC **XGBoost** / **LightGBM** / **CatBoost** (Base Learners, 각각 다른 관점으로 분석)
+# MAGIC → 예측 결과를 **Logistic Regression** (Meta Learner)이 종합 판단
 # MAGIC
 # MAGIC **왜 Stacking이 효과적인가?**
-# MAGIC - XGBoost는 **정규화 패턴**에 강하고, CatBoost는 **범주형 패턴**에 강하고, LightGBM은 **대규모 패턴** 에 강합니다
+# MAGIC - XGBoost는 **정규화 패턴** 에 강하고, CatBoost는 **범주형 패턴** 에 강하고, LightGBM은 **대규모 패턴** 에 강합니다
 # MAGIC - Meta Learner는 **각 모델이 잘하는 영역을 자동으로 파악** 하여 최적의 가중치로 결합합니다
 # MAGIC - 결과적으로, 개별 모델의 약점이 상호 보완되어 **안정적인 성능 향상** 을 달성합니다
 # MAGIC
@@ -372,7 +355,7 @@
 # MAGIC | **추론 시간**| 모델 수만큼 추론 시간 증가 — 실시간 서빙 시 **속도/성능 트레이드오프** 고려 |
 # MAGIC | **유지보수 복잡도**| 모델이 많을수록 관리 부담 — **MLflow로 체계적 관리** 필수 |
 # MAGIC
-# MAGIC > **실습**: [03c_advanced_techniques]($./03c_advanced_techniques) 노트북에서 Stacking을 구현합니다.
+# MAGIC > **실습** : [03c_advanced_techniques]($./03c_advanced_techniques) 노트북에서 Stacking을 구현합니다.
 
 # COMMAND ----------
 
@@ -397,11 +380,11 @@
 # MAGIC |------|------|----------|-------------|
 # MAGIC | **Boruta**| 랜덤 포레스트 기반 통계적 피처 중요도 검정 | 각 센서의 기여도를 **랜덤 노이즈와 비교** 하여 유의미한 센서만 선별 | 중요 피처 자동 선택 (권장) |
 # MAGIC | **RFE** (Recursive Feature Elimination) | 반복적으로 가장 약한 피처 제거 | 가장 덜 중요한 센서부터 하나씩 제거하며 성능 변화 관찰 | 피처 수를 특정 개수로 줄이기 |
-# MAGIC | **SHAP-based Selection**| SHAP 값 기반 피처 선택 | 각 센서가 예측에 **얼마나, 어떤 방향으로**기여하는지 정량화 | **설명 가능한** 피처 선택 (XAI 요구 시) |
+# MAGIC | **SHAP-based Selection**| SHAP 값 기반 피처 선택 | 각 센서가 예측에 **얼마나, 어떤 방향으로** 기여하는지 정량화 | **설명 가능한** 피처 선택 (XAI 요구 시) |
 # MAGIC | **Mutual Information**| 정보 이론 기반 피처-타겟 관련성 측정 | 각 센서가 고장 여부와 얼마나 **정보를 공유** 하는지 계산 | 비선형 관계 탐지 |
 # MAGIC | **L1 정규화 (Lasso)**| 불필요한 피처의 가중치를 0으로 수렴 | 모델 학습 과정에서 자동으로 불필요한 센서를 **비활성화** | 빠른 피처 선택 (내장형) |
 # MAGIC
-# MAGIC > **Explainable AI (XAI) 트렌드**: 2024년 현재, 제조업에서는 **"왜 이 모델이 이렇게 판단했는가?"** 에 대한
+# MAGIC > **Explainable AI (XAI) 트렌드** : 2024년 현재, 제조업에서는 **"왜 이 모델이 이렇게 판단했는가?"** 에 대한
 # MAGIC > 설명 요구가 급증하고 있습니다. SHAP 기반 피처 선택은 단순히 피처를 선별하는 것을 넘어,
 # MAGIC > **"토크와 온도 차이가 고장 예측에 가장 큰 영향을 미친다"** 는 비즈니스 인사이트를 제공합니다.
 # MAGIC > 이는 설비 엔지니어와 데이터 과학자 간의 **공통 언어** 가 됩니다.
@@ -418,8 +401,8 @@
 # MAGIC 제조 현장에서는 **카메라로 촬영한 외관 이미지** 가 대표적인 비정형 데이터입니다.
 # MAGIC 예를 들어, LG Innotek의 카메라 모듈, LED 기판, 반도체 패키징의 **외관 불량 검사** 가 이에 해당합니다.
 # MAGIC
-# MAGIC **비정형 이상탐지의 핵심 원리**: "정상이 어떻게 생겼는지"를 학습한 후,
-# MAGIC 정상과 **다르게 생긴 부분**을 이상으로 탐지합니다. 이를 **비지도 이상탐지(Unsupervised Anomaly Detection)** 라 하며,
+# MAGIC **비정형 이상탐지의 핵심 원리** : "정상이 어떻게 생겼는지"를 학습한 후,
+# MAGIC 정상과 **다르게 생긴 부분** 을 이상으로 탐지합니다. 이를 **비지도 이상탐지(Unsupervised Anomaly Detection)** 라 하며,
 # MAGIC **불량 이미지 없이 정상 이미지만으로 학습** 할 수 있다는 것이 최대 장점입니다.
 # MAGIC
 # MAGIC ## 2.1 Anomalib 지원 모델 비교
@@ -429,22 +412,20 @@
 # MAGIC
 # MAGIC | 모델 | 원리 | AUROC (MVTec) | 추론 속도 | 메모리 | 제조 적용 포인트 |
 # MAGIC |------|------|--------------|----------|--------|----------------|
-# MAGIC | **PatchCore**(2022) | 사전학습 CNN의 패치 피처 + Core-set 메모리 뱅크 | **99.1%**| 보통 | 높음 | **정확도 최우선** — 고가 부품 외관 검사 |
-# MAGIC | **Reverse Distillation**(2022) | Teacher-Student 구조의 역방향 지식 증류 | 98.5% | **빠름** | 낮음 | 속도와 정확도 균형 — 중속 라인 검사 |
-# MAGIC | **EfficientAD**(2023) | 경량 Teacher-Student + Autoencoder | 98.8% | **가장 빠름**| **가장 낮음**| **실시간 검사** — 엣지 디바이스, 고속 라인 |
+# MAGIC | **PatchCore** (2022) | 사전학습 CNN의 패치 피처 + Core-set 메모리 뱅크 | **99.1%**| 보통 | 높음 | **정확도 최우선** — 고가 부품 외관 검사 |
+# MAGIC | **Reverse Distillation** (2022) | Teacher-Student 구조의 역방향 지식 증류 | 98.5% | **빠름** | 낮음 | 속도와 정확도 균형 — 중속 라인 검사 |
+# MAGIC | **EfficientAD** (2023) | 경량 Teacher-Student + Autoencoder | 98.8% | **가장 빠름**| **가장 낮음**| **실시간 검사** — 엣지 디바이스, 고속 라인 |
 # MAGIC | **PADIM** (2021) | 사전학습 CNN + 다변량 가우시안 분포 | 97.9% | 빠름 | 보통 | 구현 간단 — 빠른 PoC |
 # MAGIC | **FastFlow** (2022) | Normalizing Flows (정규화 흐름) | 98.0% | 빠름 | 보통 | 이론적 확률 기반 — 신뢰도 산출 필요 시 |
 # MAGIC | **GANomaly** (2018) | GAN 기반 생성/재구성 모델 | 96.0% | 보통 | 보통 | 레거시 환경 — 구형 GPU에서도 동작 |
 # MAGIC
 # MAGIC ### 제조 현장 권장 — 의사결정 트리:
-# MAGIC ```
-# MAGIC Q1: 실시간 추론이 필요한가? (라인 택트타임 < 1초)
-# MAGIC   ├─ YES → EfficientAD (엣지 GPU에서도 구동 가능, ~5ms/장)
-# MAGIC   └─ NO →
-# MAGIC       Q2: 정확도가 최우선인가? (고가 부품, 안전 관련)
-# MAGIC         ├─ YES → PatchCore (AUROC 99.1%, 업계 최고)
-# MAGIC         └─ NO → Reverse Distillation (속도/정확도 최적 균형)
-# MAGIC ```
+# MAGIC - **Q1: 실시간 추론이 필요한가?** (라인 택트타임 < 1초)
+# MAGIC -   YES → **EfficientAD** (엣지 GPU에서도 구동 가능, ~5ms/장)
+# MAGIC -   NO → Q2로
+# MAGIC - **Q2: 정확도가 최우선인가?** (고가 부품, 안전 관련)
+# MAGIC -   YES → **PatchCore** (AUROC 99.1%, 업계 최고)
+# MAGIC -   NO → **Reverse Distillation** (속도/정확도 최적 균형)
 # MAGIC
 # MAGIC ## 2.2 최신 트렌드: Foundation Model 기반 이상탐지 (2024~)
 # MAGIC
@@ -454,12 +435,12 @@
 # MAGIC
 # MAGIC | 기술 | 원리 | 제조 적용 가치 |
 # MAGIC |------|------|-------------|
-# MAGIC | **WinCLIP**(2023) | CLIP 기반 Zero-shot 이상탐지 | **학습 데이터 불필요** — 신규 제품 라인 즉시 검사 가능 |
-# MAGIC | **AnomalyCLIP**(2024) | 프롬프트 기반 이상탐지 ("스크래치가 있는 부분을 찾아라") | 불량 유형별 **텍스트 설명** 만으로 탐지 가능 |
-# MAGIC | **SAA+**(Segment Any Anomaly) | SAM + CLIP 결합 | 이상 영역을 **픽셀 단위로 정확히** 세그멘테이션 |
+# MAGIC | **WinCLIP** (2023) | CLIP 기반 Zero-shot 이상탐지 | **학습 데이터 불필요** — 신규 제품 라인 즉시 검사 가능 |
+# MAGIC | **AnomalyCLIP** (2024) | 프롬프트 기반 이상탐지 ("스크래치가 있는 부분을 찾아라") | 불량 유형별 **텍스트 설명** 만으로 탐지 가능 |
+# MAGIC | **SAA+** (Segment Any Anomaly) | SAM + CLIP 결합 | 이상 영역을 **픽셀 단위로 정확히** 세그멘테이션 |
 # MAGIC | **GPT-4V / Gemini Vision**| 멀티모달 LLM 기반 이상 판단 | 이상 탐지 + **자연어 설명 생성** ("3시 방향에 0.5mm 스크래치") |
 # MAGIC
-# MAGIC > **제조업 시사점**: 데이터가 부족한 **신규 제품 라인 초기 PoC 단계** 에서 Zero-shot 모델로 빠르게 시작하고,
+# MAGIC > **제조업 시사점** : 데이터가 부족한 **신규 제품 라인 초기 PoC 단계** 에서 Zero-shot 모델로 빠르게 시작하고,
 # MAGIC > 데이터가 축적되면 PatchCore/EfficientAD로 전환하는 **2단계 전략** 이 가장 현실적입니다.
 # MAGIC > Databricks에서는 MLflow를 통해 두 접근법의 성능을 체계적으로 비교할 수 있습니다.
 
@@ -500,7 +481,7 @@
 # MAGIC
 # MAGIC | 기능 | 설명 | 제조 적용 가치 |
 # MAGIC |------|------|-------------|
-# MAGIC | **Data Quality Monitoring(구 Data Quality Monitoring)**| 자동 드리프트 탐지 + 대시보드 | 센서 데이터 분포 변화를 **자동 감지** 하여 알림 |
+# MAGIC | **Data Quality Monitoring**| 자동 드리프트 탐지 + 대시보드 | 센서 데이터 분포 변화를 **자동 감지** 하여 알림 |
 # MAGIC | **Inference Tables**| 서빙 엔드포인트의 입출력 자동 로깅 | 모든 예측 결과를 기록하여 **사후 분석** 가능 |
 # MAGIC | **Custom Metrics**| 비즈니스 KPI 기반 커스텀 모니터링 | "월간 오탐률", "고장 미탐지율" 등 **비즈니스 의미 있는 지표** 추적 |
 # MAGIC | **Alerts**| 임계값 초과 시 자동 알림 | Recall이 0.7 미만으로 떨어지면 **Slack/이메일 자동 알림** |
@@ -517,7 +498,7 @@
 # MAGIC | **Compound AI Systems**| 여러 모델을 Agent가 조합하여 판단 | 센서 데이터(정형) + 외관 이미지(비정형) → **통합 품질 판정** |
 # MAGIC | **MLflow Tracing**| LLM/Agent 호출 체인 추적 | Agent가 "왜 재학습을 결정했는지" **의사결정 과정 투명화** |
 # MAGIC
-# MAGIC > **미래 비전**: 궁극적으로 제조 MLOps는 "사람이 모델을 관리"하는 것에서
+# MAGIC > **미래 비전** : 궁극적으로 제조 MLOps는 "사람이 모델을 관리"하는 것에서
 # MAGIC > "Agent가 모델을 관리하고, 사람은 비즈니스 목표만 설정"하는 방향으로 진화하고 있습니다.
 # MAGIC > Databricks의 Mosaic AI Agent Framework가 이 비전을 현실화하고 있습니다.
 
