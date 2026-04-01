@@ -51,7 +51,7 @@
 
 ### Agent Card 설계 베스트 프랙티스
 
-Agent Card는 사람만 읽는 것이 아닙니다. **다른 Agent의 LLM이 읽고 판단**합니다. 따라서 설계 시 LLM 친화적인 작성이 중요합니다.
+Agent Card는 사람만 읽는 것이 아닙니다. ** 다른 Agent의 LLM이 읽고 판단**합니다. 따라서 설계 시 LLM 친화적인 작성이 중요합니다.
 
 **1. `description`은 구체적이고 명확하게**
 
@@ -70,7 +70,7 @@ Agent Card는 사람만 읽는 것이 아닙니다. **다른 Agent의 LLM이 읽
 | 넓은 범위 (예: "데이터 분석") | 유연함 | LLM이 적합한 Agent를 잘못 선택할 확률 높음 |
 | 좁은 범위 (예: "SQL 기반 매출 분석") | 선택 정확도 높음 | Agent가 많아질 수 있음 |
 
-경험적으로 **skill당 하나의 명확한 작업**을 정의하는 것이 가장 좋습니다. "이 skill이 정확히 무엇을 하는지" 한 문장으로 설명할 수 없다면, 더 쪼개야 합니다.
+경험적으로 **skill당 하나의 명확한 작업** 을 정의하는 것이 가장 좋습니다. "이 skill이 정확히 무엇을 하는지" 한 문장으로 설명할 수 없다면, 더 쪼개야 합니다.
 
 **3. `inputModes`/`outputModes`를 정확히 명시**
 
@@ -84,7 +84,7 @@ Agent Card는 사람만 읽는 것이 아닙니다. **다른 Agent의 LLM이 읽
 
 ### Agent Card 버전 관리
 
-Agent의 능력은 시간이 지나면 변합니다. 새로운 skill이 추가되거나, 기존 skill의 입출력이 바뀔 수 있습니다. **SemVer(Semantic Versioning)**를 적용하여 하위 호환성을 관리하세요.
+Agent의 능력은 시간이 지나면 변합니다. 새로운 skill이 추가되거나, 기존 skill의 입출력이 바뀔 수 있습니다. **SemVer(Semantic Versioning)** 를 적용하여 하위 호환성을 관리하세요.
 
 | 변경 유형 | 버전 변경 | 예시 |
 |-----------|----------|------|
@@ -102,16 +102,16 @@ Client Agent가 적합한 Server Agent를 어떻게 찾을까요? 세 가지 패
 
 | 패턴 | 방식 | 장점 | 단점 |
 |------|------|------|------|
-| **수동 등록** | 개발자가 Agent URL을 직접 설정 | 가장 간단 | 확장 어려움, 변경 시 재배포 |
+| ** 수동 등록** | 개발자가 Agent URL을 직접 설정 | 가장 간단 | 확장 어려움, 변경 시 재배포 |
 | **DNS-SD 기반 자동 발견** | DNS Service Discovery로 네트워크 내 Agent 탐색 | 자동화, 동적 | 네트워크 경계 밖 Agent 발견 불가 |
-| **중앙 레지스트리** | Agent Catalog 서비스에 등록/검색 | 검색, 버전 관리, 접근 제어 가능 | 레지스트리 자체가 SPOF 가능 |
+| ** 중앙 레지스트리** | Agent Catalog 서비스에 등록/검색 | 검색, 버전 관리, 접근 제어 가능 | 레지스트리 자체가 SPOF 가능 |
 
-**엔터프라이즈 환경에서는 중앙 레지스트리(Agent Catalog) 패턴을 권장합니다.** 이유는 다음과 같습니다:
+** 엔터프라이즈 환경에서는 중앙 레지스트리(Agent Catalog) 패턴을 권장합니다.**이유는 다음과 같습니다:
 
-- **거버넌스**: 어떤 Agent가 등록되어 있는지 한눈에 파악 가능
-- **접근 제어**: Agent별로 누가 호출할 수 있는지 관리
-- **모니터링**: Agent 상태(healthy/unhealthy)를 중앙에서 추적
-- **버전 관리**: 같은 Agent의 여러 버전을 동시에 운영 가능
+- ** 거버넌스**: 어떤 Agent가 등록되어 있는지 한눈에 파악 가능
+- ** 접근 제어**: Agent별로 누가 호출할 수 있는지 관리
+- ** 모니터링**: Agent 상태(healthy/unhealthy)를 중앙에서 추적
+- ** 버전 관리**: 같은 Agent의 여러 버전을 동시에 운영 가능
 
 ---
 
@@ -139,14 +139,14 @@ submitted → working → completed
 | `canceled` | 취소 | (종료) |
 
 {% hint style="info" %}
-`input-required`는 A2A의 핵심 상태입니다. Agent가 작업 중 "추가 정보가 필요합니다"라고 요청할 수 있어, 진정한 **대화형 협업**이 가능합니다.
+`input-required`는 A2A의 핵심 상태입니다. Agent가 작업 중 "추가 정보가 필요합니다"라고 요청할 수 있어, 진정한 ** 대화형 협업**이 가능합니다.
 {% endhint %}
 
 ### 에러 핸들링 심화
 
 Task가 `failed` 상태로 전이되면, Client Agent는 어떻게 대응해야 할까요?
 
-**재시도 전략: Exponential Backoff**
+** 재시도 전략: Exponential Backoff**
 
 ```
 1차 시도 실패 → 1초 대기 → 재시도
@@ -166,7 +166,7 @@ Task가 `failed` 상태로 전이되면, Client Agent는 어떻게 대응해야 
 | Agent 과부하 (429) | 지연 후 재시도 | `Retry-After` 헤더 존중 |
 | 타임아웃 | 조건부 재시도 | 멱등성(Idempotency) 확인 후 재시도 |
 
-**부분 실패 처리**: 여행 예약 시나리오에서 항공 Agent는 성공했지만 호텔 Agent가 실패한 경우, 전체를 실패로 처리할까요? 부분 성공으로 처리할까요?
+** 부분 실패 처리**: 여행 예약 시나리오에서 항공 Agent는 성공했지만 호텔 Agent가 실패한 경우, 전체를 실패로 처리할까요? 부분 성공으로 처리할까요?
 
 - **All-or-Nothing**: 하나라도 실패하면 전체 롤백. 금융 거래처럼 일관성이 중요한 경우.
 - **Best-Effort**: 성공한 결과만 반환하고, 실패한 부분을 사용자에게 알림. 정보 검색처럼 부분 결과도 가치가 있는 경우.
@@ -182,11 +182,11 @@ Task가 `failed` 상태로 전이되면, Client Agent는 어떻게 대응해야 
 | **Streaming (SSE)** | Server가 진행 상황을 실시간 스트리밍 | 사용자에게 진행률 표시 필요 시 |
 | **Push Notification** | Task 완료 시 콜백 URL로 알림 | 긴 작업 (수 시간), 리소스 절약 |
 
-**연결 끊김 시 Task 복구**: A2A의 Task는 고유한 `id`를 가지므로, 연결이 끊겨도 `tasks/get`으로 상태를 복구할 수 있습니다. 이것이 A2A가 Stateful한 이유이며, Stateless REST API와의 핵심 차이입니다.
+** 연결 끊김 시 Task 복구**: A2A의 Task는 고유한 `id`를 가지므로, 연결이 끊겨도 `tasks/get`으로 상태를 복구할 수 있습니다. 이것이 A2A가 Stateful한 이유이며, Stateless REST API와의 핵심 차이입니다.
 
 ### Task 체이닝
 
-Task A의 결과를 Task B의 입력으로 사용하는 **파이프라인**을 구성할 수 있습니다.
+Task A의 결과를 Task B의 입력으로 사용하는 ** 파이프라인**을 구성할 수 있습니다.
 
 ```
 Task A (데이터 수집) → Artifact (원본 데이터)
@@ -197,9 +197,9 @@ Task C (분석 및 시각화) → Artifact (차트 JSON)
 ```
 
 체이닝 시 주의사항:
-- 각 Task의 **outputModes**와 다음 Task의 **inputModes**가 호환되는지 확인해야 합니다
+- 각 Task의 **outputModes** 와 다음 Task의 **inputModes** 가 호환되는지 확인해야 합니다
 - 중간 Task 실패 시 전체 체인의 처리 전략을 미리 정의해야 합니다
-- Artifact의 크기가 클 경우, 직접 전달 대신 **참조(Reference)**를 전달하는 것이 효율적입니다
+- Artifact의 크기가 클 경우, 직접 전달 대신 **참조(Reference)** 를 전달하는 것이 효율적입니다
 
 ---
 

@@ -8,9 +8,9 @@ AWS Console → S3 → Create bucket
 
 | 항목 | 설정값 |
 |------|--------|
-| **Bucket Region** | Workspace와 **동일 리전** (예: `ap-northeast-2`) |
-| **Block all public access** | **On** (모두 체크) |
-| **Server-side encryption** | **AES-256** (SSE-S3) 또는 SSE-KMS |
+| **Bucket Region** | Workspace와 ** 동일 리전**(예: `ap-northeast-2`) |
+| **Block all public access** | **On**(모두 체크) |
+| **Server-side encryption** | **AES-256**(SSE-S3) 또는 SSE-KMS |
 | **Bucket versioning** | Disabled (선택) |
 | **ACL** | ACLs disabled (권장) |
 

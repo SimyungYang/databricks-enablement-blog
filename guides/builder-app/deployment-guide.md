@@ -134,7 +134,7 @@ env:
 
 | 옵션 | 설정 | 특징 |
 |------|------|------|
-| **Databricks FMAPI** (기본) | `LLM_PROVIDER=DATABRICKS` | 별도 API 키 불필요, 워크스페이스 과금 |
+| **Databricks FMAPI**(기본) | `LLM_PROVIDER=DATABRICKS` | 별도 API 키 불필요, 워크스페이스 과금 |
 | **Anthropic 직접** | `ANTHROPIC_API_KEY=sk-ant-...` | Claude API 키 필요, 별도 과금 |
 | **Azure OpenAI** | `LLM_PROVIDER=AZURE` | Azure 리소스 필요 |
 

@@ -6,7 +6,7 @@
 
 ### 토큰화 문제
 
-한국어는 **교착어(膠着語)**로, 어근에 조사·어미가 결합하여 단어를 형성합니다:
+한국어는 **교착어(膠着語)** 로, 어근에 조사·어미가 결합하여 단어를 형성합니다:
 
 ```
 "데이터브릭스에서" → "데이터브릭스" + "에서"
@@ -15,9 +15,9 @@
 
 일반 토크나이저(tiktoken, SentencePiece 등)로 한국어를 처리하면:
 
-- **토큰 수가 영어 대비 2~3배 증가** (비용 및 컨텍스트 길이 문제)
+- **토큰 수가 영어 대비 2~3배 증가**(비용 및 컨텍스트 길이 문제)
 - 의미 단위가 아닌 바이트/서브워드 단위로 분절
-- BM25 등 키워드 검색에서 **조사 때문에 동일 단어가 다르게 인식**됨
+- BM25 등 키워드 검색에서 ** 조사 때문에 동일 단어가 다르게 인식**됨
 
 ```
 "데이터브릭스에서" ≠ "데이터브릭스를" ≠ "데이터브릭스의"
@@ -32,7 +32,7 @@
 
 ### Kiwi란?
 
-**Kiwi**는 C++ 기반의 고속 한국어 형태소 분석기입니다. 정확도와 속도 모두 뛰어나며, Python 바인딩(`kiwipiepy`)을 통해 쉽게 사용할 수 있습니다.
+**Kiwi** 는 C++ 기반의 고속 한국어 형태소 분석기입니다. 정확도와 속도 모두 뛰어나며, Python 바인딩(`kiwipiepy`)을 통해 쉽게 사용할 수 있습니다.
 
 ### 설치
 
@@ -74,7 +74,7 @@ for token in result:
 
 ## 3. Kiwi 기반 BM25 Retriever
 
-기본 BM25는 공백 기반으로 텍스트를 분절하므로, 한국어에서는 조사가 붙은 채로 토큰화됩니다. Kiwi로 형태소 분석 후 **명사/동사/외국어만 추출**하면 검색 품질이 크게 향상됩니다.
+기본 BM25는 공백 기반으로 텍스트를 분절하므로, 한국어에서는 조사가 붙은 채로 토큰화됩니다. Kiwi로 형태소 분석 후 ** 명사/동사/외국어만 추출**하면 검색 품질이 크게 향상됩니다.
 
 ```python
 from kiwipiepy import Kiwi
@@ -136,7 +136,7 @@ ensemble = EnsembleRetriever(
 | 전략 | 설명 | 장점 | 단점 |
 |------|------|------|------|
 | **문장 기반 (KSS)** | 한국어 문장 경계 인식 | 자연스러운 분절 | 문장이 짧으면 청크가 너무 작음 |
-| **형태소 기반** | Kiwi로 의미 단위 분절 | 정확한 의미 보존 | 구현 복잡 |
+| ** 형태소 기반** | Kiwi로 의미 단위 분절 | 정확한 의미 보존 | 구현 복잡 |
 | **Semantic 청킹** | 임베딩 유사도 기반 경계 결정 | 의미 전환점 자동 감지 | 연산 비용 높음 |
 | **Recursive + 한국어 구분자** | 한국어 종결어미 기반 분절 | 범용적, 구현 간단 | 구분자 설계 필요 |
 
@@ -190,9 +190,9 @@ chunks = korean_splitter.split_text(long_korean_text)
 | 모델 | 차원 | 한국어 성능 | Databricks 지원 | 비고 |
 |------|------|------------|----------------|------|
 | **multilingual-e5-large-instruct** | 1024 | 우수 | Foundation Model API | 다국어, Databricks 기본 제공 |
-| **bge-m3** (BAAI) | 1024 | 우수 | Model Serving 배포 | Dense + Sparse 하이브리드 지원 |
-| **KoSimCSE** (SKT) | 768 | 매우 우수 | Model Serving 배포 | 한국어 특화, STS 벤치마크 상위 |
-| **gte-multilingual-base** (Alibaba) | 768 | 우수 | Model Serving 배포 | 경량, 빠른 추론 속도 |
+| **bge-m3**(BAAI) | 1024 | 우수 | Model Serving 배포 | Dense + Sparse 하이브리드 지원 |
+| **KoSimCSE**(SKT) | 768 | 매우 우수 | Model Serving 배포 | 한국어 특화, STS 벤치마크 상위 |
+| **gte-multilingual-base**(Alibaba) | 768 | 우수 | Model Serving 배포 | 경량, 빠른 추론 속도 |
 
 ### Databricks Foundation Model API 활용
 
@@ -221,11 +221,11 @@ vectors = embeddings.embed_documents([
 
 | 단계 | 권장 도구/전략 | 이유 |
 |------|--------------|------|
-| **토크나이저** | Kiwi + KSS 조합 | 형태소 분석 + 문장 분리 |
-| **청킹** | Recursive + 한국어 구분자 | 종결어미 기반 자연스러운 분절 |
-| **임베딩** | multilingual-e5-large-instruct | Databricks 기본 제공, 한영 혼용 지원 |
-| **검색** | Hybrid (Kiwi BM25 + Vector) | 키워드 + 의미 검색 결합 |
-| **재정렬** | bge-reranker-v2-m3 | 다국어 Reranker, 한국어 지원 |
+| ** 토크나이저** | Kiwi + KSS 조합 | 형태소 분석 + 문장 분리 |
+| ** 청킹** | Recursive + 한국어 구분자 | 종결어미 기반 자연스러운 분절 |
+| ** 임베딩** | multilingual-e5-large-instruct | Databricks 기본 제공, 한영 혼용 지원 |
+| ** 검색** | Hybrid (Kiwi BM25 + Vector) | 키워드 + 의미 검색 결합 |
+| ** 재정렬** | bge-reranker-v2-m3 | 다국어 Reranker, 한국어 지원 |
 
 ### 한국어 특화 전처리
 
@@ -251,8 +251,8 @@ def preprocess_korean(text: str) -> str:
 
 ### 평가 시 주의사항
 
-- **한국어 평가 데이터셋을 직접 구축**해야 합니다. 영어 벤치마크 결과가 한국어 성능을 보장하지 않습니다.
-- 평가 지표: Retrieval에는 **Recall@K**, **MRR**, 생성에는 **정확성**, **근거 충실도**를 측정합니다.
+- ** 한국어 평가 데이터셋을 직접 구축**해야 합니다. 영어 벤치마크 결과가 한국어 성능을 보장하지 않습니다.
+- 평가 지표: Retrieval에는 **Recall@K**, **MRR**, 생성에는 ** 정확성**, ** 근거 충실도**를 측정합니다.
 - MLflow Evaluate를 활용한 평가 방법은 [RAG 평가](evaluation.md) 가이드를 참조하세요.
 
 {% hint style="warning" %}

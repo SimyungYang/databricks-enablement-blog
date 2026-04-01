@@ -6,11 +6,11 @@
 
 | 구성 | 사용자 접근 경로 |
 |------|---------------|
-| **Backend만** | 사용자 → **인터넷** → Workspace → PrivateLink → Compute |
+| **Backend만** | 사용자 → ** 인터넷** → Workspace → PrivateLink → Compute |
 | **Backend + Frontend** | 사용자 → **VPN/DX** → Transit VPC → **PrivateLink** → Workspace → PrivateLink → Compute |
 
 {% hint style="info" %}
-**적용 시점**: VPN/DirectConnect로 AWS에 접근하는 고객, 퍼블릭 인터넷 접근 정책상 불가한 환경. End-to-End 프라이빗 연결 — 인터넷 경유 Zero
+** 적용 시점**: VPN/DirectConnect로 AWS에 접근하는 고객, 퍼블릭 인터넷 접근 정책상 불가한 환경. End-to-End 프라이빗 연결 — 인터넷 경유 Zero
 {% endhint %}
 
 *참고: [Inbound PrivateLink](https://docs.databricks.com/aws/en/security/network/front-end/front-end-private-connect) · [PrivateLink DNS](https://docs.databricks.com/aws/en/security/network/classic/privatelink-dns)*
@@ -19,18 +19,18 @@
 
 | 항목 | Backend | Frontend (추가분) |
 |------|---------|-----------------|
-| **VPC** | Compute VPC | **Transit VPC** (별도 또는 동일) |
-| **VPC Endpoint** | 2개 (REST + Relay) | **1개** (REST API만) |
+| **VPC** | Compute VPC | **Transit VPC**(별도 또는 동일) |
+| **VPC Endpoint** | 2개 (REST + Relay) | **1개**(REST API만) |
 | **SG 포트** | 443, 2443, 6666 | **443만** |
 | **DNS** | private DNS enabled | **Route 53 Private Hosted Zone** |
-| **추가** | 없음 | **Route 53 Inbound Resolver** (On-prem) |
+| ** 추가** | 없음 | **Route 53 Inbound Resolver**(On-prem) |
 
 ### Single VPC vs Dual VPC
 
 | 방식 | 설명 | 적합 시나리오 |
 |------|------|-------------|
 | **Single VPC** | Compute VPC에 Frontend도 배치, REST API Endpoint 겸용 | PoC, 소규모 |
-| **Dual VPC** (권장) | Transit VPC(Frontend) + Compute VPC(Backend) 분리 | 프로덕션, 대규모 |
+| **Dual VPC**(권장) | Transit VPC(Frontend) + Compute VPC(Backend) 분리 | 프로덕션, 대규모 |
 
 ## Step 1: Transit VPC 생성
 
@@ -52,7 +52,7 @@ AWS Console → VPC → Endpoints → Create endpoint
 | **Service name** | `com.amazonaws.vpce.ap-northeast-2.vpce-svc-0babb9bde64f34d7e` |
 | **VPC** | Transit VPC |
 | **Subnet** | Transit Endpoint Subnet |
-| **Enable private DNS names** | **No** (Route 53으로 관리) |
+| **Enable private DNS names** | **No**(Route 53으로 관리) |
 
 {% hint style="warning" %}
 Frontend Endpoint는 반드시 **Enable private DNS names = No**
@@ -73,7 +73,7 @@ Account Console에서 등록합니다.
 
 ### Private Access Settings — Allowed Endpoints 추가
 
-- Frontend Endpoint도 **Allowed VPC endpoint IDs**에 추가 필요
+- Frontend Endpoint도 **Allowed VPC endpoint IDs** 에 추가 필요
 - Public access = Disabled 전환 시 Backend + Frontend 모두 등록
 
 ## Step 3: Route 53 DNS 구성

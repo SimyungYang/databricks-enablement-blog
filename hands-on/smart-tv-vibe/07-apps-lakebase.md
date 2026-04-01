@@ -13,7 +13,7 @@
 -**Databricks Apps**: FastAPI/Gradio 기반 웹 앱 배포
 -**Lakebase**: PostgreSQL 호환 OLTP 데이터베이스 생성 및 활용
 -**Apps + Lakebase 연동**: 웹 앱에서 Lakebase 읽기/쓰기
--**활용 시나리오**: 사용자 설정 저장, 추천 결과 캐싱, 피드백 수집
+-** 활용 시나리오**: 사용자 설정 저장, 추천 결과 캐싱, 피드백 수집
 
 ---
 
@@ -21,10 +21,10 @@
 
 | |**Databricks Apps**|**Lakebase**|
 |---|---|---|
-|**역할**| 웹 앱 배포 플랫폼 | OLTP 데이터베이스 |
-|**용도**| UI, API 서버, 대시보드 | 사용자 데이터, 설정, 캐싱 |
-|**기술**| FastAPI, Gradio, Streamlit | PostgreSQL 호환 |
-|**조합**| 앱이 Lakebase에서 읽기/쓰기 → 빠른 응답 |
+|** 역할**| 웹 앱 배포 플랫폼 | OLTP 데이터베이스 |
+|** 용도**| UI, API 서버, 대시보드 | 사용자 데이터, 설정, 캐싱 |
+|** 기술**| FastAPI, Gradio, Streamlit | PostgreSQL 호환 |
+|** 조합**| 앱이 Lakebase에서 읽기/쓰기 → 빠른 응답 |
 
 ---
 
@@ -282,8 +282,8 @@ app.yaml:
 |**Databricks Apps**| Gradio 챗봇, Streamlit 대시보드, FastAPI 포탈 앱 배포 |
 |**App 리소스**| SQL Warehouse, Serving Endpoint, Lakebase 연결 |
 |**Lakebase**| PostgreSQL 호환 OLTP DB, 테이블 생성, CRUD |
-|**운영 데이터**| 사용자 설정, 추천 캐시, 피드백, 시청 이력 |
-|**캐싱 패턴**| Delta Lake → Lakebase UPSERT, 빠른 서빙 |
+|** 운영 데이터**| 사용자 설정, 추천 캐시, 피드백, 시청 이력 |
+|** 캐싱 패턴**| Delta Lake → Lakebase UPSERT, 빠른 서빙 |
 |**Apps + Lakebase**| REST API에서 Lakebase 읽기/쓰기 연동 |
 
 ---

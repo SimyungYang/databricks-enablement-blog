@@ -3,7 +3,7 @@
 > **전체 노트북 코드**: [01_overview.py](https://github.com/SimyungYang/databricks-enablement-blog/blob/main/hands-on/predictive-maintenance/notebooks/01_overview.py)
 
 
-**목적**: PoC 시나리오 정의 및 전체 파이프라인 아키텍처를 소개합니다.
+** 목적**: PoC 시나리오 정의 및 전체 파이프라인 아키텍처를 소개합니다.
 
 ---
 
@@ -11,12 +11,12 @@
 
 | 구분 | 상세 |
 |------|------|
-| **정형 데이터** | UCI AI4I 2020 Predictive Maintenance Dataset (10,000건) |
-| **비정형 데이터** | MVTec AD 산업용 이상탐지 벤치마크 이미지 |
-| **정형 모델** | XGBoost — 설비 고장 예측 (이진 분류) |
-| **비정형 모델** | Anomalib PatchCore — 제품 표면 이상탐지 |
-| **운영 환경** | 주 1회 재학습, 일 4회 배치 예측 |
-| **개발 환경** | 일 4회 재학습 |
+| ** 정형 데이터** | UCI AI4I 2020 Predictive Maintenance Dataset (10,000건) |
+| ** 비정형 데이터** | MVTec AD 산업용 이상탐지 벤치마크 이미지 |
+| ** 정형 모델** | XGBoost — 설비 고장 예측 (이진 분류) |
+| ** 비정형 모델** | Anomalib PatchCore — 제품 표면 이상탐지 |
+| ** 운영 환경** | 주 1회 재학습, 일 4회 배치 예측 |
+| ** 개발 환경** | 일 4회 재학습 |
 | **Agent** | Trigger에 따라 MLOps Tool의 학습/예측 자동 수행 |
 
 ## 아키텍처
@@ -71,7 +71,7 @@ notebooks = {
 
 ## 데이터셋 소개
 
-**정형 데이터** — 입력 피처 6개(공기 온도, 공정 온도, 회전속도, 토크, 공구 마모, 제품 타입)로 고장 여부를 이진 분류합니다.
+** 정형 데이터** — 입력 피처 6개(공기 온도, 공정 온도, 회전속도, 토크, 공구 마모, 제품 타입)로 고장 여부를 이진 분류합니다.
 
 ```sql
 -- 고장 유형별 분포 확인
@@ -89,7 +89,7 @@ GROUP BY machine_failure
 **비정형 데이터** — MVTec AD 15개 카테고리, 5,000장 이상 고해상도 이미지. 정상 이미지로 학습하고, 이상 이미지로 테스트합니다.
 
 {% hint style="success" %}
-정형 모델과 비정형 모델이 **동일한 Unity Catalog** 내에서 관리되므로, 향후 두 모델의 예측을 결합한 **복합 판단 시스템(Compound AI System)** 으로 확장할 수 있습니다.
+정형 모델과 비정형 모델이 ** 동일한 Unity Catalog**내에서 관리되므로, 향후 두 모델의 예측을 결합한 ** 복합 판단 시스템(Compound AI System)**으로 확장할 수 있습니다.
 {% endhint %}
 
-**다음 단계**: [02. 피처 엔지니어링](02-feature-engineering.md)
+** 다음 단계**: [02. 피처 엔지니어링](02-feature-engineering.md)

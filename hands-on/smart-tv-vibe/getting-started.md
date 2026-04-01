@@ -67,11 +67,11 @@ cd databricks-enablement-blog/hands-on/smart-tv-vibe/notebooks/
 | **Workspace** | Databricks Premium 이상 |
 | **Unity Catalog** | 활성화 필수 |
 | **Compute** | Runtime 15.4+ (ML Runtime 권장) |
-| **권한** | Catalog/Schema 생성 + Model Serving 권한 |
-| **서비스** | Serverless SQL Warehouse (Genie/Dashboard용) |
+| ** 권한** | Catalog/Schema 생성 + Model Serving 권한 |
+| ** 서비스** | Serverless SQL Warehouse (Genie/Dashboard용) |
 
 {% hint style="warning" %}
-반드시 **Common 노트북 (01, 02)**을 먼저 실행하여 환경을 설정하세요. 이후 Track A/B/C 중 하나를 선택하여 진행합니다.
+반드시 **Common 노트북 (01, 02)** 을 먼저 실행하여 환경을 설정하세요. 이후 Track A/B/C 중 하나를 선택하여 진행합니다.
 {% endhint %}
 
 ## 트랙 선택 가이드

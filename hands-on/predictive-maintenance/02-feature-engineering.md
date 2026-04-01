@@ -3,9 +3,9 @@
 > **전체 노트북 코드**: [02_structured_feature_engineering.py](https://github.com/SimyungYang/databricks-enablement-blog/blob/main/hands-on/predictive-maintenance/notebooks/02_structured_feature_engineering.py)
 
 
-**목적**: AI4I 2020 센서 데이터를 탐색하고, 예지보전에 유용한 7개 파생 피처를 생성합니다.
+** 목적**: AI4I 2020 센서 데이터를 탐색하고, 예지보전에 유용한 7개 파생 피처를 생성합니다.
 
-**사용 Databricks 기능**: `Delta Lake`, `Pandas on Spark API`, `Unity Catalog` 메타데이터/계보
+** 사용 Databricks 기능**: `Delta Lake`, `Pandas on Spark API`, `Unity Catalog` 메타데이터/계보
 
 ---
 

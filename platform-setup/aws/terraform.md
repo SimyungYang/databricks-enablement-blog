@@ -88,7 +88,7 @@ Workspace 생성까지의 리소스 생성 순서:
 
 ### Databricks 공식 문서
 
-- **아키텍처 개요**: [High-Level Architecture](https://docs.databricks.com/aws/en/getting-started/high-level-architecture)
+- ** 아키텍처 개요**: [High-Level Architecture](https://docs.databricks.com/aws/en/getting-started/high-level-architecture)
 - **Credential 구성**: [Create a cross-account IAM role](https://docs.databricks.com/aws/en/admin/account-settings-e2/credentials)
 - **Storage 구성**: [Configure storage](https://docs.databricks.com/aws/en/admin/account-settings-e2/storage)
 - **Network 구성**: [Configure network](https://docs.databricks.com/aws/en/admin/account-settings-e2/networks)
@@ -97,7 +97,7 @@ Workspace 생성까지의 리소스 생성 순서:
 - **PrivateLink 개념**: [PrivateLink Concepts](https://docs.databricks.com/aws/en/security/network/classic/privatelink-concepts)
 - **PrivateLink DNS**: [DNS Config](https://docs.databricks.com/aws/en/security/network/classic/privatelink-dns)
 - **Frontend PrivateLink**: [Inbound PrivateLink](https://docs.databricks.com/aws/en/security/network/front-end/front-end-private-connect)
-- **리전별 Endpoint**: [IP & Domain Info](https://docs.databricks.com/aws/en/resources/ip-domain-region)
+- ** 리전별 Endpoint**: [IP & Domain Info](https://docs.databricks.com/aws/en/resources/ip-domain-region)
 - **UC Storage Credential**: [Storage Credentials](https://docs.databricks.com/aws/en/connect/unity-catalog/storage-credentials)
 
 ### Terraform Provider 문서
