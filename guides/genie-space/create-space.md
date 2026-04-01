@@ -26,7 +26,7 @@ Genie Space는 비즈니스 사용자가 자연어로 데이터에 질문할 수
 
 ## Step 2: Warehouse 선택
 
-**Configure > Settings** 메뉴에서 **Default Warehouse** 를 선택합니다. Warehouse는 Genie가 생성한 SQL을 실행하는 컴퓨팅 리소스입니다.
+**Configure > Settings**메뉴에서 **Default Warehouse** 를 선택합니다. Warehouse는 Genie가 생성한 SQL을 실행하는 컴퓨팅 리소스입니다.
 
 | Warehouse 유형 | 특징 | 권장 사용 시나리오 |
 |----------------|------|-------------------|
@@ -71,19 +71,19 @@ Description은 단순 설명이 아니라 **Genie가 응답을 생성할 때 참
 
 {% hint style="info" %}
 Description에 포함할 내용:
-- Space가 다루는 데이터의 ** 범위와 기간**(예: "2023년 이후 APAC 지역 매출 데이터")
-- ** 주요 비즈니스 용어** 정의 (예: "ARR = 연간 반복 매출")
-- ** 데이터 갱신 주기**(예: "매일 오전 9시 갱신")
-- ** 제한 사항**(예: "개인정보는 포함하지 않음")
+- Space가 다루는 데이터의 **범위와 기간**(예: "2023년 이후 APAC 지역 매출 데이터")
+- **주요 비즈니스 용어** 정의 (예: "ARR = 연간 반복 매출")
+- **데이터 갱신 주기**(예: "매일 오전 9시 갱신")
+- **제한 사항**(예: "개인정보는 포함하지 않음")
 {% endhint %}
 
 ---
 
 ## Step 4: Sample Questions 설정
 
-Sample Questions는 사용자가 채팅창을 처음 열었을 때 표시되는 예시 질문입니다. 이 질문들은 단순한 UI 요소가 아니라 ** 두 가지 중요한 역할** 을 합니다:
+Sample Questions는 사용자가 채팅창을 처음 열었을 때 표시되는 예시 질문입니다. 이 질문들은 단순한 UI 요소가 아니라 **두 가지 중요한 역할** 을 합니다:
 
-1. ** 사용자 가이드**: 이 Space에서 어떤 질문을 할 수 있는지 알려줍니다.
+1. **사용자 가이드**: 이 Space에서 어떤 질문을 할 수 있는지 알려줍니다.
 2. **Genie 컨텍스트**: Genie가 이 Space의 의도와 범위를 이해하는 데 참고합니다.
 
 ### 좋은 Sample Question vs 나쁜 Sample Question

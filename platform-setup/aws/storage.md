@@ -8,7 +8,7 @@ AWS Console → S3 → Create bucket
 
 | 항목 | 설정값 |
 |------|--------|
-| **Bucket Region**| Workspace와 ** 동일 리전**(예: `ap-northeast-2`) |
+| **Bucket Region**| Workspace와 **동일 리전**(예: `ap-northeast-2`) |
 | **Block all public access**| **On**(모두 체크) |
 | **Server-side encryption**| **AES-256**(SSE-S3) 또는 SSE-KMS |
 | **Bucket versioning**| Disabled (선택) |
@@ -61,7 +61,7 @@ Databricks Account Console에서 등록합니다.
 - **Storage Configuration ID** 생성됨 → Workspace 생성 시 사용
 
 {% hint style="warning" %}
-이 설정은 ** 수정 불가**— 변경 필요 시 삭제 후 재생성 (Workspace가 연결된 경우 삭제 불가)
+이 설정은 **수정 불가**— 변경 필요 시 삭제 후 재생성 (Workspace가 연결된 경우 삭제 불가)
 {% endhint %}
 
 *참고: [Configure storage](https://docs.databricks.com/aws/en/admin/account-settings-e2/storage) · [Terraform: databricks_mws_storage_configurations](https://registry.terraform.io/providers/databricks/databricks/latest/docs/resources/mws_storage_configurations)*

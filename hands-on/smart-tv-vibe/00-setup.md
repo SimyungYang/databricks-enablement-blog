@@ -156,10 +156,10 @@ irm https://raw.githubusercontent.com/databricks-solutions/ai-dev-kit/main/insta
 
 | 카테고리 | 스킬 |
 |----------|------|
-|** 데이터 엔지니어링**| spark-declarative-pipelines, jobs, asset-bundles, synthetic-data-gen, iceberg |
+|**데이터 엔지니어링**| spark-declarative-pipelines, jobs, asset-bundles, synthetic-data-gen, iceberg |
 |**SQL & 분석**| aibi-dashboards, unity-catalog, python-sdk |
 |**GenAI & 에이전트**| vector-search, parsing, agent-evaluation, mlflow-tracing, mlflow-onboarding |
-|** 앱 개발**| app-apx (FastAPI+React), app-python (Streamlit/Dash/Flask) |
+|**앱 개발**| app-apx (FastAPI+React), app-python (Streamlit/Dash/Flask) |
 |**MLflow**| analyze-mlflow-trace, analyze-mlflow-chat-session, querying-mlflow-metrics |
 
 ---

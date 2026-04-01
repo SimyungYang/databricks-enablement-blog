@@ -6,11 +6,11 @@
 
 | 구성 | 사용자 접근 경로 |
 |------|---------------|
-| **Backend만**| 사용자 → ** 인터넷**→ Workspace → PrivateLink → Compute |
+| **Backend만**| 사용자 → **인터넷**→ Workspace → PrivateLink → Compute |
 | **Backend + Frontend**| 사용자 → **VPN/DX**→ Transit VPC → **PrivateLink**→ Workspace → PrivateLink → Compute |
 
 {% hint style="info" %}
-** 적용 시점**: VPN/DirectConnect로 AWS에 접근하는 고객, 퍼블릭 인터넷 접근 정책상 불가한 환경. End-to-End 프라이빗 연결 — 인터넷 경유 Zero
+**적용 시점**: VPN/DirectConnect로 AWS에 접근하는 고객, 퍼블릭 인터넷 접근 정책상 불가한 환경. End-to-End 프라이빗 연결 — 인터넷 경유 Zero
 {% endhint %}
 
 *참고: [Inbound PrivateLink](https://docs.databricks.com/aws/en/security/network/front-end/front-end-private-connect) · [PrivateLink DNS](https://docs.databricks.com/aws/en/security/network/classic/privatelink-dns)*
@@ -23,7 +23,7 @@
 | **VPC Endpoint**| 2개 (REST + Relay) | **1개**(REST API만) |
 | **SG 포트**| 443, 2443, 6666 | **443만**|
 | **DNS**| private DNS enabled | **Route 53 Private Hosted Zone**|
-| ** 추가**| 없음 | **Route 53 Inbound Resolver**(On-prem) |
+| **추가**| 없음 | **Route 53 Inbound Resolver**(On-prem) |
 
 ### Single VPC vs Dual VPC
 

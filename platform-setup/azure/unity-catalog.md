@@ -6,10 +6,10 @@ Unity Catalog의 **최상위 컨테이너** 입니다. 리전당 1개의 Metasto
 
 | 항목 | 설명 |
 |------|------|
-| ** 단위**| 리전당 1개 |
-| ** 역할**| Catalog, Schema, Table 등의 메타데이터 관리 |
-| ** 스토리지**| ADLS Gen2 Container (앞서 생성) |
-| ** 인증**| Access Connector (Managed Identity) |
+| **단위**| 리전당 1개 |
+| **역할**| Catalog, Schema, Table 등의 메타데이터 관리 |
+| **스토리지**| ADLS Gen2 Container (앞서 생성) |
+| **인증**| Access Connector (Managed Identity) |
 
 ## Step 1 — Account Console 접속
 
@@ -35,7 +35,7 @@ Unity Catalog의 **최상위 컨테이너** 입니다. 리전당 1개의 Metasto
 ## Step 3 — Workspace 할당
 
 1. 생성된 Metastore 클릭
-2. **Workspaces** 탭 → **Assign to workspaces** 클릭
+2. **Workspaces**탭 → **Assign to workspaces** 클릭
 3. `dbw-prod-koreacentral` 선택 → **Assign**
 
 {% hint style="success" %}

@@ -9,7 +9,7 @@ AWS Console → VPC → Create VPC
 | **CIDR**| `/16` ~ `/17` 권장 (예: `10.4.0.0/16`) |
 | **DNS hostnames**| **Enabled**|
 | **DNS resolution**| **Enabled**|
-| ** 예약 CIDR (충돌 회피)**| `127.187.216.0/24`, `192.168.216.0/24`, `198.18.216.0/24`, `172.17.0.0/16` |
+| **예약 CIDR (충돌 회피)**| `127.187.216.0/24`, `192.168.216.0/24`, `198.18.216.0/24`, `172.17.0.0/16` |
 
 ### Subnet 구성
 
@@ -92,7 +92,7 @@ AWS Console → VPC → Endpoints → Create endpoint
 Security → Networking → Classic network configurations
 
 {% hint style="warning" %}
-** 순서 주의**: Network Configuration 생성 시 **VPC Endpoint를 지정** 해야 함 → **Backend PrivateLink의 VPC Endpoint 등록을 먼저 완료** 후 진행
+**순서 주의**: Network Configuration 생성 시 **VPC Endpoint를 지정**해야 함 → **Backend PrivateLink의 VPC Endpoint 등록을 먼저 완료** 후 진행
 {% endhint %}
 
 ### 입력 항목 요약
@@ -115,5 +115,5 @@ Security → Networking → Classic network configurations
 3. **Add**→ **Network ID** 생성됨 → Workspace 생성 시 사용
 
 {% hint style="info" %}
-Network configuration은 ** 수정 불가**— 변경 시 새로 생성 후 Workspace에서 교체 (3단계 프로세스)
+Network configuration은 **수정 불가**— 변경 시 새로 생성 후 Workspace에서 교체 (3단계 프로세스)
 {% endhint %}

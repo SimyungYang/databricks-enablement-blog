@@ -97,7 +97,7 @@ LAKEBASE_PG_URL=postgresql://user:pass@host:port/dbname
 ```
 
 {% hint style="info" %}
-** 환경 변수 설명:**
+**환경 변수 설명:**
 - `ANTHROPIC_API_KEY`: Claude 모델 호출에 사용. [Anthropic Console](https://console.anthropic.com/)에서 발급
 - `DATABRICKS_HOST`: Workspace URL (예: `https://adb-123456789.12.azuredatabricks.net`)
 - `DATABRICKS_TOKEN`: Personal Access Token. Workspace > User Settings > Developer > Access Tokens에서 생성

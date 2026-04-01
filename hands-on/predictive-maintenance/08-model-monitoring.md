@@ -3,9 +3,9 @@
 > **전체 노트북 코드**: [08_model_monitoring.py](https://github.com/SimyungYang/databricks-enablement-blog/blob/main/hands-on/predictive-maintenance/notebooks/08_model_monitoring.py)
 
 
-** 목적**: 운영 중인 모델의 데이터 드리프트 및 성능 저하를 PSI 기반으로 탐지하고, Lakehouse Monitoring을 설정합니다.
+**목적**: 운영 중인 모델의 데이터 드리프트 및 성능 저하를 PSI 기반으로 탐지하고, Lakehouse Monitoring을 설정합니다.
 
-** 사용 Databricks 기능**: `Lakehouse Monitoring`, `Delta Lake Time Travel`, `SQL Analytics 대시보드`
+**사용 Databricks 기능**: `Lakehouse Monitoring`, `Delta Lake Time Travel`, `SQL Analytics 대시보드`
 
 ---
 
@@ -77,20 +77,20 @@ monitor = w.quality_monitors.create(
 ```
 
 {% hint style="info" %}
-Lakehouse Monitoring이 생성되면 자동으로 **드리프트 분석 테이블** 과 ** 프로필 테이블** 이 생성됩니다. 이를 기반으로 AI/BI Dashboard를 구성하거나, 임계값 초과 시 Slack/이메일 알림을 설정할 수 있습니다.
+Lakehouse Monitoring이 생성되면 자동으로 **드리프트 분석 테이블**과 **프로필 테이블** 이 생성됩니다. 이를 기반으로 AI/BI Dashboard를 구성하거나, 임계값 초과 시 Slack/이메일 알림을 설정할 수 있습니다.
 {% endhint %}
 
 {% hint style="warning" %}
-제조 데이터는 계절 변화, 설비 노후화, 공정 변경 등으로 인해 드리프트가 빈번합니다. 스케줄 기반 재학습만으로는 부족하며, ** 드리프트 기반 + 성능 기반 하이브리드 트리거** 를 권장합니다.
+제조 데이터는 계절 변화, 설비 노후화, 공정 변경 등으로 인해 드리프트가 빈번합니다. 스케줄 기반 재학습만으로는 부족하며, **드리프트 기반 + 성능 기반 하이브리드 트리거** 를 권장합니다.
 {% endhint %}
 
 ---
 
 ## 4. Level 2 자동화: 드리프트 감지 → 재학습 트리거
 
-> ** 전체 노트북 코드**: [08_model_monitoring.py (Section 2-1)](https://github.com/SimyungYang/databricks-enablement-blog/blob/main/hands-on/predictive-maintenance/notebooks/08_model_monitoring.py)
+> **전체 노트북 코드**: [08_model_monitoring.py (Section 2-1)](https://github.com/SimyungYang/databricks-enablement-blog/blob/main/hands-on/predictive-maintenance/notebooks/08_model_monitoring.py)
 
-드리프트를 감지하는 것(Level 1)과 ** 자동으로 행동하는 것(Level 2)** 은 완전히 다른 레벨입니다. Level 1에서는 사람이 PSI 리포트를 보고 재학습을 결정하지만, Level 2에서는 시스템이 자동으로 재학습을 트리거합니다.
+드리프트를 감지하는 것(Level 1)과 **자동으로 행동하는 것(Level 2)** 은 완전히 다른 레벨입니다. Level 1에서는 사람이 PSI 리포트를 보고 재학습을 결정하지만, Level 2에서는 시스템이 자동으로 재학습을 트리거합니다.
 
 ### `dbutils.jobs.taskValues`를 사용한 드리프트 플래그 전달
 
@@ -126,7 +126,7 @@ dbutils.jobs.taskValues.set(key="max_psi", value=float(max(psi_results.values())
 | **5. 재배포**| 검증 후 새 모델 배포 | MLOps | 05번 → 06번 자동 실행 |
 
 {% hint style="warning" %}
-드리프트가 감지되었다고 해서 반드시 모델이 나빠진 것은 아닙니다. 공정이 ** 개선** 되어 데이터 분포가 바뀐 경우도 있으므로, 드리프트 원인을 반드시 공정팀과 함께 분석해야 합니다.
+드리프트가 감지되었다고 해서 반드시 모델이 나빠진 것은 아닙니다. 공정이 **개선** 되어 데이터 분포가 바뀐 경우도 있으므로, 드리프트 원인을 반드시 공정팀과 함께 분석해야 합니다.
 {% endhint %}
 
 ### Workflows와의 연동
@@ -141,4 +141,4 @@ Level 2 파이프라인에서는 이 모니터링 태스크 다음에 **03d_retr
    자동 재학습 → 모델 등록 → Champion 교체
 ```
 
-** 다음 단계**: [09. MLOps Agent](09-mlops-agent.md)
+**다음 단계**: [09. MLOps Agent](09-mlops-agent.md)

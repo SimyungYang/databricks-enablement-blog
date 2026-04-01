@@ -93,7 +93,7 @@ Workspace와 별개로 UC용 IAM Role이 필요합니다.
 External Location을 생성하면 **File Events가 기본적으로 활성화** 됩니다. File Events는 S3 버킷의 파일 변경 사항을 SQS/SNS를 통해 Databricks에 알려주는 기능으로, Auto Loader (File Notification 모드)와 Job File-Arrival Trigger에서 사용됩니다.
 
 {% hint style="warning" %}
-External Location 생성 시 **File Events가 기본 활성화** 되어 있습니다. IAM Role에 SQS/SNS 권한이 없으면 **Test Connection의 "File Events Read" 체크가 실패** 합니다. File Events가 불필요한 경우 External Location → Advanced Options에서 비활성화할 수 있습니다.
+External Location 생성 시 **File Events가 기본 활성화**되어 있습니다. IAM Role에 SQS/SNS 권한이 없으면 **Test Connection의 "File Events Read" 체크가 실패** 합니다. File Events가 불필요한 경우 External Location → Advanced Options에서 비활성화할 수 있습니다.
 {% endhint %}
 
 ### SQS/SNS 권한이 필요한 이유
@@ -107,7 +107,7 @@ Databricks는 File Events를 위해 `csms-*` prefix가 붙은 SQS Queue와 SNS T
 | 기본 S3 읽기/쓰기 | 불필요 |
 | Auto Loader (Directory Listing 모드) | 불필요 |
 | Auto Loader (File Notification 모드) | **필수**|
-| Job File-Arrival Trigger | ** 필수**|
+| Job File-Arrival Trigger | **필수**|
 
 ### 전체 IAM Policy (S3 + SQS/SNS + STS Self-Assume)
 

@@ -3,15 +3,15 @@
 > **전체 노트북 코드**: [03_structured_model_training.py](https://github.com/SimyungYang/databricks-enablement-blog/blob/main/hands-on/predictive-maintenance/notebooks/03_structured_model_training.py)
 
 
-** 목적**: XGBoost 모델을 학습하고, MLflow로 실험을 추적하며, SHAP으로 해석합니다. 멀티 알고리즘 비교, SMOTE, Optuna, Stacking 등 고급 기법도 다룹니다.
+**목적**: XGBoost 모델을 학습하고, MLflow로 실험을 추적하며, SHAP으로 해석합니다. 멀티 알고리즘 비교, SMOTE, Optuna, Stacking 등 고급 기법도 다룹니다.
 
-** 사용 Databricks 기능**: `MLflow Experiment Tracking`, `Autolog`, `Data Lineage`, `mlflow.evaluate()`, `Databricks AutoML`
+**사용 Databricks 기능**: `MLflow Experiment Tracking`, `Autolog`, `Data Lineage`, `mlflow.evaluate()`, `Databricks AutoML`
 
 ---
 
 ## 1. MLflow 데이터 계보 캡처
 
-**MLflow Data Lineage** 를 통해 모델이 어떤 데이터(테이블 + 버전)로 학습되었는지 추적합니다. 모델 문제 발생 시 ** 근본 원인 분석(RCA)** 에 활용됩니다.
+**MLflow Data Lineage**를 통해 모델이 어떤 데이터(테이블 + 버전)로 학습되었는지 추적합니다. 모델 문제 발생 시 **근본 원인 분석(RCA)** 에 활용됩니다.
 
 ```python
 # 최신 테이블 버전으로 데이터셋 계보 객체 생성
@@ -26,7 +26,7 @@ src_dataset = mlflow.data.load_delta(
 
 ## 2. XGBoost 학습 + MLflow Autolog
 
-`mlflow.xgboost.autolog()`으로 하이퍼파라미터, 메트릭, 피처 중요도가 ** 자동** 기록됩니다.
+`mlflow.xgboost.autolog()`으로 하이퍼파라미터, 메트릭, 피처 중요도가 **자동** 기록됩니다.
 
 ```python
 with mlflow.start_run(run_name="xgboost_baseline") as run:
@@ -43,7 +43,7 @@ with mlflow.start_run(run_name="xgboost_baseline") as run:
 
 ## 3. SHAP 기반 모델 해석
 
-SHAP(SHapley Additive exPlanations)을 통해 ** 왜 고장이 예측되었는지** 설명 가능한 피처 중요도를 산출합니다.
+SHAP(SHapley Additive exPlanations)을 통해 **왜 고장이 예측되었는지** 설명 가능한 피처 중요도를 산출합니다.
 
 ```python
 explainer = shap.TreeExplainer(best_model)
@@ -58,14 +58,14 @@ for feat, val, sv in sorted(zip(feature_columns, X_test.iloc[idx], shap_values[i
 ```
 
 {% hint style="info" %}
-SHAP 해석은 제조 현장에서 "** 왜 이 설비가 고장 위험으로 판단되었는가?**" 에 답할 수 있게 합니다. 이는 정비팀의 신뢰도 확보와 의사결정에 핵심적입니다.
+SHAP 해석은 제조 현장에서 "**왜 이 설비가 고장 위험으로 판단되었는가?**" 에 답할 수 있게 합니다. 이는 정비팀의 신뢰도 확보와 의사결정에 핵심적입니다.
 {% endhint %}
 
 ---
 
 ## 03b. 멀티 알고리즘 비교
 
-XGBoost, LightGBM, CatBoost, Random Forest를 ** 동일 조건** 에서 비교합니다. MLflow 실험 UI에서 한눈에 비교할 수 있습니다.
+XGBoost, LightGBM, CatBoost, Random Forest를 **동일 조건** 에서 비교합니다. MLflow 실험 UI에서 한눈에 비교할 수 있습니다.
 
 ```python
 # CatBoost — 범주형 피처 자동 처리 + 불균형 보정
@@ -133,9 +133,9 @@ summary = automl.classify(
 
 ## 03d. 임계값 최적화 & 모델 캘리브레이션
 
-> ** 전체 노트북 코드**: [03_structured_model_training.py (Section 6)](https://github.com/SimyungYang/databricks-enablement-blog/blob/main/hands-on/predictive-maintenance/notebooks/03_structured_model_training.py)
+> **전체 노트북 코드**: [03_structured_model_training.py (Section 6)](https://github.com/SimyungYang/databricks-enablement-blog/blob/main/hands-on/predictive-maintenance/notebooks/03_structured_model_training.py)
 
-대부분의 팀이 XGBoost의 예측 확률을 **0.5 기준** 으로 이진 분류합니다. 하지만 고장 예측처럼 ** 놓치는 것(FN)이 오탐(FP)보다 훨씬 비싼 경우**, 임계값을 낮춰서 Recall을 높이는 것이 비즈니스적으로 올바릅니다.
+대부분의 팀이 XGBoost의 예측 확률을 **0.5 기준**으로 이진 분류합니다. 하지만 고장 예측처럼 **놓치는 것(FN)이 오탐(FP)보다 훨씬 비싼 경우**, 임계값을 낮춰서 Recall을 높이는 것이 비즈니스적으로 올바릅니다.
 
 ### PR-curve 기반 최적 임계값 탐색
 
@@ -160,7 +160,7 @@ mlflow.log_metric("optimal_threshold", optimal_threshold)
 
 ### 모델 캘리브레이션 (Platt Scaling, Isotonic Regression)
 
-모델이 "고장 확률 80%"라고 출력하면, 실제로 100건 중 80건이 고장이어야 합니다. XGBoost의 raw probability는 종종 ** 과신(overconfident)** 하거나 ** 과소(underconfident)** 하기 때문에, 다음 기법으로 보정합니다:
+모델이 "고장 확률 80%"라고 출력하면, 실제로 100건 중 80건이 고장이어야 합니다. XGBoost의 raw probability는 종종 **과신(overconfident)**하거나 **과소(underconfident)** 하기 때문에, 다음 기법으로 보정합니다:
 
 | 기법 | 원리 | 적합 상황 |
 |------|------|----------|
@@ -171,9 +171,9 @@ mlflow.log_metric("optimal_threshold", optimal_threshold)
 
 {% hint style="warning" %}
 임계값은 비즈니스 요구사항에 따라 결정합니다:
-- ** 놓침이 치명적**(반도체, 자동차 부품) → 임계값 낮춤 (0.3~0.4) → Recall 상승, Precision 하락
-- ** 오탐 비용이 높음**(불필요 정비 비용 큼) → 임계값 높임 (0.6~0.7) → Precision 상승, Recall 하락
-- ** 최적점**: PR 곡선에서 비용함수를 최소화하는 점 = `cost = FN x 50000 + FP x 3000`
+- **놓침이 치명적**(반도체, 자동차 부품) → 임계값 낮춤 (0.3~0.4) → Recall 상승, Precision 하락
+- **오탐 비용이 높음**(불필요 정비 비용 큼) → 임계값 높임 (0.6~0.7) → Precision 상승, Recall 하락
+- **최적점**: PR 곡선에서 비용함수를 최소화하는 점 = `cost = FN x 50000 + FP x 3000`
 {% endhint %}
 
-** 다음 단계**: [04. 모델 등록](04-model-registration.md)
+**다음 단계**: [04. 모델 등록](04-model-registration.md)

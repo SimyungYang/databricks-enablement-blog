@@ -38,8 +38,8 @@ RRF_score(d) = Σ 1 / (k + rank_i(d))
 ### 가중치 조절
 
 - `weights=[0.5, 0.5]`: 두 Retriever를 동등하게 반영
-- `weights=[0.7, 0.3]`: BM25 비중을 높이면 ** 정확한 키워드 매칭** 강화
-- `weights=[0.3, 0.7]`: Vector Search 비중을 높이면 ** 의미적 유사성** 강화
+- `weights=[0.7, 0.3]`: BM25 비중을 높이면 **정확한 키워드 매칭** 강화
+- `weights=[0.3, 0.7]`: Vector Search 비중을 높이면 **의미적 유사성** 강화
 
 ### LangChain EnsembleRetriever 코드 예제
 
@@ -73,13 +73,13 @@ for doc in results:
 {% hint style="warning" %}
 **Databricks Vector Search 하이브리드 검색의 제약사항:**
 
-- Databricks VS의 "Hybrid Search"는 **Dense (임베딩 유사도) + 키워드 필터** 를 결합하는 방식이며, 전통적인 **BM25 Sparse Retrieval과는 다릅니다**
-- 내장 키워드 검색은 ** 영어 기반 토크나이저** 를 사용하여, 한국어 형태소를 제대로 분리하지 못함
-- 따라서 한국어 환경에서는 VS 내장 하이브리드보다 ** 외부 BM25 (Kiwi 기반) + VS Dense를 EnsembleRetriever로 결합** 하는 것이 더 효과적
+- Databricks VS의 "Hybrid Search"는 **Dense (임베딩 유사도) + 키워드 필터**를 결합하는 방식이며, 전통적인 **BM25 Sparse Retrieval과는 다릅니다**
+- 내장 키워드 검색은 **영어 기반 토크나이저** 를 사용하여, 한국어 형태소를 제대로 분리하지 못함
+- 따라서 한국어 환경에서는 VS 내장 하이브리드보다 **외부 BM25 (Kiwi 기반) + VS Dense를 EnsembleRetriever로 결합** 하는 것이 더 효과적
 
-** 해결 전략:**
-1. ** 소규모 문서 (10만건 이하)**: LangChain BM25Retriever (Kiwi 토크나이저) + VS Dense → EnsembleRetriever
-2. ** 대규모 문서**: Elasticsearch/OpenSearch에 Kiwi 분석기 설정 → BM25 서빙 + VS Dense → EnsembleRetriever
+**해결 전략:**
+1. **소규모 문서 (10만건 이하)**: LangChain BM25Retriever (Kiwi 토크나이저) + VS Dense → EnsembleRetriever
+2. **대규모 문서**: Elasticsearch/OpenSearch에 Kiwi 분석기 설정 → BM25 서빙 + VS Dense → EnsembleRetriever
 3. **VS만 사용**: 임베딩 모델을 한국어에 강한 모델(bge-m3, multilingual-e5)로 선택하여 Dense 검색 품질을 최대한 높임
 {% endhint %}
 
@@ -174,12 +174,12 @@ compression_retriever = ContextualCompressionRetriever(
 
 | 시나리오 | 추천 전략 | 이유 |
 |----------|-----------|------|
-| ** 일반 Q&A**| Dense + Reranking | 의미 검색으로 후보 추출 후 정밀 재정렬 |
-| ** 전문 용어가 많은 문서**| Hybrid (BM25 + Dense) | 정확한 용어 매칭과 의미 검색을 동시에 |
-| ** 한국어 문서**| Kiwi 토크나이저 + Hybrid | 형태소 분석 기반 BM25로 한국어 키워드 검색 강화 |
-| ** 법률/의료 문서**| Self-Query + Metadata Filter | 날짜, 카테고리, 법령 번호 등 구조화된 필터링 |
-| ** 긴 문서 기반 Q&A**| Parent Document Retriever | 작은 청크로 검색하되 큰 컨텍스트 반환 |
-| ** 대규모 문서셋 (100K+)**| Vector Search + Reranking | 서버 사이드 검색으로 확장성 확보 |
+| **일반 Q&A**| Dense + Reranking | 의미 검색으로 후보 추출 후 정밀 재정렬 |
+| **전문 용어가 많은 문서**| Hybrid (BM25 + Dense) | 정확한 용어 매칭과 의미 검색을 동시에 |
+| **한국어 문서**| Kiwi 토크나이저 + Hybrid | 형태소 분석 기반 BM25로 한국어 키워드 검색 강화 |
+| **법률/의료 문서**| Self-Query + Metadata Filter | 날짜, 카테고리, 법령 번호 등 구조화된 필터링 |
+| **긴 문서 기반 Q&A**| Parent Document Retriever | 작은 청크로 검색하되 큰 컨텍스트 반환 |
+| **대규모 문서셋 (100K+)**| Vector Search + Reranking | 서버 사이드 검색으로 확장성 확보 |
 
 ### 전략 선택 플로우
 

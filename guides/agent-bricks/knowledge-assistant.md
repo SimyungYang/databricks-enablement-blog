@@ -4,9 +4,9 @@
 
 ## 개요
 
-Knowledge Assistant는 **문서 기반 Q&A 챗봇** 을 생성합니다. 기존 RAG보다 향상된 **Instructed Retriever** 방식을 사용하며, 응답 시 출처(Citation)를 함께 제공합니다.
+Knowledge Assistant는 **문서 기반 Q&A 챗봇**을 생성합니다. 기존 RAG보다 향상된 **Instructed Retriever** 방식을 사용하며, 응답 시 출처(Citation)를 함께 제공합니다.
 
-** 적합한 유스케이스:**
+**적합한 유스케이스:**
 - 제품 문서 Q&A
 - HR 정책 질의
 - 고객 지원 지식 베이스
@@ -20,7 +20,7 @@ Knowledge Assistant는 **문서 기반 Q&A 챗봇** 을 생성합니다. 기존 
 - `databricks-gte-large-en` 임베딩 모델 엔드포인트
   - **AI Guardrails 비활성화** 필수
   - **Rate Limits 비활성화** 필수
-- 입력 데이터: **UC 파일(Volume)** 또는 **Vector Search Index**
+- 입력 데이터: **UC 파일(Volume)**또는 **Vector Search Index**
 - MLflow Production Monitoring (Beta) 활성화 (트레이싱 기능용)
 
 ---
@@ -39,14 +39,14 @@ Knowledge Assistant는 **문서 기반 Q&A 챗봇** 을 생성합니다. 기존 
 
 3. **Knowledge Source** 선택 (최대 10개까지 추가 가능):
 
-** 옵션 A: UC Files (Unity Catalog Volume)**
+**옵션 A: UC Files (Unity Catalog Volume)**
 
 - Catalog > Volume 또는 디렉토리 선택
 - 지원 형식: `txt`, `pdf`, `md`, `ppt/pptx`, `doc/docx`
 - 파일 크기 제한: **50MB 이하**
 - 언더스코어(`_`) 또는 마침표(`.`)로 시작하는 파일은 제외됨
 
-** 옵션 B: Vector Search Index**
+**옵션 B: Vector Search Index**
 
 - `databricks-gte-large-en` 임베딩을 사용하는 인덱스 선택
 - **Text Column**: 검색 대상 텍스트 컬럼 지정
@@ -61,7 +61,7 @@ Knowledge Assistant는 **문서 기반 Q&A 챗봇** 을 생성합니다. 기존 
 
 ### Step 2: 에이전트 테스트
 
-생성 후 **Build** 탭 또는 **AI Playground** 에서 품질을 검증합니다.
+생성 후 **Build**탭 또는 **AI Playground** 에서 품질을 검증합니다.
 
 | 기능 | 설명 |
 |------|------|
@@ -74,11 +74,11 @@ Knowledge Assistant는 **문서 기반 Q&A 챗봇** 을 생성합니다. 기존 
 
 **Examples** 탭에서 자연어 피드백을 활용하여 품질을 향상시킵니다.
 
-** 데이터 수집 방법:**
+**데이터 수집 방법:**
 
-1. ** 수동 추가**: "+ Add" 버튼으로 질문 직접 추가
-2. ** 전문가 피드백**: 공유 설정 링크를 통해 SME(Subject Matter Expert)의 피드백 수집
-3. ** 가이드라인 적용**: 질문별 가이드라인 설정
+1. **수동 추가**: "+ Add" 버튼으로 질문 직접 추가
+2. **전문가 피드백**: 공유 설정 링크를 통해 SME(Subject Matter Expert)의 피드백 수집
+3. **가이드라인 적용**: 질문별 가이드라인 설정
 4. **UC 테이블 Import/Export**: 라벨링된 데이터셋을 Unity Catalog 테이블로 관리
 
 **Import 스키마 형식:**
@@ -114,7 +114,7 @@ created = w.knowledge_assistants.create_knowledge_assistant(
 )
 ```
 
-** 쿼리 방법:**
+**쿼리 방법:**
 - **AI Playground**: 인터랙티브 테스트
 - **REST API (curl)**: HTTP 요청으로 직접 호출
 - **Python SDK**: 프로그래밍 방식 연동
