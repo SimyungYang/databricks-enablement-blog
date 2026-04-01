@@ -30,11 +30,14 @@ Databricks의 GenAI 기능(Mosaic AI, Agent Framework, AI Playground 등)을 제
 
 | 가이드 | 설명 | 난이도 |
 |--------|------|--------|
+| [NLP에서 LLM까지: 발전사](nlp-evolution.md) | 규칙 기반 → 통계 → Word2Vec → RNN/LSTM → Seq2Seq → Attention → Transformer | 입문~중급 |
 | [LLM 기초](llm-basics.md) | Transformer, 토큰, 컨텍스트 윈도우, Hallucination, 주요 모델 비교 | 입문 |
 | [AI Agent 아키텍처](agent-architecture.md) | ReAct, Tool Use (JSON 수준), 멀티에이전트 패턴, 프레임워크 비교 | 중급 |
 | [Prompt Engineering](prompt-engineering.md) | Zero-shot/Few-shot/CoT 비교, System Prompt 5패턴, Prompt Injection 방어 | 입문~중급 |
 | [GenAI 평가 방법론](evaluation.md) | Faithfulness/Relevance 구체 예시, LLM-as-Judge vs Human, MLflow Evaluate | 중급 |
 | [A2A (Agent-to-Agent)](a2a.md) | A2A 등장 배경, Agent Card JSON, Task 라이프사이클, MCP 결합 아키텍처 | 중급~고급 |
+| [Agent 프레임워크 생태계](agent-frameworks.md) | LangChain/LangGraph/CrewAI/OpenAI SDK/AutoGen/Databricks AF 비교, 코드 예시, 선택 가이드 | 중급~고급 |
+| [Agent UI & 배포 기술 스택](agent-ui-stack.md) | Streamlit/Gradio/Chainlit/Dash/FastAPI 비교, Databricks Apps 배포, 단계별 기술 선택 | 중급 |
 | [AI Proficiency 성숙도](ai-proficiency.md) | 4단계 성숙도 모델, 레벨 전환 요건, 자가 진단 체크리스트 | 전략 |
 
 ---
@@ -47,26 +50,33 @@ Databricks의 GenAI 기능(Mosaic AI, Agent Framework, AI Playground 등)을 제
 
 | 역할 | 권장 순서 | 소요 시간 |
 |------|-----------|-----------|
-| **GenAI 입문자** | LLM 기초 → Prompt Engineering → 평가 방법론 | 3~4시간 |
-| **Agent 개발자** | LLM 기초 → Agent 아키텍처 → A2A → 평가 방법론 | 4~5시간 |
-| **기술 리더/전략가** | AI Proficiency → LLM 기초 → Agent 아키텍처 | 2~3시간 |
-| **SE/SA (고객 대응)** | 전체 과정 (LLM → Prompt → Agent → 평가 → A2A → AI Proficiency) | 6~8시간 |
+| **GenAI 입문자** | NLP 발전사 → LLM 기초 → Prompt Engineering → 평가 방법론 | 4~5시간 |
+| **Agent 개발자** | LLM 기초 → Agent 아키텍처 → Agent 프레임워크 → Agent UI → A2A → 평가 방법론 | 6~7시간 |
+| **기술 리더/전략가** | AI Proficiency → NLP 발전사 → LLM 기초 → Agent 아키텍처 | 3~4시간 |
+| **SE/SA (고객 대응)** | 전체 과정 (NLP 발전사 → LLM → Prompt → Agent → 평가 → A2A → AI Proficiency) | 8~10시간 |
 
 ### 목적별 권장 경로
 
 | 목적 | 필수 가이드 | 선택 가이드 |
 |------|------------|------------|
-| "고객에게 GenAI를 설명해야 한다" | LLM 기초, AI Proficiency | Prompt Engineering |
+| "고객에게 GenAI를 설명해야 한다" | NLP 발전사, LLM 기초, AI Proficiency | Prompt Engineering |
 | "RAG 챗봇을 만들어야 한다" | LLM 기초, Prompt Engineering, 평가 방법론 | Agent 아키텍처 |
-| "Agent를 설계해야 한다" | LLM 기초, Agent 아키텍처, A2A | 평가 방법론 |
+| "Agent를 설계해야 한다" | LLM 기초, Agent 아키텍처, Agent 프레임워크, A2A | Agent UI, 평가 방법론 |
 | "AI 전략을 수립해야 한다" | AI Proficiency, LLM 기초 | Agent 아키텍처 |
 
 ---
 
 ## GenAI 기술 발전 타임라인
 
+{% hint style="info" %}
+Transformer 이전의 NLP 발전사(규칙 기반 → 통계 → Word2Vec → RNN/LSTM → Seq2Seq → Attention)는 [NLP에서 LLM까지: 발전사](nlp-evolution.md)에서 상세히 다룹니다.
+{% endhint %}
+
 | 시기 | 주요 이벤트 | 핵심 키워드 | 영향 |
 |------|-------------|-------------|------|
+| 1997 | Hochreiter & Schmidhuber LSTM 발표 | LSTM, 게이트 메커니즘 | RNN의 장기 기억 문제 해결, 번역/음성인식의 핵심 |
+| 2013 | Google Word2Vec 발표 | 단어 임베딩 | "king - man + woman = queen" — 단어의 의미를 벡터로 표현 |
+| 2015 | Bahdanau Attention 메커니즘 발표 | Attention | Seq2Seq의 정보 병목 해결, Transformer의 직접적 조상 |
 | 2017.06 | Google "Attention Is All You Need" 논문 | Transformer | 현대 LLM의 기반 아키텍처 탄생 |
 | 2018.10 | Google BERT 공개 | Pre-training | 사전학습 → 파인튜닝 패러다임 시작 |
 | 2020.06 | OpenAI GPT-3 공개 (175B) | Few-shot Learning | 프롬프트만으로 다양한 작업 수행 가능 |
@@ -142,7 +152,7 @@ Databricks의 GenAI 기능(Mosaic AI, Agent Framework, AI Playground 등)을 제
 
 ## 다음 단계
 
-1. GenAI가 처음이라면 → [LLM 기초](llm-basics.md)부터 시작
+1. GenAI가 처음이라면 → [NLP 발전사](nlp-evolution.md)부터 시작 → [LLM 기초](llm-basics.md)
 2. Agent 개발에 관심이 있다면 → [AI Agent 아키텍처](agent-architecture.md)
 3. 조직 전략을 수립 중이라면 → [AI Proficiency 성숙도](ai-proficiency.md)
 4. 실습을 원한다면 → [RAG 가이드](../rag/README.md) 또는 [Agent Bricks](../agent-bricks/README.md)

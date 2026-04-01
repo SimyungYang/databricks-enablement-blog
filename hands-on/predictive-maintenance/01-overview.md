@@ -51,8 +51,10 @@
 notebooks = {
     "02_feature_engineering":   ["Delta Lake", "Feature Store", "Unity Catalog"],
     "03_model_training":        ["MLflow Tracking", "Autolog", "Data Lineage"],
+    "03a_ml_trends":            ["ML 최신 기술 트렌드", "알고리즘 진화 역사"],
     "03b_multi_algorithm":      ["MLflow 실험 비교 UI"],
     "03c_advanced_techniques":  ["Databricks AutoML", "Optuna", "SMOTE"],
+    "03d_retraining_strategies":["재학습 전략", "Incremental/Continual/Online Learning"],
     "04_model_registration":    ["UC Model Registry", "Alias", "Lineage"],
     "05_challenger_validation": ["mlflow.evaluate()", "태그 기반 검증"],
     "06_batch_inference":       ["PySpark UDF", "Delta Lake"],

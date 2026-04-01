@@ -130,5 +130,6 @@ MCP는 빠르게 성장하는 생태계를 보유하고 있습니다:
 | 가이드 | 내용 |
 |--------|------|
 | [일반 MCP 설정](setup-general.md) | Claude Desktop, Claude Code, Cursor에서 MCP 서버 설정하기 |
+| [인기 서버 & 활용 시나리오](popular-servers.md) | 카테고리별 인기 MCP 서버, 실전 자동화 시나리오 10선 |
 | [Databricks MCP 활용](databricks-mcp.md) | Databricks 환경에서 Managed/External/Custom MCP 활용하기 |
 | [베스트 프랙티스](best-practices.md) | 보안, Tool 설계, 에러 핸들링, 디버깅 팁 |

@@ -100,4 +100,64 @@ client.set_registered_model_alias(
 **모델 선택 가이드** — 정확도 우선이면 PatchCore(AUROC 99.1%), 속도/비용 우선이면 EfficientAD, 실시간 추론이면 Reverse Distillation을 권장합니다.
 {% endhint %}
 
+---
+
+## 4. Anomalib 모델 비교 및 최신 트렌드
+
+> **전체 노트북 코드**: [07_unstructured_anomaly_detection.py (Section 8)](https://github.com/SimyungYang/databricks-enablement-blog/blob/main/hands-on/predictive-maintenance/notebooks/07_unstructured_anomaly_detection.py)
+
+### Anomalib 지원 모델 비교
+
+Anomalib은 PatchCore 외에도 **20개 이상의 이상탐지 알고리즘**을 제공합니다. 동일한 코드 구조에서 **모델 클래스만 교체**하면 즉시 비교 실험이 가능합니다.
+
+| 모델 | 정확도 (AUROC) | 추론 속도 | 메모리 | 적합 시나리오 |
+|------|---------------|----------|--------|-------------|
+| **PatchCore** | 99.1% | 보통 | 높음 | 정확도 최우선 (오프라인 배치 검사) |
+| **EfficientAD** | 98.8% | 가장 빠름 | 가장 낮음 | 실시간 인라인 검사 / 엣지 디바이스 |
+| **Reverse Distillation** | 98.5% | 빠름 | 낮음 | 속도-정확도 균형이 필요한 경우 |
+| **PADIM** | 97.9% | 빠름 | 보통 | 빠른 PoC / 프로토타이핑 |
+| **FastFlow** | 98.4% | 빠름 | 보통 | Normalizing Flow 기반 (확률적 해석 필요 시) |
+
+```python
+# 모델 교체 예시 — 코드 한 줄만 변경
+from anomalib.models import EfficientAd
+model = EfficientAd()  # PatchCore 대신 EfficientAD
+# 나머지 코드(학습, 평가, 등록)는 완전히 동일!
+```
+
+{% hint style="info" %}
+**모델 선택 가이드**: PoC 단계에서는 **PatchCore**(정확도 최고)로 시작하고, 양산 적용 시 추론 속도 요구사항에 따라 **EfficientAD**(실시간) 또는 **Reverse Distillation**(균형)으로 전환을 검토합니다.
+{% endhint %}
+
+### VisA 데이터셋 — 전자부품 검사용
+
+MVTec AD 외에 **VisA (Visual Anomaly)** 데이터셋은 PCB 보드 4종(pcb1~pcb4)을 포함하여 전자부품 검사에 특화되어 있습니다.
+
+```python
+# MVTec AD 대신 VisA 사용 (PCB 보드 4종 포함!)
+from anomalib.data import Visa
+
+datamodule = Visa(
+    root="/Volumes/catalog/schema/volume/visa",
+    category="pcb1",  # pcb1, pcb2, pcb3, pcb4 — 전자부품 특화!
+    image_size=(256, 256),
+)
+# 나머지 코드는 완전히 동일하게 사용 가능
+```
+
+### Foundation Model 기반 이상탐지 (2023-2025 트렌드)
+
+최근 AI 분야의 가장 큰 변화인 **Foundation Model(기반 모델)** 이 이상탐지에도 적용되고 있습니다.
+
+| 기술 | 논문/년도 | 핵심 아이디어 | 장점 |
+|------|----------|-------------|------|
+| **WinCLIP** | 2023 | CLIP의 윈도우 기반 이상 탐지 | Zero-shot 가능 (학습 없이 텍스트로 결함 설명만 하면 탐지) |
+| **AnomalyCLIP** | 2024 | CLIP을 이상탐지에 특화하여 Fine-tuning | 여러 도메인에 범용적으로 적용 가능 |
+| **SAM + 이상탐지** | 2024 | Segment Anything Model로 결함 영역 정밀 분할 | 픽셀 수준 결함 경계 정확도 향상 |
+| **AnomalyGPT** | 2024 | LLM + 비전 모델 결합, 대화형 이상 분석 | "이 결함의 원인이 무엇인가?"에 텍스트로 답변 |
+
+{% hint style="success" %}
+Foundation Model 기반 접근은 아직 연구 단계이지만, 향후 "카메라 모듈에서 렌즈 스크래치를 찾아줘"라는 **자연어 지시만으로** 결함을 탐지하는 것이 가능해질 것입니다. Databricks의 GPU 클러스터와 MLflow 인프라가 이러한 최신 모델의 실험/배포를 지원합니다.
+{% endhint %}
+
 **다음 단계**: [08. 모델 모니터링](08-model-monitoring.md)

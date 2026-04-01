@@ -79,12 +79,15 @@
 ## 핵심 기술 개념
 
 * [GenAI 핵심 개념](guides/genai-concepts/README.md)
+  * [NLP에서 LLM까지: 발전사](guides/genai-concepts/nlp-evolution.md)
   * [LLM 기초](guides/genai-concepts/llm-basics.md)
   * [AI Agent 아키텍처](guides/genai-concepts/agent-architecture.md)
   * [Prompt Engineering](guides/genai-concepts/prompt-engineering.md)
   * [GenAI 평가 방법론](guides/genai-concepts/evaluation.md)
   * [A2A (Agent-to-Agent)](guides/genai-concepts/a2a.md)
+  * [Agent 프레임워크 생태계](guides/genai-concepts/agent-frameworks.md)
   * [AI Proficiency 성숙도](guides/genai-concepts/ai-proficiency.md)
+  * [Agent UI & 배포 기술 스택](guides/genai-concepts/agent-ui-stack.md)
 * [RAG (검색 증강 생성)](guides/rag/README.md)
   * [핵심 개념 사전](guides/rag/concepts/README.md)
     * [임베딩](guides/rag/concepts/embedding.md)
@@ -103,6 +106,7 @@
   * [RAG 배포](guides/rag/deployment.md)
 * [MCP (Model Context Protocol)](guides/mcp/README.md)
   * [일반 MCP 설정](guides/mcp/setup-general.md)
+  * [인기 서버 & 활용 시나리오](guides/mcp/popular-servers.md)
   * [Databricks MCP 활용](guides/mcp/databricks-mcp.md)
   * [베스트 프랙티스](guides/mcp/best-practices.md)
 
@@ -113,6 +117,8 @@
   * [01. Overview](hands-on/predictive-maintenance/01-overview.md)
   * [02. Feature Engineering](hands-on/predictive-maintenance/02-feature-engineering.md)
   * [03. Model Training](hands-on/predictive-maintenance/03-model-training.md)
+  * [03a. ML 트렌드 & 최신 기법](hands-on/predictive-maintenance/03a-ml-trends.md)
+  * [03d. 재학습 전략](hands-on/predictive-maintenance/03d-retraining-strategies.md)
   * [04. Model Registration](hands-on/predictive-maintenance/04-model-registration.md)
   * [05. Challenger Validation](hands-on/predictive-maintenance/05-challenger-validation.md)
   * [06. Batch Inference](hands-on/predictive-maintenance/06-batch-inference.md)

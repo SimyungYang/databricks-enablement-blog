@@ -88,3 +88,94 @@ Databricks **Serverless Compute**를 사용하면 클러스터 관리 없이 자
 | 8 | Lakehouse Monitoring | 08 모니터링 |
 | 9 | AI Agent 오케스트레이션 | 09 MLOps Agent |
 | 10 | Workflows 스케줄링 | 10 Job 스케줄링 |
+
+---
+
+## Level 2 MLOps Pipeline Job
+
+> **전체 노트북 코드**: [10_job_scheduling.py (Level 2 섹션)](https://github.com/SimyungYang/databricks-enablement-blog/blob/main/hands-on/predictive-maintenance/notebooks/10_job_scheduling.py)
+
+기존 Level 1 파이프라인(6개 태스크)에 **드리프트 기반 자동 재학습**이 추가된 것이 Level 2의 핵심입니다.
+
+### 7-Task 자동 재학습 파이프라인 구성
+
+```
+[Level 2 파이프라인 흐름]
+ 02_Feature_Eng → 03_Model_Train → 04_Model_Reg → 05_Validation
+                                                        ↓
+                                                   06_Batch_Infer
+                                                        ↓
+                                                   08_Monitoring (드리프트 감지)
+                                                        ↓
+                                                   03d_Retrain (조건부 자동 재학습)
+```
+
+| Task # | Task Key | 노트북 | 설명 |
+|--------|----------|--------|------|
+| 1 | `feature_engineering` | 02_structured_feature_engineering | 센서 데이터 → 7개 파생 피처 생성 |
+| 2 | `model_training` | 03_structured_model_training | XGBoost 학습 + SHAP 해석 |
+| 3 | `model_registration` | 04_model_registration_uc | UC Model Registry 등록 |
+| 4 | `challenger_validation` | 05_challenger_validation | 4단계 자동 검증 |
+| 5 | `batch_inference` | 06_batch_inference | Champion 모델 배치 예측 |
+| 6 | `model_monitoring` | 08_model_monitoring | PSI 드리프트 탐지 + taskValues 플래그 전달 |
+| 7 | `auto_retrain_if_drift` | 03d_retraining_strategies | 드리프트 감지 시 자동 재학습 → Champion 교체 |
+
+### Databricks SDK로 Job 생성
+
+```python
+from databricks.sdk import WorkspaceClient
+from databricks.sdk.service.jobs import (
+    Task, NotebookTask, TaskDependency,
+    CronSchedule, PauseStatus,
+)
+
+w = WorkspaceClient()
+job_name = "LGIT_MLOps_Level2_AutoRetrain_Pipeline"
+
+tasks = [
+    Task(task_key="feature_engineering",
+         notebook_task=NotebookTask(notebook_path=f"{notebook_base}/02_structured_feature_engineering")),
+    Task(task_key="model_training",
+         depends_on=[TaskDependency(task_key="feature_engineering")],
+         notebook_task=NotebookTask(notebook_path=f"{notebook_base}/03_structured_model_training")),
+    Task(task_key="model_registration",
+         depends_on=[TaskDependency(task_key="model_training")],
+         notebook_task=NotebookTask(notebook_path=f"{notebook_base}/04_model_registration_uc")),
+    Task(task_key="challenger_validation",
+         depends_on=[TaskDependency(task_key="model_registration")],
+         notebook_task=NotebookTask(notebook_path=f"{notebook_base}/05_challenger_validation")),
+    Task(task_key="batch_inference",
+         depends_on=[TaskDependency(task_key="challenger_validation")],
+         notebook_task=NotebookTask(notebook_path=f"{notebook_base}/06_batch_inference")),
+    Task(task_key="model_monitoring",
+         depends_on=[TaskDependency(task_key="batch_inference")],
+         notebook_task=NotebookTask(notebook_path=f"{notebook_base}/08_model_monitoring")),
+    Task(task_key="auto_retrain_if_drift",
+         depends_on=[TaskDependency(task_key="model_monitoring")],
+         notebook_task=NotebookTask(notebook_path=f"{notebook_base}/03d_retraining_strategies")),
+]
+
+created_job = w.jobs.create(
+    name=job_name,
+    tasks=tasks,
+    schedule=CronSchedule(
+        quartz_cron_expression="0 0 2 ? * MON",  # 매주 월요일 02:00 KST
+        timezone_id="Asia/Seoul",
+        pause_status=PauseStatus.PAUSED,
+    ),
+    tags={"project": "lgit-mlops-poc", "level": "2", "type": "auto-retrain"},
+    max_concurrent_runs=1,
+)
+```
+
+{% hint style="info" %}
+**Level 1 vs Level 2 차이**: Level 1 Job은 6개 태스크(02→03→04→05→06→08)로 모니터링까지만 수행합니다. Level 2 Job은 7번째 태스크(03d)가 추가되어, 드리프트 감지 시 **자동 재학습**까지 수행합니다.
+{% endhint %}
+
+### Job 확인 방법
+
+1. 좌측 사이드바 → **Workflows** 클릭
+2. **LGIT_MLOps_Level2_AutoRetrain_Pipeline** 검색
+3. **Tasks** 탭에서 DAG(의존성 그래프) 확인 — 7개 태스크가 순차 연결
+4. **Schedule** 탭에서 스케줄 확인 (현재 PAUSED)
+5. **Run now** 버튼으로 즉시 실행 테스트 가능

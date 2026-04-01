@@ -129,4 +129,51 @@ summary = automl.classify(
 )
 ```
 
+---
+
+## 03d. 임계값 최적화 & 모델 캘리브레이션
+
+> **전체 노트북 코드**: [03_structured_model_training.py (Section 6)](https://github.com/SimyungYang/databricks-enablement-blog/blob/main/hands-on/predictive-maintenance/notebooks/03_structured_model_training.py)
+
+대부분의 팀이 XGBoost의 예측 확률을 **0.5 기준**으로 이진 분류합니다. 하지만 고장 예측처럼 **놓치는 것(FN)이 오탐(FP)보다 훨씬 비싼 경우**, 임계값을 낮춰서 Recall을 높이는 것이 비즈니스적으로 올바릅니다.
+
+### PR-curve 기반 최적 임계값 탐색
+
+Precision-Recall 곡선에서 **Recall >= 0.8을 만족하면서 Precision이 가장 높은 임계값**을 자동 탐색합니다.
+
+```python
+from sklearn.metrics import precision_recall_curve
+
+y_pred_proba = best_model.predict(xgb.DMatrix(X_val))
+precisions, recalls, thresholds = precision_recall_curve(Y_val, y_pred_proba)
+
+# Recall >= 0.8을 만족하는 최적 임계값
+target_recall = 0.8
+valid_idx = np.where(recalls[:-1] >= target_recall)[0]
+if len(valid_idx) > 0:
+    best_idx = valid_idx[np.argmax(precisions[:-1][valid_idx])]
+    optimal_threshold = thresholds[best_idx]
+
+# MLflow에 최적 임계값 기록
+mlflow.log_metric("optimal_threshold", optimal_threshold)
+```
+
+### 모델 캘리브레이션 (Platt Scaling, Isotonic Regression)
+
+모델이 "고장 확률 80%"라고 출력하면, 실제로 100건 중 80건이 고장이어야 합니다. XGBoost의 raw probability는 종종 **과신(overconfident)** 하거나 **과소(underconfident)** 하기 때문에, 다음 기법으로 보정합니다:
+
+| 기법 | 원리 | 적합 상황 |
+|------|------|----------|
+| **Platt Scaling** | 시그모이드 함수로 확률 보정 | 데이터가 적을 때, 단순한 보정 |
+| **Isotonic Regression** | 비모수적 단조 함수 적합 | 데이터가 충분할 때, 복잡한 분포 |
+
+### 비즈니스 기반 임계값 선택
+
+{% hint style="warning" %}
+임계값은 비즈니스 요구사항에 따라 결정합니다:
+- **놓침이 치명적** (반도체, 자동차 부품) → 임계값 낮춤 (0.3~0.4) → Recall 상승, Precision 하락
+- **오탐 비용이 높음** (불필요 정비 비용 큼) → 임계값 높임 (0.6~0.7) → Precision 상승, Recall 하락
+- **최적점**: PR 곡선에서 비용함수를 최소화하는 점 = `cost = FN x 50000 + FP x 3000`
+{% endhint %}
+
 **다음 단계**: [04. 모델 등록](04-model-registration.md)
