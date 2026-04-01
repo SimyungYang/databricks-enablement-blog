@@ -714,7 +714,7 @@ Databricks 환경에서는 **LangGraph를 권장** 합니다. 이유:
 - [Project Astra: Our vision for AI assistants](https://deepmind.google/technologies/project-astra/) -- DeepMind
 
 ### 관련 가이드 (본 블로그 내)
-- [A2A (Agent-to-Agent) 프로토콜](../a2a.md) -- A2A 프로토콜 상세 가이드
+- [A2A (Agent-to-Agent) 프로토콜](../a2a-protocol/README.md) -- A2A 프로토콜 상세 가이드
 - [AI Agent 아키텍처](../agent-architecture/README.md) -- Agent 아키텍처 기초
-- [Agent 프레임워크 생태계](../agent-frameworks.md) -- 프레임워크 비교
+- [Agent 프레임워크 생태계](../agent-frameworks-detail/README.md) -- 프레임워크 비교
 - [MCP (Model Context Protocol)](../../mcp/README.md) -- MCP 가이드

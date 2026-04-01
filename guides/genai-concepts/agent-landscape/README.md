@@ -166,5 +166,5 @@ A2A = 수평 연결 (Agent끼리 협업)
 이 섹션의 벤더별 분석을 마친 후, 다음 개념 가이드에서 기술적 깊이를 더할 수 있다:
 
 * [AI Agent 아키텍처](../agent-architecture/README.md) — ReAct, Planning, Tool Use 등 Agent의 내부 동작 원리
-* [Agent 프레임워크 생태계](../agent-frameworks.md) — LangGraph, CrewAI, AutoGen 등 실제 구현 프레임워크 비교
-* [A2A (Agent-to-Agent)](../a2a.md) — A2A 프로토콜의 기술 상세와 구현 가이드
+* [Agent 프레임워크 생태계](../agent-frameworks-detail/README.md) — LangGraph, CrewAI, AutoGen 등 실제 구현 프레임워크 비교
+* [A2A (Agent-to-Agent)](../a2a-protocol/README.md) — A2A 프로토콜의 기술 상세와 구현 가이드
