@@ -112,11 +112,11 @@ chunks = splitter.create_documents([document_text])
 | 청크 크기 | 특징 | 적합한 케이스 |
 |-----------|------|-------------|
 | 256 토큰 | 정밀한 검색, 맥락 부족 가능 | FAQ, 짧은 정의 |
-| **512~1024 토큰** | ** 균형 잡힌 선택 (권장)** | ** 일반 문서, 기술 문서** |
+| **512~1024 토큰**| **균형 잡힌 선택 (권장)**| **일반 문서, 기술 문서**|
 | 2048 토큰 | 풍부한 맥락, 검색 정확도 저하 가능 | 긴 서술형 문서 |
 
 {% hint style="success" %}
-** 권장 설정**: `chunk_size=1000`, `chunk_overlap=200` (Recursive 방식). 대부분의 기술 문서에서 좋은 성능을 보입니다.
+**권장 설정**: `chunk_size=1000`, `chunk_overlap=200` (Recursive 방식). 대부분의 기술 문서에서 좋은 성능을 보입니다.
 {% endhint %}
 
 ## 4. Delta Table로 저장
@@ -136,7 +136,7 @@ chunks_df.write.format("delta") \
 ```
 
 {% hint style="danger" %}
-Vector Search Delta Sync Index를 사용하려면 소스 테이블에 **Change Data Feed** 가 반드시 활성화되어야 합니다. 테이블 생성 시 `delta.enableChangeDataFeed = true` 옵션을 잊지 마세요.
+Vector Search Delta Sync Index를 사용하려면 소스 테이블에 **Change Data Feed**가 반드시 활성화되어야 합니다. 테이블 생성 시 `delta.enableChangeDataFeed = true` 옵션을 잊지 마세요.
 {% endhint %}
 
 ## 다음 단계

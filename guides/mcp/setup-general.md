@@ -6,9 +6,9 @@ MCP 서버를 찾을 수 있는 주요 디렉토리입니다:
 
 | 디렉토리 | URL | 특징 |
 |----------|-----|------|
-| **공식 서버 목록** | [github.com/modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers) | Anthropic이 관리하는 레퍼런스 서버 |
-| **Smithery** | [smithery.ai](https://smithery.ai) | 커뮤니티 서버 마켓플레이스, 원클릭 설치 |
-| **MCP.so** | [mcp.so](https://mcp.so) | 서버 검색 및 비교 |
+| **공식 서버 목록**| [github.com/modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers) | Anthropic이 관리하는 레퍼런스 서버 |
+| **Smithery**| [smithery.ai](https://smithery.ai) | 커뮤니티 서버 마켓플레이스, 원클릭 설치 |
+| **MCP.so**| [mcp.so](https://mcp.so) | 서버 검색 및 비교 |
 
 ---
 
@@ -49,7 +49,7 @@ MCP 서버를 찾을 수 있는 주요 디렉토리입니다:
 ```
 
 {% hint style="warning" %}
-설정 파일 수정 후 Claude Desktop을 ** 재시작**해야 MCP 서버가 활성화됩니다. 메뉴 바에서 완전 종료 후 다시 실행하세요.
+설정 파일 수정 후 Claude Desktop을 **재시작**해야 MCP 서버가 활성화됩니다. 메뉴 바에서 완전 종료 후 다시 실행하세요.
 {% endhint %}
 
 ---
@@ -143,14 +143,14 @@ claude mcp list
 
 | 서버 | 패키지 | 주요 기능 |
 |------|--------|----------|
-| **GitHub** | `@modelcontextprotocol/server-github` | 리포 검색, Issue/PR 관리, 코드 검색 |
-| **Slack** | `@modelcontextprotocol/server-slack` | 메시지 전송, 채널 관리, 검색 |
-| **Google Drive** | `@modelcontextprotocol/server-gdrive` | 파일 검색, 문서 읽기 |
-| **PostgreSQL** | `@modelcontextprotocol/server-postgres` | DB 스키마 조회, SQL 쿼리 실행 |
-| **Filesystem** | `@modelcontextprotocol/server-filesystem` | 로컬 파일 읽기/쓰기/검색 |
-| **Brave Search** | `@modelcontextprotocol/server-brave-search` | 웹 검색, 로컬 검색 |
-| **Notion** | `@notionhq/notion-mcp-server` | 페이지/DB 관리, 검색, 댓글 |
-| **Jira** | `@anthropic/jira-mcp-server` | 이슈 생성/검색/관리 |
+| **GitHub**| `@modelcontextprotocol/server-github` | 리포 검색, Issue/PR 관리, 코드 검색 |
+| **Slack**| `@modelcontextprotocol/server-slack` | 메시지 전송, 채널 관리, 검색 |
+| **Google Drive**| `@modelcontextprotocol/server-gdrive` | 파일 검색, 문서 읽기 |
+| **PostgreSQL**| `@modelcontextprotocol/server-postgres` | DB 스키마 조회, SQL 쿼리 실행 |
+| **Filesystem**| `@modelcontextprotocol/server-filesystem` | 로컬 파일 읽기/쓰기/검색 |
+| **Brave Search**| `@modelcontextprotocol/server-brave-search` | 웹 검색, 로컬 검색 |
+| **Notion**| `@notionhq/notion-mcp-server` | 페이지/DB 관리, 검색, 댓글 |
+| **Jira**| `@anthropic/jira-mcp-server` | 이슈 생성/검색/관리 |
 
 {% hint style="info" %}
 위 패키지들은 `npx -y <패키지명>`으로 바로 실행할 수 있습니다. Node.js 18+ 가 설치되어 있어야 합니다.

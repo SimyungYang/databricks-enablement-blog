@@ -8,11 +8,11 @@
 
 | 프레임워크 | 개발사 | 특징 | Databricks 통합 |
 |-----------|--------|------|-----------------|
-| **Databricks Agent Framework** | Databricks | Unity Catalog 통합, MLflow 추적, 원클릭 배포 | 네이티브 |
-| **LangChain / LangGraph** | LangChain Inc. | 가장 큰 생태계, 유연한 그래프 구성 | MLflow 통합 |
-| **CrewAI** | CrewAI | 역할 기반 멀티에이전트, 직관적 API | MLflow 로깅 |
-| **AutoGen** | Microsoft | 멀티에이전트 대화, 코드 실행 | 커스텀 통합 |
-| **OpenAI Agents SDK** | OpenAI | Handoff 패턴, Guardrail 내장 | 커스텀 통합 |
+| **Databricks Agent Framework**| Databricks | Unity Catalog 통합, MLflow 추적, 원클릭 배포 | 네이티브 |
+| **LangChain / LangGraph**| LangChain Inc. | 가장 큰 생태계, 유연한 그래프 구성 | MLflow 통합 |
+| **CrewAI**| CrewAI | 역할 기반 멀티에이전트, 직관적 API | MLflow 로깅 |
+| **AutoGen**| Microsoft | 멀티에이전트 대화, 코드 실행 | 커스텀 통합 |
+| **OpenAI Agents SDK**| OpenAI | Handoff 패턴, Guardrail 내장 | 커스텀 통합 |
 
 ---
 
@@ -108,13 +108,13 @@ result = crew.kickoff()
 
 | 기능 | 설명 |
 |------|------|
-| **UC Functions as Tools** | Unity Catalog 함수를 Agent 도구로 등록 |
-| **Vector Search** | RAG를 위한 벡터 검색 통합 |
-| **MLflow Tracing** | Agent 실행 과정 전체 추적 (각 Tool Call, LLM 호출 기록) |
-| **Review App** | 인간 피드백 수집 인터페이스 |
-| **Model Serving** | 원클릭 Agent 배포 (서버리스) |
-| **Guardrails** | 입출력 안전성 필터링 |
-| **Agent Evaluation** | MLflow Evaluate로 Agent 품질 자동 측정 |
+| **UC Functions as Tools**| Unity Catalog 함수를 Agent 도구로 등록 |
+| **Vector Search**| RAG를 위한 벡터 검색 통합 |
+| **MLflow Tracing**| Agent 실행 과정 전체 추적 (각 Tool Call, LLM 호출 기록) |
+| **Review App**| 인간 피드백 수집 인터페이스 |
+| **Model Serving**| 원클릭 Agent 배포 (서버리스) |
+| **Guardrails**| 입출력 안전성 필터링 |
+| **Agent Evaluation**| MLflow Evaluate로 Agent 품질 자동 측정 |
 
 ---
 

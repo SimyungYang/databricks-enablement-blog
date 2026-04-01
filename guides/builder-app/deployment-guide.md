@@ -6,11 +6,11 @@
 
 | 항목 | 필수 여부 | 설명 |
 |------|---------|------|
-| **Databricks Workspace** | 필수 | Premium 이상, Apps 기능 활성화 |
-| **Databricks CLI** | 필수 | v0.278.0 이상 (`databricks --version`) |
-| **Node.js** | 필수 | v18+ (프론트엔드 빌드용) |
-| **Git** | 필수 | 소스코드 clone |
-| **Lakebase** | 선택 | 대화 기록 영구 저장 (없으면 메모리 저장) |
+| **Databricks Workspace**| 필수 | Premium 이상, Apps 기능 활성화 |
+| **Databricks CLI**| 필수 | v0.278.0 이상 (`databricks --version`) |
+| **Node.js**| 필수 | v18+ (프론트엔드 빌드용) |
+| **Git**| 필수 | 소스코드 clone |
+| **Lakebase**| 선택 | 대화 기록 영구 저장 (없으면 메모리 저장) |
 
 ## Step 1: 소스코드 준비
 
@@ -135,8 +135,8 @@ env:
 | 옵션 | 설정 | 특징 |
 |------|------|------|
 | **Databricks FMAPI**(기본) | `LLM_PROVIDER=DATABRICKS` | 별도 API 키 불필요, 워크스페이스 과금 |
-| **Anthropic 직접** | `ANTHROPIC_API_KEY=sk-ant-...` | Claude API 키 필요, 별도 과금 |
-| **Azure OpenAI** | `LLM_PROVIDER=AZURE` | Azure 리소스 필요 |
+| **Anthropic 직접**| `ANTHROPIC_API_KEY=sk-ant-...` | Claude API 키 필요, 별도 과금 |
+| **Azure OpenAI**| `LLM_PROVIDER=AZURE` | Azure 리소스 필요 |
 
 ## Step 5: 배포
 

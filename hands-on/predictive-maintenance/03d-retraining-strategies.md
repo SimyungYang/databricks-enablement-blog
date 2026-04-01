@@ -2,7 +2,7 @@
 
 > **전체 노트북 코드**: [03d\_retraining\_strategies.py](https://github.com/SimyungYang/databricks-enablement-blog/blob/main/hands-on/predictive-maintenance/notebooks/03d_retraining_strategies.py)
 
-** 목적**: ML 모델의 지속적 성능 유지를 위한 재학습 전략을 기초부터 최신 기법까지 체계적으로 다룹니다. 드리프트 탐지, Full Retraining, Incremental/Continual/Online Learning, 강화학습 기반 전략 자동 선택, Active Learning까지 **13개 Part** 로 구성됩니다.
+**목적**: ML 모델의 지속적 성능 유지를 위한 재학습 전략을 기초부터 최신 기법까지 체계적으로 다룹니다. 드리프트 탐지, Full Retraining, Incremental/Continual/Online Learning, 강화학습 기반 전략 자동 선택, Active Learning까지 **13개 Part**로 구성됩니다.
 
 **사용 Databricks 기능**: `MLflow Experiment Tracking`, `Unity Catalog Model Registry`, `Delta Lake Time Travel`, `Databricks Workflow`, `Data Quality Monitoring`, `Structured Streaming`
 
@@ -10,27 +10,27 @@
 
 ## Part 1: 재학습이 필요한 이유
 
-ML 모델은 ** 학습 시점의 데이터 패턴**을 기반으로 예측합니다. 하지만 제조 현장은 끊임없이 변하며, 이 변화를 "** 드리프트(Drift)**"라고 부릅니다. 구글의 연구(2015, "Hidden Technical Debt in ML Systems")에 따르면, ML 시스템 운영 비용의 **90% 이상이 모델 배포 후 유지보수** 에 소요됩니다.
+ML 모델은 **학습 시점의 데이터 패턴**을 기반으로 예측합니다. 하지만 제조 현장은 끊임없이 변하며, 이 변화를 "**드리프트(Drift)**"라고 부릅니다. 구글의 연구(2015, "Hidden Technical Debt in ML Systems")에 따르면, ML 시스템 운영 비용의 **90% 이상이 모델 배포 후 유지보수**에 소요됩니다.
 
 ### 1.1 Data Drift (데이터 드리프트)
 
-모델에 입력되는 데이터의 **통계적 분포 P(X)** 가 학습 시점과 달라지는 현상입니다.
+모델에 입력되는 데이터의 **통계적 분포 P(X)**가 학습 시점과 달라지는 현상입니다.
 
 - **계절 변화**: 공장 내부 온도/습도가 외기 온도에 영향받음
-- ** 원자재 변경**: 새 공급사의 기판, 렌즈 등의 물리적 특성이 다름
-- ** 설비 노후화**: 센서 교정 주기에 따라 측정값 범위가 점진적으로 이동(Sensor Drift)
-- ** 생산 물량 변동**: 풀 가동 vs 부분 가동에 따라 설비 열적 특성이 달라짐
+- **원자재 변경**: 새 공급사의 기판, 렌즈 등의 물리적 특성이 다름
+- **설비 노후화**: 센서 교정 주기에 따라 측정값 범위가 점진적으로 이동(Sensor Drift)
+- **생산 물량 변동**: 풀 가동 vs 부분 가동에 따라 설비 열적 특성이 달라짐
 
 ### 1.2 Concept Drift (개념 드리프트)
 
-입력(X)과 출력(Y) 간의 ** 관계 자체 P(Y|X)**가 변하는 현상으로, Data Drift보다 ** 더 심각**합니다.
+입력(X)과 출력(Y) 간의 **관계 자체 P(Y|X)**가 변하는 현상으로, Data Drift보다 **더 심각**합니다.
 
-- ** 공정 레시피 업데이트**: DOE 결과를 반영하여 공정 조건 최적화 → 이전 고장 패턴 무효화
-- ** 설비 부품 교체**: 핵심 부품(모터, 베어링, 히터) 교체 후 고장 메커니즘 자체가 변화
-- ** 품질 기준 변경**: 고객 요구사항 강화로 이전에 정상이었던 것이 불량으로 재분류
+- **공정 레시피 업데이트**: DOE 결과를 반영하여 공정 조건 최적화 → 이전 고장 패턴 무효화
+- **설비 부품 교체**: 핵심 부품(모터, 베어링, 히터) 교체 후 고장 메커니즘 자체가 변화
+- **품질 기준 변경**: 고객 요구사항 강화로 이전에 정상이었던 것이 불량으로 재분류
 
 {% hint style="warning" %}
-Data Drift는 입력 데이터 모니터링으로 감지할 수 있지만, Concept Drift는 ** 데이터 분포는 같아 보이는데 모델 예측이 틀리기 시작**하는 현상이므로 성능 모니터링(F1, AUC 추적)이 필수입니다.
+Data Drift는 입력 데이터 모니터링으로 감지할 수 있지만, Concept Drift는 **데이터 분포는 같아 보이는데 모델 예측이 틀리기 시작**하는 현상이므로 성능 모니터링(F1, AUC 추적)이 필수입니다.
 {% endhint %}
 
 ### 1.3 드리프트 시뮬레이션 실습
@@ -52,7 +52,7 @@ for drift in drift_levels:
 ```
 
 {% hint style="info" %}
-제조 현장에서 ML 모델의 평균 유효 수명은 **1~3개월** 입니다. 공정 변경이 빈번한 라인에서는 **매주 재학습** 이 권장됩니다.
+제조 현장에서 ML 모델의 평균 유효 수명은 **1~3개월**입니다. 공정 변경이 빈번한 라인에서는 **매주 재학습**이 권장됩니다.
 {% endhint %}
 
 ---
@@ -63,15 +63,15 @@ for drift in drift_levels:
 
 ### 전략 1: 스케줄 기반 (Time-based)
 
-매주 월요일 새벽 2시에 재학습 (Databricks Workflow 스케줄 트리거). 구현이 가장 쉽고 운영 예측이 가능합니다. MLOps 초기 도입 단계에서 **가장 좋은 시작점** 입니다.
+매주 월요일 새벽 2시에 재학습 (Databricks Workflow 스케줄 트리거). 구현이 가장 쉽고 운영 예측이 가능합니다. MLOps 초기 도입 단계에서 **가장 좋은 시작점**입니다.
 
 ### 전략 2: 성능 기반 (Performance-based)
 
-모델의 F1 Score가 0.7 아래로 떨어지면 재학습합니다. 진짜 필요할 때만 재학습하므로 비용 효율적이지만, **실제 레이블(정답)이 필요** 합니다.
+모델의 F1 Score가 0.7 아래로 떨어지면 재학습합니다. 진짜 필요할 때만 재학습하므로 비용 효율적이지만, **실제 레이블(정답)이 필요**합니다.
 
 ### 전략 3: 드리프트 기반 (Drift-based)
 
-입력 데이터의 PSI(Population Stability Index)가 0.2를 넘으면 재학습합니다. **레이블 없이도** 센서 데이터만으로 탐지 가능하지만, Concept Drift는 감지하지 못합니다.
+입력 데이터의 PSI(Population Stability Index)가 0.2를 넘으면 재학습합니다. **레이블 없이도**센서 데이터만으로 탐지 가능하지만, Concept Drift는 감지하지 못합니다.
 
 ### 전략 4: 하이브리드 (권장)
 
@@ -86,7 +86,7 @@ ELSE                      → 현재 모델 유지
 ```
 
 {% hint style="info" %}
-MLOps 초기에는 **전략 1(스케줄 기반, 주 1회)** 로 시작하고, Data Quality Monitoring 구축 후 **전략 4(하이브리드)** 로 고도화하는 단계적 접근을 권장합니다.
+MLOps 초기에는 **전략 1(스케줄 기반, 주 1회)**로 시작하고, Data Quality Monitoring 구축 후 **전략 4(하이브리드)**로 고도화하는 단계적 접근을 권장합니다.
 {% endhint %}
 
 ### PSI (Population Stability Index) — 드리프트 정량 탐지
@@ -119,16 +119,16 @@ def calculate_psi(expected, actual, bins=10):
 
 ## Part 3: Full Retraining 실전 구현
 
-Full Retraining은 가장 기본적이면서 **가장 확실한** 재학습 방법입니다. 전체 데이터로 모델을 **처음부터 다시 학습** 합니다. Databricks Workflow의 하나의 Task로 등록하여 스케줄 또는 이벤트 트리거로 자동 실행합니다.
+Full Retraining은 가장 기본적이면서 **가장 확실한**재학습 방법입니다. 전체 데이터로 모델을 **처음부터 다시 학습**합니다. Databricks Workflow의 하나의 Task로 등록하여 스케줄 또는 이벤트 트리거로 자동 실행합니다.
 
 ### 재학습 파이프라인 전체 흐름
 
 | Step | 내용 | 상세 |
 |------|------|------|
-| **Step 1** | 학습 데이터 준비 | Delta Lake에서 최신 데이터 로드, Sliding Window로 기간 선택 |
-| **Step 2** | 새 모델 학습 | 기존과 동일한 알고리즘 + 하이퍼파라미터, MLflow에 실험 기록 |
-| **Step 3** | Champion 비교 검증 | 기존 Champion 모델과 성능 비교 |
-| **Step 4** | 배포 결정 | 새 모델 > 기존 모델이면 Champion 교체, 아니면 기존 유지 |
+| **Step 1**| 학습 데이터 준비 | Delta Lake에서 최신 데이터 로드, Sliding Window로 기간 선택 |
+| **Step 2**| 새 모델 학습 | 기존과 동일한 알고리즘 + 하이퍼파라미터, MLflow에 실험 기록 |
+| **Step 3**| Champion 비교 검증 | 기존 Champion 모델과 성능 비교 |
+| **Step 4**| 배포 결정 | 새 모델 > 기존 모델이면 Champion 교체, 아니면 기존 유지 |
 
 ```python
 def full_retrain_pipeline(reason="scheduled"):
@@ -167,15 +167,15 @@ def full_retrain_pipeline(reason="scheduled"):
 
 ## Part 4: Delta Lake 기반 학습 데이터 관리
 
-재학습의 성패는 **어떤 데이터를 사용하느냐** 에 달려 있습니다. Delta Lake의 고유 기능(Time Travel, 버전 관리)을 활용하면 학습 데이터를 체계적이고 재현 가능하게 관리할 수 있습니다.
+재학습의 성패는 **어떤 데이터를 사용하느냐**에 달려 있습니다. Delta Lake의 고유 기능(Time Travel, 버전 관리)을 활용하면 학습 데이터를 체계적이고 재현 가능하게 관리할 수 있습니다.
 
 ### 4.1 Sliding Window (슬라이딩 윈도우)
 
-**최근 N일의 데이터만** 사용하여 학습합니다. 오래된 데이터는 현재 패턴과 다를 수 있으므로 자연스럽게 제외합니다.
+**최근 N일의 데이터만**사용하여 학습합니다. 오래된 데이터는 현재 패턴과 다를 수 있으므로 자연스럽게 제외합니다.
 
 ### 4.2 Delta Lake Time Travel
 
-특정 시점/버전의 데이터를 정확히 조회하여 **학습 재현성과 감사(Audit) 추적** 을 보장합니다.
+특정 시점/버전의 데이터를 정확히 조회하여 **학습 재현성과 감사(Audit) 추적**을 보장합니다.
 
 ```sql
 -- 특정 버전의 데이터 조회
@@ -190,18 +190,18 @@ WHERE inference_timestamp >= current_date() - INTERVAL 30 DAYS
 ```
 
 {% hint style="info" %}
-다른 데이터 플랫폼에서는 DVC 같은 별도 도구가 필요한 데이터 버전 관리를 Delta Lake에서는 **네이티브 기능** 으로 제공합니다. 최적 윈도우 크기는 **최근 60~90일** 로 시작하여 성능을 보며 조정하는 것을 권장합니다.
+다른 데이터 플랫폼에서는 DVC 같은 별도 도구가 필요한 데이터 버전 관리를 Delta Lake에서는 **네이티브 기능**으로 제공합니다. 최적 윈도우 크기는 **최근 60~90일**로 시작하여 성능을 보며 조정하는 것을 권장합니다.
 {% endhint %}
 
 ---
 
 ## Part 5: 모델 버전 관리 & 롤백
 
-재학습된 새 모델이 항상 더 좋다는 보장은 없습니다. **즉시 이전 모델로 되돌릴 수 있는 능력** 은 운영 안정성의 핵심입니다.
+재학습된 새 모델이 항상 더 좋다는 보장은 없습니다. **즉시 이전 모델로 되돌릴 수 있는 능력**은 운영 안정성의 핵심입니다.
 
 ### Unity Catalog 에일리어스 기반 롤백
 
-코드를 변경하지 않고 **에일리어스만 변경** 하면 즉시 롤백이 가능합니다. 배치 추론 코드는 항상 `models:/model_name@Champion` 참조를 사용합니다.
+코드를 변경하지 않고 **에일리어스만 변경**하면 즉시 롤백이 가능합니다. 배치 추론 코드는 항상 `models:/model_name@Champion` 참조를 사용합니다.
 
 ```python
 def rollback_model(model_name, target_version=None):
@@ -231,11 +231,11 @@ def rollback_model(model_name, target_version=None):
 
 ## Part 6: Incremental Learning (점진적 학습)
 
-Full Retraining은 확실하지만, 데이터가 수억 건으로 커지면 학습 시간과 비용이 과도해집니다. **Incremental Learning** 은 기존 모델을 폐기하지 않고 **새 데이터만으로 모델을 보강** 합니다.
+Full Retraining은 확실하지만, 데이터가 수억 건으로 커지면 학습 시간과 비용이 과도해집니다. **Incremental Learning**은 기존 모델을 폐기하지 않고 **새 데이터만으로 모델을 보강**합니다.
 
 ### XGBoost의 Warm-start Incremental Learning
 
-XGBoost는 트리를 순차적으로 추가하는 방식이므로, 기존 트리를 유지하면서 **새로운 트리만 추가** 할 수 있습니다.
+XGBoost는 트리를 순차적으로 추가하는 방식이므로, 기존 트리를 유지하면서 **새로운 트리만 추가**할 수 있습니다.
 
 ```python
 # Batch 1: 초기 모델 학습 (100 trees)
@@ -265,7 +265,7 @@ Incremental Learning의 심각한 부작용이 있습니다: **Catastrophic Forg
 
 ### 해결책: Experience Replay (경험 재생)
 
-이전 데이터의 ** 대표 샘플을 Replay Buffer에 보관**하고, 새 데이터와 함께 학습합니다.
+이전 데이터의 **대표 샘플을 Replay Buffer에 보관**하고, 새 데이터와 함께 학습합니다.
 
 ```python
 class ReplayBuffer:
@@ -299,18 +299,18 @@ for batch in batches:
 ```
 
 {% hint style="info" %}
-** 다중 생산 라인, 다중 제품**을 하나의 모델로 관리하는 환경에서는 Experience Replay가 특히 중요합니다. 실제 운영에서는 Replay Buffer를 **Delta Lake 테이블** 로 관리합니다.
+**다중 생산 라인, 다중 제품**을 하나의 모델로 관리하는 환경에서는 Experience Replay가 특히 중요합니다. 실제 운영에서는 Replay Buffer를 **Delta Lake 테이블**로 관리합니다.
 {% endhint %}
 
 ---
 
 ## Part 8: Online Learning (River 라이브러리)
 
-지금까지의 모든 기법(Full Retrain, Incremental, Continual)은 **배치(Batch) 방식** 입니다. **Online Learning** 은 데이터가 들어올 때마다 즉시 모델을 업데이트하여 **실시간으로 적응** 합니다.
+지금까지의 모든 기법(Full Retrain, Incremental, Continual)은 **배치(Batch) 방식**입니다. **Online Learning**은 데이터가 들어올 때마다 즉시 모델을 업데이트하여 **실시간으로 적응**합니다.
 
 ### River 라이브러리
 
-Python의 **River**(creme + scikit-multiflow 통합)는 Online Learning 전용 프레임워크입니다. **Hoeffding Adaptive Tree** 는 드리프트를 자동 감지하고 트리 구조를 동적으로 변경합니다.
+Python의 **River**(creme + scikit-multiflow 통합)는 Online Learning 전용 프레임워크입니다. **Hoeffding Adaptive Tree**는 드리프트를 자동 감지하고 트리 구조를 동적으로 변경합니다.
 
 ```python
 from river import tree, metrics, preprocessing, compose
@@ -332,14 +332,14 @@ for _, row in data.iterrows():
 ```
 
 {% hint style="warning" %}
-Online Learning은 단독 사용보다 "**보조 모델**"로 활용하는 것을 권장합니다. 주력 모델(XGBoost Batch)은 주 1회 재학습하고, Online 모델은 실시간 트렌드를 파악하는 ** 조기 경보 시스템**역할을 합니다. Databricks Structured Streaming과 결합하면 실시간 파이프라인 구축이 가능합니다.
+Online Learning은 단독 사용보다 "**보조 모델**"로 활용하는 것을 권장합니다. 주력 모델(XGBoost Batch)은 주 1회 재학습하고, Online 모델은 실시간 트렌드를 파악하는 **조기 경보 시스템**역할을 합니다. Databricks Structured Streaming과 결합하면 실시간 파이프라인 구축이 가능합니다.
 {% endhint %}
 
 ---
 
 ## Part 9: RL 기반 재학습 전략 자동 선택 (Contextual Bandit)
 
-"** 지금 이 상황에서 어떤 재학습 전략을 써야 하는가?**" 를 AI가 자동으로 학습하게 합니다. Contextual Bandit은 강화학습(RL)의 간소화 버전으로, ** 현재 상황(Context)을 보고 최적의 행동(Action)을 선택**하는 기법입니다.
+"**지금 이 상황에서 어떤 재학습 전략을 써야 하는가?**" 를 AI가 자동으로 학습하게 합니다. Contextual Bandit은 강화학습(RL)의 간소화 버전으로, **현재 상황(Context)을 보고 최적의 행동(Action)을 선택**하는 기법입니다.
 
 ### Thompson Sampling 기반 전략 선택기
 
@@ -373,14 +373,14 @@ class RetrainingBandit:
 ```
 
 {% hint style="info" %}
-Contextual Bandit은 MLOps 자동화의 ** 최종 단계**에 해당하며, 현재 최신 연구 분야입니다. 숙련된 공정 엔지니어의 ** 경험 기반 의사결정**을 AI가 학습하는 것으로 이해할 수 있습니다.
+Contextual Bandit은 MLOps 자동화의 **최종 단계**에 해당하며, 현재 최신 연구 분야입니다. 숙련된 공정 엔지니어의 **경험 기반 의사결정**을 AI가 학습하는 것으로 이해할 수 있습니다.
 {% endhint %}
 
 ---
 
 ## Part 10: Active Learning (라벨링 비용 최소화)
 
-ML 모델의 성능은 레이블 데이터의 양과 질에 의존합니다. 하지만 제조 현장에서 정확한 레이블 확보는 매우 비용이 큽니다 (설비 분해 점검, 비파괴 검사 등). **Active Learning** 은 모델이 "**판단이 어려운 샘플**"을 선별하여 전문가에게 레이블링을 요청하는 방식으로, ** 전체의 10~20%만 레이블링**해도 동등한 성능을 달성합니다.
+ML 모델의 성능은 레이블 데이터의 양과 질에 의존합니다. 하지만 제조 현장에서 정확한 레이블 확보는 매우 비용이 큽니다 (설비 분해 점검, 비파괴 검사 등). **Active Learning**은 모델이 "**판단이 어려운 샘플**"을 선별하여 전문가에게 레이블링을 요청하는 방식으로, **전체의 10~20%만 레이블링**해도 동등한 성능을 달성합니다.
 
 ### 불확실성 기반 샘플 선택 (Uncertainty Sampling)
 
@@ -409,12 +409,12 @@ model_al = xgb.train(params, xgb.DMatrix(X_sel, label=Y_sel), num_boost_round=15
 
 ## Part 11: Warm-start vs Cold-start
 
-재학습 시 가장 먼저 결정해야 할 것: ** 기존 모델의 학습 결과를 활용할 것인가, 버릴 것인가?**
+재학습 시 가장 먼저 결정해야 할 것: **기존 모델의 학습 결과를 활용할 것인가, 버릴 것인가?**
 
 | 방법 | 설명 | 장점 | 단점 | 적용 시나리오 |
 |------|------|------|------|------------|
-| **Cold-start** | 모델을 처음부터 새로 학습 | 오래된 패턴 완전 제거 | 시간/비용 큼 | Concept Drift (공정 레시피 변경, 설비 대체) |
-| **Warm-start** | 기존 모델을 시작점으로 추가 학습 | 빠름, 기존 지식 보존 | 오래된 패턴 잔존 | Data Drift (계절 변화, 원자재 미세 변경) |
+| **Cold-start**| 모델을 처음부터 새로 학습 | 오래된 패턴 완전 제거 | 시간/비용 큼 | Concept Drift (공정 레시피 변경, 설비 대체) |
+| **Warm-start**| 기존 모델을 시작점으로 추가 학습 | 빠름, 기존 지식 보존 | 오래된 패턴 잔존 | Data Drift (계절 변화, 원자재 미세 변경) |
 
 ### 결정 기준
 
@@ -439,7 +439,7 @@ model_warm = xgb.train(params, dtrain_new, num_boost_round=50, xgb_model=model_c
 
 ## Part 12: 프로덕션 아키텍처
 
-Part 1~11의 모든 기법을 ** 하나의 통합 아키텍처**로 조합합니다. Databricks의 Workflow, Data Quality Monitoring, Delta Lake, Unity Catalog, MLflow를 유기적으로 연결합니다.
+Part 1~11의 모든 기법을 **하나의 통합 아키텍처**로 조합합니다. Databricks의 Workflow, Data Quality Monitoring, Delta Lake, Unity Catalog, MLflow를 유기적으로 연결합니다.
 
 ### 전략별 적용 가이드
 
@@ -457,33 +457,33 @@ Part 1~11의 모든 기법을 ** 하나의 통합 아키텍처**로 조합합니
 
 | Phase | 기간 | 내용 |
 |-------|------|------|
-| **Phase 1** | 1~2개월 | 스케줄 기반 Full Retrain (주 1회) + Champion/Challenger 비교 |
-| **Phase 2** | 3~4개월 | PSI 기반 드리프트 탐지 + 성능 기반 트리거 (하이브리드) |
-| **Phase 3** | 5~6개월 | Warm-start Incremental + Active Learning + Continual Learning |
-| **Phase 4** | 6개월+ | Online Learning (보조) + Contextual Bandit (자동 전략 선택) |
+| **Phase 1**| 1~2개월 | 스케줄 기반 Full Retrain (주 1회) + Champion/Challenger 비교 |
+| **Phase 2**| 3~4개월 | PSI 기반 드리프트 탐지 + 성능 기반 트리거 (하이브리드) |
+| **Phase 3**| 5~6개월 | Warm-start Incremental + Active Learning + Continual Learning |
+| **Phase 4**| 6개월+ | Online Learning (보조) + Contextual Bandit (자동 전략 선택) |
 
 ### 핵심 요약
 
 | 기법 | 한 줄 요약 | 비용 | 정확도 | 도입 우선순위 |
 |------|----------|------|--------|------------|
-| **Full Retrain** | 전체 데이터로 처음부터 학습 | 높음 | 최고 | 1순위 (필수) |
-| **Sliding Window** | 최근 N일 데이터만 사용 | 중간 | 높음 | 1순위 (필수) |
-| **Warm-start** | 기존 모델에서 출발하여 추가 학습 | 낮음 | 양호 | 2순위 |
-| **Incremental** | 기존 모델 + 새 데이터로 보강 | 낮음 | 양호 | 2순위 |
-| **Continual (Replay)** | 과거 대표 샘플 + 새 데이터 | 중간 | 높음 | 3순위 |
-| **Active Learning** | 불확실한 샘플만 레이블링 | 레이블 비용 최소 | 효율적 | 3순위 |
-| **Online** | 데이터 1건씩 즉시 학습 | 매우 낮음 | 보통 | 4순위 (선택) |
-| **RL (Bandit)** | AI가 전략을 자동 선택 | 자동화 | 적응적 | 4순위 (선택) |
+| **Full Retrain**| 전체 데이터로 처음부터 학습 | 높음 | 최고 | 1순위 (필수) |
+| **Sliding Window**| 최근 N일 데이터만 사용 | 중간 | 높음 | 1순위 (필수) |
+| **Warm-start**| 기존 모델에서 출발하여 추가 학습 | 낮음 | 양호 | 2순위 |
+| **Incremental**| 기존 모델 + 새 데이터로 보강 | 낮음 | 양호 | 2순위 |
+| **Continual (Replay)**| 과거 대표 샘플 + 새 데이터 | 중간 | 높음 | 3순위 |
+| **Active Learning**| 불확실한 샘플만 레이블링 | 레이블 비용 최소 | 효율적 | 3순위 |
+| **Online**| 데이터 1건씩 즉시 학습 | 매우 낮음 | 보통 | 4순위 (선택) |
+| **RL (Bandit)**| AI가 전략을 자동 선택 | 자동화 | 적응적 | 4순위 (선택) |
 
 {% hint style="info" %}
-** 최신 트렌드 (2024~2025)**: Federated Learning(연합 학습), Delta Live Tables + Workflow 기반 Continuous Learning Pipelines, LLMOps(LLM Fine-tuning/RAG 재학습), AI Agent 기반 자율 MLOps 아키텍처가 주목받고 있습니다.
+**최신 트렌드 (2024~2025)**: Federated Learning(연합 학습), Delta Live Tables + Workflow 기반 Continuous Learning Pipelines, LLMOps(LLM Fine-tuning/RAG 재학습), AI Agent 기반 자율 MLOps 아키텍처가 주목받고 있습니다.
 {% endhint %}
 
 ---
 
 ## Part 13: Level 2 자동 재학습 (Jobs trigger with taskValues)
 
-Databricks Jobs에서 ** 모니터링 노트북(08)이 드리프트를 감지하면, taskValues를 통해 이 노트북을 자동 호출**합니다. 사람 개입 없는 완전 자동 재학습 — 이것이 **Level 2 MLOps의 핵심** 입니다.
+Databricks Jobs에서 **모니터링 노트북(08)이 드리프트를 감지하면, taskValues를 통해 이 노트북을 자동 호출**합니다. 사람 개입 없는 완전 자동 재학습 — 이것이 **Level 2 MLOps의 핵심**입니다.
 
 ### Level 2 자동 재학습 아키텍처
 
@@ -517,7 +517,7 @@ if drift_detected:
 ```
 
 {% hint style="warning" %}
-처음에는 드리프트 감지 시 **Slack 알림만 보내고 사람이 확인 후 재학습** 하는 "반자동" 모드로 시작하세요. 3개월간 시스템을 신뢰할 수 있게 된 후 완전 자동(Level 2)으로 전환하는 것이 안전합니다.
+처음에는 드리프트 감지 시 **Slack 알림만 보내고 사람이 확인 후 재학습**하는 "반자동" 모드로 시작하세요. 3개월간 시스템을 신뢰할 수 있게 된 후 완전 자동(Level 2)으로 전환하는 것이 안전합니다.
 {% endhint %}
 
 ---

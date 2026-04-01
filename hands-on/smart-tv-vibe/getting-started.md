@@ -17,8 +17,8 @@ cd databricks-enablement-blog/hands-on/smart-tv-vibe/notebooks/
 
 ### 방법 3: Databricks Workspace에서 직접 Import
 
-1. Databricks Workspace → **Repos** 메뉴
-2. **Add Repo** → URL: `https://github.com/SimyungYang/databricks-enablement-blog.git`
+1. Databricks Workspace → **Repos**메뉴
+2. **Add Repo**→ URL: `https://github.com/SimyungYang/databricks-enablement-blog.git`
 3. `hands-on/smart-tv-vibe/notebooks/` 경로에서 노트북 실행
 
 ---
@@ -64,20 +64,20 @@ cd databricks-enablement-blog/hands-on/smart-tv-vibe/notebooks/
 
 | 항목 | 요구사항 |
 |------|---------|
-| **Workspace** | Databricks Premium 이상 |
-| **Unity Catalog** | 활성화 필수 |
-| **Compute** | Runtime 15.4+ (ML Runtime 권장) |
-| ** 권한** | Catalog/Schema 생성 + Model Serving 권한 |
-| ** 서비스** | Serverless SQL Warehouse (Genie/Dashboard용) |
+| **Workspace**| Databricks Premium 이상 |
+| **Unity Catalog**| 활성화 필수 |
+| **Compute**| Runtime 15.4+ (ML Runtime 권장) |
+| **권한**| Catalog/Schema 생성 + Model Serving 권한 |
+| **서비스**| Serverless SQL Warehouse (Genie/Dashboard용) |
 
 {% hint style="warning" %}
-반드시 **Common 노트북 (01, 02)** 을 먼저 실행하여 환경을 설정하세요. 이후 Track A/B/C 중 하나를 선택하여 진행합니다.
+반드시 **Common 노트북 (01, 02)**을 먼저 실행하여 환경을 설정하세요. 이후 Track A/B/C 중 하나를 선택하여 진행합니다.
 {% endhint %}
 
 ## 트랙 선택 가이드
 
 | 트랙 | 대상 | 방식 | 난이도 |
 |------|------|------|--------|
-| **Track A** | 개발자, DE, DS | 노트북 직접 실행 & 코드 분석 | 중급 |
-| **Track B** | AI에 관심 있는 분석가 | AI 프롬프트로 코드 생성 | 초급~중급 |
-| **Track C** | 비개발자, BI 분석가 | Genie Code 자연어로 구현 | 초급 |
+| **Track A**| 개발자, DE, DS | 노트북 직접 실행 & 코드 분석 | 중급 |
+| **Track B**| AI에 관심 있는 분석가 | AI 프롬프트로 코드 생성 | 초급~중급 |
+| **Track C**| 비개발자, BI 분석가 | Genie Code 자연어로 구현 | 초급 |

@@ -4,7 +4,7 @@
 
 ## 리소스 (Resources)
 
-리소스는 앱이 Databricks 플랫폼 기능에 접근하기 위한 선언적 의존성입니다. 하드코딩 대신 리소스를 사용하면 **자격 증명 자동 관리, 환경 간 이식성, 보안 접근** 이 보장됩니다.
+리소스는 앱이 Databricks 플랫폼 기능에 접근하기 위한 선언적 의존성입니다. 하드코딩 대신 리소스를 사용하면 **자격 증명 자동 관리, 환경 간 이식성, 보안 접근**이 보장됩니다.
 
 ### 지원 리소스 유형
 
@@ -26,8 +26,8 @@
 
 ### 리소스 추가 방법 (UI)
 
-1. 앱 생성/편집 시 **Configure** 단계로 이동
-2. **App resources** 섹션에서 **+ Add resource** 클릭
+1. 앱 생성/편집 시 **Configure**단계로 이동
+2. **App resources**섹션에서 **+ Add resource**클릭
 3. 리소스 유형 선택 (예: SQL Warehouse)
 4. 앱 서비스 프린시펄에 적절한 권한 설정
 5. 리소스 키 지정 (app.yaml에서 참조할 이름)
@@ -117,7 +117,7 @@ api_key = os.getenv("EXTERNAL_API_KEY")
 | Secret | Can read, Can write, Can manage |
 
 {% hint style="tip" %}
-** 최소 권한 원칙**: 앱에 필요한 최소한의 권한만 부여하세요. 예를 들어, 쿼리만 실행한다면 SQL Warehouse에 `CAN USE`만 부여합니다.
+**최소 권한 원칙**: 앱에 필요한 최소한의 권한만 부여하세요. 예를 들어, 쿼리만 실행한다면 SQL Warehouse에 `CAN USE`만 부여합니다.
 {% endhint %}
 
 ---

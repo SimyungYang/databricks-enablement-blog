@@ -1,27 +1,27 @@
 # 고급 Retrieval 전략
 
-RAG 시스템의 성능은 **검색(Retrieval) 품질** 에 가장 크게 좌우됩니다. 이 가이드에서는 기본 Dense Retrieval을 넘어 다양한 고급 검색 전략을 소개합니다.
+RAG 시스템의 성능은 **검색(Retrieval) 품질**에 가장 크게 좌우됩니다. 이 가이드에서는 기본 Dense Retrieval을 넘어 다양한 고급 검색 전략을 소개합니다.
 
 ## 1. Retriever 유형 비교
 
 | Retriever | 방식 | 장점 | 단점 | 적합 시나리오 |
 |-----------|------|------|------|--------------|
-| **Dense Retriever** | 벡터 유사도 검색 (임베딩) | 의미적 유사성 포착, 동의어 처리 | 정확한 키워드 매칭 약함 | 일반 Q&A, 자연어 질의 |
+| **Dense Retriever**| 벡터 유사도 검색 (임베딩) | 의미적 유사성 포착, 동의어 처리 | 정확한 키워드 매칭 약함 | 일반 Q&A, 자연어 질의 |
 | **Sparse Retriever**(BM25/TF-IDF) | 키워드 빈도 기반 검색 | 정확한 용어 매칭, 빠른 속도 | 동의어·문맥 이해 불가 | 전문 용어, 코드 검색 |
-| **Hybrid Retriever** | Dense + Sparse 결합 | 두 방식의 장점 통합 | 가중치 튜닝 필요 | 대부분의 프로덕션 환경 |
-| **Multi-Query Retriever** | 하나의 질문을 여러 쿼리로 변환 | 검색 recall 향상 | LLM 호출 비용 추가 | 복잡한 질문, 모호한 질의 |
-| **Parent Document Retriever** | 작은 청크로 검색, 큰 문서로 반환 | 검색 정밀도 + 풍부한 컨텍스트 | 인덱스 구조 복잡 | 긴 문서 기반 Q&A |
-| **Self-Query Retriever** | 메타데이터 필터를 자동 추출 | 구조화된 필터링 가능 | LLM 의존, 메타데이터 설계 필요 | 날짜·카테고리 기반 필터링 |
+| **Hybrid Retriever**| Dense + Sparse 결합 | 두 방식의 장점 통합 | 가중치 튜닝 필요 | 대부분의 프로덕션 환경 |
+| **Multi-Query Retriever**| 하나의 질문을 여러 쿼리로 변환 | 검색 recall 향상 | LLM 호출 비용 추가 | 복잡한 질문, 모호한 질의 |
+| **Parent Document Retriever**| 작은 청크로 검색, 큰 문서로 반환 | 검색 정밀도 + 풍부한 컨텍스트 | 인덱스 구조 복잡 | 긴 문서 기반 Q&A |
+| **Self-Query Retriever**| 메타데이터 필터를 자동 추출 | 구조화된 필터링 가능 | LLM 의존, 메타데이터 설계 필요 | 날짜·카테고리 기반 필터링 |
 
 {% hint style="info" %}
-실무에서는 **Hybrid Retriever + Reranking** 조합이 가장 균형 잡힌 성능을 제공합니다. 단일 Retriever만으로는 다양한 쿼리 패턴을 커버하기 어렵습니다.
+실무에서는 **Hybrid Retriever + Reranking**조합이 가장 균형 잡힌 성능을 제공합니다. 단일 Retriever만으로는 다양한 쿼리 패턴을 커버하기 어렵습니다.
 {% endhint %}
 
 ## 2. 앙상블 Retriever (Ensemble Retriever)
 
 ### 개념
 
-앙상블 Retriever는 서로 다른 특성의 Retriever를 결합하여 각각의 약점을 보완합니다. 가장 일반적인 조합은 **BM25 (키워드) + Vector Search (의미)** 입니다.
+앙상블 Retriever는 서로 다른 특성의 Retriever를 결합하여 각각의 약점을 보완합니다. 가장 일반적인 조합은 **BM25 (키워드) + Vector Search (의미)**입니다.
 
 ### Reciprocal Rank Fusion (RRF) 알고리즘
 
@@ -38,8 +38,8 @@ RRF_score(d) = Σ 1 / (k + rank_i(d))
 ### 가중치 조절
 
 - `weights=[0.5, 0.5]`: 두 Retriever를 동등하게 반영
-- `weights=[0.7, 0.3]`: BM25 비중을 높이면 **정확한 키워드 매칭** 강화
-- `weights=[0.3, 0.7]`: Vector Search 비중을 높이면 **의미적 유사성** 강화
+- `weights=[0.7, 0.3]`: BM25 비중을 높이면 **정확한 키워드 매칭**강화
+- `weights=[0.3, 0.7]`: Vector Search 비중을 높이면 **의미적 유사성**강화
 
 ### LangChain EnsembleRetriever 코드 예제
 
@@ -73,13 +73,13 @@ for doc in results:
 {% hint style="warning" %}
 **Databricks Vector Search 하이브리드 검색의 제약사항:**
 
-- Databricks VS의 "Hybrid Search"는 **Dense (임베딩 유사도) + 키워드 필터** 를 결합하는 방식이며, 전통적인 **BM25 Sparse Retrieval과는 다릅니다**
-- 내장 키워드 검색은 ** 영어 기반 토크나이저**를 사용하여, 한국어 형태소를 제대로 분리하지 못함
-- 따라서 한국어 환경에서는 VS 내장 하이브리드보다 ** 외부 BM25 (Kiwi 기반) + VS Dense를 EnsembleRetriever로 결합**하는 것이 더 효과적
+- Databricks VS의 "Hybrid Search"는 **Dense (임베딩 유사도) + 키워드 필터**를 결합하는 방식이며, 전통적인 **BM25 Sparse Retrieval과는 다릅니다**
+- 내장 키워드 검색은 **영어 기반 토크나이저**를 사용하여, 한국어 형태소를 제대로 분리하지 못함
+- 따라서 한국어 환경에서는 VS 내장 하이브리드보다 **외부 BM25 (Kiwi 기반) + VS Dense를 EnsembleRetriever로 결합**하는 것이 더 효과적
 
-** 해결 전략:**
-1. ** 소규모 문서 (10만건 이하)**: LangChain BM25Retriever (Kiwi 토크나이저) + VS Dense → EnsembleRetriever
-2. ** 대규모 문서**: Elasticsearch/OpenSearch에 Kiwi 분석기 설정 → BM25 서빙 + VS Dense → EnsembleRetriever
+**해결 전략:**
+1. **소규모 문서 (10만건 이하)**: LangChain BM25Retriever (Kiwi 토크나이저) + VS Dense → EnsembleRetriever
+2. **대규모 문서**: Elasticsearch/OpenSearch에 Kiwi 분석기 설정 → BM25 서빙 + VS Dense → EnsembleRetriever
 3. **VS만 사용**: 임베딩 모델을 한국어에 강한 모델(bge-m3, multilingual-e5)로 선택하여 Dense 검색 품질을 최대한 높임
 {% endhint %}
 
@@ -109,7 +109,7 @@ results = multi_query_retriever.invoke("Delta Lake 성능 최적화 방법은?")
 
 ### 개념
 
-Re-ranking은 초기 검색 결과를 **Cross-encoder** 모델로 재정렬하여 정밀도를 높이는 2단계 검색 전략입니다.
+Re-ranking은 초기 검색 결과를 **Cross-encoder**모델로 재정렬하여 정밀도를 높이는 2단계 검색 전략입니다.
 
 ```
 [쿼리] → Retriever (Top-K 후보) → Reranker (재정렬) → 최종 Top-N
@@ -174,12 +174,12 @@ compression_retriever = ContextualCompressionRetriever(
 
 | 시나리오 | 추천 전략 | 이유 |
 |----------|-----------|------|
-| ** 일반 Q&A** | Dense + Reranking | 의미 검색으로 후보 추출 후 정밀 재정렬 |
-| ** 전문 용어가 많은 문서** | Hybrid (BM25 + Dense) | 정확한 용어 매칭과 의미 검색을 동시에 |
-| ** 한국어 문서** | Kiwi 토크나이저 + Hybrid | 형태소 분석 기반 BM25로 한국어 키워드 검색 강화 |
-| ** 법률/의료 문서** | Self-Query + Metadata Filter | 날짜, 카테고리, 법령 번호 등 구조화된 필터링 |
-| ** 긴 문서 기반 Q&A** | Parent Document Retriever | 작은 청크로 검색하되 큰 컨텍스트 반환 |
-| ** 대규모 문서셋 (100K+)** | Vector Search + Reranking | 서버 사이드 검색으로 확장성 확보 |
+| **일반 Q&A**| Dense + Reranking | 의미 검색으로 후보 추출 후 정밀 재정렬 |
+| **전문 용어가 많은 문서**| Hybrid (BM25 + Dense) | 정확한 용어 매칭과 의미 검색을 동시에 |
+| **한국어 문서**| Kiwi 토크나이저 + Hybrid | 형태소 분석 기반 BM25로 한국어 키워드 검색 강화 |
+| **법률/의료 문서**| Self-Query + Metadata Filter | 날짜, 카테고리, 법령 번호 등 구조화된 필터링 |
+| **긴 문서 기반 Q&A**| Parent Document Retriever | 작은 청크로 검색하되 큰 컨텍스트 반환 |
+| **대규모 문서셋 (100K+)**| Vector Search + Reranking | 서버 사이드 검색으로 확장성 확보 |
 
 ### 전략 선택 플로우
 
@@ -194,7 +194,7 @@ compression_retriever = ContextualCompressionRetriever(
 ```
 
 {% hint style="info" %}
-처음에는 **Dense Retriever + Reranking** 조합으로 시작하고, 평가 결과에 따라 Hybrid나 Multi-Query를 점진적으로 추가하는 것을 권장합니다.
+처음에는 **Dense Retriever + Reranking**조합으로 시작하고, 평가 결과에 따라 Hybrid나 Multi-Query를 점진적으로 추가하는 것을 권장합니다.
 {% endhint %}
 
 ## 참고 문서

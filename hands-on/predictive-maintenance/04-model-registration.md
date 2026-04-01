@@ -3,9 +3,9 @@
 > **전체 노트북 코드**: [04_model_registration_uc.py](https://github.com/SimyungYang/databricks-enablement-blog/blob/main/hands-on/predictive-maintenance/notebooks/04_model_registration_uc.py)
 
 
-** 목적**: 최적 모델을 UC 모델 레지스트리에 등록하고, Alias를 통해 모델 생애 주기를 관리합니다.
+**목적**: 최적 모델을 UC 모델 레지스트리에 등록하고, Alias를 통해 모델 생애 주기를 관리합니다.
 
-** 사용 Databricks 기능**: `Unity Catalog Model Registry`, `Model Lineage`, `태그 기반 거버넌스`
+**사용 Databricks 기능**: `Unity Catalog Model Registry`, `Model Lineage`, `태그 기반 거버넌스`
 
 ---
 
@@ -27,7 +27,7 @@ print(f"최적 모델 Run: {run_id}, Val F1: {best_run.iloc[0]['metrics.val_f1_s
 
 ## 2. Unity Catalog에 모델 등록
 
-`mlflow.register_model()`로 모델을 UC에 등록합니다. ** 카탈로그.스키마.모델명**3-Level 네임스페이스로 관리됩니다.
+`mlflow.register_model()`로 모델을 UC에 등록합니다. **카탈로그.스키마.모델명**3-Level 네임스페이스로 관리됩니다.
 
 ```python
 model_name = f"{catalog}.{db}.lgit_predictive_maintenance"
@@ -62,7 +62,7 @@ client.set_model_version_tag(name=model_name, version=model_details.version,
 
 ## 4. Champion/Challenger 에일리어스 설정
 
-에일리어스(Alias)는 모델의 생애 주기 단계를 나타냅니다. 배포 시 에일리어스를 참조하므로, ** 코드 변경 없이**모델 교체가 가능합니다.
+에일리어스(Alias)는 모델의 생애 주기 단계를 나타냅니다. 배포 시 에일리어스를 참조하므로, **코드 변경 없이**모델 교체가 가능합니다.
 
 | 에일리어스 | 설명 |
 |-----------|------|
@@ -86,7 +86,7 @@ except:
 ```
 
 {% hint style="info" %}
-Unity Catalog Explorer에서 모델의 버전, 에일리어스, ** 계보(Lineage)**를 시각적으로 확인할 수 있습니다. 학습 데이터 테이블 → MLflow 실험 → 등록된 모델 간의 전체 추적이 자동으로 생성됩니다.
+Unity Catalog Explorer에서 모델의 버전, 에일리어스, **계보(Lineage)**를 시각적으로 확인할 수 있습니다. 학습 데이터 테이블 → MLflow 실험 → 등록된 모델 간의 전체 추적이 자동으로 생성됩니다.
 {% endhint %}
 
-** 다음 단계**: [05. 챌린저 검증](05-challenger-validation.md)
+**다음 단계**: [05. 챌린저 검증](05-challenger-validation.md)

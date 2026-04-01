@@ -17,8 +17,8 @@ cd databricks-enablement-blog/hands-on/predictive-maintenance/notebooks/
 
 ### 방법 3: Databricks Workspace에서 직접 Import
 
-1. Databricks Workspace → **Repos** 메뉴
-2. **Add Repo** → URL: `https://github.com/SimyungYang/databricks-enablement-blog.git`
+1. Databricks Workspace → **Repos**메뉴
+2. **Add Repo**→ URL: `https://github.com/SimyungYang/databricks-enablement-blog.git`
 3. `hands-on/predictive-maintenance/notebooks/` 경로에서 노트북 실행
 
 ---
@@ -48,10 +48,10 @@ cd databricks-enablement-blog/hands-on/predictive-maintenance/notebooks/
 
 | 항목 | 요구사항 |
 |------|---------|
-| **Workspace** | Databricks Premium 이상 |
-| **Unity Catalog** | 활성화 필수 |
-| **Compute** | ML Runtime 15.4+ (GPU: 07번 노트북) |
-| ** 권한** | Catalog/Schema 생성 권한 |
+| **Workspace**| Databricks Premium 이상 |
+| **Unity Catalog**| 활성화 필수 |
+| **Compute**| ML Runtime 15.4+ (GPU: 07번 노트북) |
+| **권한**| Catalog/Schema 생성 권한 |
 
 {% hint style="warning" %}
 노트북 01번을 먼저 실행하여 Catalog, Schema, 샘플 데이터를 생성해야 합니다.

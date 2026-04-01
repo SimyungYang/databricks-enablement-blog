@@ -65,7 +65,7 @@ Workspace 생성까지의 리소스 생성 순서:
 | 5 | VPC Endpoint (Relay) | `databricks_mws_vpc_endpoint` | VPC |
 | 6 | — | `databricks_mws_networks` | VPC + Endpoints |
 | 7 | — | `databricks_mws_private_access_settings` | — |
-| 8 | — | **`databricks_mws_workspaces`** | 1 + 2 + 6 + 7 |
+| 8 | — | **`databricks_mws_workspaces`**| 1 + 2 + 6 + 7 |
 
 ## Terraform 공식 예제 & 참고
 
@@ -74,7 +74,7 @@ Workspace 생성까지의 리소스 생성 순서:
 | 예제 | 설명 |
 |------|------|
 | `aws-workspace-basic` | 기본 워크스페이스 |
-| `aws-databricks-modular-privatelink` | **PrivateLink 모듈화 구성** |
+| `aws-databricks-modular-privatelink` | **PrivateLink 모듈화 구성**|
 | `aws-databricks-uc` | Unity Catalog 포함 |
 | `aws-workspace-with-firewall` | Egress 방화벽 포함 |
 | `aws-exfiltration-protection` | 데이터 유출 방지 |
@@ -88,7 +88,7 @@ Workspace 생성까지의 리소스 생성 순서:
 
 ### Databricks 공식 문서
 
-- ** 아키텍처 개요**: [High-Level Architecture](https://docs.databricks.com/aws/en/getting-started/high-level-architecture)
+- **아키텍처 개요**: [High-Level Architecture](https://docs.databricks.com/aws/en/getting-started/high-level-architecture)
 - **Credential 구성**: [Create a cross-account IAM role](https://docs.databricks.com/aws/en/admin/account-settings-e2/credentials)
 - **Storage 구성**: [Configure storage](https://docs.databricks.com/aws/en/admin/account-settings-e2/storage)
 - **Network 구성**: [Configure network](https://docs.databricks.com/aws/en/admin/account-settings-e2/networks)
@@ -97,7 +97,7 @@ Workspace 생성까지의 리소스 생성 순서:
 - **PrivateLink 개념**: [PrivateLink Concepts](https://docs.databricks.com/aws/en/security/network/classic/privatelink-concepts)
 - **PrivateLink DNS**: [DNS Config](https://docs.databricks.com/aws/en/security/network/classic/privatelink-dns)
 - **Frontend PrivateLink**: [Inbound PrivateLink](https://docs.databricks.com/aws/en/security/network/front-end/front-end-private-connect)
-- ** 리전별 Endpoint**: [IP & Domain Info](https://docs.databricks.com/aws/en/resources/ip-domain-region)
+- **리전별 Endpoint**: [IP & Domain Info](https://docs.databricks.com/aws/en/resources/ip-domain-region)
 - **UC Storage Credential**: [Storage Credentials](https://docs.databricks.com/aws/en/connect/unity-catalog/storage-credentials)
 
 ### Terraform Provider 문서
