@@ -3,32 +3,19 @@
 Databricks Agent Framework는 "**빌드보다 배포가 중요하다**"는 철학 아래 설계되었습니다. 오픈소스 프레임워크들이 "Agent를 어떻게 만들 것인가"에 집중한다면, Databricks는 "**Agent를 어떻게 안전하게 운영할 것인가**"에 집중합니다.
 
 {% hint style="info" %}
-**핵심 인사이트**: 실제 엔터프라이즈에서 Agent를 프로덕션에 배포할 때 가장 큰 과제는 "Agent를 만드는 것"이 아니라 "누가 어떤 데이터에 접근하는지 통제하고, 응답 품질을 모니터링하고, 문제 발생 시 원인을 추적하는 것"입니다. Databricks Agent Framework는 이 문제를 해결합니다.
+** 핵심 인사이트**: 실제 엔터프라이즈에서 Agent를 프로덕션에 배포할 때 가장 큰 과제는 "Agent를 만드는 것"이 아니라 "누가 어떤 데이터에 접근하는지 통제하고, 응답 품질을 모니터링하고, 문제 발생 시 원인을 추적하는 것"입니다. Databricks Agent Framework는 이 문제를 해결합니다.
 {% endhint %}
 
 ---
 
 ## 설계 철학: 거버넌스 + 배포 + 모니터링 통합
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                 Databricks Agent Framework                  │
-│                                                             │
-│  ┌──────────┐  ┌──────────────┐  ┌────────────────────┐    │
-│  │  Build   │  │   Deploy     │  │    Monitor         │    │
-│  │          │  │              │  │                    │    │
-│  │ ChatAgent│  │ Model Serving│  │ MLflow Tracing     │    │
-│  │ LangGraph│  │ (Serverless) │  │ Review App         │    │
-│  │ UC Tools │  │ One-click    │  │ Agent Evaluation   │    │
-│  │ VS Index │  │ Auto-scaling │  │ Inference Tables   │    │
-│  └──────────┘  └──────────────┘  └────────────────────┘    │
-│                                                             │
-│  ┌────────────────────────────────────────────────────┐     │
-│  │              Unity Catalog (거버넌스 레이어)         │     │
-│  │  함수 권한 | 데이터 접근 제어 | 모델 레지스트리       │     │
-│  └────────────────────────────────────────────────────┘     │
-└─────────────────────────────────────────────────────────────┘
-```
+| 단계 | 구성 요소 | 포함 기능 |
+|------|----------|----------|
+| **Build** | ChatAgent, LangGraph, UC Tools, VS Index | Agent 개발 |
+| **Deploy** | Model Serving (Serverless, One-click, Auto-scaling) | 원클릭 서버리스 배포 |
+| **Monitor** | MLflow Tracing, Review App, Agent Evaluation, Inference Tables | 추적, 평가, 모니터링 |
+| ** 거버넌스** | Unity Catalog (함수 권한, 데이터 접근 제어, 모델 레지스트리) | 전 계층 통합 거버넌스 |
 
 ---
 

@@ -10,10 +10,10 @@
 
 ## 학습 목표
 
-- UC Volume에 **주기적으로 가상 데이터 생성**(Databricks App 활용)
--**Auto Loader**로 새 파일 자동 감지 및 수집
--**Structured Streaming**으로 실시간 Bronze → Silver 처리
--**SDP + Streaming Table**로 선언적 실시간 파이프라인 구축
+- UC Volume에 ** 주기적으로 가상 데이터 생성**(Databricks App 활용)
+-**Auto Loader** 로 새 파일 자동 감지 및 수집
+-**Structured Streaming** 으로 실시간 Bronze → Silver 처리
+-**SDP + Streaming Table** 로 선언적 실시간 파이프라인 구축
 
 ---
 
@@ -258,7 +258,7 @@ SDP에서 Streaming Table과 Materialized View의 차이도 설명해줘.
 |**Auto Loader**| cloudFiles 포맷, 새 파일 자동 감지, 스키마 추론 |
 |**Structured Streaming**| readStream, append 모드, 체크포인트 |
 |**SDP + Streaming**| @dp.table + Auto Loader, 실시간 Bronze→Silver→Gold |
-|**실시간 모니터링**| 레이턴시 측정, Expectations 확인 |
+|** 실시간 모니터링**| 레이턴시 측정, Expectations 확인 |
 
 ---
 

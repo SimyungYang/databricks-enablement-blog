@@ -3,9 +3,9 @@
 > **전체 노트북 코드**: [09_mlops_agent.py](https://github.com/SimyungYang/databricks-enablement-blog/blob/main/hands-on/predictive-maintenance/notebooks/09_mlops_agent.py)
 
 
-**목적**: AI Agent가 Trigger에 따라 MLOps Tool을 자동 호출하여 학습/예측/모니터링을 오케스트레이션합니다.
+** 목적**: AI Agent가 Trigger에 따라 MLOps Tool을 자동 호출하여 학습/예측/모니터링을 오케스트레이션합니다.
 
-**사용 Databricks 기능**: `AI Agent (ChatAgent)`, `UC Functions as Tools`, `Model Serving`, `MLflow Tracing`
+** 사용 Databricks 기능**: `AI Agent (ChatAgent)`, `UC Functions as Tools`, `Model Serving`, `MLflow Tracing`
 
 ---
 
@@ -20,7 +20,7 @@
 
 ## 1. MLOps Tool 함수 정의
 
-Agent가 호출할 수 있는 Tool 함수를 정의합니다. 실제 환경에서는 **UC Function**으로 등록합니다.
+Agent가 호출할 수 있는 Tool 함수를 정의합니다. 실제 환경에서는 **UC Function** 으로 등록합니다.
 
 ```python
 def check_data_drift(table_name: str = "lgit_pm_inference_results") -> dict:
@@ -90,7 +90,7 @@ def mlops_agent_workflow(trigger_type: str = "full_cycle"):
 ```
 
 {% hint style="info" %}
-실제 운영에서는 이 Agent를 **Model Serving 엔드포인트**로 배포하여, Workflow Trigger나 API 호출로 자동 실행할 수 있습니다. MLflow Tracing으로 Agent의 모든 Tool 호출 이력이 추적됩니다.
+실제 운영에서는 이 Agent를 **Model Serving 엔드포인트** 로 배포하여, Workflow Trigger나 API 호출로 자동 실행할 수 있습니다. MLflow Tracing으로 Agent의 모든 Tool 호출 이력이 추적됩니다.
 {% endhint %}
 
-**다음 단계**: [10. Job 스케줄링](10-job-scheduling.md)
+** 다음 단계**: [10. Job 스케줄링](10-job-scheduling.md)

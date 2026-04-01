@@ -3,9 +3,9 @@
 > **전체 노트북 코드**: [05_challenger_validation.py](https://github.com/SimyungYang/databricks-enablement-blog/blob/main/hands-on/predictive-maintenance/notebooks/05_challenger_validation.py)
 
 
-**목적**: 새 모델을 운영에 배포하기 전 4단계 체계적 검증을 수행하고, 통과 시 Champion으로 자동 승급합니다.
+** 목적**: 새 모델을 운영에 배포하기 전 4단계 체계적 검증을 수행하고, 통과 시 Champion으로 자동 승급합니다.
 
-**사용 Databricks 기능**: `mlflow.evaluate()`, `모델 에일리어스 기반 배포`, `태그 기반 검증 추적`
+** 사용 Databricks 기능**: `mlflow.evaluate()`, `모델 에일리어스 기반 배포`, `태그 기반 검증 추적`
 
 ---
 
@@ -54,7 +54,7 @@ business_value = (
 ```
 
 {% hint style="warning" %}
-비즈니스 KPI 평가에서 **False Negative(미탐지 고장)**의 비용이 **False Positive(오탐)**보다 훨씬 높습니다. 이는 Recall을 우선시하는 이유이기도 합니다.
+비즈니스 KPI 평가에서 **False Negative(미탐지 고장)** 의 비용이 **False Positive(오탐)** 보다 훨씬 높습니다. 이는 Recall을 우선시하는 이유이기도 합니다.
 {% endhint %}
 
 ## 종합 검증 및 Champion 승급
@@ -81,7 +81,7 @@ else:
 ```
 
 {% hint style="info" %}
-Champion/Challenger 패턴은 **코드 변경 없이**모델을 교체할 수 있게 합니다. 추론 코드는 항상 `models:/{model_name}@Champion`을 참조하므로, Alias만 변경하면 운영 모델이 자동으로 전환됩니다.
+Champion/Challenger 패턴은 ** 코드 변경 없이** 모델을 교체할 수 있게 합니다. 추론 코드는 항상 `models:/{model_name}@Champion`을 참조하므로, Alias만 변경하면 운영 모델이 자동으로 전환됩니다.
 {% endhint %}
 
-**다음 단계**: [06. 배치 추론](06-batch-inference.md)
+** 다음 단계**: [06. 배치 추론](06-batch-inference.md)

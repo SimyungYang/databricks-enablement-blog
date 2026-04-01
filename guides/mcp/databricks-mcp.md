@@ -39,14 +39,14 @@ https://<workspace-hostname>/api/2.0/mcp/external/{connection_name}
 ```
 
 {% hint style="warning" %}
-외부 MCP 서버를 연결하려면 해당 서버가 **Streamable HTTP 전송 방식**을 지원해야 합니다. stdio 방식만 지원하는 서버는 직접 연결할 수 없습니다.
+외부 MCP 서버를 연결하려면 해당 서버가 **Streamable HTTP 전송 방식** 을 지원해야 합니다. stdio 방식만 지원하는 서버는 직접 연결할 수 없습니다.
 {% endhint %}
 
 ### 3. Custom MCP (자체 서버 호스팅)
 
-자체 MCP 서버를 **Databricks App**으로 배포합니다. 사내 API를 MCP로 래핑하거나, 특수한 비즈니스 로직을 구현할 때 사용합니다.
+자체 MCP 서버를 **Databricks App** 으로 배포합니다. 사내 API를 MCP로 래핑하거나, 특수한 비즈니스 로직을 구현할 때 사용합니다.
 
-**배포 절차:**
+** 배포 절차:**
 
 1. FastAPI + MCP SDK로 서버 코드 작성
 2. `app.yaml` 구성 (Databricks Apps 배포 설정)
@@ -58,7 +58,7 @@ https://<workspace-hostname>/api/2.0/mcp/external/{connection_name}
 4. MCP 엔드포인트 확인: `https://<app-url>/mcp`
 
 {% hint style="warning" %}
-커스텀 MCP 앱은 **stateless 아키텍처**로 구현해야 합니다. CORS 이슈 방지를 위해 워크스페이스 URL을 허용 오리진에 추가하세요.
+커스텀 MCP 앱은 **stateless 아키텍처** 로 구현해야 합니다. CORS 이슈 방지를 위해 워크스페이스 URL을 허용 오리진에 추가하세요.
 {% endhint %}
 
 ---
@@ -66,20 +66,20 @@ https://<workspace-hostname>/api/2.0/mcp/external/{connection_name}
 ## Genie Code에서 MCP 사용
 
 {% hint style="warning" %}
-MCP 서버는 **Genie Code Agent 모드에서만**지원됩니다. Chat 모드에서는 사용할 수 없습니다.
+MCP 서버는 **Genie Code Agent 모드에서만** 지원됩니다. Chat 모드에서는 사용할 수 없습니다.
 {% endhint %}
 
 ### 설정 단계
 
-1. Genie Code 패널을 열고 **설정 아이콘**을 클릭합니다.
-2. **MCP Servers**섹션에서 **Add Server**를 선택합니다.
+1. Genie Code 패널을 열고 ** 설정 아이콘** 을 클릭합니다.
+2. **MCP Servers** 섹션에서 **Add Server** 를 선택합니다.
 3. 사용할 서버 유형을 선택합니다:
    - Unity Catalog Functions
    - Vector Search Indexes
    - Genie Spaces
    - Unity Catalog Connections (외부 MCP)
    - Databricks Apps (커스텀 MCP)
-4. **Save**를 클릭하면 즉시 사용 가능합니다.
+4. **Save** 를 클릭하면 즉시 사용 가능합니다.
 
 ### 사용 예시
 
@@ -119,7 +119,7 @@ databricks mcp list
 
 ## Unity Catalog Functions을 MCP Tool로 노출
 
-Unity Catalog에 등록된 SQL/Python 함수는 자동으로 MCP Tool로 노출됩니다. 함수의 **이름**과 **COMMENT**가 각각 Tool 이름과 설명이 됩니다.
+Unity Catalog에 등록된 SQL/Python 함수는 자동으로 MCP Tool로 노출됩니다. 함수의 ** 이름** 과 **COMMENT** 가 각각 Tool 이름과 설명이 됩니다.
 
 ### SQL 함수 예시
 
@@ -164,8 +164,8 @@ $$;
 
 워크스페이스에서 사용 가능한 MCP 서버를 확인하려면:
 
-1. 워크스페이스의 **Agents**섹션으로 이동합니다.
-2. **MCP Servers**탭을 선택합니다.
+1. 워크스페이스의 **Agents** 섹션으로 이동합니다.
+2. **MCP Servers** 탭을 선택합니다.
 3. 등록된 서버 목록과 상태를 확인할 수 있습니다.
 
 ---

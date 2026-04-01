@@ -3,9 +3,9 @@
 > **전체 노트북 코드**: [10_job_scheduling.py](https://github.com/SimyungYang/databricks-enablement-blog/blob/main/hands-on/predictive-maintenance/notebooks/10_job_scheduling.py)
 
 
-**목적**: 운영/개발 환경별 MLOps 파이프라인을 Databricks Workflows로 스케줄링합니다.
+** 목적**: 운영/개발 환경별 MLOps 파이프라인을 Databricks Workflows로 스케줄링합니다.
 
-**사용 Databricks 기능**: `Databricks Workflows`, `Multi-task Jobs`, `Serverless Compute`, `이메일/Slack 알림`
+** 사용 Databricks 기능**: `Databricks Workflows`, `Multi-task Jobs`, `Serverless Compute`, `이메일/Slack 알림`
 
 ---
 
@@ -71,7 +71,7 @@ prod_training_tasks = [
 | 간단한 태스크 | Serverless | 가장 비용 효율적 |
 
 {% hint style="success" %}
-Databricks **Serverless Compute**를 사용하면 클러스터 관리 없이 자동으로 리소스가 할당됩니다. 정형 데이터 처리에는 Serverless를 권장합니다. 비정형(GPU) 작업만 전용 클러스터를 사용하세요.
+Databricks **Serverless Compute** 를 사용하면 클러스터 관리 없이 자동으로 리소스가 할당됩니다. 정형 데이터 처리에는 Serverless를 권장합니다. 비정형(GPU) 작업만 전용 클러스터를 사용하세요.
 {% endhint %}
 
 ## 전체 데모에서 다룬 Databricks MLOps 기능
@@ -93,9 +93,9 @@ Databricks **Serverless Compute**를 사용하면 클러스터 관리 없이 자
 
 ## Level 2 MLOps Pipeline Job
 
-> **전체 노트북 코드**: [10_job_scheduling.py (Level 2 섹션)](https://github.com/SimyungYang/databricks-enablement-blog/blob/main/hands-on/predictive-maintenance/notebooks/10_job_scheduling.py)
+> ** 전체 노트북 코드**: [10_job_scheduling.py (Level 2 섹션)](https://github.com/SimyungYang/databricks-enablement-blog/blob/main/hands-on/predictive-maintenance/notebooks/10_job_scheduling.py)
 
-기존 Level 1 파이프라인(6개 태스크)에 **드리프트 기반 자동 재학습**이 추가된 것이 Level 2의 핵심입니다.
+기존 Level 1 파이프라인(6개 태스크)에 ** 드리프트 기반 자동 재학습** 이 추가된 것이 Level 2의 핵심입니다.
 
 ### 7-Task 자동 재학습 파이프라인 구성
 
@@ -169,13 +169,13 @@ created_job = w.jobs.create(
 ```
 
 {% hint style="info" %}
-**Level 1 vs Level 2 차이**: Level 1 Job은 6개 태스크(02→03→04→05→06→08)로 모니터링까지만 수행합니다. Level 2 Job은 7번째 태스크(03d)가 추가되어, 드리프트 감지 시 **자동 재학습**까지 수행합니다.
+**Level 1 vs Level 2 차이**: Level 1 Job은 6개 태스크(02→03→04→05→06→08)로 모니터링까지만 수행합니다. Level 2 Job은 7번째 태스크(03d)가 추가되어, 드리프트 감지 시 ** 자동 재학습** 까지 수행합니다.
 {% endhint %}
 
 ### Job 확인 방법
 
-1. 좌측 사이드바 → **Workflows**클릭
-2. **LGIT_MLOps_Level2_AutoRetrain_Pipeline**검색
-3. **Tasks**탭에서 DAG(의존성 그래프) 확인 — 7개 태스크가 순차 연결
-4. **Schedule**탭에서 스케줄 확인 (현재 PAUSED)
-5. **Run now**버튼으로 즉시 실행 테스트 가능
+1. 좌측 사이드바 → **Workflows** 클릭
+2. **LGIT_MLOps_Level2_AutoRetrain_Pipeline** 검색
+3. **Tasks** 탭에서 DAG(의존성 그래프) 확인 — 7개 태스크가 순차 연결
+4. **Schedule** 탭에서 스케줄 확인 (현재 PAUSED)
+5. **Run now** 버튼으로 즉시 실행 테스트 가능

@@ -141,42 +141,30 @@ async def websocket_chat(websocket: WebSocket):
 
 ## Frontend 분리 아키텍처
 
-```
-┌──────────────────┐        ┌──────────────────┐
-│    Frontend      │  HTTP   │    Backend       │
-│  (React/Next.js) │◄──────►│  (FastAPI)       │
-│                  │  SSE/WS │                  │
-│  - 채팅 UI       │        │  - Agent 로직    │
-│  - 대시보드      │        │  - Tool 관리     │
-│  - 인증 UI       │        │  - 세션 관리     │
-└──────────────────┘        └────────┬─────────┘
-                                     │
-                            ┌────────▼─────────┐
-                            │ Databricks       │
-                            │ - Model Serving  │
-                            │ - SQL Warehouse  │
-                            │ - Unity Catalog  │
-                            └──────────────────┘
-```
+| 계층 | 구성 요소 | 기능 | 통신 방식 |
+|------|----------|------|----------|
+| **Frontend** | React / Next.js | 채팅 UI, 대시보드, 인증 UI | HTTP, SSE/WebSocket |
+| **Backend** | FastAPI | Agent 로직, Tool 관리, 세션 관리 | — |
+| ** 데이터 플랫폼** | Databricks | Model Serving, SQL Warehouse, Unity Catalog | Backend에서 SDK로 호출 |
 
 ---
 
 ## 장점과 한계
 
-**장점:**
-- **최대 유연성**: 프론트엔드와 백엔드를 완전히 분리, 각각 최적의 기술 선택 가능
-- **프로덕션 최적**: 비동기 처리, 수천 동시접속 처리 가능 (Uvicorn + Gunicorn)
+** 장점:**
+- ** 최대 유연성**: 프론트엔드와 백엔드를 완전히 분리, 각각 최적의 기술 선택 가능
+- ** 프로덕션 최적**: 비동기 처리, 수천 동시접속 처리 가능 (Uvicorn + Gunicorn)
 - **API 문서 자동화**: `/docs` 경로에 Swagger UI 자동 생성 → 프론트엔드 팀과 협업 용이
 - **Databricks Apps 지원**: FastAPI 앱을 Databricks Apps로 배포 가능
-- **마이크로서비스**: 여러 Agent를 독립적으로 배포하고 API Gateway로 라우팅 가능
+- ** 마이크로서비스**: 여러 Agent를 독립적으로 배포하고 API Gateway로 라우팅 가능
 
-**한계:**
-- **프론트엔드 별도 구현**: UI가 없으므로 React/Next.js 등 별도 구현 필요 → 풀스택 역량 요구
-- **개발 공수**: Streamlit 대비 3~5배의 개발 시간 (백엔드 + 프론트엔드)
-- **운영 복잡성**: 프론트엔드와 백엔드를 별도로 빌드, 배포, 모니터링해야 함
+** 한계:**
+- ** 프론트엔드 별도 구현**: UI가 없으므로 React/Next.js 등 별도 구현 필요 → 풀스택 역량 요구
+- ** 개발 공수**: Streamlit 대비 3~5배의 개발 시간 (백엔드 + 프론트엔드)
+- ** 운영 복잡성**: 프론트엔드와 백엔드를 별도로 빌드, 배포, 모니터링해야 함
 
 {% hint style="success" %}
-**언제 FastAPI를 선택하는가**: (1) 사용자 수 100명 이상의 프로덕션 서비스, (2) 커스텀 UX/브랜딩이 필수인 경우, (3) 모바일 앱이나 기존 포털에 Agent를 통합해야 하는 경우, (4) 여러 프론트엔드가 하나의 Agent 백엔드를 공유하는 경우. 이 중 하나라도 해당하면 FastAPI를 고려하세요.
+** 언제 FastAPI를 선택하는가**: (1) 사용자 수 100명 이상의 프로덕션 서비스, (2) 커스텀 UX/브랜딩이 필수인 경우, (3) 모바일 앱이나 기존 포털에 Agent를 통합해야 하는 경우, (4) 여러 프론트엔드가 하나의 Agent 백엔드를 공유하는 경우. 이 중 하나라도 해당하면 FastAPI를 고려하세요.
 {% endhint %}
 
 ---

@@ -5,11 +5,11 @@
 | 항목 | Backend (Classic) — 필수 권장 | Frontend (Inbound) — 옵션 |
 |------|------|------|
 | **방향**| Compute → Control Plane | 사용자 → Workspace |
-| **용도**| 클러스터가 API/Relay에 접근 | Web UI, REST API, DB Connect |
+| ** 용도**| 클러스터가 API/Relay에 접근 | Web UI, REST API, DB Connect |
 | **VPC Endpoint**| **2개**(REST API + SCC Relay) | **1개**(REST API만) |
-| **배치 위치**| Compute VPC | Transit VPC (또는 동일 VPC) |
+| ** 배치 위치**| Compute VPC | Transit VPC (또는 동일 VPC) |
 | **DNS 추가 구성**| 불필요 (private DNS enabled) | Route 53 Private Hosted Zone 필요 |
-| **핵심 이점**| 인터넷 없이 클러스터 운영 | End-to-End 프라이빗 접근 |
+| ** 핵심 이점**| 인터넷 없이 클러스터 운영 | End-to-End 프라이빗 접근 |
 
 {% hint style="warning" %}
 **Enterprise 티어 필수**— Customer-Managed VPC + SCC 활성화 필요
@@ -34,7 +34,7 @@ com.amazonaws.vpce.ap-northeast-2.vpce-svc-0dc0e98a5800db5c4
 ```
 
 {% hint style="info" %}
-AWS Console → VPC → Endpoints → "**Find service by name**" 에 위 값을 붙여넣기 → **Verify service**클릭
+AWS Console → VPC → Endpoints → "**Find service by name**" 에 위 값을 붙여넣기 → **Verify service** 클릭
 {% endhint %}
 
 *출처: [Databricks regional endpoint service names](https://docs.databricks.com/aws/en/resources/ip-domain-region) · [Terraform: databricks_mws_vpc_endpoint](https://registry.terraform.io/providers/databricks/databricks/latest/docs/resources/mws_vpc_endpoint)*
@@ -66,12 +66,12 @@ AWS Console → VPC → Subnets → Create subnet
 |------|--------|
 | **VPC**| Databricks Compute VPC |
 | **CIDR**| 최소 `/27` (예: `10.4.100.0/24`) |
-| **용도**| VPC Endpoint 전용 (워크스페이스 서브넷과 분리) |
+| ** 용도**| VPC Endpoint 전용 (워크스페이스 서브넷과 분리) |
 
 ### Route Table 설정
 
-- **새 Route Table 생성**→ VPC Endpoint Subnet에 연결
-- **Local route만**유지 — NAT GW route 추가하지 않음
+- ** 새 Route Table 생성**→ VPC Endpoint Subnet에 연결
+- **Local route만** 유지 — NAT GW route 추가하지 않음
 
 | Destination | Target |
 |-------------|--------|
@@ -142,11 +142,11 @@ Account Console → Security → Networking → VPC endpoints
    - **VPC endpoint name**: 식별 이름 (예: `prod-rest-vpce`, `prod-relay-vpce`)
    - **VPC endpoint ID**: `vpce-xxxxxxxx` (AWS에서 생성한 ID)
    - **Region**: `ap-northeast-2`
-3. **Register**클릭
+3. **Register** 클릭
 
 ### 이후: Network Configuration 생성 시 연결
 
-- VPC Endpoint 등록 완료 후 → **Network 등록 단계**에서 Network Configuration 생성 시 VPC Endpoint를 지정
+- VPC Endpoint 등록 완료 후 → **Network 등록 단계** 에서 Network Configuration 생성 시 VPC Endpoint를 지정
 - Network Configuration 생성 화면에서 REST API / Dataplane relay Endpoint 선택
 
 *참고: [Register VPC endpoints](https://docs.databricks.com/aws/en/security/network/classic/privatelink)*
@@ -157,7 +157,7 @@ Account Console → Security → Networking → Private access settings
 
 ### 설정
 
-1. **Add private access settings**클릭
+1. **Add private access settings** 클릭
 2. 입력:
    - **Name**: 식별 이름
    - **Region**: `ap-northeast-2`
@@ -167,12 +167,12 @@ Account Console → Security → Networking → Private access settings
 
 | 설정 | Public access | Access level | 결과 |
 |------|---|---|---|
-| **하이브리드**(검증 기간) | Enabled | ACCOUNT | 퍼블릭 + PrivateLink 모두 허용 |
-| **프라이빗 전용**| Disabled | ACCOUNT | 계정 내 모든 VPC Endpoint 허용 |
-| **특정 Endpoint만**| Disabled | ENDPOINT | 지정된 Endpoint만 허용 |
+| ** 하이브리드**(검증 기간) | Enabled | ACCOUNT | 퍼블릭 + PrivateLink 모두 허용 |
+| ** 프라이빗 전용**| Disabled | ACCOUNT | 계정 내 모든 VPC Endpoint 허용 |
+| ** 특정 Endpoint만**| Disabled | ENDPOINT | 지정된 Endpoint만 허용 |
 
 {% hint style="warning" %}
-처음에는 **Public access = Enabled**로 시작 → 검증 완료 후 **Disabled**로 전환 권장
+처음에는 **Public access = Enabled** 로 시작 → 검증 완료 후 **Disabled** 로 전환 권장
 {% endhint %}
 
 *참고: [Private access settings](https://docs.databricks.com/aws/en/security/network/classic/privatelink) · [Terraform: databricks_mws_private_access_settings](https://registry.terraform.io/providers/databricks/databricks/latest/docs/resources/mws_private_access_settings)*

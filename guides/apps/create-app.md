@@ -9,9 +9,9 @@
 | # | 항목 | 설명 |
 |---|------|------|
 | 1 | **워크스페이스 접근 권한**| Databricks 워크스페이스에 로그인 가능 |
-| 2 | **앱 생성 권한**| `CAN MANAGE` 또는 워크스페이스 관리자 권한 |
-| 3 | **리소스 권한**| 앱에서 사용할 SQL Warehouse, Serving Endpoint 등에 대한 접근 권한 |
-| 4 | **로컬 개발 환경**| Python 3.10+ 또는 Node.js 18+ 설치 |
+| 2 | ** 앱 생성 권한**| `CAN MANAGE` 또는 워크스페이스 관리자 권한 |
+| 3 | ** 리소스 권한**| 앱에서 사용할 SQL Warehouse, Serving Endpoint 등에 대한 접근 권한 |
+| 4 | ** 로컬 개발 환경**| Python 3.10+ 또는 Node.js 18+ 설치 |
 | 5 | **Databricks CLI**| `pip install databricks-cli` 또는 `brew install databricks` |
 
 ---
@@ -20,10 +20,10 @@
 
 ### Step 1: 앱 생성 시작
 
-1. 워크스페이스 사이드바에서 **+ New**> **App**클릭
+1. 워크스페이스 사이드바에서 **+ New**> **App** 클릭
 2. 다음 중 하나를 선택합니다:
-   - **템플릿 사용**: `Streamlit`, `Gradio Hello world`, `Flask`, `FastAPI` 등 사전 구성된 템플릿
-   - **빈 앱 생성**: 처음부터 직접 코드 작성
+   - ** 템플릿 사용**: `Streamlit`, `Gradio Hello world`, `Flask`, `FastAPI` 등 사전 구성된 템플릿
+   - ** 빈 앱 생성**: 처음부터 직접 코드 작성
 
 ### Step 2: 앱 정보 입력
 
@@ -33,7 +33,7 @@
 | **Description**| 앱 설명 (선택사항) | "매출 분석 대시보드" |
 
 {% hint style="warning" %}
-**앱 이름 규칙**: 소문자, 숫자, 하이픈만 사용 가능합니다. 앱 이름은 생성 후 변경할 수 없으며 URL에 직접 반영되므로 신중하게 지정하세요.
+** 앱 이름 규칙**: 소문자, 숫자, 하이픈만 사용 가능합니다. 앱 이름은 생성 후 변경할 수 없으며 URL에 직접 반영되므로 신중하게 지정하세요.
 {% endhint %}
 
 ### Step 3: 리소스 연결 (선택)
@@ -50,21 +50,21 @@
 
 ### Step 4: Install 클릭
 
-**Install**버튼을 클릭하면 Databricks가 다음을 자동으로 수행합니다:
+**Install** 버튼을 클릭하면 Databricks가 다음을 자동으로 수행합니다:
 
-1. 전용 **서비스 프린시펄**생성
+1. 전용 ** 서비스 프린시펄** 생성
 2. 컨테이너 환경 프로비저닝
 3. 앱 코드 배포 및 실행
 4. 공개 URL 생성
 
 ### Step 5: 배포 확인
 
-배포 완료 후 **Overview**페이지에서 다음을 확인합니다:
+배포 완료 후 **Overview** 페이지에서 다음을 확인합니다:
 
-- **앱 URL**: `https://<app-name>-<workspace-id>.<region>.databricksapps.com`
-- **실행 상태**: `Running`, `Deploying`, `Crashed` 등
-- **로그**: 앱 실행 로그 (디버깅에 필수)
-- **서비스 프린시펄**: 자동 생성된 SP 정보
+- ** 앱 URL**: `https://<app-name>-<workspace-id>.<region>.databricksapps.com`
+- ** 실행 상태**: `Running`, `Deploying`, `Crashed` 등
+- ** 로그**: 앱 실행 로그 (디버깅에 필수)
+- ** 서비스 프린시펄**: 자동 생성된 SP 정보
 
 ---
 
@@ -102,7 +102,7 @@ databricks apps list
 
 ## 소스 코드 다운로드 및 로컬 개발
 
-Overview 페이지의 **Sync the files**섹션에서 제공하는 커맨드를 복사하여 실행합니다.
+Overview 페이지의 **Sync the files** 섹션에서 제공하는 커맨드를 복사하여 실행합니다.
 
 ```bash
 mkdir my-dashboard-app && cd my-dashboard-app
@@ -160,11 +160,11 @@ databricks apps deploy my-dashboard-app \
 |------|------|-----------|
 | **`CRASHED` 상태**| 앱 코드에 런타임 에러 | Logs 탭에서 에러 메시지 확인 후 코드 수정, 재배포 |
 | **`Permission denied`**| 서비스 프린시펄 권한 부족 | 앱의 SP에 필요한 UC 테이블/Warehouse 접근 권한 부여 |
-| **배포 실패 (파일 크기)**| 개별 파일이 10MB 초과 | 대용량 파일을 Volume에 업로드하고 런타임에 다운로드 |
+| ** 배포 실패 (파일 크기)**| 개별 파일이 10MB 초과 | 대용량 파일을 Volume에 업로드하고 런타임에 다운로드 |
 | **`ModuleNotFoundError`**| `requirements.txt`에 패키지 누락 | 필요한 패키지를 `requirements.txt`에 추가 후 재배포 |
-| **포트 충돌**| 앱이 올바른 포트에서 실행되지 않음 | `app.yaml`의 `command`에서 포트를 `$DATABRICKS_APP_PORT`로 설정 |
-| **앱 URL 접속 불가**| 배포가 아직 진행 중 | 상태가 `Running`이 될 때까지 대기 (보통 2~5분) |
+| ** 포트 충돌**| 앱이 올바른 포트에서 실행되지 않음 | `app.yaml`의 `command`에서 포트를 `$DATABRICKS_APP_PORT`로 설정 |
+| ** 앱 URL 접속 불가**| 배포가 아직 진행 중 | 상태가 `Running`이 될 때까지 대기 (보통 2~5분) |
 
 {% hint style="info" %}
-**디버깅 팁**: `databricks apps run-local --debug` 명령으로 로컬에서 먼저 테스트하면, 배포 후 발생하는 대부분의 오류를 사전에 잡을 수 있습니다.
+** 디버깅 팁**: `databricks apps run-local --debug` 명령으로 로컬에서 먼저 테스트하면, 배포 후 발생하는 대부분의 오류를 사전에 잡을 수 있습니다.
 {% endhint %}

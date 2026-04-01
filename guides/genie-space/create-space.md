@@ -10,23 +10,23 @@ Genie Space는 비즈니스 사용자가 자연어로 데이터에 질문할 수
 
 ## Step 1: Genie Space 만들기
 
-1. Databricks 워크스페이스 좌측 사이드바에서 **Genie**를 클릭합니다.
-2. 우측 상단의 **New**버튼을 클릭합니다.
+1. Databricks 워크스페이스 좌측 사이드바에서 **Genie** 를 클릭합니다.
+2. 우측 상단의 **New** 버튼을 클릭합니다.
    - _화면 설명: "Create a new Genie Space" 다이얼로그가 나타나며, 데이터 소스 선택 화면이 표시됩니다._
 3. Unity Catalog에서 데이터 소스(테이블/뷰)를 선택합니다.
    - Catalog > Schema > Table 순서로 탐색합니다.
    - 여러 테이블을 동시에 선택할 수 있습니다.
-4. **Create**버튼을 클릭합니다.
+4. **Create** 버튼을 클릭합니다.
 
 {% hint style="tip" %}
-처음 생성할 때는 핵심 테이블 2-3개만 선택하세요. 나중에 **Configure > Data**메뉴에서 언제든 테이블을 추가/제거할 수 있습니다.
+처음 생성할 때는 핵심 테이블 2-3개만 선택하세요. 나중에 **Configure > Data** 메뉴에서 언제든 테이블을 추가/제거할 수 있습니다.
 {% endhint %}
 
 ---
 
 ## Step 2: Warehouse 선택
 
-**Configure > Settings**메뉴에서 **Default Warehouse**를 선택합니다. Warehouse는 Genie가 생성한 SQL을 실행하는 컴퓨팅 리소스입니다.
+**Configure > Settings** 메뉴에서 **Default Warehouse** 를 선택합니다. Warehouse는 Genie가 생성한 SQL을 실행하는 컴퓨팅 리소스입니다.
 
 | Warehouse 유형 | 특징 | 권장 사용 시나리오 |
 |----------------|------|-------------------|
@@ -35,14 +35,14 @@ Genie Space는 비즈니스 사용자가 자연어로 데이터에 질문할 수
 | **Classic**| 레거시 지원 | 신규 Space에는 비권장 |
 
 {% hint style="warning" %}
-Genie Space는 **SQL Warehouse**만 지원합니다. All-Purpose Cluster는 사용할 수 없습니다. Serverless SQL Warehouse를 사용하면 콜드 스타트 없이 즉시 쿼리가 실행되므로 사용자 경험이 가장 좋습니다.
+Genie Space는 **SQL Warehouse** 만 지원합니다. All-Purpose Cluster는 사용할 수 없습니다. Serverless SQL Warehouse를 사용하면 콜드 스타트 없이 즉시 쿼리가 실행되므로 사용자 경험이 가장 좋습니다.
 {% endhint %}
 
 ---
 
 ## Step 3: 기본 설정 구성
 
-**Configure > Settings**메뉴에서 다음 항목들을 설정합니다.
+**Configure > Settings** 메뉴에서 다음 항목들을 설정합니다.
 
 ### 전체 설정 항목
 
@@ -67,23 +67,23 @@ Title은 사용자가 Space 목록에서 가장 먼저 보는 정보입니다.
 
 ### Description 작성 가이드
 
-Description은 단순 설명이 아니라 **Genie가 응답을 생성할 때 참조하는 중요한 메타데이터**입니다.
+Description은 단순 설명이 아니라 **Genie가 응답을 생성할 때 참조하는 중요한 메타데이터** 입니다.
 
 {% hint style="info" %}
 Description에 포함할 내용:
-- Space가 다루는 데이터의 **범위와 기간**(예: "2023년 이후 APAC 지역 매출 데이터")
-- **주요 비즈니스 용어**정의 (예: "ARR = 연간 반복 매출")
-- **데이터 갱신 주기**(예: "매일 오전 9시 갱신")
-- **제한 사항**(예: "개인정보는 포함하지 않음")
+- Space가 다루는 데이터의 ** 범위와 기간**(예: "2023년 이후 APAC 지역 매출 데이터")
+- ** 주요 비즈니스 용어** 정의 (예: "ARR = 연간 반복 매출")
+- ** 데이터 갱신 주기**(예: "매일 오전 9시 갱신")
+- ** 제한 사항**(예: "개인정보는 포함하지 않음")
 {% endhint %}
 
 ---
 
 ## Step 4: Sample Questions 설정
 
-Sample Questions는 사용자가 채팅창을 처음 열었을 때 표시되는 예시 질문입니다. 이 질문들은 단순한 UI 요소가 아니라 **두 가지 중요한 역할**을 합니다:
+Sample Questions는 사용자가 채팅창을 처음 열었을 때 표시되는 예시 질문입니다. 이 질문들은 단순한 UI 요소가 아니라 ** 두 가지 중요한 역할** 을 합니다:
 
-1. **사용자 가이드**: 이 Space에서 어떤 질문을 할 수 있는지 알려줍니다.
+1. ** 사용자 가이드**: 이 Space에서 어떤 질문을 할 수 있는지 알려줍니다.
 2. **Genie 컨텍스트**: Genie가 이 Space의 의도와 범위를 이해하는 데 참고합니다.
 
 ### 좋은 Sample Question vs 나쁜 Sample Question
@@ -103,15 +103,15 @@ Sample Questions를 3-5개 등록하되, 다양한 분석 유형(추이 분석, 
 
 ## Step 5: 데이터 객체 추가
 
-1. **Configure > Data**메뉴로 이동합니다.
-2. **Add**버튼으로 테이블/뷰를 추가합니다.
+1. **Configure > Data** 메뉴로 이동합니다.
+2. **Add** 버튼으로 테이블/뷰를 추가합니다.
    - _화면 설명: Unity Catalog 브라우저가 나타나며, Catalog > Schema > Table을 탐색할 수 있습니다._
 3. Overview 탭에서 컬럼 이름, 데이터 타입, 설명을 확인합니다.
 4. Sample data 탭에서 실제 데이터를 미리 확인합니다.
 5. 불필요한 테이블은 휴지통 아이콘으로 제거합니다.
 
 {% hint style="warning" %}
-테이블은 **5개 이하**로 시작하는 것을 권장합니다. 최대 30개까지 추가할 수 있지만, 테이블이 많을수록 Genie가 잘못된 테이블을 선택할 확률이 높아집니다. 관련성이 높은 핵심 테이블부터 시작하고, 벤치마크 테스트를 거친 후 점진적으로 확장하세요.
+테이블은 **5개 이하** 로 시작하는 것을 권장합니다. 최대 30개까지 추가할 수 있지만, 테이블이 많을수록 Genie가 잘못된 테이블을 선택할 확률이 높아집니다. 관련성이 높은 핵심 테이블부터 시작하고, 벤치마크 테스트를 거친 후 점진적으로 확장하세요.
 {% endhint %}
 
 ---

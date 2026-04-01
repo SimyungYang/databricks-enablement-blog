@@ -44,12 +44,12 @@ Marketplace 구독부터 PrivateLink까지, AWS Console 기반으로 Databricks 
 | 항목 | Control Plane (Databricks 관리) | Compute Plane (고객 AWS 계정) |
 |------|------|------|
 | **위치**| Databricks AWS 계정 | 고객 AWS 계정 VPC |
-| **구성요소**| Web UI, REST API, Cluster Manager | EC2 인스턴스 (클러스터 노드) |
-| **데이터**| Notebook, Unity Catalog 메타데이터 | DBFS Root Storage (S3), 고객 데이터 |
-| **역할**| 오케스트레이션, IAM | 실제 연산 수행, 데이터 접근 |
+| ** 구성요소**| Web UI, REST API, Cluster Manager | EC2 인스턴스 (클러스터 노드) |
+| ** 데이터**| Notebook, Unity Catalog 메타데이터 | DBFS Root Storage (S3), 고객 데이터 |
+| ** 역할**| 오케스트레이션, IAM | 실제 연산 수행, 데이터 접근 |
 
 {% hint style="info" %}
-**핵심**: 고객 데이터는 **고객 AWS 계정**에 머무름 — Control Plane은 메타데이터와 오케스트레이션만 담당
+** 핵심**: 고객 데이터는 ** 고객 AWS 계정** 에 머무름 — Control Plane은 메타데이터와 오케스트레이션만 담당
 {% endhint %}
 
 *참고: [Databricks Concepts](https://docs.databricks.com/aws/en/getting-started/concepts)*
@@ -58,14 +58,14 @@ Marketplace 구독부터 PrivateLink까지, AWS Console 기반으로 Databricks 
 
 | 항목 | Classic Workspace | Serverless Workspace |
 |------|------------------|---------------------|
-| **Compute 위치**| **고객 VPC**내 EC2 | **Databricks 관리**VPC |
-| **고객 구성**| IAM Role, S3, VPC, SG 직접 구성 | 구성 불필요 |
-| **네트워크 제어**| 완전 제어 가능 | NCC로 관리 |
+| **Compute 위치**| ** 고객 VPC** 내 EC2 | **Databricks 관리**VPC |
+| ** 고객 구성**| IAM Role, S3, VPC, SG 직접 구성 | 구성 불필요 |
+| ** 네트워크 제어**| 완전 제어 가능 | NCC로 관리 |
 | **PrivateLink**| 구성 가능 (Backend + Frontend) | NCC 기반 별도 구성 |
-| **적합 시나리오**| 프로덕션, 보안 요건 | PoC, 빠른 시작 |
+| ** 적합 시나리오**| 프로덕션, 보안 요건 | PoC, 빠른 시작 |
 
 {% hint style="info" %}
-**이 가이드는 Classic Workspace 구성**을 다룹니다 — 고객이 AWS 리소스를 직접 구성하는 방식
+** 이 가이드는 Classic Workspace 구성** 을 다룹니다 — 고객이 AWS 리소스를 직접 구성하는 방식
 {% endhint %}
 
 ### Serverless Workspace 아키텍처

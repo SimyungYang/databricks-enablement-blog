@@ -6,10 +6,10 @@ Databricks가 고객 AWS 계정에 EC2를 프로비저닝하기 위한 역할입
 
 ### AWS Console 작업 순서
 
-1. **IAM → Roles → Create role**에서 Cross-Account Role 생성
+1. **IAM → Roles → Create role** 에서 Cross-Account Role 생성
 2. Trust Policy 설정 (Databricks AWS 계정 신뢰)
 3. Permission Policy 부여 (EC2/VPC 관련 권한)
-4. **Account Console**→ **Cloud resources**→ **Credential configuration**→ **Add**에서 Role ARN 등록
+4. **Account Console**→ **Cloud resources**→ **Credential configuration**→ **Add** 에서 Role ARN 등록
 
 *참고: [Create a cross-account IAM role](https://docs.databricks.com/aws/en/admin/account-settings-e2/credentials)*
 
@@ -20,7 +20,7 @@ Databricks가 고객 AWS 계정에 EC2를 프로비저닝하기 위한 역할입
 | Policy Type | 설명 | 사용 시점 |
 |---|---|---|
 | `managed` | Databricks가 VPC 생성/관리 | PoC, 빠른 시작 |
-| `customer` | **고객이 VPC 생성**, Databricks는 EC2만 관리 | **프로덕션 권장**|
+| `customer` | **고객이 VPC 생성**, Databricks는 EC2만 관리 | ** 프로덕션 권장**|
 | `restricted` | customer + ARN 조건 제한 (VPC ID, SG ID 등) | 엄격 보안 요건 |
 
 *참고: [Terraform: databricks_aws_crossaccount_policy](https://registry.terraform.io/providers/databricks/databricks/latest/docs/data-sources/aws_crossaccount_policy)*
@@ -106,18 +106,18 @@ Databricks Account Console에서 등록합니다.
 
 ### 절차
 
-1. **accounts.cloud.databricks.com**로그인
-2. 좌측 메뉴: **Cloud resources**→ **Credential configuration**탭
-3. **Add credential configuration**클릭
+1. **accounts.cloud.databricks.com** 로그인
+2. 좌측 메뉴: **Cloud resources**→ **Credential configuration** 탭
+3. **Add credential configuration** 클릭
 4. 입력:
    - **Credential configuration name**: 식별 이름 (예: `prod-crossaccount-cred`)
    - **Role ARN**: 위에서 생성한 IAM Role ARN (예: `arn:aws:iam::123456789012:role/databricks-crossaccount`)
-5. **Add**클릭
+5. **Add** 클릭
 
 ### 결과
 
-- **Credential ID**생성됨 → Workspace 생성 시 사용
+- **Credential ID** 생성됨 → Workspace 생성 시 사용
 
 {% hint style="warning" %}
-IAM Role 생성 직후 등록 시 **eventual consistency**문제로 실패할 수 있음 — 10~30초 대기 후 재시도
+IAM Role 생성 직후 등록 시 **eventual consistency** 문제로 실패할 수 있음 — 10~30초 대기 후 재시도
 {% endhint %}

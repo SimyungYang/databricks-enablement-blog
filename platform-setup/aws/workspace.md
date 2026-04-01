@@ -17,7 +17,7 @@ accounts.cloud.databricks.com → Workspaces → Create workspace
 | **Pricing tier**| **Enterprise**(PrivateLink 사용 시 필수) |
 | **CMK**(선택) | Managed services CMK / Storage CMK |
 
-**Create workspace**클릭 → 프로비저닝 시작
+**Create workspace** 클릭 → 프로비저닝 시작
 
 *참고: [Create a workspace](https://docs.databricks.com/aws/en/admin/account-settings-e2/workspaces) · [Terraform: databricks_mws_workspaces](https://registry.terraform.io/providers/databricks/databricks/latest/docs/resources/mws_workspaces)*
 
@@ -39,10 +39,10 @@ accounts.cloud.databricks.com → Workspaces → Create workspace
 |------|------|
 | Workspace 프로비저닝 | ~5-7분 |
 | PrivateLink DNS 전파 | +10-20분 |
-| **클러스터 생성 가능**| 프로비저닝 후 **최소 20분 대기**|
+| ** 클러스터 생성 가능**| 프로비저닝 후 ** 최소 20분 대기**|
 
 {% hint style="warning" %}
-PrivateLink 워크스페이스는 프로비저닝 완료 후 **20분 대기**필요 — DNS 전파 시간. 로컬 DNS 캐시 플러시: `sudo killall -HUP mDNSResponder` (macOS) 또는 `ipconfig /flushdns` (Windows)
+PrivateLink 워크스페이스는 프로비저닝 완료 후 **20분 대기** 필요 — DNS 전파 시간. 로컬 DNS 캐시 플러시: `sudo killall -HUP mDNSResponder` (macOS) 또는 `ipconfig /flushdns` (Windows)
 {% endhint %}
 
 ## 구성 완료 체크리스트
@@ -66,7 +66,7 @@ PrivateLink 워크스페이스는 프로비저닝 완료 후 **20분 대기**필
 
 ### IAM Role 등록 실패
 
-- IAM Role 생성 직후 Databricks 등록 시 **eventual consistency**문제
+- IAM Role 생성 직후 Databricks 등록 시 **eventual consistency** 문제
 - **10~30초 대기 후 재시도**(Terraform 사용 시 `time_sleep` 리소스)
 
 ### Network 수정 시 3단계 프로세스

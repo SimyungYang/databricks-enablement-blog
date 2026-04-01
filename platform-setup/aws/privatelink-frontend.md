@@ -6,11 +6,11 @@
 
 | 구성 | 사용자 접근 경로 |
 |------|---------------|
-| **Backend만**| 사용자 → **인터넷**→ Workspace → PrivateLink → Compute |
+| **Backend만**| 사용자 → ** 인터넷**→ Workspace → PrivateLink → Compute |
 | **Backend + Frontend**| 사용자 → **VPN/DX**→ Transit VPC → **PrivateLink**→ Workspace → PrivateLink → Compute |
 
 {% hint style="info" %}
-**적용 시점**: VPN/DirectConnect로 AWS에 접근하는 고객, 퍼블릭 인터넷 접근 정책상 불가한 환경. End-to-End 프라이빗 연결 — 인터넷 경유 Zero
+** 적용 시점**: VPN/DirectConnect로 AWS에 접근하는 고객, 퍼블릭 인터넷 접근 정책상 불가한 환경. End-to-End 프라이빗 연결 — 인터넷 경유 Zero
 {% endhint %}
 
 *참고: [Inbound PrivateLink](https://docs.databricks.com/aws/en/security/network/front-end/front-end-private-connect) · [PrivateLink DNS](https://docs.databricks.com/aws/en/security/network/classic/privatelink-dns)*
@@ -23,7 +23,7 @@
 | **VPC Endpoint**| 2개 (REST + Relay) | **1개**(REST API만) |
 | **SG 포트**| 443, 2443, 6666 | **443만**|
 | **DNS**| private DNS enabled | **Route 53 Private Hosted Zone**|
-| **추가**| 없음 | **Route 53 Inbound Resolver**(On-prem) |
+| ** 추가**| 없음 | **Route 53 Inbound Resolver**(On-prem) |
 
 ### Single VPC vs Dual VPC
 
@@ -69,11 +69,11 @@ Account Console에서 등록합니다.
    - **VPC endpoint name**: `prod-frontend-rest-vpce`
    - **VPC endpoint ID**: Transit VPC의 `vpce-xxxxxxxx`
    - **Region**: `ap-northeast-2`
-3. **Register**클릭
+3. **Register** 클릭
 
 ### Private Access Settings — Allowed Endpoints 추가
 
-- Frontend Endpoint도 **Allowed VPC endpoint IDs**에 추가 필요
+- Frontend Endpoint도 **Allowed VPC endpoint IDs** 에 추가 필요
 - Public access = Disabled 전환 시 Backend + Frontend 모두 등록
 
 ## Step 3: Route 53 DNS 구성
@@ -116,7 +116,7 @@ On-Premises에서 Private Hosted Zone 해석 (VPN/DX 사용 시):
 검증: `nslookup <ws>.cloud.databricks.com` → `10.x.x.x` 반환 시 정상
 
 {% hint style="warning" %}
-**SSO/Unified Login**시 CNAME 추가: `accounts-pl-auth.privatelink.cloud.databricks.com`
+**SSO/Unified Login** 시 CNAME 추가: `accounts-pl-auth.privatelink.cloud.databricks.com`
 {% endhint %}
 
 ## Frontend PrivateLink — 구성 체크리스트

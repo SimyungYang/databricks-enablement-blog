@@ -2,41 +2,41 @@
 
 ## Genie Code란?
 
-Genie Code는 Databricks 노트북/콘솔에 **내장된 AI 에이전트**입니다.
+Genie Code는 Databricks 노트북/콘솔에 **내장된 AI 에이전트** 입니다.
 별도의 도구 설치 없이 Databricks 환경에서 바로 자연어로 코드를 생성하고 실행할 수 있습니다.
 
 ### Genie Code vs AI Dev Kit (Claude Code)
 
 | |**Genie Code**|**AI Dev Kit (Claude Code)**|
 |---|---|---|
-|**설치**| 불필요 (Databricks 내장) | Claude Code + AI Dev Kit 설치 필요 |
-|**사용 환경**| Databricks 노트북/콘솔 | 로컬 터미널/IDE |
-|**장점**| 즉시 시작, Databricks 최적화 | 높은 커스터마이징, 다양한 도구 |
-|**적합한 상황**| 노트북 내 빠른 작업 | 복잡한 프로젝트, 멀티파일 |
+|** 설치**| 불필요 (Databricks 내장) | Claude Code + AI Dev Kit 설치 필요 |
+|** 사용 환경**| Databricks 노트북/콘솔 | 로컬 터미널/IDE |
+|** 장점**| 즉시 시작, Databricks 최적화 | 높은 커스터마이징, 다양한 도구 |
+|** 적합한 상황**| 노트북 내 빠른 작업 | 복잡한 프로젝트, 멀티파일 |
 
 ### Genie Code 활성화
 
 1. Databricks 워크스페이스 접속
 2. 노트북 열기
-3. 셀 오른쪽 상단의 **Genie Code**아이콘 클릭 (또는 `Cmd+I` / `Ctrl+I`)
+3. 셀 오른쪽 상단의 **Genie Code** 아이콘 클릭 (또는 `Cmd+I` / `Ctrl+I`)
 4. 자연어로 요청 입력
 
 ---
 
 ## Genie Code로 전체 파이프라인 한번에 생성
 
-Genie Code의 "**Create pipeline with AI**" 기능을 사용하면, 자연어 프롬프트 하나로 Bronze→Silver→Gold SDP 파이프라인 전체를 한번에 생성할 수 있습니다. 이 기능은 **Track C (Genie Code)에서만 사용 가능**하며, Track A/B에서는 지원되지 않는 "one-shot pipeline" 기능입니다.
+Genie Code의 "**Create pipeline with AI**" 기능을 사용하면, 자연어 프롬프트 하나로 Bronze→Silver→Gold SDP 파이프라인 전체를 한번에 생성할 수 있습니다. 이 기능은 **Track C (Genie Code)에서만 사용 가능** 하며, Track A/B에서는 지원되지 않는 "one-shot pipeline" 기능입니다.
 
->**참고:**이 기능은 [databricks/tmm Genie-Code-Lakeflow](https://github.com/databricks/tmm/tree/master/Genie-Code-Lakeflow) 데모에서 영감을 받았습니다.
+>** 참고:** 이 기능은 [databricks/tmm Genie-Code-Lakeflow](https://github.com/databricks/tmm/tree/master/Genie-Code-Lakeflow) 데모에서 영감을 받았습니다.
 
 ### 단계별 플로우
 
 1.**New > ETL Pipeline**— Databricks 워크스페이스에서 새 ETL 파이프라인 생성을 시작합니다.
 2."**Create pipeline with AI**" 클릭 — AI 기반 파이프라인 생성 모드로 진입합니다.
-3.**자연어 프롬프트 입력**— 원하는 파이프라인 구조를 자연어로 설명합니다.
-4.**아키텍처 리뷰**— Genie Code가 제안하는 파이프라인 아키텍처(테이블 구조, 의존성 그래프)를 확인합니다.
+3.** 자연어 프롬프트 입력**— 원하는 파이프라인 구조를 자연어로 설명합니다.
+4.** 아키텍처 리뷰**— Genie Code가 제안하는 파이프라인 아키텍처(테이블 구조, 의존성 그래프)를 확인합니다.
 5.**"ok" 입력**— 아키텍처가 만족스러우면 승인합니다.
-6.**생성된 코드 리뷰**— 각 테이블별 변환 로직, 데이터 품질 규칙 등을 검토합니다.
+6.** 생성된 코드 리뷰**— 각 테이블별 변환 로직, 데이터 품질 규칙 등을 검토합니다.
 7.**Accept All**— 모든 코드를 수락하여 파이프라인에 반영합니다.
 8.**Run**— 파이프라인을 실행하여 전체 데이터 처리를 수행합니다.
 
@@ -54,10 +54,10 @@ Silver에서는 NULL 제거와 타입 변환, Gold에서는 일별 집계와 사
 
 ## 사용 방법
 
-각 모듈별로 아래 프롬프트를 **Genie Code 입력창**에 붙여넣기하세요.
+각 모듈별로 아래 프롬프트를 **Genie Code 입력창** 에 붙여넣기하세요.
 Genie Code가 코드를 자동 생성하고, "Apply" 버튼을 누르면 셀에 삽입됩니다.
 
->**Tip:**생성된 코드를 검토한 후 실행하세요. 수정이 필요하면 다시 Genie Code에 요청하면 됩니다.
+>**Tip:** 생성된 코드를 검토한 후 실행하세요. 수정이 필요하면 다시 Genie Code에 요청하면 됩니다.
 
 ---
 
@@ -387,11 +387,11 @@ Lakebase에서 빠른 조회, Delta Lake에서 분석 데이터 조회
 
 ### 좋은 프롬프트 패턴
 
-1.**목적 먼저**: "~하는 코드를 작성해줘"
-2.**테이블 명시**: 카탈로그.스키마.테이블 전체 경로
-3.**컬럼 구체적**: 이름, 타입, 생성 규칙
-4.**변환 로직 명시**: WHERE 조건, 파생 컬럼 공식
-5.**검증 요청**: "생성 후 통계도 보여줘"
+1.** 목적 먼저**: "~하는 코드를 작성해줘"
+2.** 테이블 명시**: 카탈로그.스키마.테이블 전체 경로
+3.** 컬럼 구체적**: 이름, 타입, 생성 규칙
+4.** 변환 로직 명시**: WHERE 조건, 파생 컬럼 공식
+5.** 검증 요청**: "생성 후 통계도 보여줘"
 
 ### Genie Code가 잘하는 것
 
