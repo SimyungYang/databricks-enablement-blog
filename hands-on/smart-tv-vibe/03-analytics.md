@@ -5,7 +5,7 @@
 >**이 교육 자료는 Claude Code (또는 Cursor)와 함께 사용합니다.**>
 > 1. 터미널에서 프로젝트 디렉토리로 이동: `cd ~/smarttv-training`
 > 2. Claude Code 실행: `claude`
-> 3. 각 Step의 **"Claude에게 요청하기"** 박스 내용을 복사하여 Claude에게 붙여넣기
+> 3. 각 Step의 "**Claude에게 요청하기**" 박스 내용을 복사하여 Claude에게 붙여넣기
 > 4. Claude가 코드를 생성하고 Databricks에서 실행합니다
 >
 >**이 모듈의 핵심:**"이런 것도 표현할 수 있다"를 **보여주는 것** 이 목표!

@@ -44,7 +44,7 @@ Classic Compute(고객 VPC)와 달리, Serverless Compute는 Databricks 관리 V
 
 Account Console → **Security** → **Networking** → **Network connectivity configurations**
 
-1. **"Create"** 버튼 클릭
+1. "**Create**" 버튼 클릭
 2. 다음 정보 입력:
 
 | 필드 | 값 | 설명 |
@@ -52,7 +52,7 @@ Account Console → **Security** → **Networking** → **Network connectivity c
 | **Name** | `apne2-serverless-ncc` | 식별 이름 (리전 + 용도 조합 권장) |
 | **Region** | `ap-northeast-2` | Workspace가 위치한 리전과 동일해야 함 |
 
-3. **"Create"** 클릭 → NCC ID 생성됨
+3. "**Create**" 클릭 → NCC ID 생성됨
 
 {% hint style="warning" %}
 **NCC의 리전은 변경할 수 없습니다.** 생성 후 리전을 바꿀 수 없으므로, Workspace 리전과 동일한 리전으로 생성하세요.
@@ -62,8 +62,8 @@ Account Console → **Security** → **Networking** → **Network connectivity c
 
 Serverless Compute에서 특정 S3 버킷에 프라이빗 네트워크 경로로 접근하도록 설정합니다.
 
-1. 생성된 NCC 클릭 → **"Private endpoint rules"** 탭 이동
-2. **"Add private endpoint rule"** 클릭
+1. 생성된 NCC 클릭 → "**Private endpoint rules**" 탭 이동
+2. "**Add private endpoint rule**" 클릭
 3. 다음 정보 입력:
 
 | 필드 | 값 | 설명 |
@@ -71,7 +71,7 @@ Serverless Compute에서 특정 S3 버킷에 프라이빗 네트워크 경로로
 | **Type** | `S3` | S3 버킷 접근용 |
 | **S3 bucket name** | `my-data-bucket` | 대상 S3 버킷 이름 (와일드카드 불가) |
 
-4. **"Add"** 클릭
+4. "**Add**" 클릭
 
 {% hint style="info" %}
 **Unity Catalog 관리 스토리지 버킷**은 NCC 없이도 자동으로 프라이빗 연결됩니다. NCC에 추가해야 하는 것은 **External Location**이나 직접 접근하는 S3 버킷입니다.
@@ -101,7 +101,7 @@ Serverless Compute에서 특정 S3 버킷에 프라이빗 네트워크 경로로
 
 #### NCC에 엔드포인트 규칙 추가
 
-1. NCC → **"Private endpoint rules"** 탭 → **"Add private endpoint rule"** 클릭
+1. NCC → "**Private endpoint rules**" 탭 → "**Add private endpoint rule**" 클릭
 2. 다음 정보 입력:
 
 | 필드 | 값 | 설명 |
@@ -109,8 +109,8 @@ Serverless Compute에서 특정 S3 버킷에 프라이빗 네트워크 경로로
 | **Type** | `VPC endpoint` | VPC 리소스 접근용 |
 | **Resource ID** | VPC Endpoint Service의 서비스 이름 | `com.amazonaws.vpce.ap-northeast-2.vpce-svc-xxxx` 형태 |
 
-3. **"Add"** 클릭
-4. 상태가 **"Pending"** → **"Established"**로 변경될 때까지 대기 (수 분 소요)
+3. "**Add**" 클릭
+4. 상태가 "**Pending**" → "**Established**"로 변경될 때까지 대기 (수 분 소요)
 
 {% hint style="warning" %}
 Endpoint Service에서 **Acceptance required: Yes**로 설정한 경우, AWS Console → VPC → Endpoint Services → Endpoint connections에서 Databricks의 연결 요청을 **수동 승인**해야 합니다.
@@ -119,9 +119,9 @@ Endpoint Service에서 **Acceptance required: Yes**로 설정한 경우, AWS Con
 ### Step 4: Workspace에 NCC 연결
 
 1. Account Console → **Workspaces** → 대상 Workspace 클릭
-2. **"Update"** 버튼 클릭
-3. **"Network connectivity configuration"** 드롭다운에서 Step 1에서 생성한 NCC 선택
-4. **"Confirm update"** 클릭
+2. "**Update**" 버튼 클릭
+3. "**Network connectivity configuration**" 드롭다운에서 Step 1에서 생성한 NCC 선택
+4. "**Confirm update**" 클릭
 5. 프로비저닝 완료 대기 (수 분 소요)
 
 {% hint style="warning" %}
@@ -149,7 +149,7 @@ NCC 구성 후 연결이 정상 작동하는지 확인합니다.
 
 {% hint style="info" %}
 연결 실패 시 확인 사항:
-- NCC의 엔드포인트 규칙 상태가 **"Established"**인지 확인
+- NCC의 엔드포인트 규칙 상태가 "**Established**"인지 확인
 - S3 버킷 이름이 정확한지 확인 (오타 주의)
 - VPC Endpoint Service의 **Allowed principals**에 Databricks Account ID가 포함되어 있는지 확인
 - 대상 리소스의 Security Group이 NLB로부터의 트래픽을 허용하는지 확인

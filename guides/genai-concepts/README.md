@@ -30,15 +30,15 @@ Databricks의 GenAI 기능(Mosaic AI, Agent Framework, AI Playground 등)을 제
 
 | 가이드 | 설명 | 난이도 |
 |--------|------|--------|
-| [NLP에서 LLM까지: 발전사](nlp-evolution.md) | 규칙 기반 → 통계 → Word2Vec → RNN/LSTM → Seq2Seq → Attention → Transformer | 입문~중급 |
-| [LLM 기초](llm-basics.md) | Transformer, 토큰, 컨텍스트 윈도우, Hallucination, 주요 모델 비교 | 입문 |
-| [AI Agent 아키텍처](agent-architecture.md) | ReAct, Tool Use (JSON 수준), 멀티에이전트 패턴, 프레임워크 비교 | 중급 |
-| [Prompt Engineering](prompt-engineering.md) | Zero-shot/Few-shot/CoT 비교, System Prompt 5패턴, Prompt Injection 방어 | 입문~중급 |
-| [GenAI 평가 방법론](evaluation.md) | Faithfulness/Relevance 구체 예시, LLM-as-Judge vs Human, MLflow Evaluate | 중급 |
-| [A2A (Agent-to-Agent)](a2a.md) | A2A 등장 배경, Agent Card JSON, Task 라이프사이클, MCP 결합 아키텍처 | 중급~고급 |
-| [Agent 프레임워크 생태계](agent-frameworks.md) | LangChain/LangGraph/CrewAI/OpenAI SDK/AutoGen/Databricks AF 비교, 코드 예시, 선택 가이드 | 중급~고급 |
-| [Agent UI & 배포 기술 스택](agent-ui-stack.md) | Streamlit/Gradio/Chainlit/Dash/FastAPI 비교, Databricks Apps 배포, 단계별 기술 선택 | 중급 |
-| [AI Proficiency 성숙도](ai-proficiency.md) | 4단계 성숙도 모델, 레벨 전환 요건, 자가 진단 체크리스트 | 전략 |
+| [NLP에서 LLM까지: 발전사](nlp-evolution/README.md) | 규칙 기반 → 통계 → Word2Vec → RNN/LSTM → Seq2Seq → Attention → Transformer | 입문~중급 |
+| [LLM 기초](llm-basics/README.md) | Transformer, 토큰, 컨텍스트 윈도우, Hallucination, 주요 모델 비교 | 입문 |
+| [AI Agent 아키텍처](agent-architecture/README.md) | ReAct, Tool Use (JSON 수준), 멀티에이전트 패턴, 프레임워크 비교 | 중급 |
+| [Prompt Engineering](prompt-engineering/README.md) | Zero-shot/Few-shot/CoT 비교, System Prompt 5패턴, Prompt Injection 방어 | 입문~중급 |
+| [GenAI 평가 방법론](evaluation/README.md) | Faithfulness/Relevance 구체 예시, LLM-as-Judge vs Human, MLflow Evaluate | 중급 |
+| [A2A (Agent-to-Agent)](a2a-protocol/README.md) | A2A 등장 배경, Agent Card JSON, Task 라이프사이클, MCP 결합 아키텍처 | 중급~고급 |
+| [Agent 프레임워크 생태계](agent-frameworks-detail/README.md) | LangChain/LangGraph/CrewAI/OpenAI SDK/AutoGen/Databricks AF 비교, 코드 예시, 선택 가이드 | 중급~고급 |
+| [Agent UI & 배포 기술 스택](agent-ui-detail/README.md) | Streamlit/Gradio/Chainlit/Dash/FastAPI 비교, Databricks Apps 배포, 단계별 기술 선택 | 중급 |
+| [AI Proficiency 성숙도](ai-proficiency/README.md) | 4단계 성숙도 모델, 레벨 전환 요건, 자가 진단 체크리스트 | 전략 |
 
 ---
 
@@ -69,7 +69,7 @@ Databricks의 GenAI 기능(Mosaic AI, Agent Framework, AI Playground 등)을 제
 ## GenAI 기술 발전 타임라인
 
 {% hint style="info" %}
-Transformer 이전의 NLP 발전사(규칙 기반 → 통계 → Word2Vec → RNN/LSTM → Seq2Seq → Attention)는 [NLP에서 LLM까지: 발전사](nlp-evolution.md)에서 상세히 다룹니다.
+Transformer 이전의 NLP 발전사(규칙 기반 → 통계 → Word2Vec → RNN/LSTM → Seq2Seq → Attention)는 [NLP에서 LLM까지: 발전사](nlp-evolution/README.md)에서 상세히 다룹니다.
 {% endhint %}
 
 | 시기 | 주요 이벤트 | 핵심 키워드 | 영향 |
@@ -152,7 +152,7 @@ Transformer 이전의 NLP 발전사(규칙 기반 → 통계 → Word2Vec → RN
 
 ## 다음 단계
 
-1. GenAI가 처음이라면 → [NLP 발전사](nlp-evolution.md)부터 시작 → [LLM 기초](llm-basics.md)
-2. Agent 개발에 관심이 있다면 → [AI Agent 아키텍처](agent-architecture.md)
+1. GenAI가 처음이라면 → [NLP 발전사](nlp-evolution/README.md)부터 시작 → [LLM 기초](llm-basics/README.md)
+2. Agent 개발에 관심이 있다면 → [AI Agent 아키텍처](agent-architecture/README.md)
 3. 조직 전략을 수립 중이라면 → [AI Proficiency 성숙도](ai-proficiency.md)
 4. 실습을 원한다면 → [RAG 가이드](../rag/README.md) 또는 [Agent Bricks](../agent-bricks/README.md)

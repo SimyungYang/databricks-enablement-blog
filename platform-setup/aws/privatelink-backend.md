@@ -34,7 +34,7 @@ com.amazonaws.vpce.ap-northeast-2.vpce-svc-0dc0e98a5800db5c4
 ```
 
 {% hint style="info" %}
-AWS Console → VPC → Endpoints → **"Find service by name"** 에 위 값을 붙여넣기 → **Verify service** 클릭
+AWS Console → VPC → Endpoints → "**Find service by name**" 에 위 값을 붙여넣기 → **Verify service** 클릭
 {% endhint %}
 
 *출처: [Databricks regional endpoint service names](https://docs.databricks.com/aws/en/resources/ip-domain-region) · [Terraform: databricks_mws_vpc_endpoint](https://registry.terraform.io/providers/databricks/databricks/latest/docs/resources/mws_vpc_endpoint)*
@@ -128,7 +128,7 @@ AWS Console → VPC → Endpoints → Create endpoint (x2)
 | 나머지 | Workspace Endpoint와 동일 설정 |
 
 {% hint style="info" %}
-"Verify service" 클릭 시 **"Service name verified"** 확인 후 진행. `private_dns_enabled = true` 필수
+"Verify service" 클릭 시 "**Service name verified**" 확인 후 진행. `private_dns_enabled = true` 필수
 {% endhint %}
 
 ## Step 4: Databricks에 VPC Endpoint 등록
