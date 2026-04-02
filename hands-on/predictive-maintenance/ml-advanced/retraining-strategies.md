@@ -1,4 +1,4 @@
-# 03d. 재학습 전략 (Retraining Strategies)
+# 재학습 전략 (Retraining Strategies)
 
 > **전체 노트북 코드**: [03d\_retraining\_strategies.py](https://github.com/SimyungYang/databricks-enablement-blog/blob/main/hands-on/predictive-maintenance/notebooks/03d_retraining_strategies.py)
 
@@ -522,4 +522,4 @@ if drift_detected:
 
 ---
 
-**다음 단계**: [04. 모델 등록](04-model-registration.md)
+**다음 단계**: [ML 트렌드 & 최신 기법](ml-trends.md) | [04. 모델 등록](../04-model-registration.md)

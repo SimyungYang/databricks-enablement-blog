@@ -1,4 +1,4 @@
-# 03a. ML 트렌드 & 최신 기법
+# ML 트렌드 & 최신 기법
 
 > **전체 노트북 코드**: [03a\_ml\_trends\_and\_techniques.py](https://github.com/SimyungYang/databricks-enablement-blog/blob/main/hands-on/predictive-maintenance/notebooks/03a_ml_trends_and_techniques.py)
 
@@ -449,4 +449,4 @@ AI Agent가 MLOps 운영을 자동화하는 시대가 열리고 있습니다:
 
 ---
 
-**다음 단계**: [03. 모델 학습](03-model-training.md) | [04. 모델 등록](04-model-registration.md)
+**다음 단계**: [재학습 전략](retraining-strategies.md) | [03. 모델 학습](../03-model-training.md)

@@ -3,6 +3,10 @@
 # MAGIC # LG Innotek MLOps PoC: 엔드투엔드(End-to-End) 예지보전 & 이상탐지
 # MAGIC
 # MAGIC ---
+
+# COMMAND ----------
+
+# MAGIC %md
 # MAGIC
 # MAGIC ## MLOps란 무엇이고, 왜 제조업에 중요한가?
 # MAGIC
@@ -14,22 +18,25 @@
 # MAGIC |---------------|---------------|------|
 # MAGIC | **제품 설계** | 모델 개발 (Training) | 센서 데이터를 분석하여 고장 예측 모델을 만드는 과정 |
 # MAGIC | **양산 이관** | 모델 배포 (Deployment) | 개발된 모델을 실제 운영 환경에 적용하는 과정 |
-# MAGIC | **품질 검사 (SPC)** | 모델 모니터링 (Monitoring) | 모델이 정확하게 예측하고 있는지 지속적으로 확인하는 과정 |
+# MAGIC | **품질 검사 (SPC, Statistical Process Control)** | 모델 모니터링 (Monitoring) | 모델이 정확하게 예측하고 있는지 지속적으로 확인하는 과정 |
 # MAGIC | **공정 개선** | 모델 재학습 (Retraining) | 새로운 데이터로 모델 성능을 향상시키는 과정 |
 # MAGIC | **MES 자동화** | 파이프라인 자동화 (Automation) | 위의 모든 과정을 사람 개입 없이 자동으로 실행하는 것 |
 # MAGIC
 # MAGIC ### ML은 어떻게 발전해왔나?
 # MAGIC
-# MAGIC [1단계] 규칙 기반 (Rule-based)      → "토크 40Nm 이상이면 경고" (사람이 직접 기준 설정)
-# MAGIC [2단계] 통계 모델 (Statistical)      → "회귀분석으로 고장 확률 계산" (데이터에서 패턴 추출)
-# MAGIC [3단계] 머신러닝 (Machine Learning)  → "XGBoost가 100개 변수 조합으로 예측" (복잡한 패턴 자동 발견)
-# MAGIC [4단계] 딥러닝 (Deep Learning)       → "이미지에서 미세 결함 자동 탐지" (비정형 데이터 처리)
-# MAGIC [5단계] MLOps                        → "모델이 스스로 성능을 모니터링하고 재학습" (운영 자동화) ← 우리가 오늘 할 것
-# MAGIC ```
+# MAGIC - **1단계 — 규칙 기반 (Rule-based)** : "토크 40Nm 이상이면 경고" — 사람이 직접 기준을 설정
+# MAGIC - **2단계 — 통계 모델 (Statistical)** : "회귀분석으로 고장 확률 계산" — 데이터에서 패턴 추출
+# MAGIC - **3단계 — 머신러닝 (Machine Learning)** : "XGBoost가 100개 변수 조합으로 예측" — 복잡한 패턴 자동 발견
+# MAGIC - **4단계 — 딥러닝 (Deep Learning)** : "이미지에서 미세 결함 자동 탐지" — 비정형 데이터 처리
+# MAGIC - **5단계 — MLOps** : "모델이 스스로 성능을 모니터링하고 재학습" — 운영 자동화 ← **우리가 오늘 할 것**
 # MAGIC
-# MAGIC > **핵심 메시지** : AI/ML 모델은 한 번 만들면 끝이 아닙니다. 공장의 설비가 지속적인 유지보수가 필요하듯, AI 모델도 **지속적인 관리와 개선** 이 필요합니다. 이것이 바로 MLOps입니다.
+# MAGIC > <span style="color:#FF3621; font-weight:bold; font-size:16px;">핵심 메시지</span> : AI/ML 모델은 한 번 만들면 끝이 아닙니다. 공장의 설비가 지속적인 유지보수가 필요하듯, AI 모델도 <span style="color:#FF3621; font-weight:bold;">지속적인 관리와 개선</span> 이 필요합니다. 이것이 바로 MLOps입니다.
 # MAGIC
 # MAGIC ---
+
+# COMMAND ----------
+
+# MAGIC %md
 # MAGIC
 # MAGIC ## 오늘 무엇을 배우나요? (학습 목표)
 # MAGIC
@@ -46,6 +53,46 @@
 # MAGIC > **비유** : 오늘 우리는 "AI 품질관리 시스템"의 설계도를 그리고, 각 부품을 조립하고, 자동화 라인까지 완성합니다.
 # MAGIC
 # MAGIC ---
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC
+# MAGIC ## 실습 환경 설정 (권장)
+# MAGIC
+# MAGIC > <span style="color:#FF3621; font-weight:bold; font-size:16px;">ML Runtime 클러스터 사용을 강력히 권장합니다.</span> Serverless에서도 대부분의 실습이 가능하지만, **Feature Store 등록** 등 일부 기능은 ML Runtime에서만 지원됩니다. 모든 기능을 체험하려면 ML Runtime 클러스터를 사용하세요.
+# MAGIC
+# MAGIC ### 클러스터 생성 방법 (3분 소요)
+# MAGIC
+# MAGIC **Step 1.** 노트북 우측 상단의 **"Serverless"** 또는 **"Connect"** 를 클릭합니다
+# MAGIC
+# MAGIC **Step 2.** 드롭다운 하단의 **"Create new resource"** 를 클릭합니다
+# MAGIC
+# MAGIC **Step 3.** 아래와 같이 설정합니다:
+# MAGIC
+# MAGIC | 항목 | 설정값 |
+# MAGIC |------|--------|
+# MAGIC | **Name** | `lgit-ml-cluster` (자유롭게 지정) |
+# MAGIC | **Instance type** | `g4dn.xlarge [T4]` (16GB, 1 GPU) — GPU 포함 인스턴스 권장 |
+# MAGIC | **Machine learning** | **체크 필수** (이 체크박스가 ML 패키지를 설치합니다) |
+# MAGIC | **Runtime** | `18.1` 이상 (최신 버전 권장) |
+# MAGIC
+# MAGIC **Step 4.** **Create** 버튼을 클릭하면 클러스터가 생성되고 자동으로 이 노트북에 연결됩니다 (약 3분 소요)
+# MAGIC
+# MAGIC **Step 5.** 클러스터가 Ready 상태가 되면 상단의 **Run All** 버튼으로 전체를 한 번에 실행하세요
+# MAGIC
+# MAGIC > **비용 참고** : `g4dn.xlarge`는 약 0.71 DBU/h로, 교육 전체(약 3시간)를 실행해도 약 2 DBU 수준입니다. GPU가 불필요한 노트북(01~06, 08~10)에서는 `m5.xlarge` (CPU only, 0.69 DBU/h)도 충분합니다.
+# MAGIC
+# MAGIC > **🔍 UI 확인 포인트**
+# MAGIC >
+# MAGIC > 클러스터 생성 후 → 좌측 사이드바 **Compute** 메뉴에서 클러스터 상태가 **Running** 인지 확인하세요.
+# MAGIC > 상태가 "Pending"이면 아직 시작 중이며, 약 3분 후 "Running"으로 변경됩니다.
+# MAGIC
+# MAGIC ---
+
+# COMMAND ----------
+
+# MAGIC %md
 # MAGIC
 # MAGIC ## 왜 Databricks인가? (기존 도구와의 비교)
 # MAGIC
@@ -65,6 +112,10 @@
 # MAGIC > **제조업 비유** : Jupyter Notebook은 "수공구로 하나씩 가공하는 것"이고, Databricks는 "자동화된 스마트 공장 라인"입니다. 소량 시제품은 수공구로도 되지만, 양산에는 자동화 라인이 필수입니다.
 # MAGIC
 # MAGIC ---
+
+# COMMAND ----------
+
+# MAGIC %md
 # MAGIC
 # MAGIC ## 개요
 # MAGIC
@@ -73,6 +124,10 @@
 # MAGIC 이 파이프라인(Pipeline, 데이터가 순서대로 흘러가며 처리되는 자동화된 작업 흐름)은 데이터 수집부터 모델 학습, 배포, 모니터링, 재학습까지 **사람의 개입 없이 자동으로 동작** 하도록 설계됩니다.
 # MAGIC
 # MAGIC ---
+
+# COMMAND ----------
+
+# MAGIC %md
 # MAGIC
 # MAGIC ## PoC 시나리오
 # MAGIC
@@ -81,7 +136,7 @@
 # MAGIC | 구분 | 상세 | 제조 현장 대응 |
 # MAGIC |------|------|--------------|
 # MAGIC | **정형 데이터** | UCI AI4I 2020 Predictive Maintenance Dataset (10,000건) | 설비 센서에서 수집되는 온도, 회전수, 토크 등의 숫자 데이터 |
-# MAGIC | **비정형 데이터** | MVTec AD 산업용 이상탐지 벤치마크 이미지 | AOI(자동광학검사), 카메라로 촬영한 제품 표면 이미지 |
+# MAGIC | **비정형 데이터** | MVTec AD 산업용 이상탐지 벤치마크 이미지 | AOI (Automated Optical Inspection, 자동광학검사), 카메라로 촬영한 제품 표면 이미지 |
 # MAGIC | **정형 모델** | XGBoost -- 설비 고장 예측 (이진 분류) | "이 설비가 고장날 것인가 / 아닌가"를 예측 |
 # MAGIC | **비정형 모델** | Anomalib PatchCore -- 제품 표면 이상탐지 | "이 제품 이미지에서 결함이 있는가 / 없는가"를 판별 |
 # MAGIC | **운영 환경** | 주 1회 재학습, 일 4회 배치 예측 | 실제 생산 라인에 적용되는 안정적 환경 |
@@ -89,6 +144,10 @@
 # MAGIC | **Agent** | Trigger에 따라 MLOps Tool의 학습/예측 자동 수행 | 자동화된 공장 관리 시스템(MES)이 상황에 따라 판단하고 실행하는 것과 유사 |
 # MAGIC
 # MAGIC ---
+
+# COMMAND ----------
+
+# MAGIC %md
 # MAGIC
 # MAGIC ## Databricks MLOps 핵심 기능 활용
 # MAGIC
@@ -117,6 +176,10 @@
 # MAGIC - **AI Agent** : Trigger(특정 조건/이벤트) 기반 자동 학습/예측 오케스트레이션(Orchestration, 여러 작업을 조율하여 실행하는 것). 공장의 **자동 설비 관리 시스템** 이 이상 징후를 감지하고 스스로 조치하는 것과 유사합니다.
 # MAGIC
 # MAGIC ---
+
+# COMMAND ----------
+
+# MAGIC %md
 # MAGIC
 # MAGIC ## 데모 구성
 # MAGIC
@@ -127,12 +190,12 @@
 # MAGIC | 단계 | 정형 데이터 (AI4I 2020) | 비정형 데이터 (MVTec AD) | Databricks 기능 | 왜 필요한가? |
 # MAGIC |------|----------------------|------------------------|----------------|------------|
 # MAGIC | **1. 데이터** | 센서값 10,000건 | 제품 이미지 5,000장+ | Unity Catalog (거버넌스) | 원재료(데이터)가 없으면 AI 모델을 만들 수 없습니다 |
-# MAGIC | **2. 피처** | Spark/Pandas FE | Anomalib 전처리 | Feature Store, Delta Lake | 원재료를 가공(피처 엔지니어링)해야 모델이 학습할 수 있습니다 |
-# MAGIC | **3. 학습** | XGBoost + SHAP | PatchCore | MLflow Tracking (자동 기록) | 가공된 데이터로 패턴을 학습합니다 (= AI 모델 생성) |
-# MAGIC | **4. 등록** | UC Model Registry | UC Model Registry | Champion/Challenger Alias | 학습된 모델을 중앙 저장소에 등록하고 버전을 관리합니다 |
+# MAGIC | **2. 피처** | Spark/Pandas FE (Feature Engineering) | Anomalib 전처리 | Feature Store, Delta Lake | 원재료를 가공(피처 엔지니어링)해야 모델이 학습할 수 있습니다 |
+# MAGIC | **3. 학습** | XGBoost + SHAP (SHapley Additive exPlanations) | PatchCore | MLflow Tracking (자동 기록) | 가공된 데이터로 패턴을 학습합니다 (= AI 모델 생성) |
+# MAGIC | **4. 등록** | UC (Unity Catalog) Model Registry | UC Model Registry | Champion/Challenger Alias | 학습된 모델을 중앙 저장소에 등록하고 버전을 관리합니다 |
 # MAGIC | **5. 검증** | 4단계 자동 검증 | 이상 점수 평가 | mlflow.evaluate() | 새 모델이 기존 모델보다 나은지 검증합니다 (품질 검사) |
-# MAGIC | **6. 추론** | Spark UDF 배치 (일 4회) | 히트맵 생성 | 분산 처리 | 검증된 모델로 실제 예측을 수행합니다 (양산) |
-# MAGIC | **7. 모니터링** | PSI 드리프트 탐지 | -- | Data Quality Monitor | 모델이 여전히 잘 작동하는지 감시합니다 (SPC) |
+# MAGIC | **6. 추론** | Spark UDF (User Defined Function) 배치 (일 4회) | 히트맵 생성 | 분산 처리 | 검증된 모델로 실제 예측을 수행합니다 (양산) |
+# MAGIC | **7. 모니터링** | PSI (Population Stability Index) 드리프트 탐지 | -- | Data Quality Monitor | 모델이 여전히 잘 작동하는지 감시합니다 (SPC) |
 # MAGIC | **8. 자동화** | Agent + Workflows | -- | 재학습/배포 자동화 | 위의 모든 과정을 사람 개입 없이 자동 실행합니다 |
 # MAGIC
 # MAGIC **파이프라인 흐름** : 데이터 → 피처 → 학습 → 등록 → 검증 → 추론 → 모니터링 → (드리프트 감지 시) 자동 재학습
@@ -140,25 +203,35 @@
 # MAGIC > **제조 비유** : 이 파이프라인은 공장의 생산 라인과 동일한 구조입니다. 원재료(데이터) 투입 → 가공(피처) → 조립(학습) → 품질검사(검증) → 출하(추론) → 고객 피드백(모니터링) → 공정 개선(재학습). 다만 여기서는 **"제품"이 "AI 예측 모델"** 입니다.
 # MAGIC
 # MAGIC ---
+
+# COMMAND ----------
+
+# MAGIC %md
 # MAGIC
 # MAGIC ## 노트북 목차
 # MAGIC
+# MAGIC ### `predictive_maintenance/` — 정형 데이터: 설비 예지보전 (CPU 클러스터)
+# MAGIC
 # MAGIC | # | 노트북 | 설명 | Databricks 기능 |
 # MAGIC |---|--------|------|-----------------|
-# MAGIC | 01 | [Overview (본 노트북)]($./01_overview) | 전체 아키텍처 및 시나리오 소개 | -- |
-# MAGIC | 02 | [피처 엔지니어링]($./02_structured_feature_engineering) | AI4I 2020 데이터 탐색 및 피처 생성 | Delta Lake, Feature Store, Unity Catalog |
-# MAGIC | 03 | [모델 학습]($./03_structured_model_training) | XGBoost 학습, HPO, SHAP 해석 | MLflow Tracking, Autolog |
-# MAGIC | 03a | [ML 트렌드]($./03a_ml_trends_and_techniques) | 최신 ML 기술 트렌드 가이드 | -- |
-# MAGIC | 03b | [멀티 알고리즘]($./03b_multi_algorithm_comparison) | XGBoost/LightGBM/CatBoost/RF 비교 | MLflow 실험 비교 |
-# MAGIC | 03c | [고급 기법]($./03c_advanced_techniques) | SMOTE, Optuna, Stacking, AutoML | Databricks AutoML |
-# MAGIC | 03d | [재학습 전략]($./03d_retraining_strategies) | Incremental, Continual, Online, RL, Active Learning | Streaming, Delta Time Travel |
-# MAGIC | 04 | [모델 등록]($./04_model_registration_uc) | UC 모델 레지스트리 등록 및 에일리어스 | Unity Catalog Models, Lineage |
-# MAGIC | 05 | [챌린저 검증]($./05_challenger_validation) | Champion-Challenger 비교 검증 | Model Validation, A/B Testing |
-# MAGIC | 06 | [배치 추론]($./06_batch_inference) | PySpark UDF 기반 대규모 배치 예측 | Spark UDF, Delta Lake |
-# MAGIC | 07 | [비정형 이상탐지]($./07_unstructured_anomaly_detection) | MVTec AD + Anomalib PatchCore | Volumes, GPU Cluster, MLflow |
-# MAGIC | 08 | [모델 모니터링]($./08_model_monitoring) | 데이터 드리프트 및 성능 모니터링 | Data Quality Monitoring |
-# MAGIC | 09 | [MLOps Agent]($./09_mlops_agent) | Agent 기반 학습/예측 오케스트레이션 | AI Agent, Tool Use |
-# MAGIC | 10 | [Job 스케줄링]($./10_job_scheduling) | 운영/개발 환경 워크플로우 설정 | Lakeflow Jobs |
+# MAGIC | 01 | [피처 엔지니어링]($./predictive_maintenance/01_feature_engineering) | AI4I 2020 데이터 탐색 및 피처 생성 | Delta Lake, Feature Store, Unity Catalog |
+# MAGIC | 02 | [모델 학습]($./predictive_maintenance/02_model_training) | XGBoost 학습, HPO (Hyperparameter Optimization), SHAP 해석 | MLflow Tracking, Autolog |
+# MAGIC | 02a | [ML 트렌드]($./predictive_maintenance/02a_ml_trends_and_techniques) | 최신 ML 기술 트렌드 가이드 | -- |
+# MAGIC | 02b | [멀티 알고리즘]($./predictive_maintenance/02b_multi_algorithm_comparison) | XGBoost/LightGBM/CatBoost/RF 비교 | MLflow 실험 비교 |
+# MAGIC | 02c | [고급 기법]($./predictive_maintenance/02c_advanced_techniques) | SMOTE, Optuna, Stacking, AutoML | Databricks AutoML |
+# MAGIC | 02d | [재학습 전략]($./predictive_maintenance/02d_retraining_strategies) | Incremental, Continual, Online, RL, Active Learning | Streaming, Delta Time Travel |
+# MAGIC | 03 | [모델 등록]($./predictive_maintenance/03_model_registration) | UC 모델 레지스트리 등록 및 에일리어스 | Unity Catalog Models, Lineage |
+# MAGIC | 04 | [챌린저 검증]($./predictive_maintenance/04_challenger_validation) | Champion-Challenger 비교 검증 | Model Validation, A/B Testing |
+# MAGIC | 05 | [배치 추론]($./predictive_maintenance/05_batch_inference) | PySpark UDF 기반 대규모 배치 예측 | Spark UDF, Delta Lake |
+# MAGIC | 06 | [모델 모니터링]($./predictive_maintenance/06_model_monitoring) | 데이터 드리프트 및 성능 모니터링 | Data Quality Monitoring |
+# MAGIC | 07 | [MLOps Agent]($./predictive_maintenance/07_mlops_agent) | Agent 기반 학습/예측 오케스트레이션 | AI Agent, Tool Use |
+# MAGIC | 08 | [Job 스케줄링]($./predictive_maintenance/08_job_scheduling) | 운영/개발 환경 워크플로우 설정 | Lakeflow Jobs |
+# MAGIC
+# MAGIC ### `visual_inspection/` — 비정형 데이터: 비전 이상탐지 (GPU 클러스터)
+# MAGIC
+# MAGIC | # | 노트북 | 설명 | Databricks 기능 |
+# MAGIC |---|--------|------|-----------------|
+# MAGIC | 01 | [이상탐지]($./visual_inspection/01_anomaly_detection) | MVTec AD + Anomalib PatchCore | Volumes, GPU Cluster, MLflow |
 
 # COMMAND ----------
 
@@ -224,7 +297,7 @@
 # MAGIC
 # MAGIC > **Tip** : 각 노트북은 독립적으로 실행할 수 있지만, 순서대로 진행하면 전체 MLOps 파이프라인을 점진적으로 이해할 수 있습니다.
 # MAGIC
-# MAGIC 다음 단계: [피처 엔지니어링]($./02_structured_feature_engineering)으로 진행하여 AI4I 2020 센서 데이터를 탐색하고, ML 모델이 학습할 수 있는 형태로 가공(피처 엔지니어링)합니다.
+# MAGIC 다음 단계: [피처 엔지니어링]($./predictive_maintenance/01_feature_engineering)으로 진행하여 AI4I 2020 센서 데이터를 탐색하고, ML 모델이 학습할 수 있는 형태로 가공(피처 엔지니어링)합니다.
 
 # COMMAND ----------
 
