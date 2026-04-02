@@ -254,5 +254,5 @@ WHERE cost > LAG(cost) OVER (ORDER BY week) * 1.5;
 | 규제 기관에 감사 보고서를 제출할 수 있는가? | System Tables SQL 쿼리로 즉시 생성 | 충족 |
 
 {% hint style="success" %}
-**SA/SE 핵심 메시지**: AI 규제 시대에 **"데이터 거버넌스와 AI 거버넌스를 하나로 통합" ** 하는 것은 선택이 아니라 필수입니다. Unity Catalog는 **유일하게 데이터, ML 모델, Feature, Vector Index, AI Agent를 하나의 카탈로그에서 통합 관리** 하는 솔루션입니다. 경쟁사에서는 데이터 거버넌스(Lake Formation/Dataplex)와 AI 거버넌스(SageMaker/Vertex AI)가 분리되어 있어, 통합 감사와 리니지가 불가능합니다.
+**SA/SE 핵심 메시지**: AI 규제 시대에 **"데이터 거버넌스와 AI 거버넌스를 하나로 통합" **하는 것은 선택이 아니라 필수입니다. Unity Catalog는 **유일하게 데이터, ML 모델, Feature, Vector Index, AI Agent를 하나의 카탈로그에서 통합 관리** 하는 솔루션입니다. 경쟁사에서는 데이터 거버넌스(Lake Formation/Dataplex)와 AI 거버넌스(SageMaker/Vertex AI)가 분리되어 있어, 통합 감사와 리니지가 불가능합니다.
 {% endhint %}

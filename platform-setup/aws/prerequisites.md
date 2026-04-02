@@ -40,10 +40,10 @@ Databricks는 AWS STS(Security Token Service)를 사용하여 Cross-account Role
 #### 확인 및 활성화 방법
 
 1. AWS Console 로그인 → **IAM** 서비스 이동
-2. 좌측 메뉴 하단의 " ** Account settings**" 클릭
-3. " ** Security Token Service (STS)**" 섹션에서 " ** Endpoints**" 확인
+2. 좌측 메뉴 하단의 " **Account settings**" 클릭
+3. " **Security Token Service (STS)**" 섹션에서 " **Endpoints**" 확인
 4. `US West (Oregon) — us-west-2` 항목을 찾아 상태 확인
-5. **Inactive** 상태라면 " ** Activate**" 클릭
+5. **Inactive** 상태라면 " **Activate**" 클릭
 
 {% hint style="danger" %}
 **중요**: `us-west-2`의 STS 엔드포인트가 비활성화되어 있으면 Workspace 생성이 실패합니다. 오류 메시지가 STS를 직접 언급하지 않아 원인 파악이 어려울 수 있으므로, 반드시 사전에 확인하세요.
@@ -60,7 +60,7 @@ AWS Organizations를 사용하는 경우, SCP가 Databricks 운영에 필요한 
 #### 확인 방법
 
 1. AWS Console → **AWS Organizations** 이동
-2. 좌측 메뉴에서 " ** Policies**" → " ** Service control policies**" 클릭
+2. 좌측 메뉴에서 " **Policies**" → " **Service control policies**" 클릭
 3. 적용 중인 SCP 목록 확인 → 각 정책의 **Statement** 검토
 
 #### 필수 허용 항목
@@ -116,8 +116,8 @@ Terraform, API 호출 등 자동화 도구로 Databricks를 관리할 때는 Ser
 #### 생성 절차
 
 1. Account Console 로그인 → **User Management** 메뉴 이동
-2. " ** Service principals**" 탭 클릭
-3. " ** Add service principal**" 클릭
+2. " **Service principals**" 탭 클릭
+3. " **Add service principal**" 클릭
 4. **Name** 입력 (예: `sp-terraform-admin`)
 5. **Add** 클릭 → Service Principal ID 생성됨
 
@@ -126,7 +126,7 @@ Terraform, API 호출 등 자동화 도구로 Databricks를 관리할 때는 Ser
 Service Principal에 대한 프로그래밍 방식 인증을 위해 OAuth M2M(Machine-to-Machine) 토큰을 설정합니다.
 
 1. 생성된 Service Principal 클릭 → **Secrets** 탭 이동
-2. " ** Generate secret**" 클릭
+2. " **Generate secret**" 클릭
 3. **Client ID** 와 **Client Secret** 복사 및 안전한 곳에 저장
 
 {% hint style="danger" %}

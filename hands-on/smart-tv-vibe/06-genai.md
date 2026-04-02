@@ -6,7 +6,7 @@
 >
 > 1. 터미널에서 프로젝트 디렉토리로 이동: `cd ~/smarttv-training`
 > 2. Claude Code 실행: `claude`
-> 3. 각 Step의 " ** Claude에게 요청하기**" 박스 내용을 복사하여 Claude에게 붙여넣기
+> 3. 각 Step의 " **Claude에게 요청하기**" 박스 내용을 복사하여 Claude에게 붙여넣기
 > 4. Claude가 코드를 생성하고 Databricks에서 실행합니다
 > 5. 결과를 확인하고 궁금한 점은 바로 질문하세요
 >
@@ -620,11 +620,11 @@ smarttv-agents/
 
 이 GenAI 시스템을 통해 Smart TV는:
 
-1. ** 고객 지원 자동화**→ KA가 TV 사용법 질문의 80% 자동 응답
-2. ** 데이터 민주화**→ Genie로 비기술 직원도 데이터 분석 가능
-3. ** 광고 수익 최적화**→ AI 기반 광고 성과 분석으로 FastTV 수익 극대화
-4. ** 개인화 경험**→ Vector Search + LLM으로 사용자별 맞춤 콘텐츠 추천
-5. ** 통합 인텔리전스**→ Supervisor Agent가 모든 기능을 하나로 통합
+1. **고객 지원 자동화**→ KA가 TV 사용법 질문의 80% 자동 응답
+2. **데이터 민주화**→ Genie로 비기술 직원도 데이터 분석 가능
+3. **광고 수익 최적화**→ AI 기반 광고 성과 분석으로 FastTV 수익 극대화
+4. **개인화 경험**→ Vector Search + LLM으로 사용자별 맞춤 콘텐츠 추천
+5. **통합 인텔리전스**→ Supervisor Agent가 모든 기능을 하나로 통합
 
 ---
 

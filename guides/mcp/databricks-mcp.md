@@ -2,7 +2,7 @@
 
 Databricks는 MCP를 플랫폼 전반에 걸쳐 지원합니다. 세 가지 유형의 MCP 서버를 제공하며, Genie Code와 Databricks ONE(CLI)에서 MCP 도구를 사용할 수 있습니다.
 
-Databricks의 MCP 전략은 **"데이터 플랫폼 자체를 AI 에이전트의 도구로 노출" ** 하는 것입니다. Unity Catalog에 등록된 모든 자산(테이블, 함수, 벡터 인덱스, Genie Space)을 MCP 프로토콜로 접근할 수 있게 하여, Databricks 외부의 AI 에이전트(Claude Desktop, Claude Code, Cursor 등)도 Databricks 데이터를 안전하게 활용할 수 있습니다. 동시에 외부 서비스(GitHub, Slack, JIRA 등)를 Databricks 내부로 가져와서 Genie Code가 활용할 수 있도록 합니다.
+Databricks의 MCP 전략은 **"데이터 플랫폼 자체를 AI 에이전트의 도구로 노출" **하는 것입니다. Unity Catalog에 등록된 모든 자산(테이블, 함수, 벡터 인덱스, Genie Space)을 MCP 프로토콜로 접근할 수 있게 하여, Databricks 외부의 AI 에이전트(Claude Desktop, Claude Code, Cursor 등)도 Databricks 데이터를 안전하게 활용할 수 있습니다. 동시에 외부 서비스(GitHub, Slack, JIRA 등)를 Databricks 내부로 가져와서 Genie Code가 활용할 수 있도록 합니다.
 
 ---
 
