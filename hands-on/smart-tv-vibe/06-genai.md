@@ -2,7 +2,8 @@
 
 ## 이 가이드 사용 방법
 
->** 이 교육 자료는 Claude Code (또는 Cursor)와 함께 사용합니다.**>
+>** 이 교육 자료는 Claude Code (또는 Cursor)와 함께 사용합니다.**
+>
 > 1. 터미널에서 프로젝트 디렉토리로 이동: `cd ~/smarttv-training`
 > 2. Claude Code 실행: `claude`
 > 3. 각 Step의 "**Claude에게 요청하기**" 박스 내용을 복사하여 Claude에게 붙여넣기
@@ -604,14 +605,14 @@ smarttv-agents/
 
 | 개념 | 실습 내용 |
 |------|-----------|
-|**Vector Search**| 콘텐츠 임베딩, Delta Sync Index, 유사도 검색 |
-|**Foundation Model API**| ai_query로 LLM 호출, 추천 이유 생성 |
-|**Knowledge Assistant**| 문서 기반 Q&A 봇 (RAG) |
-|**Genie Space**| 자연어 → SQL 데이터 탐색 |
-|**UC Function**| 재사용 가능한 분석 함수 |
-|**Supervisor Agent**| 멀티에이전트 오케스트레이션 |
-|**MLflow Tracing**| 에이전트 관찰성, 디버깅 |
-|**Agent Evaluation**| 체계적 품질 평가 (라우팅, 관련성, 근거성) |
+| **Vector Search** | 콘텐츠 임베딩, Delta Sync Index, 유사도 검색 |
+| **Foundation Model API** | ai_query로 LLM 호출, 추천 이유 생성 |
+| **Knowledge Assistant** | 문서 기반 Q&A 봇 (RAG) |
+| **Genie Space** | 자연어 → SQL 데이터 탐색 |
+| **UC Function** | 재사용 가능한 분석 함수 |
+| **Supervisor Agent** | 멀티에이전트 오케스트레이션 |
+| **MLflow Tracing** | 에이전트 관찰성, 디버깅 |
+| **Agent Evaluation** | 체계적 품질 평가 (라우팅, 관련성, 근거성) |
 
 ---
 

@@ -6,7 +6,7 @@
 
 ### HyDE (Hypothetical Document Embeddings)
 
-LLM이 질문에 대한 ** 가상의 답변** 을 생성하고, 그 답변의 임베딩으로 검색합니다. 질문보다 답변이 실제 문서와 임베딩 공간에서 더 가까운 경향을 이용합니다.
+LLM이 질문에 대한 **가상의 답변** 을 생성하고, 그 답변의 임베딩으로 검색합니다. 질문보다 답변이 실제 문서와 임베딩 공간에서 더 가까운 경향을 이용합니다.
 
 ```python
 from langchain_databricks import ChatDatabricks
@@ -58,17 +58,17 @@ Query Expansion은 검색 recall을 높이지만, LLM 호출 비용이 추가됩
 
 ## Pre-Query Processing (쿼리 전처리)
 
-검색 쿼리가 Retriever에 도달하기 ** 전에** 수행하는 최적화 기법들입니다. 적절한 전처리는 검색 품질을 극적으로 향상시킬 수 있습니다.
+검색 쿼리가 Retriever에 도달하기 **전에** 수행하는 최적화 기법들입니다. 적절한 전처리는 검색 품질을 극적으로 향상시킬 수 있습니다.
 
 아래 표는 주요 전처리 전략을 비교합니다.
 
 | 전략 | 설명 | ML 모델 | Databricks 지원 |
 |------|------|--------|--------------|
-| ** 메타데이터 사전 필터링**| "2023년", "영업팀" 등 조건을 LLM으로 추출 후 벡터 검색 전에 필터 적용. 탐색 범위를 대폭 축소 | LLM | ✅ |
-| **Query Rewrite**| 모호하거나 불완전한 질문을 검색에 최적화된 형태로 재작성. 대화 맥락 반영 | LLM | ✅ |
-| **Contextual Retrieval**| Anthropic 제안. 각 청크에 전체 문서의 문맥 요약을 Prepend. 청킹 시 손실되는 정보를 보완 | LLM | ✅ |
-| **Query Routing**| 질문의 의도를 분류하여 적합한 데이터 소스(SQL DB, 벡터 DB, 웹)로 라우팅 | LLM | ✅ |
-| ** 다중 쿼리 분해**| 복잡한 질문을 여러 하위 질문으로 분해, 각각 검색 후 결과를 병합 | LLM | ✅ |
+| **메타데이터 사전 필터링** | "2023년", "영업팀" 등 조건을 LLM으로 추출 후 벡터 검색 전에 필터 적용. 탐색 범위를 대폭 축소 | LLM | ✅ |
+| **Query Rewrite** | 모호하거나 불완전한 질문을 검색에 최적화된 형태로 재작성. 대화 맥락 반영 | LLM | ✅ |
+| **Contextual Retrieval** | Anthropic 제안. 각 청크에 전체 문서의 문맥 요약을 Prepend. 청킹 시 손실되는 정보를 보완 | LLM | ✅ |
+| **Query Routing** | 질문의 의도를 분류하여 적합한 데이터 소스(SQL DB, 벡터 DB, 웹)로 라우팅 | LLM | ✅ |
+| **다중 쿼리 분해** | 복잡한 질문을 여러 하위 질문으로 분해, 각각 검색 후 결과를 병합 | LLM | ✅ |
 
 ### 메타데이터 사전 필터링 (Self-Query)
 
@@ -132,7 +132,7 @@ def rewrite_query(question: str, chat_history: list = None) -> str:
 
 ### Contextual Retrieval (Anthropic 제안)
 
-**Contextual Retrieval** 은 Anthropic이 제안한 기법으로, 각 청크에 ** 전체 문서의 맥락 요약** 을 앞에 붙여(prepend) 청킹 과정에서 손실되는 문맥 정보를 보완합니다.
+**Contextual Retrieval** 은 Anthropic이 제안한 기법으로, 각 청크에 **전체 문서의 맥락 요약** 을 앞에 붙여(prepend) 청킹 과정에서 손실되는 문맥 정보를 보완합니다.
 
 ```python
 def add_context_to_chunk(chunk_text: str, full_document: str) -> str:
@@ -161,7 +161,7 @@ def add_context_to_chunk(chunk_text: str, full_document: str) -> str:
 ```
 
 {% hint style="info" %}
-Contextual Retrieval은 청킹 단계에서 ** 한 번만** 수행하면 되므로, 검색 시점에 추가 LLM 호출이 발생하지 않습니다. 초기 인덱싱 비용은 증가하지만, 검색 품질 향상 효과가 큽니다. Anthropic의 벤치마크에서 ** 검색 실패율을 49% 감소** 시킨 것으로 보고되었습니다.
+Contextual Retrieval은 청킹 단계에서 **한 번만** 수행하면 되므로, 검색 시점에 추가 LLM 호출이 발생하지 않습니다. 초기 인덱싱 비용은 증가하지만, 검색 품질 향상 효과가 큽니다. Anthropic의 벤치마크에서 **검색 실패율을 49% 감소** 시킨 것으로 보고되었습니다.
 {% endhint %}
 
 ### Query Routing

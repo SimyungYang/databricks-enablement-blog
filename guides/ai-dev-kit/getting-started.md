@@ -29,7 +29,7 @@ cd ai-dev-kit/databricks-builder-app
 ```
 
 {% hint style="info" %}
-** 왜 전체 레포를 클론하나요?**Builder App은 `databricks-mcp-server`에 의존합니다. 전체 레포를 클론해야 MCP Server가 로컬에서 올바르게 참조됩니다. `pyproject.toml`의 `[project.optional-dependencies]`에서 `databricks-mcp-server`가 로컬 경로로 참조되는 것을 확인할 수 있습니다.
+**왜 전체 레포를 클론하나요?**Builder App은 `databricks-mcp-server`에 의존합니다. 전체 레포를 클론해야 MCP Server가 로컬에서 올바르게 참조됩니다. `pyproject.toml`의 `[project.optional-dependencies]`에서 `databricks-mcp-server`가 로컬 경로로 참조되는 것을 확인할 수 있습니다.
 {% endhint %}
 
 ---
@@ -48,7 +48,7 @@ cd ai-dev-kit/databricks-builder-app
 - `.env.local` 템플릿 생성
 - Alembic DB 마이그레이션 실행
 
-** 왜 `uv`를 사용하나요?**`uv`는 Rust로 작성된 초고속 Python 패키지 매니저입니다. `pip`보다 10~100배 빠르며, 의존성 해결이 더 정확합니다. AI Dev Kit의 복잡한 의존성 트리(LangChain, Claude SDK, MCP Server 등)를 안정적으로 설치하기 위해 `uv`를 기본으로 사용합니다.
+**왜 `uv`를 사용하나요?**`uv`는 Rust로 작성된 초고속 Python 패키지 매니저입니다. `pip`보다 10~100배 빠르며, 의존성 해결이 더 정확합니다. AI Dev Kit의 복잡한 의존성 트리(LangChain, Claude SDK, MCP Server 등)를 안정적으로 설치하기 위해 `uv`를 기본으로 사용합니다.
 
 {% hint style="tip" %}
 자동 설치가 실패하면 아래 수동 설치 절차를 따르세요.
@@ -83,7 +83,7 @@ cd ..
 
 프로젝트 루트에 `.env.local` 파일을 생성합니다. 이 파일은 Builder App의 모든 외부 연결 정보를 관리합니다.
 
-** 왜 `.env.local`인가?**Builder App은 환경 변수를 세 단계로 로드합니다: `.env` (기본값) → `.env.local` (로컬 오버라이드) → 시스템 환경 변수. `.env.local`은 `.gitignore`에 포함되어 있어 ** 민감한 정보가 Git에 커밋되지 않습니다**.
+**왜 `.env.local`인가?**Builder App은 환경 변수를 세 단계로 로드합니다: `.env` (기본값) → `.env.local` (로컬 오버라이드) → 시스템 환경 변수. `.env.local`은 `.gitignore`에 포함되어 있어 **민감한 정보가 Git에 커밋되지 않습니다**.
 
 ```bash
 # .env.local
@@ -123,9 +123,9 @@ LAKEBASE_PG_URL=postgresql://user:pass@host:port/dbname
 
 | 옵션 | 설정 | 장점 | 단점 |
 |------|------|------|------|
-| **Anthropic 직접**| `ANTHROPIC_API_KEY` 설정 | 최신 모델 즉시 사용, 안정적 | API 키 관리 필요, 별도 과금 |
-| **Databricks FMAPI**| `LLM_PROVIDER=DATABRICKS` | API 키 불필요, 워크스페이스 과금 통합 | 사용 가능한 모델 한정 |
-| **Azure OpenAI**| `LLM_PROVIDER=AZURE` | Azure 엔터프라이즈 환경 통합 | Azure 리소스 별도 구성 필요 |
+| **Anthropic 직접** | `ANTHROPIC_API_KEY` 설정 | 최신 모델 즉시 사용, 안정적 | API 키 관리 필요, 별도 과금 |
+| **Databricks FMAPI** | `LLM_PROVIDER=DATABRICKS` | API 키 불필요, 워크스페이스 과금 통합 | 사용 가능한 모델 한정 |
+| **Azure OpenAI** | `LLM_PROVIDER=AZURE` | Azure 엔터프라이즈 환경 통합 | Azure 리소스 별도 구성 필요 |
 
 ---
 
@@ -145,10 +145,10 @@ Builder App은 다음 테이블들을 Lakebase에 저장합니다:
 
 | 테이블 | 역할 | 주요 필드 |
 |--------|------|-----------|
-| **projects**| 프로젝트 메타데이터 | id, name, created_at, user_id |
-| **conversations**| 대화 세션 | id, project_id, title, created_at |
-| **messages**| 개별 메시지 | id, conversation_id, role, content |
-| **executions**| 에이전트 실행 기록 | id, conversation_id, status, tool_calls |
+| **projects** | 프로젝트 메타데이터 | id, name, created_at, user_id |
+| **conversations** | 대화 세션 | id, project_id, title, created_at |
+| **messages** | 개별 메시지 | id, conversation_id, role, content |
+| **executions** | 에이전트 실행 기록 | id, conversation_id, status, tool_calls |
 
 {% hint style="warning" %}
 Lakebase 없이도 Builder App을 실행할 수 있습니다. 이 경우 프로젝트 데이터는 로컬 파일 시스템(`projects/` 디렉토리)에만 저장됩니다. 프로덕션 환경에서는 Lakebase 사용을 강력히 권장합니다.
@@ -173,7 +173,7 @@ cd client
 npm run dev
 ```
 
-** 왜 두 개의 서버를 실행하나요?** 개발 환경에서는 프론트엔드(React)와 백엔드(FastAPI)를 분리하여 실행합니다. React의 Hot Module Replacement(HMR)로 프론트엔드 코드 변경이 즉시 반영되고, FastAPI의 `--reload` 옵션으로 백엔드 코드 변경도 자동 재시작됩니다. ** 프로덕션 배포 시에는** 프론트엔드를 빌드하여 정적 파일로 만든 후 FastAPI가 함께 서빙합니다.
+**왜 두 개의 서버를 실행하나요?** 개발 환경에서는 프론트엔드(React)와 백엔드(FastAPI)를 분리하여 실행합니다. React의 Hot Module Replacement(HMR)로 프론트엔드 코드 변경이 즉시 반영되고, FastAPI의 `--reload` 옵션으로 백엔드 코드 변경도 자동 재시작됩니다. **프로덕션 배포 시에는** 프론트엔드를 빌드하여 정적 파일로 만든 후 FastAPI가 함께 서빙합니다.
 
 ### 개발 서버 아키텍처
 
@@ -208,7 +208,7 @@ npm run dev
 
 ### 무엇이 일어나고 있는가?
 
-사용자의 자연어 요청이 에이전트에게 전달되면, 다음과 같은 과정이 ** 자동으로** 수행됩니다:
+사용자의 자연어 요청이 에이전트에게 전달되면, 다음과 같은 과정이 **자동으로** 수행됩니다:
 
 ```
 1. [Claude Agent] "카탈로그 목록" 요청을 분석
@@ -229,10 +229,10 @@ npm run dev
 
 | 테스트 | 입력 예시 | 확인 사항 |
 |--------|----------|-----------|
-| **SQL 실행**| "main 카탈로그의 테이블 목록 보여줘" | `execute_sql` 도구 호출 확인 |
-| ** 클러스터 상태**| "현재 실행 중인 클러스터 보여줘" | `list_clusters` 도구 호출 확인 |
-| ** 파일 업로드**| "이 CSV 파일을 Volume에 업로드해줘" | `upload_to_volume` 도구 호출 확인 |
-| ** 스킬 활용**| "합성 데이터로 매출 테이블 만들어줘" | `synthetic-data` 스킬 로드 + SQL 실행 |
+| **SQL 실행** | "main 카탈로그의 테이블 목록 보여줘" | `execute_sql` 도구 호출 확인 |
+| **클러스터 상태** | "현재 실행 중인 클러스터 보여줘" | `list_clusters` 도구 호출 확인 |
+| **파일 업로드** | "이 CSV 파일을 Volume에 업로드해줘" | `upload_to_volume` 도구 호출 확인 |
+| **스킬 활용** | "합성 데이터로 매출 테이블 만들어줘" | `synthetic-data` 스킬 로드 + SQL 실행 |
 
 ---
 

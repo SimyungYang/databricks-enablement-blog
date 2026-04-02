@@ -6,18 +6,18 @@ AWS Console → VPC → Create VPC
 
 | 항목 | 설정값 |
 |------|--------|
-| **CIDR**| `/16` ~ `/17` 권장 (예: `10.4.0.0/16`) |
-| **DNS hostnames**| **Enabled**|
-| **DNS resolution**| **Enabled**|
-| ** 예약 CIDR (충돌 회피)**| `127.187.216.0/24`, `192.168.216.0/24`, `198.18.216.0/24`, `172.17.0.0/16` |
+| **CIDR** | `/16` ~ `/17` 권장 (예: `10.4.0.0/16`) |
+| **DNS hostnames** | **Enabled** |
+| **DNS resolution** | **Enabled** |
+| **예약 CIDR (충돌 회피)** | `127.187.216.0/24`, `192.168.216.0/24`, `198.18.216.0/24`, `172.17.0.0/16` |
 
 ### Subnet 구성
 
 | Subnet | 수량 | 용도 | 비고 |
 |--------|------|------|------|
-| **Private**| 2개+ | Databricks 클러스터 | 서로 다른 AZ, netmask `/17`~`/25` |
-| **Public**| 1개 | NAT GW + IGW | 아웃바운드 인터넷 |
-| **VPC Endpoint**| 1개 | PrivateLink 전용 | local route만, NAT 없음 |
+| **Private** | 2개+ | Databricks 클러스터 | 서로 다른 AZ, netmask `/17`~`/25` |
+| **Public** | 1개 | NAT GW + IGW | 아웃바운드 인터넷 |
+| **VPC Endpoint** | 1개 | PrivateLink 전용 | local route만, NAT 없음 |
 
 *참고: [Configure customer-managed VPC](https://docs.databricks.com/aws/en/admin/account-settings-e2/networks)*
 
@@ -80,9 +80,9 @@ AWS Console → VPC → Endpoints → Create endpoint
 
 | Service | Type | Service Name | Private DNS | 용도 |
 |---------|------|-------------|-------------|------|
-| **S3**| Gateway | `com.amazonaws.ap-northeast-2.s3` | N/A | DBFS, Delta Lake |
-| **STS**| Interface | `com.amazonaws.ap-northeast-2.sts` | Enabled | IAM 인증 |
-| **Kinesis**| Interface | `com.amazonaws.ap-northeast-2.kinesis-streams` | Enabled | 로그 전송 |
+| **S3** | Gateway | `com.amazonaws.ap-northeast-2.s3` | N/A | DBFS, Delta Lake |
+| **STS** | Interface | `com.amazonaws.ap-northeast-2.sts` | Enabled | IAM 인증 |
+| **Kinesis** | Interface | `com.amazonaws.ap-northeast-2.kinesis-streams` | Enabled | 로그 전송 |
 
 - **S3 Gateway**: Route Table에 연결 (Private Subnet의 Route Table)
 - **STS/Kinesis Interface**: Private Subnet에 배치, Security Group 필요 (443 inbound)
@@ -92,19 +92,19 @@ AWS Console → VPC → Endpoints → Create endpoint
 Security → Networking → Classic network configurations
 
 {% hint style="warning" %}
-** 순서 주의**: Network Configuration 생성 시 **VPC Endpoint를 지정** 해야 함 → **Backend PrivateLink의 VPC Endpoint 등록을 먼저 완료** 후 진행
+**순서 주의**: Network Configuration 생성 시 **VPC Endpoint를 지정** 해야 함 → **Backend PrivateLink의 VPC Endpoint 등록을 먼저 완료** 후 진행
 {% endhint %}
 
 ### 입력 항목 요약
 
 | 항목 | 값 |
 |------|---|
-| **Network configuration name**| 식별 이름 |
-| **VPC ID**| `vpc-xxxxxxxx` |
-| **Subnet IDs**| Private Subnet 2개 (서로 다른 AZ) |
-| **Security Group IDs**| SG ID (최대 5개) |
-| **VPC Endpoints — REST API**| 등록된 Workspace Endpoint 선택 |
-| **VPC Endpoints — Dataplane relay**| 등록된 SCC Relay Endpoint 선택 |
+| **Network configuration name** | 식별 이름 |
+| **VPC ID** | `vpc-xxxxxxxx` |
+| **Subnet IDs** | Private Subnet 2개 (서로 다른 AZ) |
+| **Security Group IDs** | SG ID (최대 5개) |
+| **VPC Endpoints — REST API** | 등록된 Workspace Endpoint 선택 |
+| **VPC Endpoints — Dataplane relay** | 등록된 SCC Relay Endpoint 선택 |
 
 ## Network 등록 — 절차
 
@@ -115,5 +115,5 @@ Security → Networking → Classic network configurations
 3. **Add**→ **Network ID** 생성됨 → Workspace 생성 시 사용
 
 {% hint style="info" %}
-Network configuration은 ** 수정 불가**— 변경 시 새로 생성 후 Workspace에서 교체 (3단계 프로세스)
+Network configuration은 **수정 불가**— 변경 시 새로 생성 후 Workspace에서 교체 (3단계 프로세스)
 {% endhint %}

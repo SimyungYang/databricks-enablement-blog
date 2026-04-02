@@ -2,7 +2,8 @@
 
 ## 이 가이드 사용 방법
 
->** 이 교육 자료는 Claude Code (또는 Cursor)와 함께 사용합니다.**>
+>** 이 교육 자료는 Claude Code (또는 Cursor)와 함께 사용합니다.**
+>
 > 이 모듈에서는 UC Volume에 주기적으로 이벤트 데이터를 생성하고,
 > Auto Loader + Structured Streaming으로 실시간 처리하는 End-to-End 흐름을 구축합니다.
 
@@ -10,10 +11,10 @@
 
 ## 학습 목표
 
-- UC Volume에 ** 주기적으로 가상 데이터 생성**(Databricks App 활용)
--**Auto Loader** 로 새 파일 자동 감지 및 수집
--**Structured Streaming** 으로 실시간 Bronze → Silver 처리
--**SDP + Streaming Table** 로 선언적 실시간 파이프라인 구축
+- UC Volume에 **주기적으로 가상 데이터 생성**(Databricks App 활용)
+- **Auto Loader** 로 새 파일 자동 감지 및 수집
+- **Structured Streaming** 으로 실시간 Bronze → Silver 처리
+- **SDP + Streaming Table** 로 선언적 실시간 파이프라인 구축
 
 ---
 
@@ -253,12 +254,12 @@ SDP에서 Streaming Table과 Materialized View의 차이도 설명해줘.
 
 | 개념 | 실습 내용 |
 |------|-----------|
-|**UC Volume**| 파일 기반 데이터 랜딩존 (실무 S3/ADLS 대응) |
-|**Databricks App**| 이벤트 생성기 배포 (FastAPI) |
-|**Auto Loader**| cloudFiles 포맷, 새 파일 자동 감지, 스키마 추론 |
-|**Structured Streaming**| readStream, append 모드, 체크포인트 |
-|**SDP + Streaming**| @dp.table + Auto Loader, 실시간 Bronze→Silver→Gold |
-|** 실시간 모니터링**| 레이턴시 측정, Expectations 확인 |
+| **UC Volume** | 파일 기반 데이터 랜딩존 (실무 S3/ADLS 대응) |
+| **Databricks App** | 이벤트 생성기 배포 (FastAPI) |
+| **Auto Loader** | cloudFiles 포맷, 새 파일 자동 감지, 스키마 추론 |
+| **Structured Streaming** | readStream, append 모드, 체크포인트 |
+| **SDP + Streaming** | @dp.table + Auto Loader, 실시간 Bronze→Silver→Gold |
+| **실시간 모니터링** | 레이턴시 측정, Expectations 확인 |
 
 ---
 

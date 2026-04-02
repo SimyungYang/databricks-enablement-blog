@@ -14,11 +14,11 @@ Databricks AI Dev Kit은 AI 코딩 어시스턴트(Claude Code, Cursor, Windsurf
 
 | 도구 | 용도 | 설치 확인 |
 |------|------|-----------|
-|**Python 3.10+**| AI Dev Kit 실행 | `python3 --version` |
-|**uv**| Python 패키지 관리자 | `uv --version` |
-|**Databricks CLI**| 워크스페이스 연결 | `databricks --version` |
-|**Claude Code**(또는 Cursor) | AI 코딩 어시스턴트 | `claude --version` |
-|**Git**| 버전 관리 | `git --version` |
+| **Python 3.10+** | AI Dev Kit 실행 | `python3 --version` |
+| **uv** | Python 패키지 관리자 | `uv --version` |
+| **Databricks CLI** | 워크스페이스 연결 | `databricks --version` |
+| **Claude Code**(또는 Cursor) | AI 코딩 어시스턴트 | `claude --version` |
+| **Git** | 버전 관리 | `git --version` |
 
 ### 2. 필수 소프트웨어 설치
 
@@ -148,19 +148,19 @@ irm https://raw.githubusercontent.com/databricks-solutions/ai-dev-kit/main/insta
 
 | 구성 요소 | 역할 | 교육에서의 활용 |
 |-----------|------|-----------------|
-|**databricks-skills**| AI에게 Databricks 패턴/규약을 가르치는 마크다운 문서 | 모든 실습에서 자동으로 활용됨 |
-|**databricks-mcp-server**| AI가 Databricks 작업을 직접 실행하는 MCP 도구 | SQL 실행, 테이블 생성, 잡 관리 등 |
-|**databricks-tools-core**| 공유 Python 라이브러리 | LangChain/OpenAI 등과 통합 시 활용 |
+| **databricks-skills** | AI에게 Databricks 패턴/규약을 가르치는 마크다운 문서 | 모든 실습에서 자동으로 활용됨 |
+| **databricks-mcp-server** | AI가 Databricks 작업을 직접 실행하는 MCP 도구 | SQL 실행, 테이블 생성, 잡 관리 등 |
+| **databricks-tools-core** | 공유 Python 라이브러리 | LangChain/OpenAI 등과 통합 시 활용 |
 
 ### 포함된 19개 스킬 목록
 
 | 카테고리 | 스킬 |
 |----------|------|
-|** 데이터 엔지니어링**| spark-declarative-pipelines, jobs, asset-bundles, synthetic-data-gen, iceberg |
-|**SQL & 분석**| aibi-dashboards, unity-catalog, python-sdk |
-|**GenAI & 에이전트**| vector-search, parsing, agent-evaluation, mlflow-tracing, mlflow-onboarding |
-|** 앱 개발**| app-apx (FastAPI+React), app-python (Streamlit/Dash/Flask) |
-|**MLflow**| analyze-mlflow-trace, analyze-mlflow-chat-session, querying-mlflow-metrics |
+| **데이터 엔지니어링** | spark-declarative-pipelines, jobs, asset-bundles, synthetic-data-gen, iceberg |
+| **SQL & 분석** | aibi-dashboards, unity-catalog, python-sdk |
+| **GenAI & 에이전트** | vector-search, parsing, agent-evaluation, mlflow-tracing, mlflow-onboarding |
+| **앱 개발** | app-apx (FastAPI+React), app-python (Streamlit/Dash/Flask) |
+| **MLflow** | analyze-mlflow-trace, analyze-mlflow-chat-session, querying-mlflow-metrics |
 
 ---
 

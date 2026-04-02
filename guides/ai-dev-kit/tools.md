@@ -8,15 +8,15 @@ Builder App의 도구 시스템은 세 가지 설계 원칙을 따릅니다:
 
 ### 1. 최소 권한 원칙 (Principle of Least Privilege)
 
-각 도구는 ** 필요한 최소한의 API 권한만** 사용합니다. 예를 들어 `execute_sql` 도구는 SQL 실행 권한만 있으면 되고, 클러스터 관리 권한은 필요하지 않습니다. 사용자의 Databricks 토큰에 설정된 권한 범위 내에서만 도구가 작동합니다.
+각 도구는 **필요한 최소한의 API 권한만** 사용합니다. 예를 들어 `execute_sql` 도구는 SQL 실행 권한만 있으면 되고, 클러스터 관리 권한은 필요하지 않습니다. 사용자의 Databricks 토큰에 설정된 권한 범위 내에서만 도구가 작동합니다.
 
 ### 2. 멱등성 (Idempotency)
 
-`create_or_update_*` 패턴의 도구들은 ** 멱등적** 으로 설계되었습니다. 같은 요청을 여러 번 실행해도 결과가 동일합니다. 대시보드, Genie Space, 파이프라인 등을 `create_or_update`로 만들면, 이미 존재하면 업데이트하고 없으면 생성합니다. 이는 에이전트가 실패 후 재시도할 때 ** 부작용 없이 안전하게 실행** 할 수 있게 합니다.
+`create_or_update_*` 패턴의 도구들은 **멱등적** 으로 설계되었습니다. 같은 요청을 여러 번 실행해도 결과가 동일합니다. 대시보드, Genie Space, 파이프라인 등을 `create_or_update`로 만들면, 이미 존재하면 업데이트하고 없으면 생성합니다. 이는 에이전트가 실패 후 재시도할 때 **부작용 없이 안전하게 실행** 할 수 있게 합니다.
 
 ### 3. 비동기 장시간 작업 처리
 
-10초 이상 소요되는 작업(파이프라인 실행, 대규모 SQL 등)은 ** 백그라운드 스레드** 에서 실행됩니다. 에이전트는 `operation_id`를 받아 주기적으로 상태를 폴링하고, 완료되면 결과를 수신합니다. 이 패턴 덕분에 에이전트가 장시간 작업을 기다리는 동안 ** 다른 작업을 병렬로 수행** 할 수 있습니다.
+10초 이상 소요되는 작업(파이프라인 실행, 대규모 SQL 등)은 **백그라운드 스레드** 에서 실행됩니다. 에이전트는 `operation_id`를 받아 주기적으로 상태를 폴링하고, 완료되면 결과를 수신합니다. 이 패턴 덕분에 에이전트가 장시간 작업을 기다리는 동안 **다른 작업을 병렬로 수행** 할 수 있습니다.
 
 ### 각 Tool의 내부 작동 방식
 
@@ -26,10 +26,10 @@ MCP 도구가 호출되면 내부적으로 다음 과정이 진행됩니다:
 에이전트 → MCP Protocol → MCP Server → 입력 검증 → Databricks SDK 호출 → 결과 포매팅 → 반환
 ```
 
-1. ** 입력 검증**: 파라미터 타입, 필수값, 범위를 검증합니다
+1. **입력 검증**: 파라미터 타입, 필수값, 범위를 검증합니다
 2. **Databricks SDK 호출**: `databricks-sdk-py`를 사용하여 REST API를 호출합니다
-3. ** 에러 처리**: API 오류 시 사용자 친화적 메시지로 변환합니다
-4. ** 결과 포매팅**: JSON 응답을 에이전트가 이해할 수 있는 텍스트로 변환합니다
+3. **에러 처리**: API 오류 시 사용자 친화적 메시지로 변환합니다
+4. **결과 포매팅**: JSON 응답을 에이전트가 이해할 수 있는 텍스트로 변환합니다
 
 ---
 
@@ -167,12 +167,12 @@ MCP 도구가 호출되면 내부적으로 다음 과정이 진행됩니다:
 
 | Tool | 설명 |
 |---|---|
-| **Read**| 파일 내용 읽기 |
-| **Write**| 새 파일 생성 |
-| **Edit**| 기존 파일 수정 (diff 기반) |
-| **Glob**| 파일 패턴 검색 |
-| **Grep**| 파일 내용 정규식 검색 |
-| **Skill**| 스킬 파일 로드 및 실행 |
+| **Read** | 파일 내용 읽기 |
+| **Write** | 새 파일 생성 |
+| **Edit** | 기존 파일 수정 (diff 기반) |
+| **Glob** | 파일 패턴 검색 |
+| **Grep** | 파일 내용 정규식 검색 |
+| **Skill** | 스킬 파일 로드 및 실행 |
 
 {% hint style="info" %}
 Built-in Tools로 에이전트는 프로젝트 디렉토리 내에서 노트북, SQL 파일, Python 스크립트 등을 직접 생성하고 편집할 수 있습니다.
@@ -188,20 +188,20 @@ Built-in Tools로 에이전트는 프로젝트 디렉토리 내에서 노트북,
 
 | 스킬 | 설명 |
 |---|---|
-| **synthetic-data**| 합성 데이터 생성 가이드 |
-| **dashboard**| AI/BI 대시보드 생성 패턴 |
-| **genie-space**| Genie Space 구성 및 인스트럭션 작성 |
-| **sdp**| Spark Declarative Pipeline(SDP) 패턴 |
-| **unity-catalog**| UC 객체 생성 및 권한 관리 |
-| **python-sdk**| Databricks Python SDK 사용 패턴 |
-| **agent-bricks**| Knowledge Assistant, Genie Agent 등 Agent Bricks 구축 |
-| **lakebase**| Lakebase(PostgreSQL) 설정 및 사용 |
-| **jobs**| Databricks Jobs 생성 및 스케줄링 |
-| **dabs**| Databricks Asset Bundles 구성 |
-| **apps**| Databricks Apps 풀스택 개발(APX 프레임워크) |
-| **mlflow**| MLflow 실험 및 모델 평가 |
-| **model-serving**| Model Serving Endpoint 구성 |
-| **vector-search**| Vector Search Index 생성 및 RAG 패턴 |
+| **synthetic-data** | 합성 데이터 생성 가이드 |
+| **dashboard** | AI/BI 대시보드 생성 패턴 |
+| **genie-space** | Genie Space 구성 및 인스트럭션 작성 |
+| **sdp** | Spark Declarative Pipeline(SDP) 패턴 |
+| **unity-catalog** | UC 객체 생성 및 권한 관리 |
+| **python-sdk** | Databricks Python SDK 사용 패턴 |
+| **agent-bricks** | Knowledge Assistant, Genie Agent 등 Agent Bricks 구축 |
+| **lakebase** | Lakebase(PostgreSQL) 설정 및 사용 |
+| **jobs** | Databricks Jobs 생성 및 스케줄링 |
+| **dabs** | Databricks Asset Bundles 구성 |
+| **apps** | Databricks Apps 풀스택 개발(APX 프레임워크) |
+| **mlflow** | MLflow 실험 및 모델 평가 |
+| **model-serving** | Model Serving Endpoint 구성 |
+| **vector-search** | Vector Search Index 생성 및 RAG 패턴 |
 
 {% hint style="tip" %}
 스킬은 에이전트의 "사전 지식"입니다. 예를 들어 "대시보드를 만들어줘"라고 요청하면, 에이전트가 `dashboard` 스킬을 로드한 후 올바른 Lakeview 대시보드 JSON 구조를 생성합니다.
@@ -259,7 +259,7 @@ start_update (파이프라인 실행)
 ```
 
 {% hint style="info" %}
-에이전트는 이러한 패턴을 ** 스킬 파일** 에서 학습합니다. 예를 들어 `sdp` 스킬은 파이프라인 생성 → 실행 → 상태 확인의 전체 흐름을 안내합니다.
+에이전트는 이러한 패턴을 **스킬 파일** 에서 학습합니다. 예를 들어 `sdp` 스킬은 파이프라인 생성 → 실행 → 상태 확인의 전체 흐름을 안내합니다.
 {% endhint %}
 
 ---

@@ -12,13 +12,13 @@ Classic Compute(고객 VPC)와 달리, Serverless Compute는 Databricks 관리 V
 
 | 항목 | NCC (Serverless) | Classic PrivateLink |
 |------|------------------|---------------------|
-| ** 적용 대상**| Serverless Compute (SQL Warehouse, Notebook, Model Serving) | Classic Compute (고객 VPC 내 클러스터) |
-| **VPC 관리**| Databricks 관리 VPC | 고객 관리 VPC |
-| ** 구성 위치**| Account Console → Networking | AWS Console + Account Console |
-| **AWS 리소스 생성**| 불필요 (Databricks가 관리) | VPC Endpoint, Subnet 등 직접 생성 |
-| ** 연결 대상**| S3, 고객 VPC 리소스 (NLB 경유) | Databricks Control Plane |
-| ** 구성 난이도**| 낮음 (UI에서 수분 내 완료) | 높음 (AWS + Databricks 양쪽 구성) |
-| **Stable IP 지원**| NCC에 Stable IP 활성화 가능 | N/A (고객 VPC IP 사용) |
+| **적용 대상** | Serverless Compute (SQL Warehouse, Notebook, Model Serving) | Classic Compute (고객 VPC 내 클러스터) |
+| **VPC 관리** | Databricks 관리 VPC | 고객 관리 VPC |
+| **구성 위치** | Account Console → Networking | AWS Console + Account Console |
+| **AWS 리소스 생성** | 불필요 (Databricks가 관리) | VPC Endpoint, Subnet 등 직접 생성 |
+| **연결 대상** | S3, 고객 VPC 리소스 (NLB 경유) | Databricks Control Plane |
+| **구성 난이도** | 낮음 (UI에서 수분 내 완료) | 높음 (AWS + Databricks 양쪽 구성) |
+| **Stable IP 지원** | NCC에 Stable IP 활성화 가능 | N/A (고객 VPC IP 사용) |
 
 {% hint style="info" %}
 **NCC와 Classic PrivateLink는 상호 보완적입니다.**NCC는 Serverless → 외부 리소스 방향, Classic PrivateLink는 고객 VPC → Databricks Control Plane 방향입니다. 보안 요구사항에 따라 둘 다 구성할 수 있습니다.
@@ -28,14 +28,14 @@ Classic Compute(고객 VPC)와 달리, Serverless Compute는 Databricks 관리 V
 
 | 항목 | 제한 | 비고 |
 |------|------|------|
-| ** 리전당 최대 NCC 수**| 10개 | Account 단위 |
-| **NCC당 최대 Workspace 수**| 50개 | 하나의 NCC를 여러 Workspace가 공유 가능 |
-| **S3 Private Endpoint**| 리전당 최대 30개 | S3 bucket name 단위로 지정 |
-| **VPC Resource Endpoint (NLB)**| 리전당 최대 100개 | NLB ARN 단위로 지정 |
-| **Stable IP**| NCC당 고정 IP 수 제한 있음 | 방화벽 허용 목록에 활용 |
+| **리전당 최대 NCC 수** | 10개 | Account 단위 |
+| **NCC당 최대 Workspace 수** | 50개 | 하나의 NCC를 여러 Workspace가 공유 가능 |
+| **S3 Private Endpoint** | 리전당 최대 30개 | S3 bucket name 단위로 지정 |
+| **VPC Resource Endpoint (NLB)** | 리전당 최대 100개 | NLB ARN 단위로 지정 |
+| **Stable IP** | NCC당 고정 IP 수 제한 있음 | 방화벽 허용 목록에 활용 |
 
 {% hint style="warning" %}
-** 제한 초과 시**: 리전당 NCC 수(10개)나 엔드포인트 수가 부족한 경우 Databricks 지원팀에 한도 상향을 요청할 수 있습니다. 단, S3 엔드포인트의 경우 와일드카드는 지원하지 않으며 버킷 이름을 정확히 지정해야 합니다.
+**제한 초과 시**: 리전당 NCC 수(10개)나 엔드포인트 수가 부족한 경우 Databricks 지원팀에 한도 상향을 요청할 수 있습니다. 단, S3 엔드포인트의 경우 와일드카드는 지원하지 않으며 버킷 이름을 정확히 지정해야 합니다.
 {% endhint %}
 
 ## NCC 구성 절차
@@ -49,8 +49,8 @@ Account Console → **Security**→ **Networking**→ **Network connectivity con
 
 | 필드 | 값 | 설명 |
 |------|-----|------|
-| **Name**| `apne2-serverless-ncc` | 식별 이름 (리전 + 용도 조합 권장) |
-| **Region**| `ap-northeast-2` | Workspace가 위치한 리전과 동일해야 함 |
+| **Name** | `apne2-serverless-ncc` | 식별 이름 (리전 + 용도 조합 권장) |
+| **Region** | `ap-northeast-2` | Workspace가 위치한 리전과 동일해야 함 |
 
 3. "**Create**" 클릭 → NCC ID 생성됨
 
@@ -68,8 +68,8 @@ Serverless Compute에서 특정 S3 버킷에 프라이빗 네트워크 경로로
 
 | 필드 | 값 | 설명 |
 |------|-----|------|
-| **Type**| `S3` | S3 버킷 접근용 |
-| **S3 bucket name**| `my-data-bucket` | 대상 S3 버킷 이름 (와일드카드 불가) |
+| **Type** | `S3` | S3 버킷 접근용 |
+| **S3 bucket name** | `my-data-bucket` | 대상 S3 버킷 이름 (와일드카드 불가) |
 
 4. "**Add**" 클릭
 
@@ -106,14 +106,14 @@ Serverless Compute에서 특정 S3 버킷에 프라이빗 네트워크 경로로
 
 | 필드 | 값 | 설명 |
 |------|-----|------|
-| **Type**| `VPC endpoint` | VPC 리소스 접근용 |
-| **Resource ID**| VPC Endpoint Service의 서비스 이름 | `com.amazonaws.vpce.ap-northeast-2.vpce-svc-xxxx` 형태 |
+| **Type** | `VPC endpoint` | VPC 리소스 접근용 |
+| **Resource ID** | VPC Endpoint Service의 서비스 이름 | `com.amazonaws.vpce.ap-northeast-2.vpce-svc-xxxx` 형태 |
 
 3. "**Add**" 클릭
 4. 상태가 "**Pending**" → "**Established**"로 변경될 때까지 대기 (수 분 소요)
 
 {% hint style="warning" %}
-Endpoint Service에서 **Acceptance required: Yes** 로 설정한 경우, AWS Console → VPC → Endpoint Services → Endpoint connections에서 Databricks의 연결 요청을 ** 수동 승인** 해야 합니다.
+Endpoint Service에서 **Acceptance required: Yes** 로 설정한 경우, AWS Console → VPC → Endpoint Services → Endpoint connections에서 Databricks의 연결 요청을 **수동 승인** 해야 합니다.
 {% endhint %}
 
 ### Step 4: Workspace에 NCC 연결
@@ -132,7 +132,7 @@ Endpoint Service에서 **Acceptance required: Yes** 로 설정한 경우, AWS Co
 {% endhint %}
 
 {% hint style="info" %}
-** 하나의 NCC를 여러 Workspace에서 공유할 수 있습니다.** 동일 리전에 여러 Workspace가 있고 동일한 네트워크 정책을 적용하려면 NCC를 공유하는 것이 관리 효율적입니다 (최대 50개 Workspace/NCC).
+**하나의 NCC를 여러 Workspace에서 공유할 수 있습니다.** 동일 리전에 여러 Workspace가 있고 동일한 네트워크 정책을 적용하려면 NCC를 공유하는 것이 관리 효율적입니다 (최대 50개 Workspace/NCC).
 {% endhint %}
 
 ## NCC 검증

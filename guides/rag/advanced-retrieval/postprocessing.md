@@ -2,20 +2,20 @@
 
 ## 개요
 
-검색 결과를 LLM에 전달한 ** 이후** 에 수행하는 품질 개선 기법들입니다. 환각(Hallucination)을 줄이고 답변의 신뢰성을 높이는 데 핵심적인 역할을 합니다.
+검색 결과를 LLM에 전달한 **이후** 에 수행하는 품질 개선 기법들입니다. 환각(Hallucination)을 줄이고 답변의 신뢰성을 높이는 데 핵심적인 역할을 합니다.
 
 아래 표는 주요 후처리 전략을 비교합니다.
 
 | 전략 | 설명 | ML 모델 | Databricks 지원 | 환각 감소 효과 |
 |------|------|--------|--------------|------------|
-| **Self-RAG**| LLM이 스스로 검색 관련성, 답변 충실도, 질문 충족도를 평가하고 반복. 자기 교정 메커니즘 | LLM | ✅ | 높음 |
-| **Corrective RAG (CRAG)**| 검색 결과를 "정확/모호/틀림"으로 분류. 틀리면 외부 웹 검색으로 보완 | LLM/Classic | ✅ | 높음 |
-| **FLARE**| 생성 중 확신도가 낮은 부분에서 자동으로 추가 검색 수행. 긴 문서 작업에 효과적 | LLM | ✅ | 중간 |
-| ** 출력 가드레일**| JSON 포맷 검증, 보안 가이드라인 위반 체크, 편향성/욕설 필터링 | Classic | ✅ | - |
+| **Self-RAG** | LLM이 스스로 검색 관련성, 답변 충실도, 질문 충족도를 평가하고 반복. 자기 교정 메커니즘 | LLM | ✅ | 높음 |
+| **Corrective RAG (CRAG)** | 검색 결과를 "정확/모호/틀림"으로 분류. 틀리면 외부 웹 검색으로 보완 | LLM/Classic | ✅ | 높음 |
+| **FLARE** | 생성 중 확신도가 낮은 부분에서 자동으로 추가 검색 수행. 긴 문서 작업에 효과적 | LLM | ✅ | 중간 |
+| **출력 가드레일** | JSON 포맷 검증, 보안 가이드라인 위반 체크, 편향성/욕설 필터링 | Classic | ✅ | - |
 
 ## Self-RAG (자기 교정 RAG)
 
-Self-RAG는 LLM이 ** 스스로 검색 결과의 관련성과 답변의 품질을 평가** 하고, 필요하면 재검색하는 반복적 자기 교정 프로세스입니다.
+Self-RAG는 LLM이 **스스로 검색 결과의 관련성과 답변의 품질을 평가** 하고, 필요하면 재검색하는 반복적 자기 교정 프로세스입니다.
 
 ```python
 def self_rag(question: str, retriever, llm, max_iterations: int = 3) -> str:
@@ -68,7 +68,7 @@ def self_rag(question: str, retriever, llm, max_iterations: int = 3) -> str:
 
 ## Corrective RAG (CRAG)
 
-Corrective RAG는 검색 결과를 **"정확/모호/틀림"**3단계로 분류하고, 결과가 부정확하면 ** 외부 웹 검색으로 보완** 하는 전략입니다.
+Corrective RAG는 검색 결과를 **"정확/모호/틀림"**3단계로 분류하고, 결과가 부정확하면 **외부 웹 검색으로 보완** 하는 전략입니다.
 
 ```python
 def corrective_rag(question: str, docs: list, llm) -> dict:
@@ -107,7 +107,7 @@ def corrective_rag(question: str, docs: list, llm) -> dict:
 
 ## FLARE (Forward-Looking Active REtrieval)
 
-FLARE는 LLM이 답변을 생성하는 ** 도중에** 확신도가 낮은 부분을 감지하고, 해당 부분에 대해 ** 추가 검색을 자동 수행** 하는 기법입니다. 특히 긴 문서를 생성할 때 효과적입니다.
+FLARE는 LLM이 답변을 생성하는 **도중에** 확신도가 낮은 부분을 감지하고, 해당 부분에 대해 **추가 검색을 자동 수행** 하는 기법입니다. 특히 긴 문서를 생성할 때 효과적입니다.
 
 ```python
 def flare_generate(question: str, retriever, llm) -> str:

@@ -8,13 +8,13 @@ accounts.cloud.databricks.com → Workspaces → Create workspace
 
 | 항목 | 설정값 |
 |------|--------|
-| **Workspace name**| 식별 이름 (예: `prod-workspace-apne2`) |
-| **Region**| `ap-northeast-2` (Seoul) |
-| **Credential configuration**| Credential 구성에서 생성한 Credential 선택 |
-| **Storage configuration**| Storage 구성에서 생성한 Storage 선택 |
-| **Network configuration**| Network 구성에서 생성한 Network 선택 (PrivateLink 포함) |
-| **Private access settings**| Backend PrivateLink에서 생성한 PAS 선택 |
-| **Pricing tier**| **Enterprise**(PrivateLink 사용 시 필수) |
+| **Workspace name** | 식별 이름 (예: `prod-workspace-apne2`) |
+| **Region** | `ap-northeast-2` (Seoul) |
+| **Credential configuration** | Credential 구성에서 생성한 Credential 선택 |
+| **Storage configuration** | Storage 구성에서 생성한 Storage 선택 |
+| **Network configuration** | Network 구성에서 생성한 Network 선택 (PrivateLink 포함) |
+| **Private access settings** | Backend PrivateLink에서 생성한 PAS 선택 |
+| **Pricing tier** | **Enterprise**(PrivateLink 사용 시 필수) |
 | **CMK**(선택) | Managed services CMK / Storage CMK |
 
 **Create workspace** 클릭 → 프로비저닝 시작
@@ -29,9 +29,9 @@ accounts.cloud.databricks.com → Workspaces → Create workspace
 
 | 상태 | 의미 |
 |------|------|
-| **PROVISIONING**| 생성 중 |
-| **RUNNING**| 정상 — 사용 가능 |
-| **FAILED**| 실패 — 에러 메시지 확인 |
+| **PROVISIONING** | 생성 중 |
+| **RUNNING** | 정상 — 사용 가능 |
+| **FAILED** | 실패 — 에러 메시지 확인 |
 
 ### 소요 시간
 
@@ -39,7 +39,7 @@ accounts.cloud.databricks.com → Workspaces → Create workspace
 |------|------|
 | Workspace 프로비저닝 | ~5-7분 |
 | PrivateLink DNS 전파 | +10-20분 |
-| ** 클러스터 생성 가능**| 프로비저닝 후 ** 최소 20분 대기**|
+| **클러스터 생성 가능** | 프로비저닝 후 **최소 20분 대기** |
 
 {% hint style="warning" %}
 PrivateLink 워크스페이스는 프로비저닝 완료 후 **20분 대기** 필요 — DNS 전파 시간. 로컬 DNS 캐시 플러시: `sudo killall -HUP mDNSResponder` (macOS) 또는 `ipconfig /flushdns` (Windows)

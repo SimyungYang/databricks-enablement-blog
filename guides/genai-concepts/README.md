@@ -15,8 +15,8 @@ Databricks의 GenAI 기능(Mosaic AI, Agent Framework, AI Playground 등)을 제
 ### 대상 독자
 
 - **SE/SA**: 고객 데모 및 PoC 수행 시 GenAI 배경지식이 필요한 경우
-- ** 파트너 엔지니어**: Databricks 기반 GenAI 솔루션을 설계하는 경우
-- ** 고객 기술 리더**: AI 전략 수립 시 기술 개념을 파악하고 싶은 경우
+- **파트너 엔지니어**: Databricks 기반 GenAI 솔루션을 설계하는 경우
+- **고객 기술 리더**: AI 전략 수립 시 기술 개념을 파악하고 싶은 경우
 
 ### 선수 지식
 
@@ -50,10 +50,10 @@ Databricks의 GenAI 기능(Mosaic AI, Agent Framework, AI Playground 등)을 제
 
 | 역할 | 권장 순서 | 소요 시간 |
 |------|-----------|-----------|
-| **GenAI 입문자**| NLP 발전사 → LLM 기초 → Prompt Engineering → 평가 방법론 | 4~5시간 |
-| **Agent 개발자**| LLM 기초 → Agent 아키텍처 → Agent 프레임워크 → Agent UI → A2A → 평가 방법론 | 6~7시간 |
-| ** 기술 리더/전략가**| AI Proficiency → NLP 발전사 → LLM 기초 → Agent 아키텍처 | 3~4시간 |
-| **SE/SA (고객 대응)**| 전체 과정 (NLP 발전사 → LLM → Prompt → Agent → 평가 → A2A → AI Proficiency) | 8~10시간 |
+| **GenAI 입문자** | NLP 발전사 → LLM 기초 → Prompt Engineering → 평가 방법론 | 4~5시간 |
+| **Agent 개발자** | LLM 기초 → Agent 아키텍처 → Agent 프레임워크 → Agent UI → A2A → 평가 방법론 | 6~7시간 |
+| **기술 리더/전략가** | AI Proficiency → NLP 발전사 → LLM 기초 → Agent 아키텍처 | 3~4시간 |
+| **SE/SA (고객 대응)** | 전체 과정 (NLP 발전사 → LLM → Prompt → Agent → 평가 → A2A → AI Proficiency) | 8~10시간 |
 
 ### 목적별 권장 경로
 
@@ -114,28 +114,28 @@ Transformer 이전의 NLP 발전사(규칙 기반 → 통계 → Word2Vec → RN
 
 | 용어 | 설명 |
 |------|------|
-| **LLM**| Large Language Model — 대규모 언어 모델. 수십억~수조 개의 파라미터로 학습된 딥러닝 모델 |
-| **Transformer**| 현대 LLM의 기반 아키텍처. Self-Attention 메커니즘으로 문맥을 효과적으로 파악 |
-| **Token**| LLM이 텍스트를 처리하는 최소 단위. 영어 1토큰 ≈ 0.75단어, 한국어는 더 많은 토큰 사용 |
-| **Context Window**| 모델이 한 번에 처리할 수 있는 최대 토큰 수. 입력+출력 합산 |
-| **Temperature**| 출력의 무작위성을 조절하는 파라미터. 0=결정적, 1=창의적 |
-| **RAG**| Retrieval-Augmented Generation — 외부 문서를 검색하여 LLM에 컨텍스트로 제공하는 패턴 |
-| **Agent**| LLM + 도구 사용 + 추론 루프를 결합한 자율 시스템 |
-| **ReAct**| Reasoning + Acting — LLM이 추론과 행동을 번갈아 수행하는 패턴 |
-| **Tool Use / Function Calling**| LLM이 외부 함수를 호출할 수 있는 기능 |
-| **MCP**| Model Context Protocol — LLM과 외부 도구/데이터를 연결하는 표준 (Anthropic, 2024) |
-| **A2A**| Agent-to-Agent Protocol — 에이전트 간 통신 표준 (Google, 2025) |
-| **Fine-tuning**| 사전 학습된 모델을 특정 도메인 데이터로 추가 학습 |
-| **Hallucination**| 모델이 사실이 아닌 내용을 자신있게 생성하는 현상 |
-| **Embedding**| 텍스트를 고차원 벡터 공간에 매핑한 수치 표현. 의미적 유사도 계산에 사용 |
-| **Vector Search**| 임베딩 벡터의 유사도를 기반으로 관련 문서를 검색하는 기술 |
-| **Prompt Injection**| 악의적 입력으로 LLM의 원래 지시를 무시하게 만드는 공격 |
-| **Guardrails**| LLM 입출력을 필터링하여 안전성을 확보하는 장치 |
-| **LLM-as-Judge**| LLM 출력의 품질을 다른 LLM이 평가하는 패턴 |
-| **Inference Table**| 모델 서빙 시 요청/응답을 자동으로 기록하는 Databricks 기능 |
-| **MoE**| Mixture of Experts — 전체 파라미터 중 일부만 활성화하는 효율적 아키텍처 |
-| **CoT**| Chain-of-Thought — 단계적 추론을 유도하여 정확도를 높이는 프롬프트 기법 |
-| **Multi-Agent**| 여러 전문 Agent가 협업하여 복잡한 작업을 수행하는 시스템 |
+| **LLM** | Large Language Model — 대규모 언어 모델. 수십억~수조 개의 파라미터로 학습된 딥러닝 모델 |
+| **Transformer** | 현대 LLM의 기반 아키텍처. Self-Attention 메커니즘으로 문맥을 효과적으로 파악 |
+| **Token** | LLM이 텍스트를 처리하는 최소 단위. 영어 1토큰 ≈ 0.75단어, 한국어는 더 많은 토큰 사용 |
+| **Context Window** | 모델이 한 번에 처리할 수 있는 최대 토큰 수. 입력+출력 합산 |
+| **Temperature** | 출력의 무작위성을 조절하는 파라미터. 0=결정적, 1=창의적 |
+| **RAG** | Retrieval-Augmented Generation — 외부 문서를 검색하여 LLM에 컨텍스트로 제공하는 패턴 |
+| **Agent** | LLM + 도구 사용 + 추론 루프를 결합한 자율 시스템 |
+| **ReAct** | Reasoning + Acting — LLM이 추론과 행동을 번갈아 수행하는 패턴 |
+| **Tool Use / Function Calling** | LLM이 외부 함수를 호출할 수 있는 기능 |
+| **MCP** | Model Context Protocol — LLM과 외부 도구/데이터를 연결하는 표준 (Anthropic, 2024) |
+| **A2A** | Agent-to-Agent Protocol — 에이전트 간 통신 표준 (Google, 2025) |
+| **Fine-tuning** | 사전 학습된 모델을 특정 도메인 데이터로 추가 학습 |
+| **Hallucination** | 모델이 사실이 아닌 내용을 자신있게 생성하는 현상 |
+| **Embedding** | 텍스트를 고차원 벡터 공간에 매핑한 수치 표현. 의미적 유사도 계산에 사용 |
+| **Vector Search** | 임베딩 벡터의 유사도를 기반으로 관련 문서를 검색하는 기술 |
+| **Prompt Injection** | 악의적 입력으로 LLM의 원래 지시를 무시하게 만드는 공격 |
+| **Guardrails** | LLM 입출력을 필터링하여 안전성을 확보하는 장치 |
+| **LLM-as-Judge** | LLM 출력의 품질을 다른 LLM이 평가하는 패턴 |
+| **Inference Table** | 모델 서빙 시 요청/응답을 자동으로 기록하는 Databricks 기능 |
+| **MoE** | Mixture of Experts — 전체 파라미터 중 일부만 활성화하는 효율적 아키텍처 |
+| **CoT** | Chain-of-Thought — 단계적 추론을 유도하여 정확도를 높이는 프롬프트 기법 |
+| **Multi-Agent** | 여러 전문 Agent가 협업하여 복잡한 작업을 수행하는 시스템 |
 
 ---
 

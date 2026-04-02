@@ -2,17 +2,17 @@
 
 ## Genie Code란?
 
-Genie Code는 Databricks 노트북/콘솔에 ** 내장된 AI 에이전트** 입니다.
+Genie Code는 Databricks 노트북/콘솔에 **내장된 AI 에이전트** 입니다.
 별도의 도구 설치 없이 Databricks 환경에서 바로 자연어로 코드를 생성하고 실행할 수 있습니다.
 
 ### Genie Code vs AI Dev Kit (Claude Code)
 
-| |**Genie Code**|**AI Dev Kit (Claude Code)**|
+| | **Genie Code** | **AI Dev Kit (Claude Code)** |
 |---|---|---|
-|** 설치**| 불필요 (Databricks 내장) | Claude Code + AI Dev Kit 설치 필요 |
-|** 사용 환경**| Databricks 노트북/콘솔 | 로컬 터미널/IDE |
-|** 장점**| 즉시 시작, Databricks 최적화 | 높은 커스터마이징, 다양한 도구 |
-|** 적합한 상황**| 노트북 내 빠른 작업 | 복잡한 프로젝트, 멀티파일 |
+| **설치** | 불필요 (Databricks 내장) | Claude Code + AI Dev Kit 설치 필요 |
+| **사용 환경** | Databricks 노트북/콘솔 | 로컬 터미널/IDE |
+| **장점** | 즉시 시작, Databricks 최적화 | 높은 커스터마이징, 다양한 도구 |
+| **적합한 상황** | 노트북 내 빠른 작업 | 복잡한 프로젝트, 멀티파일 |
 
 ### Genie Code 활성화
 

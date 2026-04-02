@@ -2,20 +2,21 @@
 
 ## 이 가이드 사용 방법
 
->** 이 교육 자료는 Claude Code (또는 Cursor)와 함께 사용합니다.**>
+>** 이 교육 자료는 Claude Code (또는 Cursor)와 함께 사용합니다.**
+>
 > 1. 터미널에서 프로젝트 디렉토리로 이동: `cd ~/smarttv-training`
 > 2. Claude Code 실행: `claude`
 > 3. 각 Step의 "**Claude에게 요청하기**" 박스 내용을 복사하여 Claude에게 붙여넣기
 > 4. Claude가 코드를 생성하고 Databricks에서 실행합니다
 >
->** 이 모듈의 핵심:**"이런 것도 표현할 수 있다"를 ** 보여주는 것** 이 목표!
+>** 이 모듈의 핵심:**"이런 것도 표현할 수 있다"를 **보여주는 것** 이 목표!
 
 ---
 
 ## 학습 목표
 
-- AI/BI Dashboard로 ** 다양한 차트 유형** 을 활용한 대시보드 구성
-- AI/BI Genie Space로 ** 자연어 데이터 탐색** 체험
+- AI/BI Dashboard로 **다양한 차트 유형** 을 활용한 대시보드 구성
+- AI/BI Genie Space로 **자연어 데이터 탐색** 체험
 - 비즈니스 사용자 관점에서 데이터 인사이트 도출
 
 ---
@@ -24,11 +25,11 @@
 
 ### Dashboard vs Genie
 
-| |**AI/BI Dashboard**|**AI/BI Genie**|
+| | **AI/BI Dashboard** | **AI/BI Genie** |
 |---|---|---|
-|** 용도**| 정해진 KPI 모니터링 | 자유 탐색, ad-hoc 질문 |
-|** 대상**| 경영진, 정기 리포트 | PM, 마케터, 분석가 |
-|** 조합**| 대시보드에서 이상 발견 → Genie로 원인 파악 |
+| **용도** | 정해진 KPI 모니터링 | 자유 탐색, ad-hoc 질문 |
+| **대상** | 경영진, 정기 리포트 | PM, 마케터, 분석가 |
+| **조합** | 대시보드에서 이상 발견 → Genie로 원인 파악 |
 
 ---
 
@@ -251,16 +252,16 @@ AI/BI 대시보드의 첫 번째 페이지 "Executive Overview"를 만들어줘.
 
 | 차트 유형 | 사용 위치 | 용도 |
 |-----------|----------|------|
-|**Counter**| Executive Overview | KPI 숫자 한눈에, WoW 변화율 |
-|**Line**| Overview, Viewing, Ad Revenue | 시계열 추이 |
-|**Pie / Donut**| Overview, Viewing | 비율/구성 |
-|**Bar (V/H)**| 전체 페이지 | 비교, 랭킹 |
-|**Stacked Bar**| Ad Revenue | 구성 요소별 누적 |
-|**Stacked Area**| Overview | 트렌드 + 구성 |
-|**Heatmap**| Viewing Analytics | 2차원 밀도 (시간×요일) |
-|**Scatter / Bubble**| Ad Revenue, Funnel | 상관관계, 다차원 비교 |
-|**Funnel**| Funnel & Segments | 전환율 분석 |
-|**Table**| Overview | 상세 데이터, 조건부 서식 |
+| **Counter** | Executive Overview | KPI 숫자 한눈에, WoW 변화율 |
+| **Line** | Overview, Viewing, Ad Revenue | 시계열 추이 |
+| **Pie / Donut** | Overview, Viewing | 비율/구성 |
+| **Bar (V/H)** | 전체 페이지 | 비교, 랭킹 |
+| **Stacked Bar** | Ad Revenue | 구성 요소별 누적 |
+| **Stacked Area** | Overview | 트렌드 + 구성 |
+| **Heatmap** | Viewing Analytics | 2차원 밀도 (시간×요일) |
+| **Scatter / Bubble** | Ad Revenue, Funnel | 상관관계, 다차원 비교 |
+| **Funnel** | Funnel & Segments | 전환율 분석 |
+| **Table** | Overview | 상세 데이터, 조건부 서식 |
 
 ---
 
@@ -396,10 +397,10 @@ Genie Space를 생성해줘.
 
 | 개념 | 실습 내용 |
 |------|-----------|
-|**AI/BI Dashboard**| 4페이지 대시보드, 10+ 차트 유형 (Counter/Line/Bar/Pie/Heatmap/Scatter/Funnel/Table) |
-|** 대시보드 설계**| KPI 모니터링, 시청 분석, 광고 수익, 사용자 세그먼트 |
-|**AI/BI Genie Space**| 자연어 → SQL 변환, 비즈니스 사용자 데이터 탐색 |
-|**Genie 실습**| 17개 자연어 질문 (시청/광고/사용자/크로스/트렌드) |
+| **AI/BI Dashboard** | 4페이지 대시보드, 10+ 차트 유형 (Counter/Line/Bar/Pie/Heatmap/Scatter/Funnel/Table) |
+| **대시보드 설계** | KPI 모니터링, 시청 분석, 광고 수익, 사용자 세그먼트 |
+| **AI/BI Genie Space** | 자연어 → SQL 변환, 비즈니스 사용자 데이터 탐색 |
+| **Genie 실습** | 17개 자연어 질문 (시청/광고/사용자/크로스/트렌드) |
 
 ---
 

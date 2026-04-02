@@ -109,17 +109,17 @@ async def main(message: cl.Message):
 
 ### 장점과 한계
 
-** 장점:**
+**장점:**
 - Agent 추론 과정을 가장 잘 시각화 -- PoC 데모에서 "Agent가 어떻게 생각하는지" 보여주기에 최적
 - LangChain/LangGraph와의 깊은 통합 -- 콜백 자동 연동
 - 비동기(async) 네이티브 -- 스트리밍 응답이 자연스러움
 - 파일 처리 내장 -- 문서 분석 Agent에 바로 적용 가능
 
-** 한계:**
-- ** 대시보드 기능 없음**: 차트, 테이블, 사이드바 등의 대시보드 컴포넌트가 없음
-- ** 위젯 부족**: Streamlit의 slider, selectbox, checkbox 같은 입력 위젯이 없음
+**한계:**
+- **대시보드 기능 없음**: 차트, 테이블, 사이드바 등의 대시보드 컴포넌트가 없음
+- **위젯 부족**: Streamlit의 slider, selectbox, checkbox 같은 입력 위젯이 없음
 - **Databricks Apps 미지원**: 현재 Databricks Apps에서 Chainlit을 직접 호스팅할 수 없음 (FastAPI 래핑으로 우회 가능)
-- ** 생태계 규모**: Streamlit/Gradio 대비 커뮤니티, 플러그인, 예제가 적음
+- **생태계 규모**: Streamlit/Gradio 대비 커뮤니티, 플러그인, 예제가 적음
 
 {% hint style="warning" %}
 **Databricks 환경에서의 Chainlit 사용**: Chainlit은 Databricks Apps에서 직접 지원하지 않습니다. Databricks Apps 배포가 목표라면 Streamlit을 사용하고, Chainlit의 Step 시각화가 꼭 필요하다면 로컬 PoC 단계에서만 활용하는 것을 권장합니다.
@@ -135,7 +135,7 @@ async def main(message: cl.Message):
 
 ### 핵심 원리: 콜백(Callback) 패턴
 
-Streamlit이 스크립트 전체를 재실행하는 반면, Dash는 ** 콜백 함수** 를 통해 특정 컴포넌트만 업데이트합니다. 이 방식은 React의 상태 관리와 유사합니다.
+Streamlit이 스크립트 전체를 재실행하는 반면, Dash는 **콜백 함수** 를 통해 특정 컴포넌트만 업데이트합니다. 이 방식은 React의 상태 관리와 유사합니다.
 
 ```python
 import dash
@@ -200,21 +200,21 @@ if __name__ == "__main__":
 
 | 강점 영역 | 설명 |
 |----------|------|
-| ** 복잡한 대시보드**| 다수의 차트, 필터, 탭이 연동되는 분석 대시보드 |
-| ** 프로덕션 안정성**| Flask 기반, WSGI 호환, Gunicorn 등 표준 배포 가능 |
-| **Plotly 차트**| 인터랙티브 차트의 최고 품질 (확대/축소, 호버, 선택 등) |
-| ** 콜백 패턴**| 특정 컴포넌트만 업데이트 → 대규모 앱에서도 성능 유지 |
-| **Databricks Apps 지원**| 공식 지원 프레임워크 |
+| **복잡한 대시보드** | 다수의 차트, 필터, 탭이 연동되는 분석 대시보드 |
+| **프로덕션 안정성** | Flask 기반, WSGI 호환, Gunicorn 등 표준 배포 가능 |
+| **Plotly 차트** | 인터랙티브 차트의 최고 품질 (확대/축소, 호버, 선택 등) |
+| **콜백 패턴** | 특정 컴포넌트만 업데이트 → 대규모 앱에서도 성능 유지 |
+| **Databricks Apps 지원** | 공식 지원 프레임워크 |
 
 ### 한계
 
-- ** 채팅 UI 구현 복잡**: 채팅 인터페이스를 만들려면 직접 HTML/CSS를 조합해야 함
-- ** 학습 곡선**: 콜백 패턴, Input/Output/State 개념 학습 필요 (Streamlit 대비 러닝커브 2~3배)
-- ** 개발 속도 느림**: 같은 기능을 Streamlit의 2~3배 코드로 구현
-- ** 채팅보다 대시보드**: Agent 채팅 UI로는 비효율적, 모니터링/분석 대시보드에 특화
+- **채팅 UI 구현 복잡**: 채팅 인터페이스를 만들려면 직접 HTML/CSS를 조합해야 함
+- **학습 곡선**: 콜백 패턴, Input/Output/State 개념 학습 필요 (Streamlit 대비 러닝커브 2~3배)
+- **개발 속도 느림**: 같은 기능을 Streamlit의 2~3배 코드로 구현
+- **채팅보다 대시보드**: Agent 채팅 UI로는 비효율적, 모니터링/분석 대시보드에 특화
 
 {% hint style="info" %}
-** 적합 사례**: 모델 모니터링 대시보드, A/B 테스트 결과 시각화, 비즈니스 KPI 대시보드 등 ** 차트와 필터가 중심** 인 앱에 Dash가 적합합니다. Agent 채팅이 주요 기능이라면 Streamlit이나 Chainlit을 선택하세요.
+**적합 사례**: 모델 모니터링 대시보드, A/B 테스트 결과 시각화, 비즈니스 KPI 대시보드 등 **차트와 필터가 중심** 인 앱에 Dash가 적합합니다. Agent 채팅이 주요 기능이라면 Streamlit이나 Chainlit을 선택하세요.
 {% endhint %}
 
 ---

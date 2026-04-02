@@ -2,7 +2,8 @@
 
 ## 이 가이드 사용 방법
 
->** 이 교육 자료는 Claude Code (또는 Cursor)와 함께 사용합니다.**>
+>** 이 교육 자료는 Claude Code (또는 Cursor)와 함께 사용합니다.**
+>
 > 1. 터미널에서 프로젝트 디렉토리로 이동: `cd ~/smarttv-training`
 > 2. Claude Code 실행: `claude`
 > 3. 각 Step의 "**Claude에게 요청하기**" 박스 내용을 복사하여 Claude에게 붙여넣기
@@ -388,12 +389,12 @@ Job을 생성하고, 구조를 설명해줘.
 
 | 개념 | 실습 내용 |
 |------|-----------|
-|**Medallion Architecture**| Bronze(원본) → Silver(정제) → Gold(집계) 3단계 파이프라인 |
-|** 데이터 정제**| NULL 처리, 중복 제거, 타입 변환, 범위 검증 |
-|** 피처 엔지니어링**| 시간대 분류, 사용자 프로필, 세션 분석 |
-|**Spark Declarative Pipelines**| Streaming Table, Materialized View, Expectations |
-|**Databricks Jobs**| 멀티태스크 DAG, Cron 스케줄링, 알림 설정 |
-|** 데이터 품질 관리**| Expectations, 정합성 검증, 모니터링 |
+| **Medallion Architecture** | Bronze(원본) → Silver(정제) → Gold(집계) 3단계 파이프라인 |
+| **데이터 정제** | NULL 처리, 중복 제거, 타입 변환, 범위 검증 |
+| **피처 엔지니어링** | 시간대 분류, 사용자 프로필, 세션 분석 |
+| **Spark Declarative Pipelines** | Streaming Table, Materialized View, Expectations |
+| **Databricks Jobs** | 멀티태스크 DAG, Cron 스케줄링, 알림 설정 |
+| **데이터 품질 관리** | Expectations, 정합성 검증, 모니터링 |
 
 ---
 
