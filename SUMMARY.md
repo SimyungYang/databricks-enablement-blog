@@ -167,6 +167,9 @@
   * [인기 서버 & 활용 시나리오](guides/mcp/popular-servers.md)
   * [Databricks MCP 활용](guides/mcp/databricks-mcp.md)
   * [베스트 프랙티스](guides/mcp/best-practices.md)
+* [ML 핵심 개념](guides/ml-fundamentals/README.md)
+  * [ML 트렌드 & 최신 기법](guides/ml-fundamentals/ml-trends.md)
+  * [재학습 전략](guides/ml-fundamentals/retraining-strategies.md)
 
 ## Hands-on Workshop
 
@@ -183,9 +186,6 @@
   * [08. Model Monitoring](hands-on/predictive-maintenance/08-model-monitoring.md)
   * [09. MLOps Agent](hands-on/predictive-maintenance/09-mlops-agent.md)
   * [10. Job Scheduling](hands-on/predictive-maintenance/10-job-scheduling.md)
-  * [ML 심화 가이드](hands-on/predictive-maintenance/ml-advanced/README.md)
-    * [ML 트렌드 & 최신 기법](hands-on/predictive-maintenance/ml-advanced/ml-trends.md)
-    * [재학습 전략](hands-on/predictive-maintenance/ml-advanced/retraining-strategies.md)
 * [AI Vibe Coding — Smart TV](hands-on/smart-tv-vibe/README.md)
   * [시작하기](hands-on/smart-tv-vibe/getting-started.md)
   * [00. 환경 설정](hands-on/smart-tv-vibe/00-setup.md)
