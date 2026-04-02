@@ -56,7 +56,7 @@ Attention 가중치:     0.1 0.1 0.5 0.2 0.1  ← "이 단어를 번역할 때 h
 | BLEU 26.75 (영-불 번역) | BLEU 36.15 — **35% 향상** |
 
 {% hint style="info" %}
-**Attention이 Transformer의 직접적 조상입니다.**Bahdanau Attention은 아직 RNN 위에 얹은 "보조 장치"였습니다. "Attention만으로 모델 전체를 만들면 어떨까?" — 이 질문의 답이 2017년의 Transformer입니다.
+**Attention이 Transformer의 직접적 조상입니다.** Bahdanau Attention은 아직 RNN 위에 얹은 "보조 장치"였습니다. "Attention만으로 모델 전체를 만들면 어떨까?" — 이 질문의 답이 2017년의 Transformer입니다.
 {% endhint %}
 
 ---

@@ -241,7 +241,7 @@ configs = [
 for config in configs:
     with mlflow.start_run(run_name=config["name"]):
         # 설정에 따라 RAG 체인 구성
-        chain = build_rag_chain(**config)
+        chain = build_rag_chain(** config)
 
         # 평가 실행
         results = mlflow.evaluate(

@@ -27,7 +27,7 @@ print(f"최적 모델 Run: {run_id}, Val F1: {best_run.iloc[0]['metrics.val_f1_s
 
 ## 2. Unity Catalog에 모델 등록
 
-`mlflow.register_model()`로 모델을 UC에 등록합니다. **카탈로그.스키마.모델명**3-Level 네임스페이스로 관리됩니다.
+`mlflow.register_model()`로 모델을 UC에 등록합니다. **카탈로그.스키마.모델명** 3-Level 네임스페이스로 관리됩니다.
 
 ```python
 model_name = f"{catalog}.{db}.lgit_predictive_maintenance"

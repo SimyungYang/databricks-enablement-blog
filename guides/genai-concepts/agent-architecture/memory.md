@@ -379,7 +379,7 @@ def execution_node(state: AgentState) -> dict:
     step = state["plan"][state["current_step"]]
     result = execute_step(step, state["intermediate_results"])
 
-    new_results = {**state["intermediate_results"], f"step_{state['current_step']}": result}
+    new_results = {** state["intermediate_results"], f"step_{state['current_step']}": result}
     return {
         "current_step": state["current_step"] + 1,
         "intermediate_results": new_results,

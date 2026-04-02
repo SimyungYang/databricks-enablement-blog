@@ -163,7 +163,7 @@ AWS의 멀티에이전트 전략은 **3-tier 구조** 입니다.
 
 ### 2.1 전략 개요
 
-Microsoft의 Agent 전략은 "**Open Agentic Web**"이라는 비전 아래, Agent가 웹 서비스처럼 상호 운용 가능한 생태계를 만드는 것을 목표로 합니다. OpenAI와의 전략적 파트너십, GitHub/LinkedIn/Dynamics 365 등 SaaS 자산, 그리고 Azure 클라우드를 결합한 **수직 통합 전략** 이 핵심입니다.
+Microsoft의 Agent 전략은 "** Open Agentic Web**"이라는 비전 아래, Agent가 웹 서비스처럼 상호 운용 가능한 생태계를 만드는 것을 목표로 합니다. OpenAI와의 전략적 파트너십, GitHub/LinkedIn/Dynamics 365 등 SaaS 자산, 그리고 Azure 클라우드를 결합한 **수직 통합 전략** 이 핵심입니다.
 
 {% hint style="success" %}
 **핵심 메시지**: "AI Agent는 고립된 봇이 아니라, 서로 대화하고 협업하는 네트워크다. Microsoft는 그 네트워크의 프로토콜과 플랫폼을 모두 제공한다."
@@ -223,7 +223,7 @@ Microsoft는 Agent 생태계의 **표준화와 상호 운용성** 을 핵심 전
 
 ### 2.3 멀티에이전트 아키텍처
 
-Microsoft의 멀티에이전트 모델은 "**Agent Network**" 패러다임입니다.
+Microsoft의 멀티에이전트 모델은 "** Agent Network**" 패러다임입니다.
 
 | 계층 | 구성 요소 | 설명 |
 |------|----------|------|

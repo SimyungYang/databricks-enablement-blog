@@ -551,7 +551,7 @@ data_agent = Agent(
 ### Q1. Chat Completions API를 당장 Responses API로 바꿔야 하나요?
 
 {% hint style="info" %}
-**아니요, 당장은 아닙니다.**Chat Completions API는 계속 유지됩니다. 다만 Assistants API를 사용 중이라면 Responses API로의 마이그레이션을 2025년 내에 계획하세요. 새로운 Agent 프로젝트를 시작한다면 처음부터 Responses API를 권장합니다.
+**아니요, 당장은 아닙니다.** Chat Completions API는 계속 유지됩니다. 다만 Assistants API를 사용 중이라면 Responses API로의 마이그레이션을 2025년 내에 계획하세요. 새로운 Agent 프로젝트를 시작한다면 처음부터 Responses API를 권장합니다.
 {% endhint %}
 
 ### Q2. Agents SDK vs LangGraph vs Databricks Agent Framework, 어떤 것을 선택해야 하나요?
@@ -567,7 +567,7 @@ data_agent = Agent(
 ### Q3. GPT-4.1과 o3 중 어떤 모델을 Agent에 사용해야 하나요?
 
 {% hint style="info" %}
-**대부분의 Agent에는 GPT-4.1이 적합합니다.**o3는 수학적 추론이나 복잡한 논리 문제에서 우수하지만, 일반적인 Agent(도구 호출, 대화, 데이터 조회)에는 GPT-4.1이 더 빠르고 저렴합니다. 비용을 고려하면 GPT-4.1 mini/nano를 보조 Agent에 활용하는 것이 효율적입니다.
+**대부분의 Agent에는 GPT-4.1이 적합합니다.** o3는 수학적 추론이나 복잡한 논리 문제에서 우수하지만, 일반적인 Agent(도구 호출, 대화, 데이터 조회)에는 GPT-4.1이 더 빠르고 저렴합니다. 비용을 고려하면 GPT-4.1 mini/nano를 보조 Agent에 활용하는 것이 효율적입니다.
 {% endhint %}
 
 ### Q4. OpenAI Agent 기술을 Databricks 환경에서 사용할 때 보안/거버넌스는 어떻게 하나요?

@@ -58,7 +58,7 @@ Marketplace 구독부터 PrivateLink까지, AWS Console 기반으로 Databricks 
 
 | 항목 | Classic Workspace | Serverless Workspace |
 |------|------------------|---------------------|
-| **Compute 위치** | **고객 VPC** 내 EC2 | **Databricks 관리**VPC |
+| **Compute 위치** | **고객 VPC** 내 EC2 | **Databricks 관리** VPC |
 | **고객 구성** | IAM Role, S3, VPC, SG 직접 구성 | 구성 불필요 |
 | **네트워크 제어** | 완전 제어 가능 | NCC로 관리 |
 | **PrivateLink** | 구성 가능 (Backend + Frontend) | NCC 기반 별도 구성 |

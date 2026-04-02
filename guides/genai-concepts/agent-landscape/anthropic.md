@@ -46,7 +46,7 @@ Anthropic의 Agent 전략은 세 가지 축으로 구성됩니다.
 
 ### MCP란 무엇인가?
 
-MCP는 "**AI Agent를 위한 USB-C**"입니다. LLM이 외부 데이터 소스, 도구, 서비스에 접근하는 방식을 하나의 표준 프로토콜로 통합합니다.
+MCP는 "** AI Agent를 위한 USB-C**"입니다. LLM이 외부 데이터 소스, 도구, 서비스에 접근하는 방식을 하나의 표준 프로토콜로 통합합니다.
 
 {% hint style="info" %}
 **비유**: USB-C가 등장하기 전, 노트북마다 충전기가 달랐습니다. MCP가 등장하기 전, 각 AI 모델마다 도구 연결 방식이 달랐습니다. MCP는 "어떤 LLM이든, 어떤 도구든" 하나의 방식으로 연결할 수 있게 합니다.
@@ -147,7 +147,7 @@ Claude Code는 2025년 2월 GA된 **터미널 네이티브 코딩 Agent** 입니
 
 ### 작동 원리
 
-**반복 루프:**Screenshot (화면 캡처) → Analyze (요소 파악) → Act (클릭/타이핑) → 다시 Screenshot으로 돌아감
+**반복 루프:** Screenshot (화면 캡처) → Analyze (요소 파악) → Act (클릭/타이핑) → 다시 Screenshot으로 돌아감
 
 | 단계 | 설명 |
 |------|------|
@@ -415,7 +415,7 @@ Anthropic은 2024년 12월 블로그에서 5가지 Agent 설계 패턴을 제시
 
 **하나의 작업을 여러 순차 단계로 분해** 하여, 각 단계의 출력이 다음 단계의 입력이 되는 패턴입니다.
 
-**흐름:**Step 1 (생성) → Gate/Check → Step 2 (변환) → Step 3 (검증)
+**흐름:** Step 1 (생성) → Gate/Check → Step 2 (변환) → Step 3 (검증)
 - Gate에서 실패 시 → 재시도 / 에러 처리
 
 | 항목 | 설명 |
@@ -540,7 +540,7 @@ Orchestrator 판단:
 ```
 
 {% hint style="info" %}
-**Claude Code의 Subagent가 바로 이 패턴입니다.**Claude Code가 복잡한 작업을 받으면, 메인 Agent(Orchestrator)가 하위 Agent(Worker)를 생성하여 병렬로 작업을 수행합니다.
+**Claude Code의 Subagent가 바로 이 패턴입니다.** Claude Code가 복잡한 작업을 받으면, 메인 Agent(Orchestrator)가 하위 Agent(Worker)를 생성하여 병렬로 작업을 수행합니다.
 {% endhint %}
 
 ### 패턴 5: Evaluator-Optimizer (평가자-최적화자)

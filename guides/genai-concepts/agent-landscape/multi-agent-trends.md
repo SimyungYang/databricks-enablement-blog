@@ -59,7 +59,7 @@
 
 **원리**: OpenAI가 제안한 패턴으로, Agent들이 **공유 블랙보드(shared context)** 를 통해 상태를 공유하며, 한 Agent가 작업을 완료하면 다음 Agent에게 직접 **핸드오프** 합니다. 중앙 제어자 없이 Agent 간 자율적 협업이 이루어집니다.
 
-**흐름:**Agent A → (handoff) → Agent B → (handoff) → Agent C
+**흐름:** Agent A → (handoff) → Agent B → (handoff) → Agent C
 - 모든 Agent가 **공유 블랙보드 (Shared State)** 를 통해 상태를 공유
 
 **장점**:
@@ -99,7 +99,7 @@
 
 **원리**: Microsoft AutoGen이 대표하는 패턴으로, 2개 이상의 Agent가 **다회전 대화(multi-turn conversation)** 를 통해 문제를 해결합니다. "토론을 통한 합의" 메커니즘입니다.
 
-**흐름:**Agent A (찬성 측) ↔ Agent B (반대 측) — 다회전 토론 → 합의 도출 / 최종 판단
+**흐름:** Agent A (찬성 측) ↔ Agent B (반대 측) — 다회전 토론 → 합의 도출 / 최종 판단
 
 **적합 시나리오**:
 - 코드 리뷰 (작성자 Agent vs 리뷰어 Agent)
@@ -174,7 +174,7 @@ Researcher → Writer → Editor → Fact-Checker → Publisher
 | **MCP Host**(Agent) | AI 애플리케이션, MCP Client 내장 | JSON-RPC over stdio / HTTP+SSE |
 | **MCP Server**(Tool/Data) | 도구/데이터를 MCP 프로토콜로 노출 | — |
 
-**주요 MCP Server 예시:**Databricks MCP Server (SQL, Unity Catalog, Vector Search), GitHub MCP Server, Slack MCP Server 등 수천 개
+**주요 MCP Server 예시:** Databricks MCP Server (SQL, Unity Catalog, Vector Search), GitHub MCP Server, Slack MCP Server 등 수천 개
 
 {% hint style="success" %}
 **Databricks MCP**: Databricks는 공식 MCP Server를 제공합니다. SQL 실행, Unity Catalog 탐색, Vector Search 쿼리, Genie 질의 등을 MCP 프로토콜로 통합할 수 있습니다. Claude Desktop, Cursor 등에서 바로 연결 가능합니다.
@@ -547,7 +547,7 @@ Forrester Research가 2025년 발표한 **AEGIS (Agentic Enterprise Governance a
 
 ## 8. Databricks 포지셔닝
 
-Databricks는 "Agent를 만드는 프레임워크"가 아닌, "**Agent를 엔터프라이즈에서 안전하게 운영하는 플랫폼**"으로 포지셔닝합니다. 이 차이가 중요합니다.
+Databricks는 "Agent를 만드는 프레임워크"가 아닌, "** Agent를 엔터프라이즈에서 안전하게 운영하는 플랫폼**"으로 포지셔닝합니다. 이 차이가 중요합니다.
 
 ### 8.1 Databricks Agent 스택
 
@@ -571,7 +571,7 @@ Databricks는 "Agent를 만드는 프레임워크"가 아닌, "**Agent를 엔터
 | **데이터와의 거리** | 제로 (Lakehouse 위에 Agent) | ETL 필요 | ETL 필요 | ETL 필요 |
 
 {% hint style="success" %}
-**핵심 차별점**: Databricks의 가장 큰 강점은 "**Agent가 데이터 바로 위에 앉는다**"는 것입니다. 다른 플랫폼에서는 Agent가 데이터를 가져오기 위해 ETL 파이프라인을 거쳐야 하지만, Databricks에서는 Agent가 Unity Catalog를 통해 **원본 데이터에 직접 접근** 하며, 동일한 거버넌스 정책이 적용됩니다.
+**핵심 차별점**: Databricks의 가장 큰 강점은 "** Agent가 데이터 바로 위에 앉는다**"는 것입니다. 다른 플랫폼에서는 Agent가 데이터를 가져오기 위해 ETL 파이프라인을 거쳐야 하지만, Databricks에서는 Agent가 Unity Catalog를 통해 **원본 데이터에 직접 접근** 하며, 동일한 거버넌스 정책이 적용됩니다.
 {% endhint %}
 
 ### 8.3 구현 시나리오별 권장 아키텍처
@@ -603,7 +603,7 @@ Databricks는 "Agent를 만드는 프레임워크"가 아닌, "**Agent를 엔터
 
 ### Q2. "MCP 도입은 지금 해야 하나요, 더 기다려야 하나요?"
 
-**지금 하세요.**MCP는 이미 사실상 표준(de facto standard)입니다. 9,700만+ 다운로드가 이를 증명합니다. 기다릴 이유가 없습니다. Databricks MCP Server도 공식 지원되고 있으므로, 기존 Databricks 환경에 바로 연동 가능합니다.
+**지금 하세요.** MCP는 이미 사실상 표준(de facto standard)입니다. 9,700만+ 다운로드가 이를 증명합니다. 기다릴 이유가 없습니다. Databricks MCP Server도 공식 지원되고 있으므로, 기존 Databricks 환경에 바로 연동 가능합니다.
 
 ### Q3. "Agent의 비용을 어떻게 관리하나요?"
 
@@ -625,7 +625,7 @@ Databricks는 "Agent를 만드는 프레임워크"가 아닌, "**Agent를 엔터
 
 ### Q5. "A2A가 MCP를 대체하나요?"
 
-아닙니다. **역할이 다릅니다.**MCP는 Agent → Tool (USB 포트), A2A는 Agent ↔ Agent (HTTP 프로토콜)입니다. 둘은 상호보완적이며, 성숙한 멀티에이전트 시스템에서는 둘 다 필요합니다.
+아닙니다. **역할이 다릅니다.** MCP는 Agent → Tool (USB 포트), A2A는 Agent ↔ Agent (HTTP 프로토콜)입니다. 둘은 상호보완적이며, 성숙한 멀티에이전트 시스템에서는 둘 다 필요합니다.
 
 ### Q6. "Databricks 없이 멀티에이전트를 구축할 수 있나요?"
 
@@ -678,5 +678,5 @@ Databricks는 "Agent를 만드는 프레임워크"가 아닌, "**Agent를 엔터
 ---
 
 {% hint style="info" %}
-**이 문서는 2025년 Q1 기준으로 작성되었습니다.**Agentic AI 분야는 매우 빠르게 변화하고 있으므로, 분기별 업데이트를 권장합니다. 최신 정보는 [Databricks 블로그](https://www.databricks.com/blog)와 [AAIF 공지](https://www.linuxfoundation.org/press)를 참조하세요.
+**이 문서는 2025년 Q1 기준으로 작성되었습니다.** Agentic AI 분야는 매우 빠르게 변화하고 있으므로, 분기별 업데이트를 권장합니다. 최신 정보는 [Databricks 블로그](https://www.databricks.com/blog)와 [AAIF 공지](https://www.linuxfoundation.org/press)를 참조하세요.
 {% endhint %}

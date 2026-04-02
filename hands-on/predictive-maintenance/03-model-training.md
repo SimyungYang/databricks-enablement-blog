@@ -109,7 +109,7 @@ def objective(trial):
         "learning_rate": trial.suggest_float("learning_rate", 0.01, 0.3, log=True),
         "subsample": trial.suggest_float("subsample", 0.6, 1.0),
     }
-    model = xgb.XGBClassifier(**params, scale_pos_weight=sw)
+    model = xgb.XGBClassifier(** params, scale_pos_weight=sw)
     model.fit(X_tr, Y_tr)
     return f1_score(Y_val, model.predict(X_val))
 

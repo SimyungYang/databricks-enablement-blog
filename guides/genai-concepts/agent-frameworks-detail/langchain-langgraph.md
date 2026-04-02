@@ -64,11 +64,11 @@ print(result)
 **한계:**
 - **과도한 추상화**: 간단한 LLM 호출도 여러 클래스를 거쳐야 하는 경우 발생
 - **디버깅 어려움**: 추상화 레이어가 많아 에러 추적이 복잡
-- "**LangChain Fatigue**": 빈번한 API 변경으로 코드가 빠르게 구식화
+- "** LangChain Fatigue**": 빈번한 API 변경으로 코드가 빠르게 구식화
 - **선형 흐름의 한계**: Chain은 본질적으로 순차 실행이므로 조건 분기, 루프 표현이 어려움
 
 {% hint style="warning" %}
-**LangChain Fatigue란?**2024년 중반부터 커뮤니티에서 나타난 현상으로, LangChain의 빈번한 breaking change, 과도한 추상화, 불필요한 의존성에 대한 피로감을 표현합니다. 이는 LangGraph의 등장 배경이 되었습니다.
+**LangChain Fatigue란?** 2024년 중반부터 커뮤니티에서 나타난 현상으로, LangChain의 빈번한 breaking change, 과도한 추상화, 불필요한 의존성에 대한 피로감을 표현합니다. 이는 LangGraph의 등장 배경이 되었습니다.
 {% endhint %}
 
 ---

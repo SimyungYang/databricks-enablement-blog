@@ -6,11 +6,11 @@
 >
 > 1. 터미널에서 프로젝트 디렉토리로 이동: `cd ~/smarttv-training`
 > 2. Claude Code 실행: `claude`
-> 3. 각 Step의 "**Claude에게 요청하기**" 박스 내용을 복사하여 Claude에게 붙여넣기
+> 3. 각 Step의 "** Claude에게 요청하기**" 박스 내용을 복사하여 Claude에게 붙여넣기
 > 4. Claude가 코드를 생성하고 Databricks에서 실행합니다
 > 5. 결과를 확인하고 궁금한 점은 바로 질문하세요
 >
->**Tip:** 각 Step을 순서대로 진행하세요. 이전 Step의 결과가 다음 Step의 입력이 됩니다.
+>** Tip:** 각 Step을 순서대로 진행하세요. 이전 Step의 결과가 다음 Step의 입력이 됩니다.
 
 ---
 

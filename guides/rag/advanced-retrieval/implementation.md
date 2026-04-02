@@ -146,7 +146,7 @@ class RAGState(TypedDict):
 def route_question(state: RAGState) -> RAGState:
     """질문 의도 분석 → 라우팅"""
     route = route_query(state["question"])
-    return {**state, "route": route["source"]}
+    return {** state, "route": route["source"]}
 
 def retrieve(state: RAGState) -> RAGState:
     """라우팅된 소스에서 검색"""
@@ -156,21 +156,21 @@ def retrieve(state: RAGState) -> RAGState:
         docs = sql_retriever.invoke(state["rewritten_query"])
     else:
         docs = web_retriever.invoke(state["rewritten_query"])
-    return {**state, "documents": docs}
+    return {** state, "documents": docs}
 
 def grade_documents(state: RAGState) -> RAGState:
     """검색 결과 품질 평가 (CRAG)"""
     result = corrective_rag(state["question"], state["documents"], llm)
-    return {**state, "grade": result["strategy"], "documents": result["docs"]}
+    return {** state, "grade": result["strategy"], "documents": result["docs"]}
 
 def generate(state: RAGState) -> RAGState:
     """답변 생성 + 충실도 검증 (Self-RAG)"""
     answer = self_rag(state["question"], final_retriever, llm)
-    return {**state, "answer": answer}
+    return {** state, "answer": answer}
 
 # LangGraph 워크플로 구성
 workflow = StateGraph(RAGState)
-workflow.add_node("rewrite", lambda s: {**s, "rewritten_query": rewrite_query(s["question"])})
+workflow.add_node("rewrite", lambda s: {** s, "rewritten_query": rewrite_query(s["question"])})
 workflow.add_node("route", route_question)
 workflow.add_node("retrieve", retrieve)
 workflow.add_node("grade", grade_documents)

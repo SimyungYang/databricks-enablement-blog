@@ -29,7 +29,7 @@ cd ai-dev-kit/databricks-builder-app
 ```
 
 {% hint style="info" %}
-**왜 전체 레포를 클론하나요?**Builder App은 `databricks-mcp-server`에 의존합니다. 전체 레포를 클론해야 MCP Server가 로컬에서 올바르게 참조됩니다. `pyproject.toml`의 `[project.optional-dependencies]`에서 `databricks-mcp-server`가 로컬 경로로 참조되는 것을 확인할 수 있습니다.
+**왜 전체 레포를 클론하나요?** Builder App은 `databricks-mcp-server`에 의존합니다. 전체 레포를 클론해야 MCP Server가 로컬에서 올바르게 참조됩니다. `pyproject.toml`의 `[project.optional-dependencies]`에서 `databricks-mcp-server`가 로컬 경로로 참조되는 것을 확인할 수 있습니다.
 {% endhint %}
 
 ---
@@ -83,7 +83,7 @@ cd ..
 
 프로젝트 루트에 `.env.local` 파일을 생성합니다. 이 파일은 Builder App의 모든 외부 연결 정보를 관리합니다.
 
-**왜 `.env.local`인가?**Builder App은 환경 변수를 세 단계로 로드합니다: `.env` (기본값) → `.env.local` (로컬 오버라이드) → 시스템 환경 변수. `.env.local`은 `.gitignore`에 포함되어 있어 **민감한 정보가 Git에 커밋되지 않습니다**.
+**왜 `.env.local`인가?** Builder App은 환경 변수를 세 단계로 로드합니다: `.env` (기본값) → `.env.local` (로컬 오버라이드) → 시스템 환경 변수. `.env.local`은 `.gitignore`에 포함되어 있어 **민감한 정보가 Git에 커밋되지 않습니다**.
 
 ```bash
 # .env.local
@@ -137,7 +137,7 @@ Lakebase를 사용하는 경우 Alembic 마이그레이션을 실행합니다.
 alembic upgrade head
 ```
 
-**Alembic 마이그레이션이란?**Alembic은 SQLAlchemy 기반의 데이터베이스 스키마 버전 관리 도구입니다. `upgrade head` 명령은 현재 DB 스키마를 최신 버전으로 업데이트합니다. Builder App의 DB 스키마가 변경될 때(새 테이블 추가, 컬럼 변경 등) 이 명령으로 안전하게 마이그레이션합니다.
+**Alembic 마이그레이션이란?** Alembic은 SQLAlchemy 기반의 데이터베이스 스키마 버전 관리 도구입니다. `upgrade head` 명령은 현재 DB 스키마를 최신 버전으로 업데이트합니다. Builder App의 DB 스키마가 변경될 때(새 테이블 추가, 컬럼 변경 등) 이 명령으로 안전하게 마이그레이션합니다.
 
 ### Lakebase 데이터 모델
 

@@ -80,7 +80,7 @@ Supervisor를 만들기 전에 먼저 서브 에이전트를 준비합니다.
 4. **Instructions**(선택): Supervisor의 전체 동작 가이드라인
 
 {% hint style="warning" %}
-**Description이 라우팅의 핵심입니다.**Supervisor는 각 서브 에이전트의 Description을 기반으로 어떤 에이전트에 태스크를 위임할지 결정합니다. 가능한 한 상세하게 작성하세요.
+**Description이 라우팅의 핵심입니다.** Supervisor는 각 서브 에이전트의 Description을 기반으로 어떤 에이전트에 태스크를 위임할지 결정합니다. 가능한 한 상세하게 작성하세요.
 {% endhint %}
 
 ### Step 3: 테스트

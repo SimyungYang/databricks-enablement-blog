@@ -2,7 +2,7 @@
 
 ## Step 1 — Azure Databricks 리소스 만들기
 
-1. Azure Portal → "**Azure Databricks**" 검색 → **+ 만들기**
+1. Azure Portal → "** Azure Databricks**" 검색 → **+ 만들기**
 
 ## Step 2 — 기본 정보
 
@@ -15,7 +15,7 @@
 | **Pricing Tier** | **Premium** | Private Link, UC 필수 |
 
 {% hint style="danger" %}
-**Pricing Tier은 반드시 Premium을 선택하세요.**Standard 티어에서는 VNet Injection, Private Link, Unity Catalog가 지원되지 않습니다. 프로덕션 환경에서는 반드시 Premium이 필요합니다.
+**Pricing Tier은 반드시 Premium을 선택하세요.** Standard 티어에서는 VNet Injection, Private Link, Unity Catalog가 지원되지 않습니다. 프로덕션 환경에서는 반드시 Premium이 필요합니다.
 {% endhint %}
 
 ## Step 3 — 네트워킹 탭
@@ -58,7 +58,7 @@
 3. **Launch Workspace** 클릭하여 Databricks UI 접속 확인
 
 {% hint style="success" %}
-**축하합니다!**Databricks Workspace가 VNet Injection과 함께 배포되었습니다. 이제 Private Link를 구성하여 보안을 강화합니다.
+**축하합니다!** Databricks Workspace가 VNet Injection과 함께 배포되었습니다. 이제 Private Link를 구성하여 보안을 강화합니다.
 {% endhint %}
 
 *참고: [Azure Databricks Workspace 만들기](https://learn.microsoft.com/azure/databricks/getting-started/#create-an-azure-databricks-workspace) · [VNet Injection을 통한 배포](https://learn.microsoft.com/azure/databricks/security/network/classic/vnet-inject)*
