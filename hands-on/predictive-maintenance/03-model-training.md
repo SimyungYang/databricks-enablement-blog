@@ -58,7 +58,7 @@ for feat, val, sv in sorted(zip(feature_columns, X_test.iloc[idx], shap_values[i
 ```
 
 {% hint style="info" %}
-SHAP 해석은 제조 현장에서 "** 왜 이 설비가 고장 위험으로 판단되었는가?**" 에 답할 수 있게 합니다. 이는 정비팀의 신뢰도 확보와 의사결정에 핵심적입니다.
+SHAP 해석은 제조 현장에서 " ** 왜 이 설비가 고장 위험으로 판단되었는가?**" 에 답할 수 있게 합니다. 이는 정비팀의 신뢰도 확보와 의사결정에 핵심적입니다.
 {% endhint %}
 
 ---

@@ -68,7 +68,7 @@ def self_rag(question: str, retriever, llm, max_iterations: int = 3) -> str:
 
 ## Corrective RAG (CRAG)
 
-Corrective RAG는 검색 결과를 **"정확/모호/틀림"** 3단계로 분류하고, 결과가 부정확하면 **외부 웹 검색으로 보완** 하는 전략입니다.
+Corrective RAG는 검색 결과를 **"정확/모호/틀림" ** 3단계로 분류하고, 결과가 부정확하면 **외부 웹 검색으로 보완** 하는 전략입니다.
 
 ```python
 def corrective_rag(question: str, docs: list, llm) -> dict:

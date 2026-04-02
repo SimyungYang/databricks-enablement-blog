@@ -50,7 +50,7 @@ Paris - France + Korea ≈ Seoul
 
 Word2Vec의 이론적 기반은 영국 언어학자 **J.R. Firth(1957)** 의 유명한 명제입니다:
 
-> "** You shall know a word by the company it keeps.**"
+> " ** You shall know a word by the company it keeps.**"
 > (단어의 의미는 그 단어가 함께 등장하는 단어들에 의해 결정된다.)
 
 이것이 **분포 가설(Distributional Hypothesis)** 입니다. 놀라운 점은 **인간도 정확히 이 방식으로 단어를 학습한다** 는 것입니다.

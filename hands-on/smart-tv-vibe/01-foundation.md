@@ -6,7 +6,7 @@
 >
 > 1. 터미널에서 프로젝트 디렉토리로 이동: `cd ~/smarttv-training`
 > 2. Claude Code 실행: `claude`
-> 3. 이 문서의 각 Step에 있는 "** Claude에게 요청하기**" 박스의 내용을 복사하여 Claude에게 붙여넣기
+> 3. 이 문서의 각 Step에 있는 " ** Claude에게 요청하기**" 박스의 내용을 복사하여 Claude에게 붙여넣기
 > 4. Claude가 AI Dev Kit의 MCP 도구를 사용하여 Databricks에서 직접 실행합니다
 > 5. 실행 결과를 확인하고, 이해가 안 되는 부분은 Claude에게 질문하세요
 >
@@ -20,8 +20,8 @@
 >
 > 워크스페이스 경로: `/Workspace/Users/{your_email}/smarttv-training/`
 >
-> 1.**`01_setup_catalog_schema`**— 카탈로그/스키마 생성 (1분)
-> 2.**`02_generate_synthetic_data`**— 전체 가상 데이터 170만건 생성 (5~10분)
+> 1. **`01_setup_catalog_schema`**— 카탈로그/스키마 생성 (1분)
+> 2. **`02_generate_synthetic_data`**— 전체 가상 데이터 170만건 생성 (5~10분)
 >
 > 노트북을 순서대로 실행한 후, 아래 Step 6부터 Delta Lake 기능을 체험하세요.
 

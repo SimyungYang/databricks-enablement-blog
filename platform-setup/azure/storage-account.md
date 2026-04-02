@@ -6,7 +6,7 @@ Unity Catalog의 **Managed Storage** 로 사용할 ADLS Gen2 스토리지 계정
 
 ## Step 1 — 스토리지 계정 만들기
 
-1. Azure Portal → "** 스토리지 계정**" 검색 → **+ 만들기**
+1. Azure Portal → " ** 스토리지 계정**" 검색 → **+ 만들기**
 
 ## Step 2 — 기본 정보
 

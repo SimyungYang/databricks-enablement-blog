@@ -354,7 +354,7 @@ with mlflow.start_run():
 
 **OpenAI Agents SDK**: 상태 관리는 주로 대화 히스토리(messages)를 통해 이루어집니다. Handoff 시 전체 대화 히스토리가 다음 Agent에게 전달되며, 별도의 State 객체는 없습니다. 간결하지만, 대화 히스토리 외의 구조화된 상태(예: 주문 처리 단계, 승인 상태)를 관리하기 어렵습니다.
 
-**핵심 차이**: LangGraph는 "** 데이터 중심 상태 관리**" (구조화된 State), OpenAI SDK는 "** 대화 중심 상태 관리**" (메시지 히스토리)입니다.
+**핵심 차이**: LangGraph는 " ** 데이터 중심 상태 관리**" (구조화된 State), OpenAI SDK는 " ** 대화 중심 상태 관리**" (메시지 히스토리)입니다.
 
 </details>
 

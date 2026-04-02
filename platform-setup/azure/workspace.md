@@ -2,7 +2,7 @@
 
 ## Step 1 — Azure Databricks 리소스 만들기
 
-1. Azure Portal → "** Azure Databricks**" 검색 → **+ 만들기**
+1. Azure Portal → " ** Azure Databricks**" 검색 → **+ 만들기**
 
 ## Step 2 — 기본 정보
 
