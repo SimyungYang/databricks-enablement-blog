@@ -42,7 +42,7 @@
   * [활용 시나리오](guides/genie-code/scenarios.md)
   * [MCP 연동](guides/genie-code/mcp.md)
   * [Space vs Code 비교](guides/genie-code/comparison.md)
-* [Platform 비교](guides/platform-comparison/README.md)
+* [플랫폼 비교 가이드](guides/platform-comparison/README.md)
   * [아키텍처](guides/platform-comparison/architecture.md)
   * [컴퓨팅](guides/platform-comparison/compute.md)
   * [데이터 엔지니어링](guides/platform-comparison/data-engineering.md)
@@ -60,10 +60,10 @@
   * [평가 & 배포](guides/agent-bricks/evaluation.md)
   * [베스트 프랙티스](guides/agent-bricks/best-practices.md)
 * [AI Dev Kit](guides/ai-dev-kit/README.md)
-  * [Builder App](guides/ai-dev-kit/builder-app.md)
-  * [Getting Started](guides/ai-dev-kit/getting-started.md)
-  * [배포 가이드](guides/ai-dev-kit/deployment-guide.md)
+  * [시작하기](guides/ai-dev-kit/getting-started.md)
   * [Tool 목록 및 상세](guides/ai-dev-kit/tools.md)
+  * [Builder App](guides/ai-dev-kit/builder-app.md)
+  * [배포 가이드](guides/ai-dev-kit/deployment-guide.md)
   * [활용 사례](guides/ai-dev-kit/use-cases.md)
 
 ## Compute & Apps
