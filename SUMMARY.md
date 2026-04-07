@@ -37,12 +37,7 @@
   * [공유 & 권한](guides/genie-space/sharing.md)
   * [모니터링](guides/genie-space/monitoring.md)
   * [MCP 연동](guides/genie-space/mcp.md)
-* [Genie Code](guides/genie-code/README.md)
-  * [사용법](guides/genie-code/usage.md)
-  * [활용 시나리오](guides/genie-code/scenarios.md)
-  * [프롬프트 쿡북](guides/genie-code/prompt-cookbook.md)
-  * [MCP 연동](guides/genie-code/mcp.md)
-* [Genie Space & Code 선택 가이드](guides/genie-selection/README.md)
+  * [Space & Code 선택 가이드](guides/genie-selection/README.md)
 * [플랫폼 비교 가이드](guides/platform-comparison/README.md)
   * [아키텍처](guides/platform-comparison/architecture.md)
   * [컴퓨팅](guides/platform-comparison/compute.md)
@@ -54,6 +49,11 @@
 
 ## GenAI & Agent
 
+* [Genie Code](guides/genie-code/README.md)
+  * [사용법](guides/genie-code/usage.md)
+  * [활용 시나리오](guides/genie-code/scenarios.md)
+  * [프롬프트 쿡북](guides/genie-code/prompt-cookbook.md)
+  * [MCP 연동](guides/genie-code/mcp.md)
 * [Agent Bricks](guides/agent-bricks/README.md)
   * [Knowledge Assistant](guides/agent-bricks/knowledge-assistant.md)
   * [Genie Agent](guides/agent-bricks/genie-agent.md)
