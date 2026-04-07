@@ -202,6 +202,13 @@
   * [Track B: AI 가이드 코딩 (Claude Code)](hands-on/smart-tv-vibe/notebooks/track-b-ai-guided/PROMPT_GUIDE.md)
   * [Track C: Genie Code](hands-on/smart-tv-vibe/notebooks/track-c-genie-code/GENIE_CODE_GUIDE.md)
 
+## Databricks 블로그 번역
+
+* [블로그 번역 목록](blog-translations/README.md)
+  * [멀티 에이전트 기반 오디언스 인텔리전스 (2026-04-06)](blog-translations/2026-04-06-multi-agent-audience-intelligence.md)
+  * [AiChemy: 신약 개발을 위한 차세대 에이전트 (2026-04-03)](blog-translations/2026-04-03-aichemy-drug-discovery.md)
+  * [Lakeflow Connect 무료 티어 (2026-04-02)](blog-translations/2026-04-02-lakeflow-connect-free-tier.md)
+
 ## 참고 자료
 
 * [Databricks 종합 교육 자료 (한글)](https://simyungyang.gitbook.io/databricks-training/)
