@@ -42,7 +42,7 @@
   * [활용 시나리오](guides/genie-code/scenarios.md)
   * [프롬프트 쿡북](guides/genie-code/prompt-cookbook.md)
   * [MCP 연동](guides/genie-code/mcp.md)
-  * [Space vs Code 비교](guides/genie-code/comparison.md)
+* [Genie Space & Code 선택 가이드](guides/genie-selection/README.md)
 * [플랫폼 비교 가이드](guides/platform-comparison/README.md)
   * [아키텍처](guides/platform-comparison/architecture.md)
   * [컴퓨팅](guides/platform-comparison/compute.md)
