@@ -15,6 +15,7 @@
   * [Workspace 생성](platform-setup/aws/workspace.md)
   * [Unity Catalog](platform-setup/aws/unity-catalog.md)
   * [Serverless NCC](platform-setup/aws/serverless-ncc.md)
+  * [외부 서비스 PrivateLink 연결](platform-setup/aws/external-service-privatelink.md)
   * [기존 WS에 PrivateLink 추가](platform-setup/aws/privatelink-migration.md)
   * [Terraform 자동화](platform-setup/aws/terraform.md)
 * [Azure Workspace 구성](platform-setup/azure/README.md)
