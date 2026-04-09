@@ -2,6 +2,18 @@
 
 * [가이드 목록](README.md)
 
+## AI 시장 트렌드
+
+* [AI 시장 트렌드 2026](00-ai-trends/README.md)
+  * [OpenAI](00-ai-trends/openai.md)
+  * [Anthropic](00-ai-trends/anthropic-trends-2026.md)
+  * [Google / DeepMind](00-ai-trends/google.md)
+  * [Meta](00-ai-trends/meta.md)
+  * [AWS & Microsoft](00-ai-trends/aws-microsoft.md)
+  * [Tesla, xAI & 기타](00-ai-trends/tesla-xai-others.md)
+  * [한국어 LLM 동향](00-ai-trends/korean-llm.md)
+  * [2026 트렌드 종합](00-ai-trends/trends-summary.md)
+
 ## 환경 구성 가이드
 
 * [AWS Workspace 구성](platform-setup/aws/README.md)
@@ -27,6 +39,7 @@
   * [Workspace 배포](platform-setup/azure/workspace.md)
   * [Backend Private Link](platform-setup/azure/privatelink.md)
   * [Unity Catalog](platform-setup/azure/unity-catalog.md)
+* [Databricks Geo (데이터 거주)](guides/platform-setup/databricks-geos.md)
 
 ## AI/BI & Analytics
 
