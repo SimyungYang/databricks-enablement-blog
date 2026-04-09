@@ -36,6 +36,7 @@
 
 | 가이드 | 설명 | 난이도 |
 |--------|------|--------|
+| [Databricks ML 기능 전체 가이드](databricks-ml-features.md) | Databricks ML/AI 플랫폼 전체 아키텍처, Feature Store, AutoML, MLflow, Model Serving, GenAI Agent, MLOps 파이프라인 | 입문~고급 |
 | [ML 트렌드 & 최신 기법](ml-trends.md) | 알고리즘 70년 진화, Gradient Boosting 비교, 불균형 데이터, HPO, AutoML, 앙상블, Feature Selection, 이상탐지 트렌드 | 중급~고급 |
 | [재학습 전략](retraining-strategies.md) | Data/Concept Drift, 재학습 트리거, Incremental/Continual/Online Learning, Active Learning, RL 기반 전략 자동 선택 | 중급~고급 |
 

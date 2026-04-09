@@ -24,7 +24,7 @@ Anthropic의 Agent 전략은 세 가지 축으로 구성됩니다.
 | **실행** | Agent를 어떻게 만들고 배포하는가? | Claude Code, Agent SDK, Claude Cowork |
 
 {% hint style="success" %}
-**Anthropic의 차별화 철학**: OpenAI가 "만능 AI 비서"를, Google이 "검색 + AI 통합"을 추구한다면, Anthropic은 " **개발자가 통제할 수 있는 안전한 Agent**"를 지향합니다. 모든 제품 설계에 "사람이 루프에 있다(Human-in-the-Loop)"는 원칙이 관통합니다.
+**Anthropic의 차별화 철학**: OpenAI가 "만능 AI 비서"를, Google이 "검색 + AI 통합"을 추구한다면, Anthropic은 **"개발자가 통제할 수 있는 안전한 Agent"** 를 지향합니다. 모든 제품 설계에 "사람이 루프에 있다(Human-in-the-Loop)"는 원칙이 관통합니다.
 {% endhint %}
 
 ### 타임라인
@@ -46,7 +46,7 @@ Anthropic의 Agent 전략은 세 가지 축으로 구성됩니다.
 
 ### MCP란 무엇인가?
 
-MCP는 " **AI Agent를 위한 USB-C**"입니다. LLM이 외부 데이터 소스, 도구, 서비스에 접근하는 방식을 하나의 표준 프로토콜로 통합합니다.
+MCP는 **"AI Agent를 위한 USB-C"** 입니다. LLM이 외부 데이터 소스, 도구, 서비스에 접근하는 방식을 하나의 표준 프로토콜로 통합합니다.
 
 {% hint style="info" %}
 **비유**: USB-C가 등장하기 전, 노트북마다 충전기가 달랐습니다. MCP가 등장하기 전, 각 AI 모델마다 도구 연결 방식이 달랐습니다. MCP는 "어떤 LLM이든, 어떤 도구든" 하나의 방식으로 연결할 수 있게 합니다.
@@ -405,7 +405,7 @@ response = client.messages.create(
 
 ## 9. 멀티에이전트 패턴 (5가지 상세)
 
-Anthropic은 2024년 12월 블로그에서 5가지 Agent 설계 패턴을 제시했습니다. 핵심 메시지는 " **단순하게 시작하라(Start Simple)**"입니다.
+Anthropic은 2024년 12월 블로그에서 5가지 Agent 설계 패턴을 제시했습니다. 핵심 메시지는 **"단순하게 시작하라(Start Simple)"** 입니다.
 
 {% hint style="success" %}
 **Anthropic의 철학**: "Agent를 만들 때 가장 흔한 실수는 처음부터 복잡한 멀티에이전트 시스템을 설계하는 것입니다. 대부분의 문제는 단일 LLM 호출 + 좋은 프롬프트로 해결됩니다. 복잡한 패턴은 단순한 접근이 한계에 부딪힐 때만 도입하세요."

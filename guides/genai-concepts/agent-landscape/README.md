@@ -1,6 +1,6 @@
 # AI Agent 업계 동향 (2024\~2025)
 
-2024년 하반기부터 2025년 상반기까지, AI 업계의 중심 화두는 " **Agent**"로 수렴했다. 단순 챗봇을 넘어 도구를 사용하고, 계획을 세우고, 자율적으로 실행하는 AI Agent가 모든 주요 벤더의 제품 로드맵 최상단에 올랐다. 이 섹션에서는 OpenAI, Anthropic, Google, AWS, Microsoft, Meta 등 주요 기업의 Agent 전략을 비교 분석하고, Databricks 환경에서의 전략적 포지셔닝을 이해한다.
+2024년 하반기부터 2025년 상반기까지, AI 업계의 중심 화두는 **"Agent"** 로 수렴했다. 단순 챗봇을 넘어 도구를 사용하고, 계획을 세우고, 자율적으로 실행하는 AI Agent가 모든 주요 벤더의 제품 로드맵 최상단에 올랐다. 이 섹션에서는 OpenAI, Anthropic, Google, AWS, Microsoft, Meta 등 주요 기업의 Agent 전략을 비교 분석하고, Databricks 환경에서의 전략적 포지셔닝을 이해한다.
 
 ---
 

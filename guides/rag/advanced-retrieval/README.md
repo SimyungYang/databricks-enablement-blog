@@ -13,9 +13,9 @@ RAG 시스템의 성능은 **검색(Retrieval) 품질** 에 가장 크게 좌우
 | 단계 | 검색 유형 | 핵심 기술 | 대표 서비스 | 한계 |
 |------|----------|----------|-----------|------|
 | **1단계** | 키워드 검색 | TF-IDF, BM25, 역색인(Inverted Index) | 초기 Google, Elasticsearch | 동의어/문맥 이해 불가. "자동차" 검색 시 "차량" 문서 누락 |
-| **2단계** | 개인화 검색 | 사용자 행동 로그, 클릭률, Collaborative Filtering | Google PageRank, Amazon | 콜드 스타트 문제. 새 사용자/콘텐츠에 취약 |
-| **3단계** | 시맨틱 검색 | 벡터 임베딩, ANN(근사 최근접 이웃), BERT/Sentence-BERT | Pinecone, Weaviate, Databricks VS | 정확한 키워드 매칭 약함. 고유명사/코드/숫자 검색 실패 |
-| **4단계** | 하이브리드 검색 | Dense + Sparse 결합, RRF, Re-ranking | Databricks VS Hybrid, Elasticsearch 8.x | 가중치 튜닝 필요. 다국어 토크나이저 문제 |
+| **2단계** | 개인화 검색 | 사용자 행동 로그, 클릭률, Collaborative Filtering(유사한 사용자의 행동 패턴을 기반으로 추천하는 기법) | Google PageRank, Amazon | 콜드 스타트 문제. 새 사용자/콘텐츠에 취약 |
+| **3단계** | 시맨틱 검색 | 벡터 임베딩, ANN(Approximate Nearest Neighbor, 정확한 최근접 이웃 대신 근사값을 빠르게 찾는 알고리즘), BERT/Sentence-BERT | Pinecone, Weaviate, Databricks VS | 정확한 키워드 매칭 약함. 고유명사/코드/숫자 검색 실패 |
+| **4단계** | 하이브리드 검색 | Dense + Sparse 결합, RRF(Reciprocal Rank Fusion, 여러 검색 결과의 순위를 역수 합산으로 통합하는 알고리즘), Re-ranking | Databricks VS Hybrid, Elasticsearch 8.x | 가중치 튜닝 필요. 다국어 토크나이저 문제 |
 | **5단계** | 대화형 검색 | LLM + RAG, Query Rewrite, Agentic RAG, Tool Use | ChatGPT + Retrieval, Databricks Agent | 비용 높음. 환각(Hallucination) 위험 |
 
 ### 왜 키워드 검색이 여전히 필요한가 - "코끼리 식당" 문제

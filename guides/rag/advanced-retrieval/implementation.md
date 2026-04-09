@@ -103,7 +103,11 @@ vs = DatabricksVectorSearch(
     columns=["content", "source"],
 ).as_retriever(search_kwargs={"k": 20})
 
-# 3. 앙상블 (RRF)
+# 3. 앙상블 (RRF - Reciprocal Rank Fusion)
+# RRF는 여러 검색기의 결과를 순위 기반으로 합치는 알고리즘입니다.
+# 각 문서의 순위(rank)를 1/(k+rank) 형태로 점수화한 뒤 합산합니다.
+# k는 보통 60으로 설정하며, 상위 순위에 높은 가중치를 부여합니다.
+# weights=[0.4, 0.6]은 BM25에 40%, Dense에 60% 가중치를 적용합니다.
 ensemble = EnsembleRetriever(retrievers=[bm25, vs], weights=[0.4, 0.6])
 
 # 4. Cross-Encoder Reranking
@@ -120,6 +124,10 @@ final_retriever = ContextualCompressionRetriever(
 ## Phase 3: 고급 (Advanced)
 
 **목표**: 자기 교정 + 멀티 소스 + Agentic RAG
+
+**Agentic RAG란?** 기존 RAG가 "검색 → 생성"의 고정된 파이프라인이라면, Agentic RAG는 LLM이 **에이전트** 로서 검색 전략을 스스로 결정합니다. 질문을 분석하여 어떤 소스에서 검색할지, 검색 결과가 충분한지, 추가 검색이 필요한지를 **동적으로 판단** 하고, 필요하면 Tool(SQL 실행, 웹 검색, API 호출 등)을 직접 호출합니다. LangGraph 같은 워크플로 프레임워크로 이 의사결정 흐름을 그래프로 정의합니다.
+
+**LLM-as-Judge란?** 사람이 평가하기 어려운 대량의 RAG 출력을 **다른 LLM(보통 더 강력한 모델)** 이 평가하는 기법입니다. 평가 기준(충실도, 관련성, 완전성 등)을 프롬프트로 정의하고, 평가 대상 답변을 입력하면 LLM이 점수와 근거를 반환합니다. Databricks Agent Evaluation이 이 패턴을 내장 지원합니다. 사람 평가(Human Evaluation)와 병행하면 비용 대비 효과적인 품질 관리가 가능합니다.
 
 | 구성 요소 | 기술 선택 | Phase 2 대비 변화 |
 |---------|---------|----------------|

@@ -20,6 +20,8 @@ Databricks Vector Search는 **HNSW** 알고리즘을 사용합니다. 이 알고
 | **IVF** | 빠름 | 빠름 | 낮음 | 미지원 |
 | **Annoy** | 보통 | 빠름 | 보통 | 미지원 |
 
+HNSW가 다른 ANN 알고리즘 대비 메모리 사용량이 높은 이유는 각 노드가 여러 계층에 걸쳐 연결 정보를 유지하기 때문입니다. 하지만 검색 속도와 정확도의 균형이 가장 우수하여, 대부분의 상용 벡터 DB(Pinecone, Weaviate, Qdrant 등)에서도 HNSW를 기본 알고리즘으로 채택하고 있습니다.
+
 {% hint style="info" %}
 Databricks Vector Search는 HNSW 알고리즘의 파라미터를 자동 최적화합니다. 사용자가 `ef_construction`이나 `M` 값을 직접 설정할 필요가 없으므로, 인덱스 유형과 임베딩 모델 선택에 집중하면 됩니다.
 {% endhint %}
@@ -93,7 +95,7 @@ index = client.create_delta_sync_index(
 
 ### Direct Vector Access Index (수동 관리)
 
-REST API로 직접 벡터를 삽입/업데이트합니다. 자동 동기화가 불필요한 경우에 사용합니다.
+Delta Sync Index와 달리, REST API로 직접 벡터를 삽입/업데이트합니다. 소스가 Delta Table이 아닌 경우(예: 외부 API에서 실시간으로 수집되는 데이터, 자체 임베딩 파이프라인이 있는 경우)에 적합합니다. 동기화 파이프라인이 없으므로 벡터의 추가/삭제를 애플리케이션 코드에서 직접 관리해야 합니다.
 
 ```python
 index = client.create_direct_access_index(
@@ -112,12 +114,16 @@ index = client.create_direct_access_index(
 
 ## 3. Embedding 모델 선택
 
-Foundation Model API에서 제공하는 임베딩 모델:
+임베딩(embedding) 모델은 텍스트를 고정 길이의 숫자 벡터로 변환하는 모델입니다. 의미가 유사한 텍스트는 벡터 공간에서 가까운 위치에 배치되므로, 벡터 간 거리(코사인 유사도)를 계산하면 의미적 유사도를 측정할 수 있습니다. 모델 선택은 검색 품질에 직접적으로 영향을 미칩니다.
+
+Foundation Model API에서 제공하는 임베딩 모델은 다음과 같습니다.
 
 | 모델 | 차원 | 특징 |
 |------|------|------|
-| `databricks-gte-large-en` | 1024 | 영어 특화, 고성능 |
-| `databricks-bge-large-en` | 1024 | 영어 특화, 범용 |
+| `databricks-gte-large-en` | 1024 | 영어 특화, MTEB 벤치마크 상위권, 의미 검색에 최적화 |
+| `databricks-bge-large-en` | 1024 | 영어 특화, 범용적 용도에 적합 |
+
+GTE(General Text Embeddings)와 BGE(BAAI General Embedding)는 모두 트랜스포머 기반 모델이며, 1024차원의 벡터를 생성합니다. **한국어 문서가 포함된 경우** 에는 다국어 임베딩 모델(예: `multilingual-e5-large`, 외부 모델 서빙 필요)이나 한국어 특화 모델을 Model Serving에 직접 배포하여 사용하는 것이 더 나은 검색 품질을 보일 수 있습니다. [한국어 RAG 최적화](korean-nlp.md) 가이드에서 자세히 다룹니다.
 
 ```python
 # Foundation Model API로 임베딩 직접 호출
@@ -161,18 +167,24 @@ results = index.similarity_search(
 
 ### 하이브리드 검색 (유사도 + 키워드)
 
+하이브리드 검색은 **벡터 유사도 검색** 과 **BM25 키워드 검색** 을 동시에 수행하고 결과를 병합합니다. 벡터 검색은 "자동차"와 "차량"의 의미적 유사성을 잡아내는 데 강하지만, 정확한 고유명사나 코드명 검색에는 약합니다. 반대로 키워드 검색은 정확한 용어 매칭에 강합니다. 두 방식을 결합하면 단독 사용 대비 검색 재현율(recall)이 10~20% 향상됩니다.
+
+결과 병합에는 **RRF(Reciprocal Rank Fusion)** 알고리즘이 사용됩니다. RRF는 각 검색 방식에서 문서의 순위(rank)를 기반으로 점수를 계산합니다: `score = 1 / (k + rank)` (k는 상수, 보통 60). 두 검색 방식 모두에서 상위에 랭크된 문서가 가장 높은 점수를 받으며, 한쪽에서만 검색된 문서도 결과에 포함됩니다.
+
 ```python
 results = index.similarity_search(
     query_text="Delta Lake ACID 트랜잭션",
     columns=["chunk_id", "content"],
     num_results=5,
-    query_type="HYBRID"   # Reciprocal Rank Fusion(RRF)으로 결과 병합, 최대 200개
+    query_type="HYBRID"   # RRF로 결과 병합, 최대 200개
 )
 ```
 
 ## 5. 인덱스 튜닝 가이드
 
 ### pipeline_type 선택
+
+Delta Sync Index의 동기화 방식은 데이터 업데이트 빈도와 비용 허용 범위에 따라 선택합니다.
 
 | 옵션 | 동기화 방식 | 비용 | 적합한 케이스 |
 |------|-----------|------|-------------|
