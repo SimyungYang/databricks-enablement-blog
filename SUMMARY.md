@@ -40,6 +40,10 @@
   * [Backend Private Link](platform-setup/azure/privatelink.md)
   * [Unity Catalog](platform-setup/azure/unity-catalog.md)
 * [Databricks Geo (데이터 거주)](guides/platform-setup/databricks-geos.md)
+* [인증 종합 가이드](guides/platform-setup/authentication/README.md)
+  * [OAuth U2M (사용자 인증)](guides/platform-setup/authentication/oauth-u2m.md)
+  * [OAuth M2M (서비스 인증)](guides/platform-setup/authentication/oauth-m2m.md)
+  * [PAT & Token Federation](guides/platform-setup/authentication/pat-federation.md)
 
 ## AI/BI & Analytics
 
