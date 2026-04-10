@@ -98,6 +98,13 @@
   * [배포](guides/apps/deployment.md)
   * [예제 (Streamlit, FastAPI)](guides/apps/examples.md)
 
+## 데이터 엔지니어링
+
+* [Lakeflow 증분 처리 가이드](guides/lakeflow-incremental/README.md)
+  * [Streaming Table](guides/lakeflow-incremental/streaming-table.md)
+  * [Materialized View](guides/lakeflow-incremental/materialized-view.md)
+  * [CDC & 실전 체크리스트](guides/lakeflow-incremental/cdc-checklist.md)
+
 ## 핵심 기술 개념
 
 * [GenAI 핵심 개념](guides/genai-concepts/README.md)
