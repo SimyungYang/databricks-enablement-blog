@@ -72,6 +72,7 @@
   * [활용 시나리오](guides/genie-code/scenarios.md)
   * [프롬프트 쿡북](guides/genie-code/prompt-cookbook.md)
   * [MCP 연동](guides/genie-code/mcp.md)
+  * [설정 & 모범사례](guides/genie-code/settings-best-practices.md)
 * [Agent Bricks](guides/agent-bricks/README.md)
   * [Knowledge Assistant](guides/agent-bricks/knowledge-assistant.md)
   * [Genie Agent](guides/agent-bricks/genie-agent.md)
