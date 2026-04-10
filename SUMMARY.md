@@ -2,7 +2,7 @@
 
 * [가이드 목록](README.md)
 
-## AI 시장 트렌드
+## AI Trends
 
 * [AI 시장 트렌드 2026](00-ai-trends/README.md)
   * [OpenAI](00-ai-trends/openai.md)
@@ -14,7 +14,7 @@
   * [한국어 LLM 동향](00-ai-trends/korean-llm.md)
   * [2026 트렌드 종합](00-ai-trends/trends-summary.md)
 
-## 환경 구성 가이드
+## Platform Setup
 
 * [AWS Workspace 구성](platform-setup/aws/README.md)
   * [Marketplace 구독](platform-setup/aws/marketplace.md)
@@ -104,14 +104,14 @@
   * [배포](guides/apps/deployment.md)
   * [예제 (Streamlit, FastAPI)](guides/apps/examples.md)
 
-## 데이터 엔지니어링
+## Data Engineering
 
 * [Lakeflow 증분 처리 가이드](guides/lakeflow-incremental/README.md)
   * [Streaming Table](guides/lakeflow-incremental/streaming-table.md)
   * [Materialized View](guides/lakeflow-incremental/materialized-view.md)
   * [CDC & 실전 체크리스트](guides/lakeflow-incremental/cdc-checklist.md)
 
-## 핵심 기술 개념
+## Core Concepts
 
 * [GenAI 핵심 개념](guides/genai-concepts/README.md)
   * [NLP에서 LLM까지: 발전사](guides/genai-concepts/nlp-evolution/README.md)
@@ -236,7 +236,7 @@
   * [Track B: AI 가이드 코딩 (Claude Code)](hands-on/smart-tv-vibe/notebooks/track-b-ai-guided/PROMPT_GUIDE.md)
   * [Track C: Genie Code](hands-on/smart-tv-vibe/notebooks/track-c-genie-code/GENIE_CODE_GUIDE.md)
 
-## Databricks 블로그 번역
+## Blog Translations
 
 * [블로그 번역 목록](blog-translations/README.md)
   * [오디언스 인텔리전스를 위한 멀티 에이전트 접근법 (2026-04-06)](blog-translations/2026-04-06-multi-agent-audience-intelligence.md)
@@ -290,7 +290,7 @@
   * [MLflow Tracing: GenAI 관측성 (2025-12-15)](blog-translations/2025-12-15-mlflow-tracing.md)
   * [Databricks Lakeflow 소개 (2025-10-01)](blog-translations/2025-10-01-introducing-lakeflow.md)
 
-## 참고 자료
+## References
 
 * [Databricks 종합 교육 자료 (한글)](https://simyungyang.gitbook.io/databricks-training/)
 * [슬라이드 & PDF 모음](https://simyungyang.github.io/databricks-enablement-blog/)

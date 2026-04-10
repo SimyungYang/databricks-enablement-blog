@@ -100,12 +100,17 @@ Databricks는 기본적으로 Designated Services의 데이터를 **워크스페
 
 Cross-Geo 처리를 활성화하면, 해당 Geo에서 직접 지원하지 않는 서비스를 다른 Geo의 인프라를 빌려 사용할 수 있습니다.
 
-**설정 경로**:
+**Account Console 접근 방법:**
 
-```
-Account Console → Workspaces → [워크스페이스 선택] → Security and compliance
-→ "Enforce data processing within workspace Geography for Designated Services" → 비활성화
-```
+1. [https://accounts.cloud.databricks.com](https://accounts.cloud.databricks.com) 접속 (Account Admin 권한 필요)
+2. 좌측 메뉴에서 **Workspaces** 클릭
+3. 설정을 변경할 워크스페이스를 검색/선택
+4. **Security and compliance** 탭 클릭
+5. **"Enforce data processing within workspace Geography for Designated Services"** 항목 확인
+
+{% hint style="warning" %}
+이 설정은 **Account Admin** 권한이 있어야 볼 수 있습니다. Workspace Admin 권한으로는 접근할 수 없으므로, 설정 확인이 필요하면 Account Admin에게 요청하세요.
+{% endhint %}
 
 이 옵션을 **비활성화** 하면 Cross-Geo 처리가 **활성화** 됩니다 (이중 부정에 주의). 즉:
 
