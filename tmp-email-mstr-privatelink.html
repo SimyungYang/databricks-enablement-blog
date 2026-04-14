@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif; font-size: 14px; color: #333; line-height: 1.7; max-width: 800px; margin: 0 auto; padding: 20px; }
+  h3 { color: #1b3a57; border-bottom: 2px solid #e8792f; padding-bottom: 6px; margin-top: 28px; }
+  h4 { color: #2c5282; margin-top: 20px; }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; }
+  th { background-color: #1b3a57; color: #fff; padding: 8px 12px; text-align: left; font-size: 13px; }
+  td { border: 1px solid #ddd; padding: 8px 12px; font-size: 13px; }
+  tr:nth-child(even) { background-color: #f8f9fa; }
+  code { background: #f0f0f0; padding: 2px 6px; border-radius: 3px; font-family: 'Consolas', monospace; font-size: 12px; }
+  .code-block { background: #1e1e1e; color: #d4d4d4; padding: 14px 18px; border-radius: 6px; font-family: 'Consolas', monospace; font-size: 12px; overflow-x: auto; margin: 10px 0; }
+  .highlight { background: #fff3cd; border-left: 4px solid #e8792f; padding: 10px 14px; margin: 12px 0; font-size: 13px; }
+  .info-box { background: #e8f4fd; border-left: 4px solid #2c5282; padding: 10px 14px; margin: 12px 0; font-size: 13px; }
+  .step-num { display: inline-block; background: #e8792f; color: #fff; border-radius: 50%; width: 24px; height: 24px; text-align: center; line-height: 24px; font-weight: bold; font-size: 12px; margin-right: 6px; }
+  .direction-label { display: inline-block; background: #1b3a57; color: #fff; padding: 3px 10px; border-radius: 4px; font-weight: bold; font-size: 13px; }
+</style>
+</head>
+<body>
+
+<p>안녕하세요, 최준성님. Databricks 양시명입니다.</p>
+<p>문의 주신 MSTR-Databricks PrivateLink 연결에 대해 답변 드립니다.</p>
+
+<hr>
+
+<h3>1. MSTR → Databricks 쿼리 실행 방식</h3>
+<p>MSTR은 <strong>JDBC (Simba Spark JDBC Driver)</strong>를 통해 Databricks SQL Warehouse에 연결합니다.</p>
+
+<table>
+  <tr><th>항목</th><th>내용</th></tr>
+  <tr><td><strong>프로토콜</strong></td><td>JDBC (주), ODBC (보조)</td></tr>
+  <tr><td><strong>드라이버</strong></td><td>Simba Spark JDBC Driver (Databricks 공식 제공)</td></tr>
+  <tr><td><strong>접속 포트</strong></td><td>HTTPS 443</td></tr>
+  <tr><td><strong>인증</strong></td><td>Personal Access Token (PAT) 또는 OAuth</td></tr>
+  <tr><td><strong>SQL Warehouse 유형</strong></td><td>Classic / Pro / <strong>Serverless 모두 동일하게 지원</strong></td></tr>
+</table>
+
+<p><strong>JDBC Connection String 예시:</strong></p>
+<div class="code-block">
+jdbc:databricks://&lt;workspace-host&gt;:443;httpPath=/sql/1.0/warehouses/&lt;warehouse-id&gt;;SSL=1;AuthMech=3;UID=token;PWD=&lt;personal-access-token&gt;
+</div>
+
+<div class="info-box">
+<strong>핵심 포인트:</strong> MSTR은 Databricks <strong>workspace 도메인</strong>(예: <code>adb-xxxx.cloud.databricks.com</code>)에 HTTPS(443)로 접속하여 SQL을 보내고 결과를 받습니다. SQL Warehouse가 Classic이든 <strong>Serverless</strong>든, MSTR 입장에서 접속 경로(workspace URL)는 동일합니다. 따라서 <strong>PrivateLink 구성도 동일합니다.</strong>
+</div>
+
+<h3>2. PrivateLink 구성 — 방향별 정리</h3>
+
+<p>Serverless SQL Warehouse 환경 기준으로, 두 방향의 PrivateLink 구성이 다릅니다.</p>
+
+<!-- 방향 A -->
+<h4><span class="direction-label">방향 A</span> MSTR → Databricks (Frontend PrivateLink) — BI 연결의 핵심</h4>
+
+<p><strong>Frontend PrivateLink란?</strong><br>
+Databricks workspace에 접속하는 경로를 인터넷 대신 <strong>AWS 내부 네트워크(PrivateLink)</strong>로 전환하는 구성입니다. 일반적으로 사용자가 Databricks에 접속할 때는 인터넷을 경유하지만, Frontend PrivateLink를 구성하면 <strong>특정 VPC에서 Databricks workspace로의 트래픽이 AWS 백본 네트워크를 통해 프라이빗하게 전달</strong>됩니다.</p>
+
+<div class="info-box">
+<strong>동작 원리:</strong><br>
+Databricks는 각 리전에 <strong>VPC Endpoint Service</strong>를 이미 운영하고 있습니다. 고객은 자신의 VPC에 이 서비스를 가리키는 <strong>Interface VPC Endpoint</strong>를 생성하면, 해당 VPC 내에서 Databricks workspace 도메인으로 향하는 트래픽이 인터넷이 아닌 <strong>VPC Endpoint의 Private IP → AWS PrivateLink → Databricks Control Plane</strong> 경로로 전달됩니다.<br><br>
+즉, MSTR VPC에 VPC Endpoint를 만들면, MSTR이 JDBC로 <code>adb-xxxx.cloud.databricks.com:443</code>에 접속할 때 인터넷을 거치지 않고 프라이빗하게 연결됩니다. SQL Warehouse가 Serverless여도 이 접속 경로는 동일합니다.
+</div>
+
+<table>
+  <tr>
+    <th colspan="2">PrivateLink 유무에 따른 접속 경로 비교</th>
+  </tr>
+  <tr>
+    <td><strong>PrivateLink 없음</strong></td>
+    <td>MSTR → <span style="color: #dc3545;">인터넷</span> → Databricks workspace → SQL Warehouse</td>
+  </tr>
+  <tr>
+    <td><strong>Frontend PrivateLink 적용</strong></td>
+    <td>MSTR → <span style="color: #28a745;">VPC Endpoint (Private IP) → AWS PrivateLink</span> → Databricks workspace → SQL Warehouse</td>
+  </tr>
+</table>
+
+<p><strong>구성 절차:</strong></p>
+
+<table>
+  <tr><th>단계</th><th>작업</th><th>상세</th></tr>
+  <tr>
+    <td><span class="step-num">1</span></td>
+    <td><strong>MSTR VPC에서 Interface VPC Endpoint 생성</strong></td>
+    <td>
+      Service name (서울 리전):<br>
+      <code>com.amazonaws.vpce.ap-northeast-2.vpce-svc-0babb9bde64f34d7e</code><br>
+      Security Group: Inbound TCP 443 허용
+    </td>
+  </tr>
+  <tr>
+    <td><span class="step-num">2</span></td>
+    <td><strong>Databricks Account Console에 등록</strong></td>
+    <td>
+      Security → Networking → VPC endpoints → Register VPC endpoint<br>
+      생성된 <code>vpce-xxxxxxxx</code> 등록
+    </td>
+  </tr>
+  <tr>
+    <td><span class="step-num">3</span></td>
+    <td><strong>DNS 구성</strong></td>
+    <td>
+      MSTR VPC에서 workspace 도메인이 VPC Endpoint Private IP로 resolving 되도록<br>
+      Route 53 Private Hosted Zone 설정<br>
+      (기존 MSTR과 동일 DNS 환경이면 추가 설정 불필요)
+    </td>
+  </tr>
+</table>
+
+<div class="highlight">
+<strong>추가 메일에서 문의 주신 내용에 대한 답변:</strong><br><br>
+네, 말씀하신 대로 <strong>신규 MSTR VPC에서 VPC Endpoint 생성 → Databricks Security > Connectivity > VPC Endpoints에 등록</strong>만으로 연결이 가능합니다.<br><br>
+LGIT 측에서 별도 VPC Endpoint Service(제공자)를 만들 필요가 없습니다. <strong>Databricks가 이미 Endpoint Service를 제공</strong>하고 있기 때문입니다. 기존 MSTR 서비스가 workspace 도메인만으로 잘 동작하고 있다면, 이 구조가 이미 적용되어 있는 것이며 신규 MSTR도 동일한 방식으로 연결하면 됩니다.
+</div>
+
+<!-- 방향 B -->
+<h4><span class="direction-label">방향 B</span> Databricks Serverless → MSTR VPC (NCC 경유) — 일반적으로 불필요</h4>
+
+<p>이 방향은 Databricks Serverless에서 MSTR VPC 내부 리소스에 접근해야 할 때만 필요합니다.<br>
+일반적인 BI 연결(MSTR이 쿼리를 보내고 결과를 받는 구조)에서는 <strong>방향 A만으로 충분</strong>합니다.</p>
+
+<p>참고용으로 구성 방법을 정리하면:</p>
+
+<table>
+  <tr><th>단계</th><th>구성 주체</th><th>작업</th></tr>
+  <tr>
+    <td><span class="step-num">1</span></td>
+    <td><strong>MSTR VPC 측</strong></td>
+    <td>
+      NLB(Network Load Balancer) 생성 → MSTR 리소스를 타겟으로 등록<br>
+      VPC Endpoint Service 생성 → NLB를 연결<br>
+      Allow Principals에 Databricks 계정 추가
+    </td>
+  </tr>
+  <tr>
+    <td><span class="step-num">2</span></td>
+    <td><strong>Databricks 측</strong></td>
+    <td>
+      Account Console → Security → Networking → NCC<br>
+      Private endpoint rules → Type: VPC Resource<br>
+      MSTR의 VPC Endpoint Service name 입력
+    </td>
+  </tr>
+  <tr>
+    <td><span class="step-num">3</span></td>
+    <td><strong>MSTR VPC 측</strong></td>
+    <td>
+      Databricks가 자동 생성한 VPC Endpoint 연결 승인 (Accept)
+    </td>
+  </tr>
+</table>
+
+<h3>3. 정리</h3>
+
+<table>
+  <tr><th>방향</th><th>용도</th><th>필요 여부</th><th>구성 요약</th></tr>
+  <tr>
+    <td><strong>MSTR → Databricks</strong><br>(Frontend PrivateLink)</td>
+    <td>MSTR이 SQL Warehouse에<br>JDBC로 쿼리 실행</td>
+    <td style="background: #d4edda;"><strong>필수</strong></td>
+    <td>MSTR VPC에서 VPC Endpoint 생성<br>→ Databricks Account Console 등록<br>→ DNS 구성</td>
+  </tr>
+  <tr>
+    <td><strong>Databricks → MSTR</strong><br>(NCC 경유)</td>
+    <td>Databricks Serverless에서<br>MSTR 리소스 접근</td>
+    <td style="background: #f8f9fa;">일반적으로 불필요</td>
+    <td>MSTR에 NLB + Endpoint Service 구성<br>→ Databricks NCC에서 연결</td>
+  </tr>
+</table>
+
+<div class="highlight">
+<strong>결론:</strong> MSTR이 Databricks에 쿼리를 보내고 결과를 받아오는 일반적인 BI 용도라면, <strong>방향 A(Frontend PrivateLink)만 구성하면 됩니다.</strong> Serverless SQL Warehouse도 동일한 workspace 엔드포인트를 사용하므로 구성이 동일합니다.<br><br>
+첫 번째 메일에서 MSTR 측이 안내한 과정(LGIT이 Endpoint Service 생성 → MCE가 Endpoint 생성)은 방향 B의 패턴인데, MSTR→Databricks 연결에서는 방향이 반대이므로 해당 과정은 불필요합니다.
+</div>
+
+<p>네트워크 구조에 따라 세부 설정이 달라질 수 있으니, 필요하시면 아키텍처 리뷰 미팅을 잡아주시면 더 정확한 가이드를 드리겠습니다.</p>
+
+<p>감사합니다.<br>양시명 드림</p>
+
+<hr>
+<p style="font-size: 11px; color: #888;">
+<strong>참고 문서:</strong><br><br>
+<em>MSTR-Databricks 연결:</em><br>
+• <a href="https://docs.databricks.com/aws/en/partners/bi/microstrategy">Connect to MicroStrategy | Databricks</a><br>
+• <a href="https://docs.databricks.com/aws/en/integrations/jdbc/configure">Configure JDBC Driver for Databricks</a><br><br>
+<em>Frontend PrivateLink (방향 A):</em><br>
+• <a href="https://docs.databricks.com/aws/en/security/network/classic/privatelink">Enable AWS PrivateLink connections | Databricks</a><br>
+• <a href="https://docs.databricks.com/aws/en/security/network/front-end/front-end-private-connect">Configure private connectivity from your VPC (Frontend)</a><br>
+• <a href="https://docs.databricks.com/aws/en/resources/ip-domain-region">Regional endpoint service names (VPC Endpoint Service 목록)</a><br><br>
+<em>NCC / Serverless Private Connectivity (방향 B):</em><br>
+• <a href="https://docs.databricks.com/aws/en/security/network/serverless-network-security/serverless-private-connectivity">Configure serverless private connectivity (NCC)</a><br>
+</p>
+
+</body>
+</html>

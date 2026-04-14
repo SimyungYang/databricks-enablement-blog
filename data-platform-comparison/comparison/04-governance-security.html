@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>거버넌스 / 보안 비교</title>
+<link rel="stylesheet" href="_shared-styles.css">
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="../analytics-platform-comparison.html" class="nav-home">Main</a>
+  <a href="00-platform-overview.html">Overview</a>
+  <a href="01-data-warehouse-sql.html">DW / SQL</a>
+  <a href="02-data-engineering-etl.html">ETL</a>
+  <a href="03-data-lake-storage.html">Lake / Storage</a>
+  <a href="04-governance-security.html" class="active">Governance</a>
+  <a href="05-ai-ml.html">AI / ML</a>
+  <a href="06-developer-experience.html">DevEx</a>
+</nav>
+
+<div class="sub-hero">
+  <h1>거버넌스 / 보안</h1>
+  <p>Unity Catalog — 업계 유일의 데이터 + AI + 모델 통합 거버넌스</p>
+</div>
+
+<div class="container">
+
+<div class="key-msg">
+  <h3>핵심: AI 시대에 거버넌스는 데이터만으로 부족합니다</h3>
+  <p>전통적 거버넌스는 테이블과 뷰에 대한 접근 제어에 그칩니다. 하지만 AI 시대에는 <strong>ML 모델, Feature, Vector Index, AI Agent, 비정형 파일</strong>까지 모두 거버넌스 대상입니다. <strong class="highlight">Unity Catalog는 데이터, AI 모델, Feature, Agent, 파일을 하나의 카탈로그에서 통합 관리하는 업계 유일의 솔루션</strong>입니다.</p>
+</div>
+
+<!-- Governance scope comparison -->
+<h2 class="section-title">거버넌스 범위 비교</h2>
+<p class="section-desc">각 플랫폼이 거버넌스로 관리할 수 있는 자산의 범위</p>
+
+<div class="table-wrapper">
+<table>
+<thead>
+  <tr>
+    <th>거버넌스 대상</th>
+    <th class="db">Databricks Unity Catalog</th>
+    <th class="snow">Snowflake Horizon</th>
+    <th class="aws">AWS Lake Formation</th>
+    <th class="gcp">GCP Dataplex</th>
+  </tr>
+</thead>
+<tbody>
+<tr>
+  <td>테이블 / 뷰</td>
+  <td><span class="badge badge-strong">지원</span></td>
+  <td><span class="badge badge-strong">지원</span></td>
+  <td><span class="badge badge-strong">지원</span></td>
+  <td><span class="badge badge-strong">지원</span></td>
+</tr>
+<tr>
+  <td>ML 모델</td>
+  <td><span class="badge badge-strong">지원</span> — 모델 레지스트리 통합</td>
+  <td><span class="badge badge-weak">미지원</span></td>
+  <td><span class="badge badge-weak">미지원</span> (SageMaker 별도)</td>
+  <td><span class="badge badge-weak">미지원</span> (Vertex AI 별도)</td>
+</tr>
+<tr>
+  <td>Feature Table</td>
+  <td><span class="badge badge-strong">지원</span> — Feature Store 통합</td>
+  <td><span class="badge badge-weak">미지원</span></td>
+  <td><span class="badge badge-weak">미지원</span></td>
+  <td><span class="badge badge-weak">미지원</span></td>
+</tr>
+<tr>
+  <td>Vector Search Index</td>
+  <td><span class="badge badge-strong">지원</span> — 벡터 인덱스도 UC 관리</td>
+  <td><span class="badge badge-weak">미지원</span></td>
+  <td><span class="badge badge-weak">미지원</span></td>
+  <td><span class="badge badge-weak">미지원</span></td>
+</tr>
+<tr>
+  <td>AI Agent / Function</td>
+  <td><span class="badge badge-strong">지원</span> — Agent도 UC에 등록</td>
+  <td><span class="badge badge-weak">미지원</span></td>
+  <td><span class="badge badge-weak">미지원</span></td>
+  <td><span class="badge badge-weak">미지원</span></td>
+</tr>
+<tr>
+  <td>비정형 파일 (PDF, 이미지)</td>
+  <td><span class="badge badge-strong">지원</span> — Volumes</td>
+  <td><span class="badge badge-weak">미지원</span></td>
+  <td><span class="badge badge-weak">미지원</span></td>
+  <td><span class="badge badge-limited">제한적</span></td>
+</tr>
+<tr>
+  <td>External Connections</td>
+  <td><span class="badge badge-strong">지원</span> — 외부 DB 연결 관리</td>
+  <td><span class="badge badge-limited">제한적</span></td>
+  <td><span class="badge badge-limited">제한적</span></td>
+  <td><span class="badge badge-limited">제한적</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<!-- Detailed comparison -->
+<h2 class="section-title">상세 기능 비교</h2>
+
+<div class="table-wrapper">
+<table>
+<thead>
+  <tr>
+    <th>비교 항목</th>
+    <th class="db">Databricks</th>
+    <th class="snow">Snowflake</th>
+    <th class="aws">AWS</th>
+    <th class="gcp">GCP</th>
+  </tr>
+</thead>
+<tbody>
+<tr class="category-row"><td colspan="5">접근 제어</td></tr>
+<tr>
+  <td>접근 제어 모델</td>
+  <td>3-level namespace (Catalog.Schema.Object) <span class="badge badge-strong">계층적</span></td>
+  <td>Database.Schema.Object</td>
+  <td>Lake Formation TBAC / IAM</td>
+  <td>IAM + Dataplex</td>
+</tr>
+<tr>
+  <td>Row-Level Security</td>
+  <td>Row Filter 함수 <span class="badge badge-strong">동적</span></td>
+  <td>Row Access Policy</td>
+  <td>Lake Formation Row-Level</td>
+  <td>BigQuery Row-Level</td>
+</tr>
+<tr>
+  <td>Column Masking</td>
+  <td>Column Mask 함수 <span class="badge badge-strong">동적</span></td>
+  <td>Column Masking Policy</td>
+  <td>Lake Formation Column-Level</td>
+  <td>BigQuery Column-Level, Policy Tags</td>
+</tr>
+<tr>
+  <td>Attribute-Based Access</td>
+  <td>Tags 기반 동적 접근 제어 <span class="badge badge-new">ABAC</span></td>
+  <td>Tag-based Masking</td>
+  <td>TBAC (Lake Formation)</td>
+  <td>Policy Tags</td>
+</tr>
+<tr>
+  <td>ID Federation</td>
+  <td>SCIM + SAML + OAuth + OIDC <span class="badge badge-strong">완전</span></td>
+  <td>SCIM + SAML + OAuth</td>
+  <td>IAM Identity Center</td>
+  <td>Google Identity</td>
+</tr>
+
+<tr class="category-row"><td colspan="5">데이터 리니지 & 감사</td></tr>
+<tr>
+  <td>자동 리니지</td>
+  <td>테이블→컬럼→모델→Agent 전체 추적 <span class="badge badge-strong">End-to-End</span></td>
+  <td>Object Dependencies (테이블만)</td>
+  <td>미지원 <span class="badge badge-weak">별도 도구 필요</span></td>
+  <td>Dataplex Lineage (제한적)</td>
+</tr>
+<tr>
+  <td>컬럼 레벨 리니지</td>
+  <td>지원 <span class="badge badge-strong">자동</span></td>
+  <td>미지원</td>
+  <td>미지원</td>
+  <td>제한적</td>
+</tr>
+<tr>
+  <td>ML 모델 리니지</td>
+  <td>학습 데이터→모델→서빙까지 추적 <span class="badge badge-strong">유일</span></td>
+  <td>미지원</td>
+  <td>SageMaker에서 별도</td>
+  <td>Vertex AI에서 별도</td>
+</tr>
+<tr>
+  <td>감사 로그</td>
+  <td>System Tables — SQL로 직접 분석 <span class="badge badge-strong">셀프서비스</span></td>
+  <td>Access History, Query History</td>
+  <td>CloudTrail (JSON 로그)</td>
+  <td>Cloud Audit Logs</td>
+</tr>
+<tr>
+  <td>사용량 모니터링</td>
+  <td>System Tables (Billing, Usage) <span class="badge badge-strong">SQL로 분석</span></td>
+  <td>Resource Monitors + Snowsight</td>
+  <td>Cost Explorer + CloudWatch</td>
+  <td>Billing Export + BigQuery</td>
+</tr>
+
+<tr class="category-row"><td colspan="5">데이터 분류 & 컴플라이언스</td></tr>
+<tr>
+  <td>태그 기반 분류</td>
+  <td>UC Tags — 사용자 정의 + 전파 <span class="badge badge-strong">자동 전파</span></td>
+  <td>Object Tagging</td>
+  <td>Lake Formation Tags</td>
+  <td>Dataplex Tags</td>
+</tr>
+<tr>
+  <td>AI 기반 자동 분류</td>
+  <td>AI-powered classification <span class="badge badge-new">PII 자동 감지</span></td>
+  <td>Classify (Preview)</td>
+  <td>Macie (S3 전용, 별도 서비스)</td>
+  <td>DLP (별도 서비스)</td>
+</tr>
+<tr>
+  <td>규정 준수</td>
+  <td>SOC 2, ISO 27001, HIPAA, FedRAMP, PCI DSS <span class="badge badge-strong">포괄적</span></td>
+  <td>SOC 2, ISO 27001, HIPAA, PCI DSS</td>
+  <td>포괄적 (서비스별 인증)</td>
+  <td>포괄적 (서비스별 인증)</td>
+</tr>
+
+<tr class="category-row"><td colspan="5">멀티클라우드 거버넌스</td></tr>
+<tr>
+  <td>크로스 클라우드 카탈로그</td>
+  <td>Unity Catalog — AWS/Azure/GCP 통합 <span class="badge badge-strong">유일</span></td>
+  <td>Snowflake 내부 (클라우드 간)</td>
+  <td>AWS Only <span class="badge badge-weak">단일 클라우드</span></td>
+  <td>GCP Only <span class="badge badge-weak">단일 클라우드</span></td>
+</tr>
+<tr>
+  <td>크로스 클라우드 리니지</td>
+  <td>클라우드 간 데이터 흐름 추적 가능 <span class="badge badge-strong">통합</span></td>
+  <td>Snowflake 내부만</td>
+  <td>미지원</td>
+  <td>미지원</td>
+</tr>
+<tr>
+  <td>크로스 클라우드 접근 제어</td>
+  <td>동일한 정책이 모든 클라우드에 적용 <span class="badge badge-strong">일관성</span></td>
+  <td>Snowflake 계정별</td>
+  <td>IAM (AWS만)</td>
+  <td>IAM (GCP만)</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div class="db-highlight">
+  <h3>Unity Catalog가 업계 표준이 되는 이유</h3>
+  <div class="grid">
+    <div class="item">
+      <h4>데이터 + AI 통합 거버넌스</h4>
+      <p>테이블, 모델, Feature, Vector Index, Agent, 파일까지 — 하나의 카탈로그에서 접근 제어, 리니지, 감사를 통합 관리합니다. 경쟁사는 데이터와 AI 거버넌스가 분리되어 있습니다.</p>
+    </div>
+    <div class="item">
+      <h4>오픈소스 UC</h4>
+      <p>Unity Catalog가 오픈소스로 공개되어 Databricks 밖에서도 사용 가능합니다. 벤더 종속 없는 거버넌스 표준을 지향합니다.</p>
+    </div>
+    <div class="item">
+      <h4>자동 리니지</h4>
+      <p>테이블→컬럼→모델→Agent까지 End-to-End 리니지를 자동 추적합니다. 규제 대응(GDPR, CCPA)과 영향도 분석에 필수적인 기능입니다.</p>
+    </div>
+    <div class="item">
+      <h4>System Tables</h4>
+      <p>감사 로그, 빌링, 사용량 데이터를 Delta 테이블로 제공합니다. SQL로 직접 분석하여 커스텀 대시보드를 구축할 수 있습니다.</p>
+    </div>
+  </div>
+</div>
+
+<div class="verdict-bar">
+  <h3>결론: 거버넌스 / 보안</h3>
+  <p>AI 시대의 거버넌스는 데이터를 넘어 모델, Agent, Feature까지 포괄해야 합니다. 멀티클라우드 환경에서 일관된 정책을 적용할 수 있는 플랫폼은 —</p>
+  <span class="db-badge">Unity Catalog가 유일합니다</span>
+</div>
+
+</div>
+<footer><p>&copy; 2026 Cloud Analytics Platform Comparison | 거버넌스 / 보안</p></footer>
+</body>
+</html>

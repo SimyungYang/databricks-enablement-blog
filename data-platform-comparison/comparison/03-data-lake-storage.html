@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>데이터 레이크 / 스토리지 비교</title>
+<link rel="stylesheet" href="_shared-styles.css">
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="../analytics-platform-comparison.html" class="nav-home">Main</a>
+  <a href="00-platform-overview.html">Overview</a>
+  <a href="01-data-warehouse-sql.html">DW / SQL</a>
+  <a href="02-data-engineering-etl.html">ETL</a>
+  <a href="03-data-lake-storage.html" class="active">Lake / Storage</a>
+  <a href="04-governance-security.html">Governance</a>
+  <a href="05-ai-ml.html">AI / ML</a>
+  <a href="06-developer-experience.html">DevEx</a>
+</nav>
+
+<div class="sub-hero">
+  <h1>데이터 레이크 / 스토리지</h1>
+  <p>오픈 포맷 + 고객 소유 스토리지 = 벤더 종속 Zero</p>
+</div>
+
+<div class="container">
+
+<div class="key-msg">
+  <h3>핵심: 데이터 소유권과 개방성</h3>
+  <p>Snowflake에 데이터를 넣으면 독점 포맷으로 저장되어 다른 도구에서 직접 접근할 수 없습니다. <strong class="highlight">Databricks는 데이터를 고객의 클라우드 스토리지(S3/ADLS/GCS)에 오픈 포맷(Delta Lake)으로 저장</strong>합니다. UniForm을 통해 Iceberg 호환도 보장하여, 어떤 엔진에서든 데이터에 접근할 수 있습니다.</p>
+</div>
+
+<h2 class="section-title">상세 기능 비교</h2>
+
+<div class="table-wrapper">
+<table>
+<thead>
+  <tr>
+    <th>비교 항목</th>
+    <th class="db">Databricks</th>
+    <th class="snow">Snowflake</th>
+    <th class="aws">AWS</th>
+    <th class="gcp">GCP</th>
+  </tr>
+</thead>
+<tbody>
+<tr class="category-row"><td colspan="5">테이블 포맷 & 개방성</td></tr>
+<tr>
+  <td>기본 테이블 포맷</td>
+  <td>Delta Lake (오픈소스) <span class="badge badge-strong">Linux Foundation</span></td>
+  <td>독점 포맷 <span class="badge badge-weak">폐쇄적</span></td>
+  <td>선택 가능 (Iceberg, Hudi, Delta)</td>
+  <td>BigQuery Storage (독점) + BigLake</td>
+</tr>
+<tr>
+  <td>Iceberg 호환</td>
+  <td>UniForm — Delta 테이블을 Iceberg로 자동 노출 <span class="badge badge-strong">양방향</span></td>
+  <td>Iceberg Tables (네이티브, 전환 중)</td>
+  <td>EMR에서 Iceberg 네이티브</td>
+  <td>BigLake Iceberg Tables</td>
+</tr>
+<tr>
+  <td>포맷 잠금(Lock-in)</td>
+  <td>없음 — 오픈 포맷, 어떤 엔진에서든 읽기 가능 <span class="badge badge-strong">Zero Lock-in</span></td>
+  <td>높음 — 데이터 이관 시 COPY/UNLOAD 필요 <span class="badge badge-weak">높음</span></td>
+  <td>낮음 (오픈 포맷 사용 시)</td>
+  <td>중간 (BigQuery는 독점, BigLake은 개방)</td>
+</tr>
+
+<tr class="category-row"><td colspan="5">스토리지 아키텍처</td></tr>
+<tr>
+  <td>데이터 저장 위치</td>
+  <td>고객 클라우드 스토리지 <span class="badge badge-strong">고객 소유</span></td>
+  <td>Snowflake 관리형 스토리지 <span class="badge badge-limited">벤더 소유</span></td>
+  <td>S3 (고객 소유)</td>
+  <td>BigQuery Storage (관리형) / GCS</td>
+</tr>
+<tr>
+  <td>스토리지 비용</td>
+  <td>클라우드 네이티브 가격 (S3/ADLS/GCS) <span class="badge badge-strong">최저, 투명</span></td>
+  <td>Snowflake 자체 가격 (마크업 포함) <span class="badge badge-limited">불투명</span></td>
+  <td>S3 가격</td>
+  <td>BigQuery: $0.02/GB, GCS: $0.02/GB</td>
+</tr>
+<tr>
+  <td>컴퓨팅-스토리지 분리</td>
+  <td>완전 분리 — 여러 클러스터가 동일 데이터 접근 <span class="badge badge-strong">완전</span></td>
+  <td>분리 (내부적)</td>
+  <td>Redshift RA3: 분리, Redshift DC: 결합</td>
+  <td>BigQuery: 분리</td>
+</tr>
+
+<tr class="category-row"><td colspan="5">ACID 트랜잭션 & 성능</td></tr>
+<tr>
+  <td>ACID 트랜잭션</td>
+  <td>Delta Lake — Serializable Isolation <span class="badge badge-strong">완전 ACID</span></td>
+  <td>네이티브 ACID</td>
+  <td>Iceberg/Hudi ACID</td>
+  <td>BigQuery ACID</td>
+</tr>
+<tr>
+  <td>Time Travel</td>
+  <td>Delta Log 기반 — 무제한 보존 가능 <span class="badge badge-strong">유연</span></td>
+  <td>최대 90일</td>
+  <td>Iceberg Snapshot</td>
+  <td>BigQuery: 7일</td>
+</tr>
+<tr>
+  <td>스키마 진화</td>
+  <td>Column 추가/이름변경/삭제 + 타입 변환 <span class="badge badge-strong">완전 지원</span></td>
+  <td>ALTER TABLE (수동)</td>
+  <td>Iceberg 스키마 진화</td>
+  <td>BigQuery 자동 감지</td>
+</tr>
+<tr>
+  <td>자동 최적화</td>
+  <td>Predictive Optimization — OPTIMIZE, VACUUM 자동 <span class="badge badge-strong">AI 기반</span></td>
+  <td>자동 Reclustering</td>
+  <td>수동 VACUUM/OPTIMIZE</td>
+  <td>BigQuery 자동 관리</td>
+</tr>
+<tr>
+  <td>Liquid Clustering</td>
+  <td>파티셔닝 대체 — 자동 데이터 레이아웃 최적화 <span class="badge badge-new">혁신</span></td>
+  <td>미지원</td>
+  <td>미지원</td>
+  <td>미지원</td>
+</tr>
+
+<tr class="category-row"><td colspan="5">데이터 공유</td></tr>
+<tr>
+  <td>공유 프로토콜</td>
+  <td>Delta Sharing <span class="badge badge-strong">오픈 프로토콜, 크로스 플랫폼</span></td>
+  <td>Snowflake Secure Data Sharing <span class="badge badge-limited">Snowflake 내부만</span></td>
+  <td>AWS Data Exchange (유료), Lake Formation</td>
+  <td>Analytics Hub</td>
+</tr>
+<tr>
+  <td>크로스 플랫폼 공유</td>
+  <td>Spark, Pandas, Power BI, Tableau 등 수십 개 클라이언트 <span class="badge badge-strong">개방</span></td>
+  <td>Snowflake 계정 간만 <span class="badge badge-weak">폐쇄</span></td>
+  <td>AWS 내부</td>
+  <td>GCP 내부 + 제한적 외부</td>
+</tr>
+<tr>
+  <td>데이터 복사 필요</td>
+  <td>복사 없이 실시간 공유 <span class="badge badge-strong">Zero-copy</span></td>
+  <td>Snowflake 내 Zero-copy (외부는 복사 필요)</td>
+  <td>데이터 복사 또는 교환</td>
+  <td>데이터 복사 또는 교환</td>
+</tr>
+<tr>
+  <td>마켓플레이스</td>
+  <td>Databricks Marketplace (데이터+모델+노트북)</td>
+  <td>Snowflake Marketplace (대규모)</td>
+  <td>AWS Data Exchange</td>
+  <td>Analytics Hub</td>
+</tr>
+
+<tr class="category-row"><td colspan="5">비정형 데이터</td></tr>
+<tr>
+  <td>파일 관리</td>
+  <td>Unity Catalog Volumes <span class="badge badge-strong">파일도 거버넌스 대상</span></td>
+  <td>Stage (제한적 관리)</td>
+  <td>S3 (별도 관리)</td>
+  <td>GCS (별도 관리)</td>
+</tr>
+<tr>
+  <td>이미지/PDF/비디오</td>
+  <td>Binary 타입 + AI Functions로 처리 <span class="badge badge-strong">네이티브</span></td>
+  <td>제한적 <span class="badge badge-weak">정형 중심</span></td>
+  <td>S3 + 별도 서비스</td>
+  <td>GCS + 별도 서비스</td>
+</tr>
+<tr>
+  <td>문서 파싱</td>
+  <td>ai_parse_document() — PDF, DOCX, PPTX 네이티브 <span class="badge badge-new">내장</span></td>
+  <td>미지원</td>
+  <td>Textract (별도)</td>
+  <td>Document AI (별도)</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<!-- Vendor Lock-in comparison -->
+<h2 class="section-title">벤더 종속 리스크 비교</h2>
+<p class="section-desc">데이터를 다른 플랫폼으로 이관할 때의 난이도와 비용</p>
+
+<div class="spectrum">
+  <div class="spectrum-row">
+    <span class="spectrum-label">개방성 (높을수록 좋음)</span>
+    <div class="spectrum-bar">
+      <div class="spectrum-fill db" style="width:95%">Databricks — 오픈 포맷 + 고객 스토리지</div>
+    </div>
+  </div>
+  <div class="spectrum-row">
+    <span class="spectrum-label"></span>
+    <div class="spectrum-bar">
+      <div class="spectrum-fill aws" style="width:70%">AWS — S3 오픈, 서비스는 종속</div>
+    </div>
+  </div>
+  <div class="spectrum-row">
+    <span class="spectrum-label"></span>
+    <div class="spectrum-bar">
+      <div class="spectrum-fill gcp" style="width:55%">GCP — BigQuery 독점 + BigLake 개방</div>
+    </div>
+  </div>
+  <div class="spectrum-row">
+    <span class="spectrum-label"></span>
+    <div class="spectrum-bar">
+      <div class="spectrum-fill snow" style="width:35%">Snowflake — 독점 포맷, UNLOAD 필요</div>
+    </div>
+  </div>
+</div>
+
+<div class="db-highlight">
+  <h3>Databricks 데이터 레이크 전략의 핵심</h3>
+  <div class="grid">
+    <div class="item">
+      <h4>데이터는 고객의 것</h4>
+      <p>데이터가 고객의 S3/ADLS/GCS에 저장되므로 Databricks를 떠나도 데이터는 그대로. Snowflake는 데이터를 UNLOAD해야 탈출 가능합니다.</p>
+    </div>
+    <div class="item">
+      <h4>UniForm = 포맷 전쟁의 종결</h4>
+      <p>Delta Lake 테이블이 Iceberg, Hudi로 자동 노출됩니다. Spark, Trino, Flink 등 어떤 엔진에서든 네이티브 성능으로 접근합니다.</p>
+    </div>
+    <div class="item">
+      <h4>Delta Sharing = 열린 데이터 생태계</h4>
+      <p>오픈 프로토콜 기반으로 Databricks 없이도 Pandas, Power BI, Tableau에서 데이터에 직접 접근. 조직 간 데이터 공유의 표준.</p>
+    </div>
+    <div class="item">
+      <h4>Volumes = 비정형 데이터 거버넌스</h4>
+      <p>Unity Catalog Volumes로 파일(PDF, 이미지, 비디오)에도 접근 제어와 리니지를 적용합니다. 경쟁사에 없는 기능입니다.</p>
+    </div>
+  </div>
+</div>
+
+<div class="verdict-bar">
+  <h3>결론: 데이터 레이크 / 스토리지</h3>
+  <p>데이터는 조직의 가장 중요한 자산입니다. 독점 포맷에 가두지 말고, 오픈 포맷으로 고객 스토리지에 저장하세요. 어떤 엔진에서든 접근 가능하고, 어떤 조직과도 공유 가능합니다.</p>
+  <span class="db-badge">Databricks = 데이터 소유권 + 개방성의 표준</span>
+</div>
+
+</div>
+<footer><p>&copy; 2026 Cloud Analytics Platform Comparison | 데이터 레이크 / 스토리지</p></footer>
+</body>
+</html>

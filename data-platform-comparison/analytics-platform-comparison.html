@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>클라우드 분석 플랫폼 비교 - Databricks vs Snowflake vs AWS vs GCP</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
+<style>
+  :root {
+    --db-red: #FF3621;
+    --db-dark: #1B3139;
+    --snow-blue: #29B5E8;
+    --aws-orange: #FF9900;
+    --gcp-blue: #4285F4;
+  }
+  .reveal { font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif; }
+  .reveal h1, .reveal h2, .reveal h3 { text-transform: none; font-weight: 700; }
+  .reveal h1 { font-size: 2.4em; }
+  .reveal h2 { font-size: 1.6em; }
+  .reveal h3 { font-size: 1.1em; }
+  .reveal p, .reveal li { font-size: 0.7em; line-height: 1.6; }
+  .reveal ul { list-style: none; padding: 0; }
+  .reveal li { margin-bottom: 0.4em; }
+  .reveal li::before { content: ''; display: inline-block; width: 8px; height: 8px; background: var(--db-red); border-radius: 50%; margin-right: 10px; }
+
+  /* Accent text */
+  .accent { color: var(--db-red); }
+  .accent-light { color: #ff8a75; }
+  .muted { color: #888; font-size: 0.6em; }
+  .small { font-size: 0.55em; color: #aaa; }
+
+  /* Cards in slides */
+  .card-row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
+  .s-card {
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 12px; padding: 20px 16px; width: 220px; text-align: left;
+  }
+  .s-card h4 { font-size: 0.7em; margin-bottom: 8px; color: white; }
+  .s-card p { font-size: 0.5em; color: #bbb; line-height: 1.5; }
+  .s-card.db { border-top: 3px solid var(--db-red); }
+  .s-card.snow { border-top: 3px solid var(--snow-blue); }
+  .s-card.aws { border-top: 3px solid var(--aws-orange); }
+  .s-card.gcp { border-top: 3px solid var(--gcp-blue); }
+
+  /* Comparison mini-table */
+  .cmp-table { width: 90%; margin: 20px auto 0; border-collapse: collapse; font-size: 0.5em; }
+  .cmp-table th, .cmp-table td { padding: 8px 12px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .cmp-table th { font-weight: 700; }
+  .cmp-table th.db-col { color: var(--db-red); }
+  .cmp-table th.snow-col { color: var(--snow-blue); }
+  .cmp-table th.aws-col { color: var(--aws-orange); }
+  .cmp-table th.gcp-col { color: var(--gcp-blue); }
+  .cmp-table td:first-child { color: #999; font-weight: 600; }
+  .cmp-table .win { color: #66d9a0; font-weight: 600; }
+
+  /* Badge */
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 4px; font-size: 0.55em; font-weight: 600; }
+  .badge-red { background: var(--db-red); color: white; }
+  .badge-green { background: #28a745; color: white; }
+  .badge-gray { background: rgba(255,255,255,0.15); color: #ccc; }
+
+  /* Big number */
+  .big-num { font-size: 3em; font-weight: 800; color: var(--db-red); line-height: 1; }
+
+  /* Flow */
+  .flow { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 20px 0; flex-wrap: wrap; }
+  .flow-step { padding: 8px 16px; border-radius: 8px; font-size: 0.5em; font-weight: 600; }
+  .flow-step.db { background: var(--db-red); color: white; }
+  .flow-step.neutral { background: rgba(255,255,255,0.1); color: #ccc; }
+  .flow-arrow { color: #666; font-size: 0.8em; }
+
+  /* Link grid */
+  .link-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 16px; max-width: 700px; margin-left: auto; margin-right: auto; }
+  .link-card {
+    display: block; padding: 14px 16px; background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 10px;
+    text-decoration: none; color: white; text-align: left;
+    border-left: 3px solid var(--db-red); transition: all 0.2s;
+  }
+  .link-card:hover { background: rgba(255,54,33,0.1); border-color: var(--db-red); }
+  .link-card h4 { font-size: 0.6em; margin-bottom: 4px; }
+  .link-card p { font-size: 0.42em; color: #999; }
+
+  /* CTA */
+  .cta-box {
+    display: inline-block; margin-top: 24px; padding: 16px 40px;
+    background: var(--db-red); border-radius: 12px;
+    font-size: 0.8em; font-weight: 700; color: white;
+  }
+
+  /* Slide backgrounds */
+  .reveal .slide-background { background: #0a0a0a; }
+</style>
+</head>
+<body>
+
+<div class="reveal">
+<div class="slides">
+
+<!-- ==================== SLIDE 1: Title ==================== -->
+<section data-background="linear-gradient(135deg, #0d1b21 0%, #1B3139 50%, #FF3621 100%)">
+  <p class="muted" style="letter-spacing:3px; text-transform:uppercase;">CLOUD ANALYTICS PLATFORM COMPARISON 2026</p>
+  <h1 style="margin-bottom:16px;">하나의 플랫폼에서<br><span class="accent-light">모든 데이터 & AI</span>를 통합</h1>
+  <p style="opacity:0.7; font-size:0.75em;">Databricks vs Snowflake vs AWS vs GCP</p>
+  <p class="small" style="margin-top:32px;">2026년 3월 기준 | &darr; 아래로 스크롤하거나 &rarr; 화살표로 이동</p>
+</section>
+
+<!-- ==================== SLIDE 2: Core Message ==================== -->
+<section data-background="#0a0a0a">
+  <h2>왜 <span class="accent">Databricks</span>인가?</h2>
+  <br>
+  <div class="card-row">
+    <div class="s-card db">
+      <h4>통합 플랫폼</h4>
+      <p>DW + Data Lake + ML + GenAI<br>하나의 플랫폼, 하나의 데이터 사본<br>하나의 거버넌스</p>
+    </div>
+    <div class="s-card db">
+      <h4>AI로 사라지는 학습 곡선</h4>
+      <p>Genie Code — 자연어로 분석<br>AI Dev Kit — 로컬 IDE에서 Agent 개발<br>Assistant — 실시간 코딩 지원</p>
+    </div>
+    <div class="s-card db">
+      <h4>오픈소스 & 멀티클라우드</h4>
+      <p>Delta Lake, MLflow, Unity Catalog<br>모두 오픈소스<br>AWS, Azure, GCP 동일 경험</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SLIDE 3: Platform Overview ==================== -->
+<section data-background="#0a0a0a">
+  <h2>비교 대상 플랫폼</h2>
+  <br>
+  <div class="card-row">
+    <div class="s-card db">
+      <h4 style="color:var(--db-red)">Databricks</h4>
+      <p><strong>Data Intelligence Platform</strong><br>Lakehouse 아키텍처<br>데이터 + AI 통합의 유일한 선택</p>
+    </div>
+    <div class="s-card snow">
+      <h4 style="color:var(--snow-blue)">Snowflake</h4>
+      <p><strong>AI Data Cloud</strong><br>SQL 분석 중심 SaaS<br>ML/AI는 후발 주자</p>
+    </div>
+    <div class="s-card aws">
+      <h4 style="color:var(--aws-orange)">AWS Analytics</h4>
+      <p><strong>서비스 조합형</strong><br>Redshift + EMR + Glue + Athena<br>높은 운영 복잡성</p>
+    </div>
+    <div class="s-card gcp">
+      <h4 style="color:var(--gcp-blue)">GCP Analytics</h4>
+      <p><strong>서버리스 중심</strong><br>BigQuery + Vertex AI<br>엔터프라이즈 점유율 낮음</p>
+    </div>
+  </div>
+  <p class="small" style="margin-top:20px;"><a href="comparison/00-platform-overview.html" style="color:var(--db-red);">상세 비교 보기 &rarr;</a></p>
+</section>
+
+<!-- ==================== SLIDE 4: Key Differentiator - Summary Table ==================== -->
+<section data-background="#0a0a0a">
+  <h2>핵심 차별화 <span class="accent">한눈에 보기</span></h2>
+  <table class="cmp-table">
+    <thead>
+      <tr>
+        <th></th>
+        <th class="db-col">Databricks</th>
+        <th class="snow-col">Snowflake</th>
+        <th class="aws-col">AWS</th>
+        <th class="gcp-col">GCP</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>DW + Lake 통합</td><td class="win">Lakehouse 네이티브</td><td>SQL DW만</td><td>별도 서비스</td><td>별도 서비스</td></tr>
+      <tr><td>AI / GenAI Agent</td><td class="win">Agent Framework + Evaluation</td><td>Cortex (SQL만)</td><td>Bedrock</td><td>Vertex AI</td></tr>
+      <tr><td>통합 거버넌스</td><td class="win">Unity Catalog (데이터+AI+모델)</td><td>Horizon (데이터만)</td><td>분산 (IAM+LF)</td><td>분산 (IAM+Dataplex)</td></tr>
+      <tr><td>멀티클라우드</td><td class="win">AWS / Azure / GCP</td><td>AWS / Azure / GCP</td><td>AWS Only</td><td>GCP Only</td></tr>
+      <tr><td>오픈소스</td><td class="win">Delta, MLflow, UC OSS</td><td>독점 엔진</td><td>일부 OSS</td><td>일부 OSS</td></tr>
+      <tr><td>자연어 개발</td><td class="win">Genie Code + AI Dev Kit</td><td>미지원</td><td>미지원</td><td>미지원</td></tr>
+      <tr><td>벤더 종속</td><td class="win">최소 (고객 스토리지)</td><td>높음 (독점 포맷)</td><td>클라우드 종속</td><td>클라우드 종속</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ==================== SLIDE 5: Learning Curve ==================== -->
+<section data-background="linear-gradient(135deg, #0d1b21, #1a2f36)">
+  <h2>"학습 곡선? <span class="accent-light">이제는 옛말</span>"</h2>
+  <p style="opacity:0.6; margin-bottom:24px;">Databricks의 AI 도구들이 모든 사용자의 진입장벽을 제거합니다</p>
+  <div class="card-row">
+    <div class="s-card db">
+      <h4>Genie Code <span class="badge badge-red">NEW</span></h4>
+      <p>자연어 → SQL/Python 코드 자동 생성 및 실행. Spark 몰라도 복잡한 분석을 수행합니다.</p>
+    </div>
+    <div class="s-card db">
+      <h4>AI Dev Kit <span class="badge badge-red">NEW</span></h4>
+      <p>VS Code에서 Agent 개발 → 테스트 → 원클릭 배포. MLflow Tracing으로 디버깅.</p>
+    </div>
+    <div class="s-card db">
+      <h4>Databricks Assistant</h4>
+      <p>플랫폼 전반 AI 어시스턴트. /fix /explain /optimize 명령으로 실시간 코딩 지원.</p>
+    </div>
+  </div>
+  <p style="margin-top:24px; font-size:0.65em; color:#ff8a75; font-weight:600;">
+    자연어만으로도 Databricks의 모든 기능을 활용할 수 있습니다
+  </p>
+</section>
+
+<!-- ==================== SLIDE 6: Data Journey ==================== -->
+<section data-background="#0a0a0a">
+  <h2>Databricks <span class="accent">End-to-End</span> Journey</h2>
+  <p style="opacity:0.5; margin-bottom:20px;">하나의 플랫폼에서 데이터 수집부터 AI Agent 배포까지</p>
+  <div class="flow">
+    <span class="flow-step neutral">Raw Data</span>
+    <span class="flow-arrow">&rarr;</span>
+    <span class="flow-step db">Lakeflow Ingestion</span>
+    <span class="flow-arrow">&rarr;</span>
+    <span class="flow-step db">DLT Pipeline</span>
+    <span class="flow-arrow">&rarr;</span>
+    <span class="flow-step db">Databricks SQL</span>
+    <span class="flow-arrow">&rarr;</span>
+    <span class="flow-step db">ML / Agent</span>
+    <span class="flow-arrow">&rarr;</span>
+    <span class="flow-step db">Model Serving</span>
+    <span class="flow-arrow">&rarr;</span>
+    <span class="flow-step neutral">Apps / BI</span>
+  </div>
+  <br>
+  <div class="card-row">
+    <div class="s-card db" style="width:180px;">
+      <h4>Unity Catalog</h4>
+      <p>전 과정 통합 거버넌스<br>리니지 자동 추적</p>
+    </div>
+    <div class="s-card db" style="width:180px;">
+      <h4>MLflow</h4>
+      <p>실험 추적 → 모델 레지스트리<br>→ 서빙 → 모니터링</p>
+    </div>
+    <div class="s-card db" style="width:180px;">
+      <h4>Delta Lake</h4>
+      <p>오픈 포맷, ACID 트랜잭션<br>Time Travel, UniForm</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SLIDE 7: Deep Dive Links ==================== -->
+<section data-background="#0a0a0a">
+  <h2>영역별 <span class="accent">Deep Dive</span></h2>
+  <p style="opacity:0.5;">각 영역의 상세 비교 페이지로 이동합니다</p>
+  <div class="link-grid">
+    <a href="comparison/00-platform-overview.html" class="link-card">
+      <h4>00 &mdash; 플랫폼 개요 & 강점/약점</h4>
+      <p>아키텍처, 포지셔닝, 유스케이스별 추천</p>
+    </a>
+    <a href="comparison/01-data-warehouse-sql.html" class="link-card">
+      <h4>01 &mdash; DW / SQL 분석</h4>
+      <p>Photon, 서버리스, Genie Code, AI/BI Dashboard</p>
+    </a>
+    <a href="comparison/02-data-engineering-etl.html" class="link-card">
+      <h4>02 &mdash; 데이터 엔지니어링 / ETL</h4>
+      <p>Lakeflow(DLT), Auto Loader, CDC, 데이터 품질</p>
+    </a>
+    <a href="comparison/03-data-lake-storage.html" class="link-card">
+      <h4>03 &mdash; 데이터 레이크 / 스토리지</h4>
+      <p>Delta Lake, UniForm, Delta Sharing, 벤더 종속</p>
+    </a>
+    <a href="comparison/04-governance-security.html" class="link-card">
+      <h4>04 &mdash; 거버넌스 / 보안</h4>
+      <p>Unity Catalog, 리니지, 멀티클라우드 거버넌스</p>
+    </a>
+    <a href="comparison/05-ai-ml.html" class="link-card">
+      <h4>05 &mdash; AI / 머신러닝</h4>
+      <p>MLflow, Agent Framework, RAG, GenAI</p>
+    </a>
+    <a href="comparison/06-developer-experience.html" class="link-card">
+      <h4>06 &mdash; 개발자 경험 / 접근성</h4>
+      <p>Genie Code, AI Dev Kit, 학습 곡선 해소</p>
+    </a>
+  </div>
+</section>
+
+<!-- ==================== SLIDE 8: Conclusion ==================== -->
+<section data-background="linear-gradient(135deg, #0d1b21 0%, #FF3621 100%)">
+  <h2>결론</h2>
+  <br>
+  <p style="font-size:0.8em; opacity:0.85; max-width:700px; margin:0 auto;">
+    SQL 분석만 필요하다면 선택지가 있습니다.<br><br>
+    하지만 <strong>데이터와 AI를 하나의 플랫폼</strong>에서,<br>
+    <strong>멀티클라우드</strong>로, <strong>오픈소스 기반</strong>으로,<br>
+    <strong>Genie Code</strong>와 <strong>AI Dev Kit</strong>으로 누구나 접근 가능하게 —
+  </p>
+  <div class="cta-box">Databricks Data Intelligence Platform</div>
+  <p class="small" style="margin-top:32px;">2026년 3월 기준 공개 정보 기반</p>
+</section>
+
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    transition: 'fade',
+    transitionSpeed: 'fast',
+    center: true,
+    width: 1200,
+    height: 700,
+    margin: 0.06,
+  });
+</script>
+</body>
+</html>

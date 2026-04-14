@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>플랫폼 개요 & 강점/약점</title>
+<link rel="stylesheet" href="_shared-styles.css">
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="../analytics-platform-comparison.html" class="nav-home">Main</a>
+  <a href="00-platform-overview.html" class="active">Overview</a>
+  <a href="01-data-warehouse-sql.html">DW / SQL</a>
+  <a href="02-data-engineering-etl.html">ETL</a>
+  <a href="03-data-lake-storage.html">Lake / Storage</a>
+  <a href="04-governance-security.html">Governance</a>
+  <a href="05-ai-ml.html">AI / ML</a>
+  <a href="06-developer-experience.html">DevEx</a>
+</nav>
+
+<div class="sub-hero">
+  <h1>플랫폼 개요 & 강점/약점</h1>
+  <p>Databricks, Snowflake, AWS, GCP 분석 플랫폼의 포지셔닝과 아키텍처 비교</p>
+</div>
+
+<div class="container">
+
+<div class="key-msg">
+  <h3>핵심: 통합 vs 조합</h3>
+  <p><strong class="highlight">Databricks는 유일하게 DW + Data Lake + ML + GenAI를 하나의 플랫폼에서 통합</strong>합니다. Snowflake는 SQL 분석에 강하지만 ML/AI가 후발이고, AWS/GCP는 10+ 서비스를 조합해야 합니다. Genie Code와 AI Dev Kit으로 진입장벽까지 해소한 Databricks가 차세대 표준으로 자리잡고 있습니다.</p>
+</div>
+
+<!-- Platform Cards -->
+<h2 class="section-title">플랫폼 아키텍처 비교</h2>
+<p class="section-desc">각 플랫폼의 핵심 접근 방식</p>
+
+<div class="cards">
+  <div class="card db-card">
+    <h3>Databricks</h3>
+    <p style="font-size:0.85rem; color:var(--db-red); margin-bottom:12px; font-weight:600;">Data Intelligence Platform</p>
+    <ul>
+      <li><strong>아키텍처:</strong> Lakehouse (Delta Lake + Unity Catalog)</li>
+      <li><strong>컴퓨팅:</strong> Apache Spark + Photon (C++ 네이티브, 최대 12x)</li>
+      <li><strong>AI:</strong> MLflow, Agent Framework, Foundation Model API, Genie Code</li>
+      <li><strong>멀티클라우드:</strong> AWS, Azure, GCP 동일한 경험</li>
+      <li><strong>개방성:</strong> Delta Lake, MLflow, Unity Catalog — 모두 OSS</li>
+      <li><strong>접근성:</strong> Genie Code + AI Dev Kit — 자연어 기반 개발</li>
+    </ul>
+  </div>
+  <div class="card snow-card">
+    <h3>Snowflake</h3>
+    <p style="font-size:0.85rem; color:var(--text-light); margin-bottom:12px;">AI Data Cloud — SQL 분석 중심</p>
+    <ul>
+      <li><strong>아키텍처:</strong> Multi-cluster shared data (SaaS, 독점 엔진)</li>
+      <li><strong>컴퓨팅:</strong> Virtual Warehouse (독점, Spark 미지원)</li>
+      <li><strong>AI:</strong> Cortex AI (후발), Cortex Analyst (SQL만)</li>
+      <li><strong>멀티클라우드:</strong> AWS, Azure, GCP 지원</li>
+      <li><strong>제약:</strong> ML/AI 후발, 비정형 데이터 제한, 독점 포맷</li>
+    </ul>
+  </div>
+  <div class="card aws-card">
+    <h3>AWS Analytics</h3>
+    <p style="font-size:0.85rem; color:var(--text-light); margin-bottom:12px;">Redshift + EMR + Glue + Athena</p>
+    <ul>
+      <li><strong>아키텍처:</strong> 서비스 조합형 — 워크로드마다 별도 서비스</li>
+      <li><strong>컴퓨팅:</strong> Redshift(MPP), EMR(Spark), Athena(Serverless)</li>
+      <li><strong>AI:</strong> SageMaker, Bedrock (별도 서비스)</li>
+      <li><strong>제약:</strong> AWS Only, 통합 거버넌스 부재, 복잡한 서비스 조합</li>
+    </ul>
+  </div>
+  <div class="card gcp-card">
+    <h3>GCP Analytics</h3>
+    <p style="font-size:0.85rem; color:var(--text-light); margin-bottom:12px;">BigQuery + Dataproc + Vertex AI</p>
+    <ul>
+      <li><strong>아키텍처:</strong> 서버리스 우선 (Serverless-first)</li>
+      <li><strong>컴퓨팅:</strong> BigQuery(Dremel), Dataproc(Spark)</li>
+      <li><strong>AI:</strong> Vertex AI + Gemini</li>
+      <li><strong>제약:</strong> 엔터프라이즈 점유율 낮음, BigQuery↔Vertex 분절</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Strengths & Weaknesses -->
+<h2 class="section-title">강점 / 약점 요약</h2>
+
+<div class="cards">
+  <div class="card db-card">
+    <h3>Databricks</h3>
+    <ul>
+      <li class="strength"><strong>+ 데이터 + AI 통합:</strong> ETL, SQL, ML, GenAI — 하나의 플랫폼</li>
+      <li class="strength"><strong>+ 오픈소스:</strong> Delta Lake, MLflow, UC — 벤더 종속 Zero</li>
+      <li class="strength"><strong>+ Lakehouse:</strong> DW + Lake 통합, 데이터 복제 불필요</li>
+      <li class="strength"><strong>+ 멀티클라우드:</strong> 3대 클라우드 동일 경험</li>
+      <li class="strength"><strong>+ Agent Framework:</strong> GenAI Agent 구축 + 평가 내장</li>
+      <li class="strength"><strong>+ AI 접근성:</strong> Genie Code, AI Dev Kit으로 진입장벽 해소</li>
+    </ul>
+  </div>
+  <div class="card snow-card">
+    <h3>Snowflake</h3>
+    <ul>
+      <li class="strength"><strong>+ SQL 편의성:</strong> SQL 중심 워크로드에 직관적</li>
+      <li class="strength"><strong>+ Data Sharing:</strong> 조직 간 데이터 공유 용이</li>
+      <li class="strength"><strong>+ 관리 용이:</strong> 완전 관리형 SaaS</li>
+      <li class="weakness"><strong>- ML/AI:</strong> Cortex AI 후발 주자</li>
+      <li class="weakness"><strong>- 벤더 종속:</strong> 독점 포맷, 탈출 비용 높음</li>
+      <li class="weakness"><strong>- Agent:</strong> SQL Agent만, 범용 Agent 미지원</li>
+    </ul>
+  </div>
+  <div class="card aws-card">
+    <h3>AWS</h3>
+    <ul>
+      <li class="strength"><strong>+ 에코시스템:</strong> 가장 넓은 서비스 포트폴리오</li>
+      <li class="strength"><strong>+ 확장성:</strong> 대규모 워크로드 검증</li>
+      <li class="weakness"><strong>- 복잡성:</strong> 10+ 서비스 조합 필요</li>
+      <li class="weakness"><strong>- 거버넌스:</strong> 분산, 통합 리니지 부재</li>
+      <li class="weakness"><strong>- 종속:</strong> AWS Only</li>
+    </ul>
+  </div>
+  <div class="card gcp-card">
+    <h3>GCP</h3>
+    <ul>
+      <li class="strength"><strong>+ BigQuery:</strong> 서버리스 분석 선두</li>
+      <li class="strength"><strong>+ Gemini:</strong> AI 빠르게 내장 중</li>
+      <li class="weakness"><strong>- 점유율:</strong> 엔터프라이즈 도입 낮음</li>
+      <li class="weakness"><strong>- ML 분절:</strong> BigQuery↔Vertex 분리</li>
+      <li class="weakness"><strong>- 생태계:</strong> 서드파티 통합 제한적</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Use Case Recommendations -->
+<h2 class="section-title">유스케이스별 추천</h2>
+
+<div class="db-highlight">
+  <h3>어떤 워크로드에서든 Databricks가 최적인 이유</h3>
+  <div class="grid">
+    <div class="item">
+      <h4>DW + BI</h4>
+      <p>Photon 기반 Databricks SQL + AI/BI Dashboard + Genie Spaces로 자연어 셀프서비스 분석</p>
+    </div>
+    <div class="item">
+      <h4>ETL / 스트리밍</h4>
+      <p>Lakeflow(DLT) 선언적 파이프라인. 배치+스트리밍 통합, CDC 내장, 자동 품질 검증</p>
+    </div>
+    <div class="item">
+      <h4>ML / AI / GenAI</h4>
+      <p>데이터→모델→Agent→서빙 End-to-End. MLflow + Agent Framework + Foundation Model API</p>
+    </div>
+    <div class="item">
+      <h4>멀티클라우드</h4>
+      <p>AWS, Azure, GCP 동일 경험. Unity Catalog + Delta Sharing으로 크로스 클라우드 거버넌스</p>
+    </div>
+    <div class="item">
+      <h4>비용 투명성</h4>
+      <p>데이터는 고객 스토리지, OSS 기반 — 벤더 종속 최소, 스토리지 비용 완전 투명</p>
+    </div>
+    <div class="item">
+      <h4>빠른 온보딩</h4>
+      <p>Genie Code + AI Dev Kit으로 자연어 분석/개발. Spark 몰라도 즉시 생산적</p>
+    </div>
+  </div>
+</div>
+
+<div class="verdict-bar">
+  <h3>결론</h3>
+  <p>SQL만 필요하다면 선택지가 있습니다. 하지만 데이터와 AI를 통합하고, 자연어로 누구나 접근 가능하게 하려면 —</p>
+  <span class="db-badge">Databricks가 유일한 답입니다</span>
+</div>
+
+</div>
+<footer><p>&copy; 2026 Cloud Analytics Platform Comparison | 플랫폼 개요</p></footer>
+</body>
+</html>

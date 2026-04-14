@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>데이터 웨어하우스 / SQL 분석 비교</title>
+<link rel="stylesheet" href="_shared-styles.css">
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="../analytics-platform-comparison.html" class="nav-home">Main</a>
+  <a href="00-platform-overview.html">Overview</a>
+  <a href="01-data-warehouse-sql.html" class="active">DW / SQL</a>
+  <a href="02-data-engineering-etl.html">ETL</a>
+  <a href="03-data-lake-storage.html">Lake / Storage</a>
+  <a href="04-governance-security.html">Governance</a>
+  <a href="05-ai-ml.html">AI / ML</a>
+  <a href="06-developer-experience.html">DevEx</a>
+</nav>
+
+<div class="sub-hero">
+  <h1>데이터 웨어하우스 / SQL 분석</h1>
+  <p>Databricks SQL + Photon이 전통 DW를 넘어서는 차세대 SQL 분석 경험을 제공합니다</p>
+</div>
+
+<div class="container">
+
+<div class="key-msg">
+  <h3>핵심: Lakehouse가 전통 DW를 대체하는 이유</h3>
+  <p>전통적 데이터 웨어하우스는 SQL 분석에 최적화되어 있지만, 데이터 레이크의 비정형 데이터나 ML 워크로드를 처리하려면 데이터를 복제해야 합니다. <strong class="highlight">Databricks Lakehouse는 하나의 데이터 사본 위에서 SQL 분석, ML, 스트리밍을 동시에 실행</strong>하며, Photon 엔진으로 전통 DW 수준의 SQL 성능을 제공합니다.</p>
+</div>
+
+<!-- Architecture comparison -->
+<h2 class="section-title">아키텍처 비교</h2>
+<p class="section-desc">각 플랫폼의 SQL 분석 아키텍처 접근법</p>
+
+<div class="cards">
+  <div class="card db-card">
+    <h3>Databricks — Lakehouse SQL</h3>
+    <ul>
+      <li><strong>엔진:</strong> Photon (C++ 네이티브 벡터화 엔진)</li>
+      <li><strong>스토리지:</strong> Delta Lake on 고객 클라우드 스토리지</li>
+      <li><strong>아키텍처:</strong> 컴퓨팅-스토리지 완전 분리</li>
+      <li><strong>포맷:</strong> 오픈 포맷 (Delta/Iceberg UniForm)</li>
+      <li class="strength"><strong>차별점:</strong> SQL + ML + 스트리밍이 동일 데이터 위에서 동작</li>
+      <li class="strength"><strong>차별점:</strong> Genie Code로 자연어 SQL 분석 가능</li>
+    </ul>
+  </div>
+  <div class="card snow-card">
+    <h3>Snowflake — Cloud DW</h3>
+    <ul>
+      <li><strong>엔진:</strong> 독점 MPP 엔진</li>
+      <li><strong>스토리지:</strong> Snowflake 관리형 (독점 포맷)</li>
+      <li><strong>아키텍처:</strong> 컴퓨팅-스토리지 분리 (내부)</li>
+      <li><strong>포맷:</strong> 독점 → Iceberg 전환 중</li>
+      <li class="weakness"><strong>제약:</strong> ML은 Cortex로 제한적 지원</li>
+    </ul>
+  </div>
+  <div class="card aws-card">
+    <h3>AWS — Redshift + Athena</h3>
+    <ul>
+      <li><strong>엔진:</strong> Redshift (MPP), Athena (Presto/Trino)</li>
+      <li><strong>스토리지:</strong> Redshift RA3 + S3</li>
+      <li><strong>아키텍처:</strong> 서비스 분리 (DW와 Lake 쿼리 별도)</li>
+      <li class="weakness"><strong>제약:</strong> Redshift와 Athena 간 경험 분절</li>
+    </ul>
+  </div>
+  <div class="card gcp-card">
+    <h3>GCP — BigQuery</h3>
+    <ul>
+      <li><strong>엔진:</strong> Dremel (서버리스)</li>
+      <li><strong>스토리지:</strong> BigQuery Storage (독점) + BigLake</li>
+      <li><strong>아키텍처:</strong> 완전 서버리스</li>
+      <li class="weakness"><strong>제약:</strong> ML은 Vertex AI로 분리됨</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Detailed comparison -->
+<h2 class="section-title">상세 기능 비교</h2>
+
+<div class="table-wrapper">
+<table>
+<thead>
+  <tr>
+    <th>비교 항목</th>
+    <th class="db">Databricks</th>
+    <th class="snow">Snowflake</th>
+    <th class="aws">AWS</th>
+    <th class="gcp">GCP</th>
+  </tr>
+</thead>
+<tbody>
+<tr class="category-row"><td colspan="5">SQL 엔진 성능</td></tr>
+<tr>
+  <td>쿼리 엔진</td>
+  <td>Photon (C++ 벡터화) <span class="badge badge-strong">최대 12x</span></td>
+  <td>독점 MPP 엔진</td>
+  <td>Redshift: AQUA 가속, Athena: Trino</td>
+  <td>Dremel (서버리스)</td>
+</tr>
+<tr>
+  <td>TPC-DS 벤치마크</td>
+  <td>100TB 기준 업계 최고 수준 <span class="badge badge-strong">검증됨</span></td>
+  <td>상위권</td>
+  <td>Redshift 상위권</td>
+  <td>BigQuery 상위권</td>
+</tr>
+<tr>
+  <td>Adaptive Query Execution</td>
+  <td>AQE + Predictive I/O <span class="badge badge-strong">AI 기반 최적화</span></td>
+  <td>자동 쿼리 최적화</td>
+  <td>Redshift: 자동 WLM</td>
+  <td>BigQuery: 자동 최적화</td>
+</tr>
+<tr>
+  <td>인덱싱 / 캐싱</td>
+  <td>Data Skipping, Z-Ordering, Liquid Clustering <span class="badge badge-strong">자동화</span></td>
+  <td>Micro-partition Pruning, Search Optimization</td>
+  <td>Sort Key, Distribution Key (수동)</td>
+  <td>Clustering (자동/수동)</td>
+</tr>
+<tr>
+  <td>결과 캐싱</td>
+  <td>Delta Cache + Disk Cache + Result Cache</td>
+  <td>Result Cache + Local Disk Cache</td>
+  <td>Result Cache</td>
+  <td>BigQuery Cache (24h)</td>
+</tr>
+
+<tr class="category-row"><td colspan="5">서버리스 & 스케일링</td></tr>
+<tr>
+  <td>서버리스 모드</td>
+  <td>Serverless SQL Warehouse <span class="badge badge-strong">즉시 시작, 자동 확장</span></td>
+  <td>기본 서버리스</td>
+  <td>Redshift Serverless (RPU), Athena</td>
+  <td>BigQuery On-demand / Editions</td>
+</tr>
+<tr>
+  <td>웜업 시간</td>
+  <td>Serverless: 초 단위 <span class="badge badge-strong">즉시</span></td>
+  <td>수 초 ~ 수 분</td>
+  <td>Redshift: 분 단위, Athena: 즉시</td>
+  <td>BigQuery: 즉시</td>
+</tr>
+<tr>
+  <td>동시성 확장</td>
+  <td>지능형 자동 스케일링 + Queue 관리</td>
+  <td>Multi-cluster Auto-scale</td>
+  <td>Concurrency Scaling (추가 비용)</td>
+  <td>Slot 기반 자동 확장</td>
+</tr>
+<tr>
+  <td>워크로드 격리</td>
+  <td>SQL Warehouse별 독립 클러스터 <span class="badge badge-strong">완전 격리</span></td>
+  <td>Warehouse별 격리</td>
+  <td>WLM Queues (공유 리소스)</td>
+  <td>Reservation 기반</td>
+</tr>
+
+<tr class="category-row"><td colspan="5">BI & 시각화</td></tr>
+<tr>
+  <td>내장 BI</td>
+  <td>AI/BI Dashboard <span class="badge badge-new">AI 기반 자동 시각화</span></td>
+  <td>Snowsight</td>
+  <td>QuickSight</td>
+  <td>Looker + Looker Studio</td>
+</tr>
+<tr>
+  <td>자연어 분석</td>
+  <td>Genie Spaces + Genie Code <span class="badge badge-strong">차별화</span></td>
+  <td>Cortex Analyst (SQL 전용)</td>
+  <td>QuickSight Q (제한적)</td>
+  <td>BigQuery NL Query (제한적)</td>
+</tr>
+<tr>
+  <td>외부 BI 연동</td>
+  <td>Tableau, Power BI, Looker 등 완전 호환 <span class="badge badge-strong">JDBC/ODBC</span></td>
+  <td>완전 호환</td>
+  <td>완전 호환</td>
+  <td>완전 호환</td>
+</tr>
+<tr>
+  <td>임베디드 BI</td>
+  <td>AI/BI Dashboard 임베딩 지원</td>
+  <td>Snowsight 임베딩 제한적</td>
+  <td>QuickSight 임베딩</td>
+  <td>Looker 임베딩</td>
+</tr>
+
+<tr class="category-row"><td colspan="5">SQL 기능</td></tr>
+<tr>
+  <td>ANSI SQL 호환</td>
+  <td>ANSI SQL 완전 호환</td>
+  <td>ANSI SQL 완전 호환</td>
+  <td>PostgreSQL 호환 (Redshift)</td>
+  <td>GoogleSQL (일부 비표준)</td>
+</tr>
+<tr>
+  <td>반정형 데이터</td>
+  <td>JSON, XML, Avro 네이티브 쿼리 <span class="badge badge-strong">성능 최적화</span></td>
+  <td>VARIANT 타입</td>
+  <td>SUPER 타입 (Redshift)</td>
+  <td>STRUCT, ARRAY 타입</td>
+</tr>
+<tr>
+  <td>Geospatial</td>
+  <td>H3 + ST 함수 지원</td>
+  <td>Geospatial 함수</td>
+  <td>Redshift Spatial</td>
+  <td>BigQuery GIS <span class="badge badge-good">강력</span></td>
+</tr>
+<tr>
+  <td>Time Travel</td>
+  <td>Delta Lake Time Travel (무제한 보존 가능) <span class="badge badge-strong">유연</span></td>
+  <td>최대 90일</td>
+  <td>Redshift: 스냅샷 기반</td>
+  <td>BigQuery: 최대 7일</td>
+</tr>
+<tr>
+  <td>Materialized View</td>
+  <td>MV 지원 (자동 리프레시)</td>
+  <td>MV 지원 (자동 리프레시)</td>
+  <td>Redshift MV</td>
+  <td>BigQuery MV</td>
+</tr>
+
+<tr class="category-row"><td colspan="5">비용 구조</td></tr>
+<tr>
+  <td>과금 단위</td>
+  <td>DBU (초 단위 과금) <span class="badge badge-strong">세밀한 제어</span></td>
+  <td>Credit (초 단위, 최소 60초)</td>
+  <td>Redshift: 노드/RPU, Athena: 스캔량</td>
+  <td>BigQuery: 스캔량 / Slot-시간</td>
+</tr>
+<tr>
+  <td>유휴 비용</td>
+  <td>Auto-stop (0분 설정 가능) <span class="badge badge-strong">제로 유휴비</span></td>
+  <td>Auto-suspend (최소 1분)</td>
+  <td>Redshift Provisioned: 24/7 과금</td>
+  <td>BigQuery On-demand: 쿼리 시만</td>
+</tr>
+<tr>
+  <td>스토리지 비용</td>
+  <td>클라우드 네이티브 가격 (S3/ADLS/GCS) <span class="badge badge-strong">최저</span></td>
+  <td>Snowflake 자체 가격 (프리미엄)</td>
+  <td>S3 가격 + Redshift RA3 관리 스토리지</td>
+  <td>BigQuery Storage 가격</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<!-- Performance spectrum -->
+<h2 class="section-title">성능 비교 스펙트럼</h2>
+<p class="section-desc">주요 SQL 워크로드 영역별 상대 성능 (높을수록 우수)</p>
+
+<div class="spectrum">
+  <div class="spectrum-row">
+    <span class="spectrum-label">대규모 분석 쿼리</span>
+    <div class="spectrum-bar">
+      <div class="spectrum-fill db" style="width:95%">Databricks (Photon)</div>
+    </div>
+  </div>
+  <div class="spectrum-row">
+    <span class="spectrum-label"></span>
+    <div class="spectrum-bar">
+      <div class="spectrum-fill snow" style="width:82%">Snowflake</div>
+    </div>
+  </div>
+  <div class="spectrum-row">
+    <span class="spectrum-label"></span>
+    <div class="spectrum-bar">
+      <div class="spectrum-fill gcp" style="width:80%">BigQuery</div>
+    </div>
+  </div>
+  <div class="spectrum-row">
+    <span class="spectrum-label"></span>
+    <div class="spectrum-bar">
+      <div class="spectrum-fill aws" style="width:75%">Redshift</div>
+    </div>
+  </div>
+</div>
+
+<div class="spectrum" style="margin-top:24px;">
+  <div class="spectrum-row">
+    <span class="spectrum-label">동시 사용자 처리</span>
+    <div class="spectrum-bar">
+      <div class="spectrum-fill db" style="width:90%">Databricks</div>
+    </div>
+  </div>
+  <div class="spectrum-row">
+    <span class="spectrum-label"></span>
+    <div class="spectrum-bar">
+      <div class="spectrum-fill snow" style="width:88%">Snowflake</div>
+    </div>
+  </div>
+  <div class="spectrum-row">
+    <span class="spectrum-label"></span>
+    <div class="spectrum-bar">
+      <div class="spectrum-fill gcp" style="width:82%">BigQuery</div>
+    </div>
+  </div>
+  <div class="spectrum-row">
+    <span class="spectrum-label"></span>
+    <div class="spectrum-bar">
+      <div class="spectrum-fill aws" style="width:68%">Redshift</div>
+    </div>
+  </div>
+</div>
+
+<div class="spectrum" style="margin-top:24px;">
+  <div class="spectrum-row">
+    <span class="spectrum-label">자연어 분석</span>
+    <div class="spectrum-bar">
+      <div class="spectrum-fill db" style="width:95%">Databricks (Genie Code)</div>
+    </div>
+  </div>
+  <div class="spectrum-row">
+    <span class="spectrum-label"></span>
+    <div class="spectrum-bar">
+      <div class="spectrum-fill snow" style="width:45%">Snowflake</div>
+    </div>
+  </div>
+  <div class="spectrum-row">
+    <span class="spectrum-label"></span>
+    <div class="spectrum-bar">
+      <div class="spectrum-fill gcp" style="width:40%">BigQuery</div>
+    </div>
+  </div>
+  <div class="spectrum-row">
+    <span class="spectrum-label"></span>
+    <div class="spectrum-bar">
+      <div class="spectrum-fill aws" style="width:35%">AWS</div>
+    </div>
+  </div>
+</div>
+
+<!-- DB Highlight -->
+<div class="db-highlight">
+  <h3>Databricks SQL이 선택받는 이유</h3>
+  <div class="grid">
+    <div class="item">
+      <h4>Photon 엔진</h4>
+      <p>C++ 네이티브 벡터화 실행 엔진으로 기존 Spark SQL 대비 최대 12배 성능. TPC-DS 100TB에서 업계 최고 수준의 가격 대비 성능을 달성합니다.</p>
+    </div>
+    <div class="item">
+      <h4>Liquid Clustering</h4>
+      <p>파티셔닝의 진화. 데이터 레이아웃을 자동 최적화하여 수동 OPTIMIZE나 Z-ORDER 없이도 최적의 쿼리 성능을 유지합니다.</p>
+    </div>
+    <div class="item">
+      <h4>Predictive I/O</h4>
+      <p>AI가 쿼리 패턴을 학습하여 데이터 프리페치, 캐싱, 스케줄링을 자동 최적화. 관리자 개입 없이 성능이 지속적으로 향상됩니다.</p>
+    </div>
+    <div class="item">
+      <h4>Genie Code + AI/BI</h4>
+      <p>비즈니스 사용자가 자연어로 질문하면 SQL/Python 코드를 자동 생성하고 실행. 분석가의 SQL 지식 없이도 셀프서비스 분석이 가능합니다.</p>
+    </div>
+    <div class="item">
+      <h4>SQL + ML 통합</h4>
+      <p>동일한 SQL Warehouse에서 AI_QUERY, AI_GENERATE 등의 AI 함수를 SQL 내에서 직접 호출. 별도 ML 파이프라인 없이 SQL 분석에 AI를 결합합니다.</p>
+    </div>
+    <div class="item">
+      <h4>비용 투명성</h4>
+      <p>스토리지는 고객 클라우드(S3/ADLS/GCS) 직접 과금, 컴퓨팅은 DBU 기반 초 단위 과금. 유휴 시 자동 종료로 낭비 제로.</p>
+    </div>
+  </div>
+</div>
+
+<div class="verdict-bar">
+  <h3>결론: 데이터 웨어하우스 / SQL 분석</h3>
+  <p>SQL 분석만 필요하다면 모든 플랫폼이 경쟁력 있습니다. 하지만 SQL 위에서 AI를 결합하고, 자연어 분석으로 접근성을 높이며, 오픈 포맷으로 벤더 종속을 탈피하고 싶다면 —</p>
+  <span class="db-badge">Databricks Lakehouse SQL이 최적입니다</span>
+</div>
+
+</div>
+
+<footer>
+  <p>&copy; 2026 Cloud Analytics Platform Comparison | 데이터 웨어하우스 / SQL 분석</p>
+</footer>
+</body>
+</html>

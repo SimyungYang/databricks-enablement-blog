@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI / 머신러닝 비교</title>
+<link rel="stylesheet" href="_shared-styles.css">
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="../analytics-platform-comparison.html" class="nav-home">Main</a>
+  <a href="00-platform-overview.html">Overview</a>
+  <a href="01-data-warehouse-sql.html">DW / SQL</a>
+  <a href="02-data-engineering-etl.html">ETL</a>
+  <a href="03-data-lake-storage.html">Lake / Storage</a>
+  <a href="04-governance-security.html">Governance</a>
+  <a href="05-ai-ml.html" class="active">AI / ML</a>
+  <a href="06-developer-experience.html">DevEx</a>
+</nav>
+
+<div class="sub-hero" style="background: linear-gradient(135deg, var(--db-dark) 0%, #0d1b21 50%, var(--db-red) 100%);">
+  <h1>AI / 머신러닝</h1>
+  <p>Databricks의 핵심 차별화 영역 — 데이터에서 AI Agent까지 End-to-End</p>
+</div>
+
+<div class="container">
+
+<div class="key-msg">
+  <h3>핵심: AI는 데이터 위에서 만들어집니다</h3>
+  <p>다른 플랫폼은 데이터 저장소와 ML 플랫폼이 분리되어 있어 데이터를 복사하고, 별도의 서비스를 설정하고, 거버넌스를 따로 관리해야 합니다. <strong class="highlight">Databricks는 데이터가 있는 곳에서 바로 ML 학습, 모델 서빙, GenAI Agent 구축, 평가까지 — Unity Catalog의 통합 거버넌스 아래에서 수행</strong>합니다. Genie Code와 AI Dev Kit으로 비전문가도 AI 앱을 만들 수 있습니다.</p>
+</div>
+
+<!-- AI Journey -->
+<div class="arch-box">
+  <h3 style="margin-bottom:16px; color:var(--db-dark);">Databricks AI Journey — 데이터에서 Agent까지</h3>
+  <div class="arch-flow">
+    <span class="arch-step db">데이터 준비 (Delta Lake)</span>
+    <span class="arch-arrow">&rarr;</span>
+    <span class="arch-step db">Feature Engineering</span>
+    <span class="arch-arrow">&rarr;</span>
+    <span class="arch-step db">모델 학습 (MLflow)</span>
+    <span class="arch-arrow">&rarr;</span>
+    <span class="arch-step db">Agent 구축 (Agent Framework)</span>
+    <span class="arch-arrow">&rarr;</span>
+    <span class="arch-step db">평가 (Agent Evaluation)</span>
+    <span class="arch-arrow">&rarr;</span>
+    <span class="arch-step db">서빙 (Model Serving)</span>
+  </div>
+  <p style="font-size:0.82rem; color:var(--text-light); margin-top:12px;">모든 단계가 Unity Catalog 거버넌스 아래 | MLflow로 전 과정 추적 | 하나의 플랫폼, Zero 데이터 이동</p>
+</div>
+
+<h2 class="section-title">상세 기능 비교</h2>
+
+<div class="table-wrapper">
+<table>
+<thead>
+  <tr>
+    <th>비교 항목</th>
+    <th class="db">Databricks</th>
+    <th class="snow">Snowflake</th>
+    <th class="aws">AWS</th>
+    <th class="gcp">GCP</th>
+  </tr>
+</thead>
+<tbody>
+<tr class="category-row"><td colspan="5">ML 플랫폼 & 실험</td></tr>
+<tr>
+  <td>ML 플랫폼</td>
+  <td>Mosaic AI + MLflow <span class="badge badge-strong">End-to-End 통합</span></td>
+  <td>Snowpark ML + Cortex <span class="badge badge-limited">후발</span></td>
+  <td>SageMaker (독립 서비스)</td>
+  <td>Vertex AI (독립 서비스)</td>
+</tr>
+<tr>
+  <td>실험 추적</td>
+  <td>MLflow Tracking <span class="badge badge-strong">업계 표준 OSS, 19K+ GitHub Stars</span></td>
+  <td>자체 도구 없음 <span class="badge badge-weak">미지원</span></td>
+  <td>SageMaker Experiments</td>
+  <td>Vertex AI Experiments</td>
+</tr>
+<tr>
+  <td>모델 레지스트리</td>
+  <td>Unity Catalog Models <span class="badge badge-strong">거버넌스 통합</span></td>
+  <td>Snowflake Model Registry (초기)</td>
+  <td>SageMaker Model Registry</td>
+  <td>Vertex AI Model Registry</td>
+</tr>
+<tr>
+  <td>Feature Store</td>
+  <td>Unity Catalog Feature Store <span class="badge badge-strong">온라인+오프라인 통합</span></td>
+  <td>미지원 <span class="badge badge-weak">없음</span></td>
+  <td>SageMaker Feature Store</td>
+  <td>Vertex AI Feature Store</td>
+</tr>
+<tr>
+  <td>AutoML</td>
+  <td>Databricks AutoML <span class="badge badge-strong">Glass-box, 코드 생성</span></td>
+  <td>미지원</td>
+  <td>SageMaker Autopilot</td>
+  <td>Vertex AI AutoML</td>
+</tr>
+<tr>
+  <td>데이터-ML 거버넌스</td>
+  <td>학습 데이터→모델→서빙 전체 리니지 <span class="badge badge-strong">유일</span></td>
+  <td>분리 <span class="badge badge-weak">데이터/ML 별도</span></td>
+  <td>분리 (Lake Formation ↔ SageMaker)</td>
+  <td>분리 (Dataplex ↔ Vertex AI)</td>
+</tr>
+
+<tr class="category-row"><td colspan="5">LLM / GenAI</td></tr>
+<tr>
+  <td>Foundation Model API</td>
+  <td>다양한 모델 (DBRX, Llama, Mixtral 등) <span class="badge badge-strong">Pay-per-token</span></td>
+  <td>Cortex LLM Functions (제한된 모델) <span class="badge badge-limited">제한적</span></td>
+  <td>Bedrock (다양한 모델)</td>
+  <td>Vertex AI (Gemini + 다양한 모델)</td>
+</tr>
+<tr>
+  <td>모델 파인튜닝</td>
+  <td>Foundation Model Fine-tuning <span class="badge badge-strong">GUI + API</span></td>
+  <td>미지원 <span class="badge badge-weak">없음</span></td>
+  <td>Bedrock Custom Model</td>
+  <td>Vertex AI Tuning</td>
+</tr>
+<tr>
+  <td>자체 모델 호스팅</td>
+  <td>GPU Model Serving — 어떤 모델이든 호스팅 <span class="badge badge-strong">완전 제어</span></td>
+  <td>Snowpark Container Services <span class="badge badge-limited">초기</span></td>
+  <td>SageMaker Endpoints</td>
+  <td>Vertex AI Endpoints</td>
+</tr>
+<tr>
+  <td>프롬프트 엔지니어링</td>
+  <td>AI Playground — 모델 비교, 프롬프트 테스트 <span class="badge badge-strong">내장</span></td>
+  <td>제한적</td>
+  <td>Bedrock Playground</td>
+  <td>Vertex AI Studio</td>
+</tr>
+
+<tr class="category-row"><td colspan="5">RAG & Vector Search</td></tr>
+<tr>
+  <td>벡터 데이터베이스</td>
+  <td>Vector Search — Unity Catalog 통합 <span class="badge badge-strong">거버넌스 내장</span></td>
+  <td>Cortex Search</td>
+  <td>OpenSearch / Bedrock KB (별도 서비스)</td>
+  <td>Vertex AI Vector Search (별도)</td>
+</tr>
+<tr>
+  <td>임베딩 생성</td>
+  <td>Foundation Model API 임베딩 + 자동 동기화 <span class="badge badge-strong">자동</span></td>
+  <td>Cortex Embed</td>
+  <td>Bedrock / Titan</td>
+  <td>Vertex AI Embeddings</td>
+</tr>
+<tr>
+  <td>Delta 테이블 동기화</td>
+  <td>Delta Sync Index — 테이블 변경 시 자동 갱신 <span class="badge badge-strong">자동</span></td>
+  <td>미지원 (수동)</td>
+  <td>미지원 (수동)</td>
+  <td>미지원 (수동)</td>
+</tr>
+<tr>
+  <td>문서 파싱</td>
+  <td>ai_parse_document() — PDF, DOCX 네이티브 <span class="badge badge-new">내장</span></td>
+  <td>미지원</td>
+  <td>Textract (별도)</td>
+  <td>Document AI (별도)</td>
+</tr>
+<tr>
+  <td>하이브리드 검색</td>
+  <td>Vector + Keyword 하이브리드 <span class="badge badge-strong">지원</span></td>
+  <td>Cortex Search (하이브리드)</td>
+  <td>OpenSearch (별도 설정)</td>
+  <td>Vertex AI (제한적)</td>
+</tr>
+
+<tr class="category-row"><td colspan="5">AI Agent</td></tr>
+<tr>
+  <td>Agent 프레임워크</td>
+  <td>Mosaic AI Agent Framework <span class="badge badge-strong">업계 최선두</span></td>
+  <td>Cortex Analyst (SQL 전용) <span class="badge badge-limited">SQL만</span></td>
+  <td>Bedrock Agents</td>
+  <td>Vertex AI Agent Builder</td>
+</tr>
+<tr>
+  <td>Agent 도구 연결</td>
+  <td>Unity Catalog Functions as Tools <span class="badge badge-strong">거버넌스 통합</span></td>
+  <td>제한적</td>
+  <td>Lambda Functions</td>
+  <td>Cloud Functions</td>
+</tr>
+<tr>
+  <td>Agent 평가</td>
+  <td>Agent Evaluation — 자동 품질 측정 <span class="badge badge-strong">차별화</span></td>
+  <td>미지원 <span class="badge badge-weak">없음</span></td>
+  <td>제한적 (수동)</td>
+  <td>제한적 (수동)</td>
+</tr>
+<tr>
+  <td>Genie (데이터 Agent)</td>
+  <td>Genie Spaces + Genie Code <span class="badge badge-new">자연어 → 분석/코드</span></td>
+  <td>Cortex Analyst (SQL만)</td>
+  <td>미지원</td>
+  <td>미지원</td>
+</tr>
+<tr>
+  <td>Agent 배포</td>
+  <td>Model Serving + Databricks Apps <span class="badge badge-strong">원클릭</span></td>
+  <td>Streamlit (UI만)</td>
+  <td>Lambda + API Gateway (복잡)</td>
+  <td>Cloud Run (수동)</td>
+</tr>
+
+<tr class="category-row"><td colspan="5">모델 서빙 & 모니터링</td></tr>
+<tr>
+  <td>모델 서빙</td>
+  <td>Serverless Model Serving (CPU/GPU) <span class="badge badge-strong">자동 스케일링</span></td>
+  <td>Snowpark Container Services <span class="badge badge-limited">초기 단계</span></td>
+  <td>SageMaker Endpoints</td>
+  <td>Vertex AI Endpoints</td>
+</tr>
+<tr>
+  <td>Feature Serving</td>
+  <td>Online Feature Serving <span class="badge badge-strong">실시간, 통합</span></td>
+  <td>미지원</td>
+  <td>SageMaker Feature Store Online</td>
+  <td>Vertex AI Feature Store Online</td>
+</tr>
+<tr>
+  <td>A/B 테스트</td>
+  <td>Endpoint에서 Traffic Split <span class="badge badge-strong">내장</span></td>
+  <td>미지원</td>
+  <td>SageMaker A/B</td>
+  <td>Vertex AI Traffic Split</td>
+</tr>
+<tr>
+  <td>AI 관측성</td>
+  <td>MLflow Tracing + Inference Tables <span class="badge badge-strong">자동 로깅</span></td>
+  <td>제한적</td>
+  <td>SageMaker Model Monitor</td>
+  <td>Vertex AI Model Monitoring</td>
+</tr>
+<tr>
+  <td>드리프트 감지</td>
+  <td>Lakehouse Monitor — 데이터+모델 드리프트 <span class="badge badge-strong">통합</span></td>
+  <td>미지원</td>
+  <td>SageMaker Clarify</td>
+  <td>Vertex AI Model Monitoring</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<!-- AI/ML Capability spectrum -->
+<h2 class="section-title">AI/ML 역량 스펙트럼</h2>
+
+<div class="spectrum">
+  <div class="spectrum-row">
+    <span class="spectrum-label">End-to-End ML</span>
+    <div class="spectrum-bar">
+      <div class="spectrum-fill db" style="width:96%">Databricks</div>
+    </div>
+  </div>
+  <div class="spectrum-row">
+    <span class="spectrum-label"></span>
+    <div class="spectrum-bar">
+      <div class="spectrum-fill aws" style="width:78%">AWS SageMaker</div>
+    </div>
+  </div>
+  <div class="spectrum-row">
+    <span class="spectrum-label"></span>
+    <div class="spectrum-bar">
+      <div class="spectrum-fill gcp" style="width:75%">GCP Vertex AI</div>
+    </div>
+  </div>
+  <div class="spectrum-row">
+    <span class="spectrum-label"></span>
+    <div class="spectrum-bar">
+      <div class="spectrum-fill snow" style="width:40%">Snowflake Cortex</div>
+    </div>
+  </div>
+</div>
+
+<div class="spectrum" style="margin-top:24px;">
+  <div class="spectrum-row">
+    <span class="spectrum-label">GenAI / Agent</span>
+    <div class="spectrum-bar">
+      <div class="spectrum-fill db" style="width:95%">Databricks (Agent Framework)</div>
+    </div>
+  </div>
+  <div class="spectrum-row">
+    <span class="spectrum-label"></span>
+    <div class="spectrum-bar">
+      <div class="spectrum-fill gcp" style="width:72%">GCP (Gemini + Vertex)</div>
+    </div>
+  </div>
+  <div class="spectrum-row">
+    <span class="spectrum-label"></span>
+    <div class="spectrum-bar">
+      <div class="spectrum-fill aws" style="width:70%">AWS (Bedrock)</div>
+    </div>
+  </div>
+  <div class="spectrum-row">
+    <span class="spectrum-label"></span>
+    <div class="spectrum-bar">
+      <div class="spectrum-fill snow" style="width:30%">Snowflake (Cortex)</div>
+    </div>
+  </div>
+</div>
+
+<div class="spectrum" style="margin-top:24px;">
+  <div class="spectrum-row">
+    <span class="spectrum-label">데이터-AI 통합</span>
+    <div class="spectrum-bar">
+      <div class="spectrum-fill db" style="width:98%">Databricks (Lakehouse + UC)</div>
+    </div>
+  </div>
+  <div class="spectrum-row">
+    <span class="spectrum-label"></span>
+    <div class="spectrum-bar">
+      <div class="spectrum-fill snow" style="width:55%">Snowflake</div>
+    </div>
+  </div>
+  <div class="spectrum-row">
+    <span class="spectrum-label"></span>
+    <div class="spectrum-bar">
+      <div class="spectrum-fill gcp" style="width:50%">GCP</div>
+    </div>
+  </div>
+  <div class="spectrum-row">
+    <span class="spectrum-label"></span>
+    <div class="spectrum-bar">
+      <div class="spectrum-fill aws" style="width:40%">AWS (서비스 분산)</div>
+    </div>
+  </div>
+</div>
+
+<div class="db-highlight">
+  <h3>Databricks AI가 차별화되는 이유</h3>
+  <div class="grid">
+    <div class="item">
+      <h4>데이터 ↔ AI 제로 갭</h4>
+      <p>데이터 복사나 서비스 전환 없이, Delta Lake에 있는 데이터로 바로 ML 학습, RAG 구축, Agent 개발이 가능합니다. 데이터와 AI 사이의 마찰을 근본적으로 제거합니다.</p>
+    </div>
+    <div class="item">
+      <h4>MLflow — 업계 표준</h4>
+      <p>19,000+ GitHub Stars의 오픈소스 표준. 실험 추적, 모델 패키징, 배포, 모니터링을 하나의 프레임워크로. Databricks에서 네이티브 통합되어 최고의 경험을 제공합니다.</p>
+    </div>
+    <div class="item">
+      <h4>Agent Framework + Evaluation</h4>
+      <p>RAG Agent, Tool-using Agent를 쉽게 구축하고, Agent Evaluation으로 품질을 자동 측정합니다. 경쟁사는 구축은 가능하나 체계적 평가 도구가 없습니다.</p>
+    </div>
+    <div class="item">
+      <h4>Genie Code — AI 민주화</h4>
+      <p>자연어로 "지난달 매출 트렌드를 분석해줘"라고 말하면 코드가 생성되고 실행됩니다. ML 전문가가 아니어도 AI의 힘을 활용할 수 있습니다.</p>
+    </div>
+    <div class="item">
+      <h4>AI Dev Kit</h4>
+      <p>VS Code 등 로컬 IDE에서 Databricks의 AI 리소스(모델, Vector Search, UC Functions)를 활용한 Agent를 개발하고, 원클릭으로 배포합니다.</p>
+    </div>
+    <div class="item">
+      <h4>완전 제어 가능한 GenAI</h4>
+      <p>Foundation Model API로 쉽게 시작하고, 필요 시 파인튜닝하거나 자체 모델을 GPU 서빙할 수 있습니다. API 호출만 가능한 Snowflake/Bedrock과 차별화됩니다.</p>
+    </div>
+  </div>
+</div>
+
+<div class="verdict-bar">
+  <h3>결론: AI / 머신러닝</h3>
+  <p>AI는 Databricks가 태어난 이유이자, 가장 압도적인 차별화 영역입니다. 데이터 준비부터 Agent 배포, 평가, 모니터링까지 — 하나의 플랫폼, 하나의 거버넌스, 하나의 경험.</p>
+  <span class="db-badge">AI를 하려면 Databricks가 유일한 선택입니다</span>
+</div>
+
+</div>
+<footer><p>&copy; 2026 Cloud Analytics Platform Comparison | AI / 머신러닝</p></footer>
+</body>
+</html>

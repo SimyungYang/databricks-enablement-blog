@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>데이터 엔지니어링 / ETL 비교</title>
+<link rel="stylesheet" href="_shared-styles.css">
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="../analytics-platform-comparison.html" class="nav-home">Main</a>
+  <a href="00-platform-overview.html">Overview</a>
+  <a href="01-data-warehouse-sql.html">DW / SQL</a>
+  <a href="02-data-engineering-etl.html" class="active">ETL</a>
+  <a href="03-data-lake-storage.html">Lake / Storage</a>
+  <a href="04-governance-security.html">Governance</a>
+  <a href="05-ai-ml.html">AI / ML</a>
+  <a href="06-developer-experience.html">DevEx</a>
+</nav>
+
+<div class="sub-hero">
+  <h1>데이터 엔지니어링 / ETL</h1>
+  <p>Lakeflow(DLT)의 선언적 파이프라인이 복잡한 ETL을 단순화합니다</p>
+</div>
+
+<div class="container">
+
+<div class="key-msg">
+  <h3>핵심: 선언적(Declarative) vs 명령적(Imperative) ETL</h3>
+  <p>전통적 ETL은 "어떻게" 데이터를 처리할지 모든 단계를 코드로 작성해야 합니다. <strong class="highlight">Databricks Lakeflow(DLT)는 "무엇을" 원하는지만 선언하면 실행 계획, 오류 복구, 데이터 품질 검증, 의존성 관리를 플랫폼이 자동 처리</strong>합니다. 배치와 스트리밍도 동일한 코드로 통합됩니다.</p>
+</div>
+
+<!-- Pipeline approach comparison -->
+<div class="arch-box">
+  <h3 style="margin-bottom:16px; color:var(--db-dark);">Databricks Lakeflow 파이프라인 흐름</h3>
+  <div class="arch-flow">
+    <span class="arch-step neutral">Raw Data (S3/ADLS/GCS)</span>
+    <span class="arch-arrow">&rarr;</span>
+    <span class="arch-step db">Lakeflow Ingestion (Auto Loader)</span>
+    <span class="arch-arrow">&rarr;</span>
+    <span class="arch-step db">DLT: Bronze (Raw)</span>
+    <span class="arch-arrow">&rarr;</span>
+    <span class="arch-step db">DLT: Silver (Cleaned + Expectations)</span>
+    <span class="arch-arrow">&rarr;</span>
+    <span class="arch-step db">DLT: Gold (Aggregated)</span>
+    <span class="arch-arrow">&rarr;</span>
+    <span class="arch-step neutral">SQL Analytics / ML / Apps</span>
+  </div>
+  <p style="font-size:0.82rem; color:var(--text-light); margin-top:12px;">배치와 스트리밍이 동일한 선언적 코드로 동작 | Expectations로 품질 자동 검증 | Lineage 자동 추적</p>
+</div>
+
+<h2 class="section-title">상세 기능 비교</h2>
+
+<div class="table-wrapper">
+<table>
+<thead>
+  <tr>
+    <th>비교 항목</th>
+    <th class="db">Databricks</th>
+    <th class="snow">Snowflake</th>
+    <th class="aws">AWS</th>
+    <th class="gcp">GCP</th>
+  </tr>
+</thead>
+<tbody>
+<tr class="category-row"><td colspan="5">ETL 파이프라인</td></tr>
+<tr>
+  <td>파이프라인 엔진</td>
+  <td>Lakeflow (DLT) <span class="badge badge-strong">선언적</span></td>
+  <td>Dynamic Tables / Snowpark</td>
+  <td>Glue (Spark 기반)</td>
+  <td>Dataflow (Apache Beam)</td>
+</tr>
+<tr>
+  <td>프로그래밍 모델</td>
+  <td>선언적 — "무엇을" 정의하면 자동 실행 <span class="badge badge-strong">혁신</span></td>
+  <td>Dynamic Tables: 선언적 (SQL만), Snowpark: 명령적</td>
+  <td>명령적 — 모든 단계를 코드로 작성</td>
+  <td>명령적 — Beam Pipeline 코드 작성</td>
+</tr>
+<tr>
+  <td>언어 지원</td>
+  <td>SQL + Python <span class="badge badge-strong">이중 지원</span></td>
+  <td>SQL (Dynamic Tables), Python/Java/Scala (Snowpark)</td>
+  <td>Python, Scala (Glue)</td>
+  <td>Java, Python (Beam)</td>
+</tr>
+<tr>
+  <td>자동 오류 복구</td>
+  <td>자동 재시도, 체크포인트, idempotent 보장 <span class="badge badge-strong">내장</span></td>
+  <td>제한적</td>
+  <td>수동 구현 필요</td>
+  <td>Beam Checkpoint</td>
+</tr>
+<tr>
+  <td>의존성 관리</td>
+  <td>자동 DAG 생성 및 실행 순서 결정 <span class="badge badge-strong">자동</span></td>
+  <td>Dynamic Tables: 자동</td>
+  <td>Glue: 수동 / Step Functions</td>
+  <td>수동 (Composer/Workflows)</td>
+</tr>
+
+<tr class="category-row"><td colspan="5">데이터 수집 (Ingestion)</td></tr>
+<tr>
+  <td>파일 수집</td>
+  <td>Auto Loader — 증분 자동 감지 <span class="badge badge-strong">스키마 진화 자동</span></td>
+  <td>Snowpipe (파일 기반)</td>
+  <td>Glue Crawler + S3 이벤트</td>
+  <td>BigQuery Load / Transfer Service</td>
+</tr>
+<tr>
+  <td>스트리밍 수집</td>
+  <td>Structured Streaming + Kafka 네이티브 <span class="badge badge-strong">통합</span></td>
+  <td>Snowpipe Streaming</td>
+  <td>Kinesis + MSK (별도 서비스)</td>
+  <td>Pub/Sub + Dataflow</td>
+</tr>
+<tr>
+  <td>CDC (변경 데이터 캡처)</td>
+  <td>APPLY CHANGES — SCD Type 1/2 자동 <span class="badge badge-strong">코드 한 줄</span></td>
+  <td>Streams + Tasks (다단계)</td>
+  <td>DMS + Glue (다단계, 복잡)</td>
+  <td>Datastream (별도 서비스)</td>
+</tr>
+<tr>
+  <td>스키마 진화</td>
+  <td>Auto Loader 자동 스키마 감지/진화 <span class="badge badge-strong">자동</span></td>
+  <td>수동 ALTER TABLE</td>
+  <td>Glue Crawler (주기적 스캔)</td>
+  <td>BigQuery: 자동 스키마 감지</td>
+</tr>
+<tr>
+  <td>Lakeflow Connect</td>
+  <td>SaaS 데이터 소스 네이티브 커넥터 <span class="badge badge-new">Salesforce, Workday 등</span></td>
+  <td>Snowflake Connectors (제한적)</td>
+  <td>Glue Connectors + AppFlow</td>
+  <td>BigQuery Transfer Service</td>
+</tr>
+
+<tr class="category-row"><td colspan="5">배치-스트리밍 통합</td></tr>
+<tr>
+  <td>배치/스트리밍 통합</td>
+  <td>동일 코드로 배치 ↔ 스트리밍 전환 <span class="badge badge-strong">완전 통합</span></td>
+  <td>별도 구현 필요 <span class="badge badge-limited">분리</span></td>
+  <td>Glue(배치) vs Kinesis(스트리밍) <span class="badge badge-weak">분리</span></td>
+  <td>Dataflow 통합 가능 (복잡)</td>
+</tr>
+<tr>
+  <td>Exactly-once 보장</td>
+  <td>Delta Lake 트랜잭션 보장 <span class="badge badge-strong">기본 제공</span></td>
+  <td>Snowpipe: At-least-once</td>
+  <td>서비스마다 상이</td>
+  <td>Dataflow: Exactly-once</td>
+</tr>
+<tr>
+  <td>Late data 처리</td>
+  <td>Watermark + DLT 자동 관리 <span class="badge badge-strong">자동</span></td>
+  <td>제한적</td>
+  <td>Kinesis: 수동 Windowing</td>
+  <td>Dataflow: Watermark</td>
+</tr>
+
+<tr class="category-row"><td colspan="5">데이터 품질</td></tr>
+<tr>
+  <td>품질 검증</td>
+  <td>DLT Expectations <span class="badge badge-strong">파이프라인 내장, 선언적</span></td>
+  <td>Data Metric Functions</td>
+  <td>Glue Data Quality (Deequ)</td>
+  <td>Dataplex Data Quality</td>
+</tr>
+<tr>
+  <td>품질 위반 처리</td>
+  <td>FAIL / DROP / WARN 선택 가능 <span class="badge badge-strong">유연</span></td>
+  <td>알림만</td>
+  <td>Glue: 중단 또는 로그</td>
+  <td>알림만</td>
+</tr>
+<tr>
+  <td>품질 모니터링</td>
+  <td>Expectation 메트릭 자동 수집 + 대시보드 <span class="badge badge-strong">자동</span></td>
+  <td>수동 모니터링</td>
+  <td>CloudWatch 연동 필요</td>
+  <td>Dataplex 대시보드</td>
+</tr>
+<tr>
+  <td>Lakehouse Monitor</td>
+  <td>프로파일링 + 드리프트 감지 + 알림 <span class="badge badge-new">통합</span></td>
+  <td>미지원</td>
+  <td>미지원</td>
+  <td>미지원</td>
+</tr>
+
+<tr class="category-row"><td colspan="5">오케스트레이션</td></tr>
+<tr>
+  <td>스케줄링</td>
+  <td>Databricks Workflows <span class="badge badge-strong">통합 UI + API</span></td>
+  <td>Tasks (cron 기반)</td>
+  <td>Step Functions / MWAA</td>
+  <td>Cloud Composer (Airflow)</td>
+</tr>
+<tr>
+  <td>멀티 태스크 DAG</td>
+  <td>Workflows: 복잡한 DAG + 조건부 실행 <span class="badge badge-strong">네이티브</span></td>
+  <td>Tasks: 기본 DAG</td>
+  <td>Step Functions: 복잡 DAG 가능</td>
+  <td>Composer: 복잡 DAG 가능</td>
+</tr>
+<tr>
+  <td>Cross-pipeline 의존성</td>
+  <td>Workflows에서 DLT + Notebook + JAR 조합 <span class="badge badge-strong">유연</span></td>
+  <td>제한적</td>
+  <td>Step Functions 연결 (복잡)</td>
+  <td>Composer DAG 연결</td>
+</tr>
+<tr>
+  <td>비용</td>
+  <td>Workflows 오케스트레이션 비용 없음 <span class="badge badge-strong">무료</span></td>
+  <td>Tasks 실행 비용 포함</td>
+  <td>Step Functions: 전환당 과금, MWAA: 환경 비용</td>
+  <td>Composer: 환경 비용 (고가)</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<!-- DB Highlight -->
+<div class="db-highlight">
+  <h3>Databricks Lakeflow가 선택받는 이유</h3>
+  <div class="grid">
+    <div class="item">
+      <h4>선언적 파이프라인</h4>
+      <p>"무엇을" 정의하면 "어떻게"는 플랫폼이 자동 처리. 오류 복구, 재시도, 의존성 순서, 리소스 관리까지 모두 자동화됩니다.</p>
+    </div>
+    <div class="item">
+      <h4>배치-스트리밍 통합</h4>
+      <p>동일한 DLT 코드로 배치와 스트리밍을 전환합니다. 별도의 스트리밍 인프라 없이 실시간 파이프라인을 구축할 수 있습니다.</p>
+    </div>
+    <div class="item">
+      <h4>APPLY CHANGES (CDC)</h4>
+      <p>코드 한 줄로 SCD Type 1/2 CDC를 구현합니다. DMS→Glue→Redshift 같은 다단계 파이프라인이 불필요합니다.</p>
+    </div>
+    <div class="item">
+      <h4>DLT Expectations</h4>
+      <p>데이터 품질 규칙을 파이프라인 정의에 선언합니다. 위반 시 FAIL/DROP/WARN을 선택하고, 메트릭이 자동 수집됩니다.</p>
+    </div>
+    <div class="item">
+      <h4>Auto Loader</h4>
+      <p>클라우드 스토리지의 새 파일을 자동 감지하고 증분 처리합니다. 스키마 진화도 자동으로 처리하여 수동 개입이 불필요합니다.</p>
+    </div>
+    <div class="item">
+      <h4>Genie Code로 파이프라인 생성</h4>
+      <p>자연어로 "매일 S3에서 고객 데이터를 가져와 정제해줘"라고 말하면 DLT 파이프라인 코드를 자동 생성합니다.</p>
+    </div>
+  </div>
+</div>
+
+<div class="verdict-bar">
+  <h3>결론: 데이터 엔지니어링 / ETL</h3>
+  <p>다른 플랫폼은 배치, 스트리밍, CDC, 오케스트레이션을 별도의 서비스로 조합해야 합니다. Databricks는 Lakeflow 하나로 모든 것을 통합하며, 선언적 모델로 복잡성을 근본적으로 제거합니다.</p>
+  <span class="db-badge">Databricks Lakeflow = ETL의 미래</span>
+</div>
+
+</div>
+<footer><p>&copy; 2026 Cloud Analytics Platform Comparison | 데이터 엔지니어링 / ETL</p></footer>
+</body>
+</html>
